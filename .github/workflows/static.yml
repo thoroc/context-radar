@@ -1,6 +1,6 @@
-# Build the Jekyll site in docs/ and deploy it to GitHub Pages.
-# The landing page (docs/index.html) is served at the site root; methodology.md
-# and glossary.md are rendered by Jekyll using the theme in docs/_config.yml.
+# Deploy the docs/ folder to GitHub Pages as static content. No Jekyll, no
+# build step: upload-pages-artifact serves the files exactly as they are, so
+# docs/index.html is the site root.
 name: Deploy Pages
 
 on:
@@ -25,32 +25,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # Single deploy job: upload docs/ and publish it, no build.
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build Jekyll site from docs/
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./_site
-      - name: Include the source-of-truth CSV for the download link
-        run: cp data/context-reduction-tools.csv _site/
-      - name: Upload artifact
+      - name: Upload docs/ as the site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./_site
-
-  deploy:
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
+          path: "./docs"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
