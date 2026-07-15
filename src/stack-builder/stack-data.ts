@@ -1,172 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCP Stack Builder — Context Reduction for Claude Code</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#fff;--bg2:#f5f5f5;--bg3:#ebebeb;
-  --text:#111;--text2:#555;--text3:#999;
-  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
-  --purple:#534AB7;--purple-bg:#EEEDFE;--purple-border:#7F77DD;
-  --green:#27500A;--green-bg:#EAF3DE;
-  --amber:#633806;--amber-bg:#FAEEDA;
-  --red:#791F1F;--red-mid:#A32D2D;--red-bg:#FCEBEB;
-  --teal:#085041;--teal-bg:#E1F5EE;
-  --gray:#444441;--gray-bg:#F1EFE8;
-  --orange:#7C2D12;--orange-bg:#FFF7ED;
+/**
+ * Curated dataset for the MCP Stack Builder.
+ *
+ * This is a distinct, richer dataset from the comparison table
+ * (data/context-reduction-tools.json): it carries per-tool flags (rec/free/warn),
+ * short ids, layer notes, and a conflict ruleset that the flat catalogue does not
+ * model. It is maintained here by hand. Lifted verbatim from the original
+ * stack-builder.html; keep the two reconciled when tools change.
+ */
+
+/** License bucket that drives the licence badge colour. */
+export type LicenseKind = "open" | "warn" | "paid";
+
+export interface StackTool {
+  id: string;
+  name: string;
+  stars: string;
+  desc: string;
+  lic: LicenseKind;
+  /** License label shown on the badge, e.g. "MIT", "Apache-2". */
+  ll: string;
+  url: string;
+  /** Requirements; starts with the warning marker when infra/model is needed. */
+  req: string;
+  /** Recommended starting point. */
+  rec?: boolean;
+  /** Already built into Claude Code. */
+  free?: boolean;
+  /** Needs a model API or external infrastructure. */
+  warn?: boolean;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#111;--bg2:#1a1a1a;--bg3:#242424;
-    --text:#e5e5e5;--text2:#aaa;--text3:#666;
-    --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
-    --purple:#C4B5FD;--purple-bg:#26215C;--purple-border:#7C3AED;
-    --green:#86EFAC;--green-bg:#173404;
-    --amber:#FCD34D;--amber-bg:#412402;
-    --red:#FCA5A5;--red-mid:#F87171;--red-bg:#450A0A;
-    --teal:#6EE7B7;--teal-bg:#04342C;
-    --gray:#B4B2A9;--gray-bg:#2C2C2A;
-    --orange:#FDBA74;--orange-bg:#431407;
-  }
+
+export interface StackLayer {
+  id: string;
+  name: string;
+  badge: string;
+  /** Badge colour class. */
+  bc: string;
+  note?: string;
+  tools: StackTool[];
 }
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;background:var(--bg2);color:var(--text);min-height:100vh}
-header{background:var(--bg);border-bottom:.5px solid var(--border);padding:14px 24px;display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap}
-.hdr-left h1{font-size:16px;font-weight:500}
-.hdr-left p{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
-.hdr-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:2px}
-button{font-family:inherit;font-size:13px;padding:7px 14px;border:.5px solid var(--border2);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;transition:background .12s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-button:hover{background:var(--bg3)}
-button.accent{border-color:var(--purple-border);color:var(--purple)}
-button.accent:hover{background:var(--purple-bg)}
-button.ghost{border-color:var(--border);color:var(--text2)}
-.main{display:grid;grid-template-columns:1fr 300px;min-height:calc(100vh - 57px)}
-.tools-col{padding:20px 24px;overflow-y:auto}
-.stack-col{background:var(--bg);border-left:.5px solid var(--border);display:flex;flex-direction:column;position:sticky;top:57px;height:calc(100vh - 57px)}
-.search-wrap{position:relative;margin-bottom:12px}
-.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:.5px solid var(--border2);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13px}
-.search-wrap input:focus{outline:none;border-color:var(--purple-border)}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--text3);pointer-events:none}
-.filter-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.chip{font-size:12px;padding:4px 10px;border-radius:20px;border:.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .12s}
-.chip:hover,.chip.active{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border)}
-.layer{margin-bottom:18px}
-.layer-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding-bottom:5px;border-bottom:.5px solid var(--border);flex-wrap:wrap}
-.layer-name{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
-.badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
-.b-pick{background:var(--amber-bg);color:var(--amber)}
-.b-add{background:var(--green-bg);color:var(--green)}
-.b-watch{background:var(--gray-bg);color:var(--gray)}
-.layer-note{font-size:11px;color:var(--text3);margin-bottom:8px;font-style:italic;line-height:1.5}
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px}
-.tc{background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .12s,background .12s;user-select:none;position:relative}
-.tc:hover:not(.tc-conflict){border-color:var(--border2);background:var(--bg2)}
-.tc.tc-sel{border-color:var(--purple-border);background:var(--purple-bg)}
-.tc.tc-sel .tname{color:var(--purple)}
-.tc.tc-conflict{border-color:#E24B4A;background:var(--red-bg);opacity:.75;cursor:not-allowed}
-.tc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:2px}
-.tname{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
-.tstars{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0}
-.tdesc{font-size:11px;color:var(--text2);line-height:1.5;margin:3px 0 4px}
-.treq{font-size:10px;line-height:1.4;margin-bottom:5px;padding:3px 6px;border-radius:4px}
-.treq-warn{background:var(--red-bg);color:var(--red-mid)}
-.treq-ok{background:var(--bg2);color:var(--text3)}
-.tc-foot{display:flex;align-items:center;justify-content:space-between}
-.lic{font-size:10px;padding:1px 6px;border-radius:3px;font-weight:500}
-.l-open{background:var(--green-bg);color:var(--green)}
-.l-warn{background:var(--amber-bg);color:var(--amber)}
-.l-paid{background:var(--red-bg);color:var(--red)}
-.tc-badge{position:absolute;top:6px;right:6px;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500}
-.tb-rec{background:var(--teal-bg);color:var(--teal)}
-.tb-free{background:var(--purple-bg);color:var(--purple)}
-.stack-header{padding:14px 16px;border-bottom:.5px solid var(--border)}
-.stack-title{font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
-.stack-count{font-size:12px;font-weight:400;color:var(--text2)}
-.stack-sub{font-size:12px;color:var(--text2);margin-top:3px}
-.stack-body{flex:1;min-height:0;padding:12px 16px;overflow-y:auto}
-.stack-empty{text-align:center;padding:32px 0;color:var(--text3);font-size:13px}
-.stack-empty i{font-size:28px;display:block;margin-bottom:8px}
-.si{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:.5px solid var(--border)}
-.si:last-child{border-bottom:none}
-.si-dot{width:6px;height:6px;border-radius:50%;background:var(--purple-border);margin-top:5px;flex-shrink:0}
-.si-dot.cd{background:#E24B4A}
-.si-dot.warn{background:#D97706}
-.si-info{flex:1;min-width:0}
-.si-name{font-size:12px;font-weight:500}
-.si-layer{font-size:11px;color:var(--text2)}
-.si-req{font-size:10px;color:var(--red-mid);margin-top:2px}
-.si-rm{font-size:15px;color:var(--text3);cursor:pointer;flex-shrink:0;padding:2px}
-.si-rm:hover{color:var(--red-mid)}
-.conf-box{margin:10px 16px;padding:10px 12px;background:var(--red-bg);border:.5px solid #F09595;border-radius:8px;display:none}
-.conf-title{font-size:12px;font-weight:500;color:var(--red-mid);margin-bottom:6px}
-.conf-line{font-size:11px;color:var(--red);line-height:1.65;padding:2px 0}
-.req-warn-box{margin:10px 16px;padding:10px 12px;background:var(--orange-bg);border:.5px solid #D97706;border-radius:8px;display:none}
-.req-warn-title{font-size:12px;font-weight:500;color:var(--orange);margin-bottom:6px}
-.req-warn-line{font-size:11px;color:var(--orange);line-height:1.65;padding:2px 0}
-.score-box{margin:0 16px 10px;padding:10px 12px;border:.5px solid var(--border);border-radius:8px;background:var(--bg2)}
-.sc-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px}
-.sc-label{color:var(--text2)}
-.sc-val{font-weight:500}
-.sc-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:8px}
-.sc-fill{height:100%;border-radius:2px;transition:width .3s}
-.legend{margin:10px 16px;padding:10px 12px;border:.5px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.9}
-.legend strong{color:var(--text)}
-.stack-footer{padding:12px 16px;border-top:.5px solid var(--border);display:flex;flex-direction:column;gap:8px}
-.stack-footer button{width:100%;justify-content:center}
-@media(max-width:680px){
-  .main{grid-template-columns:1fr}
-  .stack-col{position:static;height:auto;border-left:none;border-top:.5px solid var(--border)}
-  .tools-grid{grid-template-columns:1fr 1fr}
+
+export interface Conflict {
+  ids: string[];
+  /** Minimum number of `ids` present to trigger (defaults to 2 when no `check`). */
+  min?: number;
+  /** Custom predicate over the selected-tool set. */
+  check?: (s: Set<string>) => boolean;
+  msg: string;
 }
-</style>
-</head>
-<body>
-<header>
-  <div class="hdr-left">
-    <h1>MCP Stack Builder — Claude Code Context Reduction</h1>
-    <p>62 tools · 18 layers · 29 Jun 2026 · Build a conflict-free stack from scratch.<br>
-    <strong>⚠ orange</strong> = model/API calls or infra required &nbsp;·&nbsp; <strong>★ rec</strong> = recommended starting point</p>
-  </div>
-  <div class="hdr-actions">
-    <button class="accent" onclick="loadRec()"><i class="ti ti-star"></i> Recommended stack</button>
-    <button class="ghost" onclick="clearAll()"><i class="ti ti-x"></i> Clear all</button>
-  </div>
-</header>
-<div class="main">
-  <div class="tools-col">
-    <div class="search-wrap"><i class="ti ti-search search-icon"></i><input type="text" id="q" placeholder="Search tools, layers, requirements…" oninput="render()"></div>
-    <div class="filter-bar" id="fbar"></div>
-    <div id="grid"></div>
-  </div>
-  <div class="stack-col">
-    <div class="stack-header">
-      <div class="stack-title">Your stack <span class="stack-count" id="cnt">0 tools</span></div>
-      <div class="stack-sub" id="sub">Click any tool to add it, or load the recommended stack.</div>
-    </div>
-    <div class="stack-body" id="body"><div class="stack-empty"><i class="ti ti-stack-2"></i>Nothing selected yet.</div></div>
-    <div class="conf-box" id="confBox"><div class="conf-title"><i class="ti ti-alert-triangle"></i> Conflicts detected</div><div id="confList"></div></div>
-    <div class="req-warn-box" id="reqBox"><div class="req-warn-title"><i class="ti ti-plug"></i> External dependencies needed</div><div id="reqList"></div></div>
-    <div class="score-box">
-      <div class="sc-row"><span class="sc-label">Layer coverage</span><span class="sc-val" id="sCov">—</span></div>
-      <div class="sc-bar"><div class="sc-fill" id="bCov" style="width:0%;background:var(--purple-border)"></div></div>
-      <div class="sc-row"><span class="sc-label">Conflicts</span><span class="sc-val" id="sConf">—</span></div>
-      <div class="sc-bar"><div class="sc-fill" id="bConf" style="width:0%;background:#E24B4A"></div></div>
-      <div class="sc-row"><span class="sc-label">Community stars</span><span class="sc-val" id="sStars">—</span></div>
-    </div>
-    <div class="legend">
-      <strong>★ rec</strong> — recommended for most users<br>
-      <strong>built-in</strong> — already in Claude Code<br>
-      <span style="color:var(--red-mid)">⛔ red</span> — MCP tool name collision (hard conflict)<br>
-      <span style="color:#D97706">⚠ orange req</span> — model API calls or infra required
-    </div>
-    <div class="stack-footer"><button class="accent" onclick="exportMd()"><i class="ti ti-download"></i> Export stack as Markdown</button></div>
-  </div>
-</div>
-<script>
-const LAYERS=[
+
+export const LAYERS: StackLayer[] = [
   {id:"shell",name:"Shell & tool output compression",badge:"pick ONE shell tool",bc:"b-pick",
    note:"Pick exactly one. Running two shell hooks simultaneously causes duplicate compression.",
    tools:[
@@ -315,10 +198,11 @@ const LAYERS=[
   ]},
 ];
 
-const RECOMMENDED=["rtk","ctx-mode","sigmap","caveman","ponytail","qmd","ctx-neu","codegraph","toolsearch","tokenopt","ctxharness"];
-const TOTAL_LAYERS=LAYERS.length;
+export const RECOMMENDED: string[] = ["rtk","ctx-mode","sigmap","caveman","ponytail","qmd","ctx-neu","codegraph","toolsearch","tokenopt","ctxharness"];
 
-const CONFLICTS=[
+export const TOTAL_LAYERS = LAYERS.length;
+
+export const CONFLICTS: Conflict[] = [
   {ids:["rtk","sqz","lean-ctx","omni","ctxlite"],min:2,msg:"⛔ HARD: Shell tools are either/or — install exactly one of RTK, sqz, lean-ctx, omni, or ctxlite."},
   {ids:["lean-ctx","magic-ctx"],check:s=>s.has("lean-ctx")&&s.has("magic-ctx"),msg:"⛔ HARD: lean-ctx and magic-context both use ctx_* MCP tool names. Also magic-context is OpenCode-only."},
   {ids:["codegraph","cbm-mcp"],check:s=>s.has("codegraph")&&s.has("cbm-mcp"),msg:"⛔ HARD: codegraph and codebase-memory-mcp expose overlapping tool names. Install one, not both."},
@@ -341,133 +225,3 @@ const CONFLICTS=[
   {ids:["claudemem","claudesmart"],check:s=>s.has("claudemem")&&s.has("claudesmart"),msg:"⛔ HARD: claude-mem and claude-smart are direct competitors — README benchmarks explicitly against claude-mem. Pick one."},
   {ids:["claudemem","mem0","truememory","cognee","supermemory","gitmem","memoir","claudesmart","mem","curion"],min:2,msg:"⚠ SOFT: Memory persistence tools overlap significantly — pick one fact-memory tool. ACE (strategy memory) is stackable with any of them."},
 ];
-
-let sel=new Set();
-let fActive="all";
-
-function getConflicts(){return CONFLICTS.filter(c=>c.check?c.check(sel):c.ids.filter(id=>sel.has(id)).length>=(c.min||2));}
-function getConflictedIds(){const s=new Set();getConflicts().forEach(c=>c.ids.filter(id=>sel.has(id)).forEach(id=>s.add(id)));return s;}
-function getWarnedTools(){const out=[];LAYERS.forEach(l=>l.tools.forEach(t=>{if(sel.has(t.id)&&t.warn)out.push(t);}));return out;}
-function toggle(id){sel.has(id)?sel.delete(id):sel.add(id);render();}
-function clearAll(){sel.clear();render();}
-function loadRec(){sel=new Set(RECOMMENDED);render();}
-function setFilter(f){fActive=f;document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c.dataset.f===f));render();}
-function toolVisible(t){
-  const q=document.getElementById("q").value.toLowerCase();
-  if(fActive==="rec"&&!t.rec)return false;
-  if(fActive==="sel"&&!sel.has(t.id))return false;
-  if(fActive==="open"&&t.lic!=="open")return false;
-  if(fActive==="warn"&&!t.warn)return false;
-  if(q&&!t.name.toLowerCase().includes(q)&&!t.desc.toLowerCase().includes(q)&&!t.ll.toLowerCase().includes(q)&&!t.req.toLowerCase().includes(q))return false;
-  return true;
-}
-function totalStars(){
-  let n=0;
-  LAYERS.forEach(l=>l.tools.forEach(t=>{if(sel.has(t.id)){const v=parseInt(t.stars.replace(/[^0-9]/g,""));if(!isNaN(v))n+=v;}}));
-  return n===0?"—":n>=1000?(n/1000).toFixed(1)+"k":n;
-}
-function coveredLayers(){const s=new Set();LAYERS.forEach(l=>{if(l.tools.some(t=>sel.has(t.id)))s.add(l.id);});return s.size;}
-function exportMd(){
-  const lines=["# My Claude Code MCP Stack\n","Generated "+new Date().toISOString().slice(0,10)+"\n"];
-  const conf=getConflicts();const warns=getWarnedTools();
-  if(conf.length){lines.push("## ⛔ Conflicts to resolve\n");conf.forEach(c=>lines.push("- "+c.msg));lines.push("");}
-  if(warns.length){lines.push("## ⚠ External dependencies needed\n");warns.forEach(w=>lines.push("- **"+w.name+"**: "+w.req));lines.push("");}
-  LAYERS.forEach(l=>{
-    const s=l.tools.filter(t=>sel.has(t.id));
-    if(!s.length)return;
-    lines.push("## "+l.name);
-    s.forEach(t=>lines.push("- **"+t.name+"** ("+t.stars+"★, "+t.ll+") — "+t.url+"\n  > "+t.req));
-    lines.push("");
-  });
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/markdown"}));
-  a.download="mcp-stack.md";a.click();
-}
-
-function render(){
-  const cIds=getConflictedIds();
-  const conf=getConflicts();
-  const warns=getWarnedTools();
-  const covered=coveredLayers();
-  const grid=document.getElementById("grid");
-  grid.innerHTML="";
-  for(const layer of LAYERS){
-    const vis=layer.tools.filter(toolVisible);
-    if(!vis.length)continue;
-    const sec=document.createElement("div");sec.className="layer";
-    let h=`<div class="layer-head"><span class="layer-name">${layer.name}</span><span class="badge ${layer.bc}">${layer.badge}</span></div>`;
-    if(layer.note)h+=`<div class="layer-note">${layer.note}</div>`;
-    h+=`<div class="tools-grid" id="tg-${layer.id}"></div>`;
-    sec.innerHTML=h;
-    const tg=sec.querySelector(`#tg-${layer.id}`);
-    for(const t of vis){
-      const isSel=sel.has(t.id);
-      const isConf=cIds.has(t.id);
-      const cls=["tc",isConf?"tc-conflict":isSel?"tc-sel":""].filter(Boolean).join(" ");
-      const card=document.createElement("div");
-      card.className=cls;
-      card.setAttribute("role","checkbox");card.setAttribute("aria-checked",isSel);card.setAttribute("tabindex","0");
-      card.onclick=()=>toggle(t.id);
-      card.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();toggle(t.id);}};
-      const reqCls=t.req.startsWith("⚠")?"treq treq-warn":"treq treq-ok";
-      card.innerHTML=`
-        ${t.free?'<span class="tc-badge tb-free">built-in</span>':t.rec?'<span class="tc-badge tb-rec">★ rec</span>':''}
-        <div class="tc-top">
-          <div class="tname">${t.name}${isSel?'<i class="ti ti-check" style="color:var(--purple);font-size:13px;margin-left:4px"></i>':''}</div>
-          <div class="tstars">${t.stars}★</div>
-        </div>
-        <div class="tdesc">${t.desc}</div>
-        <div class="${reqCls}">${t.req}</div>
-        <div class="tc-foot">
-          <span class="lic l-${t.lic}">${t.ll}</span>
-          <a href="${t.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:13px;color:var(--text3);text-decoration:none"><i class="ti ti-external-link"></i></a>
-        </div>`;
-      tg.appendChild(card);
-    }
-    grid.appendChild(sec);
-  }
-  // Sidebar
-  const selTools=[];LAYERS.forEach(l=>l.tools.forEach(t=>{if(sel.has(t.id))selTools.push({...t,layerName:l.name});}));
-  document.getElementById("cnt").textContent=selTools.length+" tool"+(selTools.length!==1?"s":"");
-  document.getElementById("sub").textContent=selTools.length===0?"Click tools to add, or load the recommended stack.":covered+" of "+TOTAL_LAYERS+" layers covered";
-  const body=document.getElementById("body");
-  if(!selTools.length){
-    body.innerHTML='<div class="stack-empty"><i class="ti ti-stack-2"></i>Nothing selected yet.<br>Click any tool to add it.</div>';
-  } else {
-    body.innerHTML=selTools.map(t=>{
-      const isConf=cIds.has(t.id);
-      const isWarn=t.warn;
-      const dotCls=isConf?"cd":isWarn?"warn":"";
-      const reqLine=t.warn?`<div class="si-req">${t.req}</div>`:"";
-      return `<div class="si">
-        <div class="si-dot${dotCls?" "+dotCls:""}"></div>
-        <div class="si-info"><div class="si-name">${t.name}</div><div class="si-layer">${t.layerName}</div>${reqLine}</div>
-        <i class="ti ti-x si-rm" onclick="toggle('${t.id}')" title="Remove"></i>
-      </div>`;
-    }).join("");
-  }
-  const confBox=document.getElementById("confBox");
-  if(conf.length){confBox.style.display="block";document.getElementById("confList").innerHTML=conf.map(c=>`<div class="conf-line">${c.msg}</div>`).join("");}
-  else confBox.style.display="none";
-  const reqBox=document.getElementById("reqBox");
-  if(warns.length){reqBox.style.display="block";document.getElementById("reqList").innerHTML=warns.map(w=>`<div class="req-warn-line"><strong>${w.name}:</strong> ${w.req}</div>`).join("");}
-  else reqBox.style.display="none";
-  document.getElementById("sCov").textContent=covered+" / "+TOTAL_LAYERS;
-  document.getElementById("bCov").style.width=Math.round(covered/TOTAL_LAYERS*100)+"%";
-  const cp=Math.min(conf.length*34,100);
-  document.getElementById("sConf").textContent=conf.length===0?"none ✓":conf.length+" conflict"+(conf.length>1?"s":"");
-  document.getElementById("sConf").style.color=conf.length>0?"var(--red-mid)":"var(--teal)";
-  document.getElementById("bConf").style.width=cp+"%";
-  document.getElementById("sStars").textContent=totalStars();
-}
-
-[{id:"all",label:"All tools"},{id:"rec",label:"★ Recommended"},{id:"sel",label:"Selected"},{id:"open",label:"Open source only"},{id:"warn",label:"⚠ Needs model/infra"}].forEach(f=>{
-  const c=document.createElement("div");
-  c.className="chip"+(f.id==="all"?" active":"");c.dataset.f=f.id;c.textContent=f.label;
-  c.onclick=()=>setFilter(f.id);
-  document.getElementById("fbar").appendChild(c);
-});
-render();
-</script>
-</body>
-</html>

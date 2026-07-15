@@ -12,6 +12,10 @@ prettier = "3.9.4"
 yamllint = "1.38.0"
 # Runtime for the JS-based tools above.
 node = "lts"
+# Package manager and runtime for the Vite/TypeScript site build.
+bun = "1.3.14"
+# TypeScript linter and formatter for the site source.
+"npm:@biomejs/biome" = "2.1.0"
 # GitHub Actions workflow linter.
 actionlint = "1.7.12"
 # CI/CD security and compliance scanner (Plumber). mise holds newer releases under
@@ -30,13 +34,37 @@ postinstall = "hk install"
 # dependencies and the git hooks are both set up in one step.
 enter = "mise install"
 
+[tasks.install]
+description = "Install the JS dependencies for the site build (reproducible, from the lockfile)"
+run = "bun install --frozen-lockfile"
+
+[tasks.dev]
+description = "Run the Vite dev server for the site"
+run = "bun run dev"
+
+[tasks.build]
+description = "Type-check and build the static site into docs/"
+run = "bun run build"
+
+[tasks.typecheck]
+description = "Type-check the TypeScript sources (no emit)"
+run = "bun run typecheck"
+
 [tasks.lint]
-description = "Check markdown, YAML, HTML, and JSON across all files (no changes)"
+description = "Check markdown, YAML, HTML, JSON, and TypeScript across all files (no changes)"
 run = "hk check --all"
 
 [tasks.validate]
-description = "Assert the CSV source of truth and the JSON mirror are consistent"
-run = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
+description = "Validate the canonical JSON store against the Zod schema"
+run = "bun run validate"
+
+[tasks."data:add"]
+description = "Validate a filled tool template (YAML) and upsert it into the JSON store"
+run = "bun run data:add"
+
+[tasks."gen:schema"]
+description = "Regenerate the skill's JSON Schema from the Zod schema"
+run = "bun run gen:schema"
 
 [tasks.security]
 description = "Scan CI/CD workflows for security and compliance issues (Plumber)"

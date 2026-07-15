@@ -2,12 +2,11 @@ amends "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Builtins.pkl"
 
 // Files that are generated or preserved verbatim and must not be reformatted:
-// - the interactive table and the stack-builder SPA are rebuilt from the CSV
+// - docs/ is the Vite build output (git-ignored; rebuilt from src/)
 // - the JSON mirror is generated from the CSV source of truth
 // - the skill methodology is vendored and kept exactly as published
 local generated = List(
-  "docs/index.html",
-  "docs/stack-builder.html",
+  "docs/**",
   "data/context-reduction-tools.json",
   ".plumber.yaml",
   "plugin/skills/**"
@@ -38,6 +37,12 @@ local linters = new Mapping<String, Step> {
   ["actionlint"] = (Builtins.actionlint) {
     glob = List(".github/workflows/*.yml", ".github/workflows/*.yaml")
   }
+  // TypeScript linting and formatting for the site source (biome.json).
+  ["biome"] {
+    glob = List("src/**/*.ts", "plugins/**/*.ts", "scripts/**/*.ts", "vite.config.ts")
+    check = "biome check {{files}}"
+    fix = "biome check --write {{files}}"
+  }
 }
 
 hooks {
@@ -45,15 +50,14 @@ hooks {
     fix = true       // apply fixes to staged files
     stash = "git"    // stash unstaged changes while fixing
     steps = (linters) {
-      // Data drift guard: when the data or its schema changes, the CSV source of
-      // truth and the JSON mirror must still agree.
+      // Data guard: when the canonical store or its Zod schema changes, the data
+      // must still validate against the schema.
       ["validate-data"] {
         glob = List(
-          "data/context-reduction-tools.csv",
           "data/context-reduction-tools.json",
-          "plugin/skills/project-comparison-fetch/schema/tool-record.schema.json"
+          "src/lib/schema.ts"
         )
-        check = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
+        check = "bun run validate"
       }
     }
   }

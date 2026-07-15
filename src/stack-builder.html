@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MCP Stack Builder — Context Reduction for Claude Code</title>
+    <link rel="stylesheet" href="./stack-builder/stack-builder.css" />
+  </head>
+  <body>
+    <header>
+      <div class="hdr-left">
+        <h1>MCP Stack Builder — Claude Code Context Reduction</h1>
+        <p>
+          62 tools · 18 layers · 29 Jun 2026 · Build a conflict-free stack from scratch.<br />
+          <strong>⚠ orange</strong> = model/API calls or infra required &nbsp;·&nbsp; <strong>★ rec</strong> =
+          recommended starting point
+        </p>
+      </div>
+      <div class="hdr-actions">
+        <button class="accent" id="btn-rec"><i class="ti ti-star"></i> Recommended stack</button>
+        <button class="ghost" id="btn-clear"><i class="ti ti-x"></i> Clear all</button>
+      </div>
+    </header>
+    <div class="main">
+      <div class="tools-col">
+        <div class="search-wrap">
+          <i class="ti ti-search search-icon"></i
+          ><input type="text" id="q" placeholder="Search tools, layers, requirements…" />
+        </div>
+        <div class="filter-bar" id="fbar"></div>
+        <div id="grid"></div>
+      </div>
+      <div class="stack-col">
+        <div class="stack-header">
+          <div class="stack-title">Your stack <span class="stack-count" id="cnt">0 tools</span></div>
+          <div class="stack-sub" id="sub">Click any tool to add it, or load the recommended stack.</div>
+        </div>
+        <div class="stack-body" id="body">
+          <div class="stack-empty"><i class="ti ti-stack-2"></i>Nothing selected yet.</div>
+        </div>
+        <div class="conf-box" id="confBox">
+          <div class="conf-title"><i class="ti ti-alert-triangle"></i> Conflicts detected</div>
+          <div id="confList"></div>
+        </div>
+        <div class="req-warn-box" id="reqBox">
+          <div class="req-warn-title"><i class="ti ti-plug"></i> External dependencies needed</div>
+          <div id="reqList"></div>
+        </div>
+        <div class="score-box">
+          <div class="sc-row"><span class="sc-label">Layer coverage</span><span class="sc-val" id="sCov">—</span></div>
+          <div class="sc-bar">
+            <div class="sc-fill" id="bCov" style="width: 0%; background: var(--purple-border)"></div>
+          </div>
+          <div class="sc-row"><span class="sc-label">Conflicts</span><span class="sc-val" id="sConf">—</span></div>
+          <div class="sc-bar"><div class="sc-fill" id="bConf" style="width: 0%; background: #e24b4a"></div></div>
+          <div class="sc-row">
+            <span class="sc-label">Community stars</span><span class="sc-val" id="sStars">—</span>
+          </div>
+        </div>
+        <div class="legend">
+          <strong>★ rec</strong> — recommended for most users<br />
+          <strong>built-in</strong> — already in Claude Code<br />
+          <span style="color: var(--red-mid)">⛔ red</span> — MCP tool name collision (hard conflict)<br />
+          <span style="color: #d97706">⚠ orange req</span> — model API calls or infra required
+        </div>
+        <div class="stack-footer">
+          <button class="accent" id="btn-export"><i class="ti ti-download"></i> Export stack as Markdown</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./stack-builder/main.ts"></script>
+  </body>
+</html>

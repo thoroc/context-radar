@@ -50,7 +50,7 @@ When a direct fetch and a web search disagree on stars for the *same URL*, don't
 
 1. **Check for an org/repo transfer first.** If search results show a differently-named owner for what looks like the same project (matching description, README content, badge set, or topics), this is not automatically a stale aggregator — it may be a real move. Fetch the alternate URL directly and compare `repository_id` in the page metadata (visible in the fetched markdown's frontmatter) between the two candidates. An identical `repository_id` confirms it's the same repository under a new owner/org — not two different projects. (Real example: `chopratejas/headroom` transferred to `headroomlabs-ai/headroom` — both URLs returned live, non-redirected, internally-consistent pages with different star counts, and only checking `repository_id` resolved which was canonical.)
 2. **If no transfer is found, trust a fresh direct fetch of the exact URL over third-party aggregator snapshots** (star-history.com, ecosyste.ms, OpenGithubs rankings, etc.) — these cache on their own schedule and can lag by weeks. (Real example: `thedotmack/claude-mem` — our recorded 85.4k was correct; star-history.com's cached 70.9k and an even older third-party citation of 46.1k were both stale snapshots.)
-3. **If a transfer is confirmed, update the canonical GitHub URL in the CSV**, not just the star count — the old URL should not remain as the tool's primary reference.
+3. **If a transfer is confirmed, update the `githubUrl` field in the record**, not just the star count — the old URL should not remain as the tool's primary reference.
 
 ### Query refinement for batched star searches
 
@@ -178,7 +178,7 @@ Work through six questions, in order:
 5. **Rejection gate** — what would make you discount the number entirely? (e.g., no evaluation script in the repo; the benchmark script exists but was never run in CI; the number changed between README versions with no changelog explanation.)
 6. **Proof ledger decision** — label the claim `PROVEN` (independently reproducible, public benchmark, fixed test set), `SUPPORTED` (methodology published and internally reproducible, but self-run and/or on a self-selected test set), `OPEN` (numbers exist but methodology is opaque or the eval script isn't in the repo), or `REJECTED` (claim contradicted by the actual source code, or the benchmark is comparing different things and presenting them as equivalent).
 
-Record the Proof Ledger Decision alongside the benchmark in the CSV's "What it does" or "Decision Rule" field, e.g. `(SUPPORTED — reproducible via published Modal scripts, self-run)`.
+Record the Proof Ledger Decision alongside the benchmark in the record's `whatItDoes` or `decisionRule` field, e.g. `(SUPPORTED — reproducible via published Modal scripts, self-run)`.
 
 **Worked example, applied retroactively to an existing entry (tokensave):**
 - Claim: "93% mean retrieval savings" on `tokensave bench`, 10 published queries, run against the tool's own repo.
@@ -217,29 +217,77 @@ If out of scope, explain why concisely rather than fetching and assessing fully.
 
 ---
 
+## Data Shape Contract (single source of truth)
+
+The catalogue has **one canonical store**: `data/context-reduction-tools.json`, shaped
+`{ meta: { last_updated, stars_verified, tool_count }, tools: [ { <stableKey>: <string> } ] }`.
+The Vite + TypeScript site imports it directly at build time. There is no CSV source of truth and no JSON mirror; the CSV download is generated from this JSON.
+
+Records use **stable identifier keys** and are strongly typed, not flat strings:
+
+| Field | Type |
+| --- | --- |
+| `tool` | string (unique) |
+| `githubUrl` | string (URL) |
+| `layer` | enum (see `layerSchema`) |
+| `whatItDoes`, `requirements`, `decisionRule` | string |
+| `stars` | integer or `null` (null = unknown / built-in) |
+| `trend` | signed number (percent) or `null`; sign carries direction |
+| `runtime` | `{ languages: enum[], detail?: string }` |
+| `licence` | `{ spdx: string, warning?: string }` |
+| `conflict` | `{ severity: hard\|soft\|either-or\|stackable\|none, projects: string[], note?: string }` |
+| `activity` | `{ contributors?, latestVersion?, releaseCount?, releasedOn?, corroboration?, notes? }` |
+| `activityStatus` | `{ band: active\|stable\|slowing\|early\|dormant\|none, label: string }` |
+| `verdict` | `{ decision: best\|add\|add-if\|either-or\|watch\|reference\|drop, rationale: string }` |
+
+Free-text detail is preserved verbatim in the `notes`/`note`/`detail`/`rationale` fields, so the table and CSV export reproduce the original display losslessly. The snapshot date lives in `meta.stars_verified` (the dated `Stars (<date>)` header is reconstructed only in the CSV export).
+
+The **schema is defined once** as a Zod schema in `src/lib/schema.ts`. It drives, so nothing can drift:
+
+- the TypeScript types the site compiles against (`z.infer` → `Tool`, `Dataset`);
+- the JSON Schema published beside this skill (`schema/tool-record.schema.json`), regenerated by `mise run gen:schema`;
+- runtime validation of the JSON (`mise run validate`), which also runs in the pre-commit hook and CI.
+
+Zod is build/CI-only; it is never shipped to the browser. `src/lib/present.ts` reconstructs the display strings (and CSS classes) from the structured record and is shared by the table and the CSV export.
+
+Rules when the data changes:
+
+- Match the field types above. Prefer the structured fields; keep the verbatim `notes`/`note`/`detail`/`rationale` populated so nothing is lost.
+- To add/remove/rename a field, edit `src/lib/schema.ts` (the Zod schema), `src/lib/columns.ts` (`COLUMNS`, the CSV order/headers), and `src/lib/present.ts` (reconstruction) as needed, then run `mise run gen:schema`. `mise run validate` and `mise run typecheck` fail until everything agrees.
+- Tool names must be unique and `meta.tool_count` must equal `tools.length`; the validator enforces both.
+
+The stack builder does **not** consume this JSON. Its dataset (`src/stack-builder/stack-data.ts`) is a separate, richer, hand-curated structure (per-tool `rec`/`free`/`warn` flags, short ids, layer notes, and a conflict ruleset). Keep the two reconciled by hand when tools change.
+
+---
+
 ## Post-Assessment Actions
 
 After writing the assessment, always:
 
-1. **Update the comparison table**: add the new row with the correct layer, overlap tags, and verdict
-2. **Update the CSV**: append or modify the row in `data/context-reduction-tools.csv` (the source of truth)
-3. **Validate the data**: run `mise run validate` after every write. The CSV must have exactly 14 columns and the JSON mirror must agree. The validator and schema live beside this skill under `scripts/` and `schema/`
-4. **Rebuild the JSON mirror, `docs/llms.txt`, and the HTML table** from the updated CSV
-5. **Update the MCP Stack Builder SPA**: add the tool card to the correct layer in `docs/stack-builder.html`
-6. **Validate SPA JS syntax** after edits: extract the `<script>` block and run `node --check`
-7. **Update overlap/conflict columns** for existing tools affected by the new entry
+1. **Fill the template**: copy `templates/tool.yaml`, complete every field (correct layer, overlap tags, verdict), using the stable identifier keys.
+2. **Ingest it**: `mise run data:add -- <your-file>.yaml`. This Zod-validates the record and upserts it into `data/context-reduction-tools.json` by tool name (re-adding an existing name updates it), refreshing `meta.tool_count` and `meta.last_updated`.
+3. **Validate**: `mise run validate` (also runs on commit and in CI). Editing the JSON by hand instead of via the template is fine, but it must still pass validation.
+4. **Update `src/public/llms.txt`** to reflect the new or changed entry. The comparison table and the CSV download need no manual edit — both are generated from the JSON on the next `mise run build`.
+5. **Update the MCP Stack Builder dataset** if the tool belongs there: add it to the correct layer in `src/stack-builder/stack-data.ts` (see the Data Shape Contract above — this is separate from the canonical JSON).
+6. **Type-check and build**: `mise run typecheck` then `mise run build`.
+7. **Update overlap/conflict columns** for existing tools affected by the new entry.
 
 ### File locations
 
 All data and artefacts live in the repository:
 
-- `data/context-reduction-tools.csv`: source of truth (14 columns)
-- `data/context-reduction-tools.json`: JSON mirror (rebuilt from the CSV)
-- `docs/index.html`: filterable/sortable comparison table (rebuilt from the CSV)
-- `docs/stack-builder.html`: interactive stack builder SPA (maintained separately)
-- `docs/llms.txt`: flat, LLM-friendly index of the catalogue
-- `schema/tool-record.schema.json` (beside this skill): the 14-field record schema
-- `scripts/validate-data.mjs` (beside this skill): CSV and JSON consistency validator, run via `mise run validate`
+- `data/context-reduction-tools.json`: the single canonical store, imported by the site build (`src/lib/data.ts`)
+- `src/lib/schema.ts`: the Zod schema — single source of truth for the record shape (types + JSON Schema + validation)
+- `src/lib/columns.ts`: canonical column order + CSV serialisation (drives the download)
+- `templates/tool.yaml`: authoring scaffold; fill and ingest with `mise run data:add`
+- `scripts/validate-data.ts`: Zod validator, run via `mise run validate`
+- `scripts/gen-schema.ts`: regenerates the JSON Schema from Zod, run via `mise run gen:schema`
+- `scripts/data-add.ts`: ingests a filled template into the store, run via `mise run data:add`
+- `src/index.html` + `src/comparison/`: filterable/sortable comparison table (Vite + TypeScript; renders from the JSON)
+- `src/stack-builder.html` + `src/stack-builder/`: interactive stack builder; its dataset is `src/stack-builder/stack-data.ts` (maintained separately)
+- `src/public/llms.txt`: flat, LLM-friendly index of the catalogue (served at `/llms.txt`)
+- `docs/`: the Vite build output (git-ignored; produced by `mise run build`, uploaded to GitHub Pages by CI)
+- `schema/tool-record.schema.json` (beside this skill): the record JSON Schema, generated from `src/lib/schema.ts`
 
 ### Layer assignment guide
 
@@ -317,7 +365,7 @@ When updating star counts for all tools:
 - Run `web_search` for each tool — do not rely on previously cached fetches
 - Group searches where possible (3–4 tools per query) to reduce round trips
 - Flag significant movements (>50% change) in the table footnote
-- Update the CSV `Stars` column header to include the refresh date
+- Update `meta.stars_verified` to the refresh date (the CSV export's `Stars (<date>)` header is derived from it)
 - For tools where page render and search disagree, use the higher/more-recent figure and note both sources
 
 ### Volatility tiering

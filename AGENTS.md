@@ -1,16 +1,24 @@
 # context-radar — Agent Guide
 
-A docs-only comparison catalogue of tools that reduce context-window token consumption in coding agents. The CSV is the
-source of truth; the JSON mirror and HTML table are derived from it.
+A comparison catalogue of tools that reduce context-window token consumption in coding agents, published as a Vite +
+TypeScript site on GitHub Pages. There is one canonical store, `data/context-reduction-tools.json`, imported directly by
+the site build; the record shape is defined once as a Zod schema (`src/lib/schema.ts`). The CSV download is generated
+from the JSON.
 
 ## Commands
 
 Toolchain and tasks are managed by [mise](https://mise.jdx.dev). Run `mise install` once to get the pinned toolchain and
-install the git hooks.
+install the git hooks, then `mise run install` for the JS dependencies. All build/lint/format operations go through mise
+tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 
-- Lint (no changes): `mise run lint`
+- Dev server: `mise run dev`
+- Build the site into docs/: `mise run build`
+- Type-check TypeScript: `mise run typecheck`
+- Lint (no changes): `mise run lint` (prettier, markdownlint, yamllint, actionlint, Biome)
 - Format and auto-fix in place: `mise run fmt`
-- Validate CSV/JSON consistency: `mise run validate`
+- Validate the canonical JSON against the Zod schema: `mise run validate`
+- Ingest a filled `templates/*.yaml` into the store: `mise run data:add -- <file>.yaml`
+- Regenerate the skill's JSON Schema from Zod: `mise run gen:schema`
 - Security/compliance scan: `mise run security`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
@@ -18,26 +26,32 @@ install the git hooks.
 ## Conventions
 
 - British English. No em dashes. Dates as DD-MM-YYYY.
-- The data contract lives with the skill that owns it, under `plugin/skills/project-comparison-fetch/`. Edit the schema
-  and validator there.
-- Edit `data/context-reduction-tools.csv` first; keep the JSON mirror in sync and run `mise run validate` before
-  committing (the pre-commit hook enforces this).
+- The data contract is the Zod schema in `src/lib/schema.ts`. It generates the TS types, the published JSON Schema
+  (`mise run gen:schema`), and the validator. Edit the shape there, not in the JSON Schema.
+- To add or change a tool, fill `templates/tool.yaml` and run `mise run data:add -- <file>.yaml`; then run
+  `mise run validate` (the pre-commit hook enforces it). Hand-editing the JSON is fine if it still validates.
 - Never commit directly to `main`. Use feature branches and conventional commits.
 - Do not invent charity names, donation figures, or prize copy; ratings are decision support, not adoption decisions.
 
 ## Key paths
 
-- Source of truth: `data/context-reduction-tools.csv` (14 columns)
-- JSON mirror: `data/context-reduction-tools.json`
-- LLM-friendly index: `docs/llms.txt`
-- GitHub Pages source: `docs/` (`index.html`, `stack-builder.html`, `methodology.md`, `glossary.md`)
+- Canonical store: `data/context-reduction-tools.json` (`{meta, tools:[]}`, stable-key records)
+- Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: enums, numbers,
+  structured objects for runtime/licence/conflict/activity/activityStatus/verdict)
+- Display reconstruction (shared by table + CSV): `src/lib/present.ts`
+- Column order + CSV serialisation: `src/lib/columns.ts`
+- Authoring template: `templates/tool.yaml`
+- Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/data-add.ts`
+- Site source (Vite + TS): `src/` — `index.html` + `comparison/` (table), `stack-builder.html` + `stack-builder/`
+  (builder, with its own curated `stack-data.ts`), `lib/` (schema/columns/data), `pages/` (markdown), `public/llms.txt`
+- Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
-- Data schema: `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`
-- Validator: `plugin/skills/project-comparison-fetch/scripts/validate-data.mjs`
+- Published JSON Schema (generated from Zod): `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`
 
 ## CI
 
-- `.github/workflows/lint.yml` — lint, format check, data validation
+- `.github/workflows/static.yml` — build with Vite and deploy to GitHub Pages
+- `.github/workflows/lint.yml` — lint, type-check, format check, data validation
 - `.github/workflows/plumber.yml` — Plumber security/compliance scan
 
 ## How to add or re-assess a tool

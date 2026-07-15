@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Context Reduction Tools — Comparison</title>
+    <link rel="stylesheet" href="./comparison/comparison.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Context Reduction Tools — Comparison</h1>
+      <p id="summary"></p>
+    </header>
+    <div class="controls">
+      <label for="s">Search</label>
+      <input type="text" id="s" placeholder="Tool, layer, requirements, verdict&hellip;" />
+      <label for="fl">Layer</label>
+      <select id="fl">
+        <option value="">All layers</option>
+        <option>Shell output</option>
+        <option>All tool output</option>
+        <option>Static context injection (push model)</option>
+        <option>Conversation history management</option>
+        <option>Personal knowledge retrieval</option>
+        <option>Library documentation retrieval</option>
+        <option>Codebase understanding &amp; onboarding</option>
+        <option>Code navigation</option>
+        <option>Architecture violation detection</option>
+        <option>MCP definition tokens</option>
+        <option>Agent memory persistence</option>
+        <option>Cross-session governance</option>
+        <option>Response verbosity &amp; memory compression</option>
+        <option>Config stack audit &amp; optimisation</option>
+        <option>Agent safety enforcement</option>
+        <option>Agent runtime &amp; context orchestration</option>
+        <option>Universal context compression middleware</option>
+        <option>Reference resource (curated list)</option>
+        <option>Code generation minimalism (YAGNI enforcement)</option>
+        <option>Tabular data retrieval</option>
+      </select>
+      <label for="fv">Verdict</label>
+      <select id="fv">
+        <option value="">All verdicts</option>
+        <option value="best">Best</option>
+        <option value="add">Add</option>
+        <option value="either-or">Either/or</option>
+        <option value="watch">Watch</option>
+        <option value="reference">Reference</option>
+        <option value="drop">Drop</option>
+      </select>
+      <label for="fa">Activity</label>
+      <select id="fa">
+        <option value="">All activity</option>
+        <option value="green">🟢 Active</option>
+        <option value="yellow">🟡 Active / Stable</option>
+        <option value="slow">🟠 Slowing</option>
+        <option value="red">🔴 Early / Pre-release</option>
+        <option value="dead">⚫ Dormant</option>
+      </select>
+      <label for="fr">Requirements</label>
+      <select id="fr">
+        <option value="">All tools</option>
+        <option value="clean">No model / external deps</option>
+        <option value="warn">⚠ Needs model or infra</option>
+      </select>
+      <span class="count" id="cnt"></span>
+    </div>
+    <div class="wrap">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th data-col="tool">Tool</th>
+            <th data-col="layer">Layer</th>
+            <th data-col="whatItDoes" style="min-width: 180px">What it does</th>
+            <th data-col="conflict" style="min-width: 140px">Conflict / Overlap</th>
+            <th data-col="runtime">Runtime</th>
+            <th data-col="requirements" style="min-width: 160px">Requirements</th>
+            <th data-col="licence">Licence</th>
+            <th data-col="stars">Stars</th>
+            <th data-col="trend">Trend (30d)</th>
+            <th data-col="activityStatus">Activity</th>
+            <th data-col="verdict">Verdict</th>
+            <th data-col="decisionRule" style="min-width: 160px">Decision rule</th>
+          </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+    <script type="module" src="./comparison/main.ts"></script>
+  </body>
+</html>

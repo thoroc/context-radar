@@ -12,10 +12,9 @@ The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 
 ## Audience and outputs
 
-- **Humans** browse the interactive comparison table and assemble a conflict-free stack (via GitHub Pages, once
-  enabled).
-- **Agents and tooling** read the same catalogue in an LLM-friendly shape: a CSV source of truth, a JSON mirror, and a
-  flat [`docs/llms.txt`](docs/llms.txt) index.
+- **Humans** browse the interactive comparison table and assemble a conflict-free stack on GitHub Pages.
+- **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
+  export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
 
 ## Repository layout
 
@@ -24,25 +23,40 @@ context-radar/
   README.md                              This file
   CONTRIBUTING.md                        How to add or re-assess a tool
   data/
-    context-reduction-tools.csv          Source of truth (14 columns, 79 rows)
-    context-reduction-tools.json         JSON mirror ({meta, tools:[...]})
+    context-reduction-tools.json         Canonical store ({meta, tools:[...]}), imported by the build
     star-history.csv                     Append-only star history (date,tool,repo,stars)
-  docs/                                  GitHub Pages source (Settings then Pages then /docs)
-    index.html                           Interactive comparison table (landing page)
-    stack-builder.html                   MCP stack builder SPA
-    methodology.md                       How tools are fetched, verified, and rated
-    glossary.md                          Terms used across the catalogue
-    llms.txt                             Flat, LLM-friendly index of the catalogue
-    _config.yml                          Jekyll config for GitHub Pages
+  templates/
+    tool.yaml                            Authoring scaffold; fill and ingest with `mise run data:add`
+  scripts/
+    validate-data.ts                     Zod validator for the canonical store
+    gen-schema.ts                        Regenerates the skill's JSON Schema from the Zod schema
+    data-add.ts                          Ingests a filled template into the store
+  src/                                   Site source (Vite + TypeScript)
+    index.html                           Comparison table page (landing page)
+    stack-builder.html                   MCP stack builder page
+    comparison/                          Comparison table logic + styles
+    stack-builder/                       Stack builder logic, styles, and curated dataset
+    lib/schema.ts                        Zod schema: single source of truth for the record shape
+    lib/present.ts                       Reconstructs display strings/classes from the structured record
+    lib/columns.ts                       Canonical column order + CSV serialisation
+    lib/data.ts                          Typed loader for the canonical JSON
+    pages/                               methodology.md, glossary.md (rendered to HTML at build)
+    public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
+  plugins/                               Vite build plugins (markdown pages, CSV export)
+  docs/                                  Vite build OUTPUT (git-ignored; uploaded to Pages)
   plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
     skills/project-comparison-fetch/
       SKILL.md                           The full fetch and assessment methodology (skill)
-      schema/tool-record.schema.json     JSON Schema for one tool record
-      scripts/validate-data.mjs          CSV and JSON mirror consistency validator
+      schema/tool-record.schema.json     JSON Schema, generated from src/lib/schema.ts
   .github/workflows/
-    lint.yml                             CI: lint, format check, data validation
+    static.yml                           CI: build the site with Vite and deploy to GitHub Pages
+    lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
+  vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
+  tsconfig.json                          TypeScript config
+  biome.json                             Biome (TypeScript lint + format) config
+  package.json                           Dependencies and scripts (Bun)
   mise.toml                              Toolchain and tasks (mise-en-place)
   hk.pkl                                 Git pre-commit hooks (hk)
   .plumber.yaml                          Plumber scan configuration
@@ -54,18 +68,53 @@ context-radar/
   .mcp.json                              tessl MCP server config (Claude Code)
 ```
 
+## Build and develop
+
+The site is a [Vite](https://vite.dev) app in TypeScript, built and run with [Bun](https://bun.sh). The toolchain is
+pinned with [mise](https://mise.jdx.dev).
+
+All build, lint, and format operations go through mise tasks (defined in `mise.toml`).
+
+```sh
+mise install        # install the toolchain (Bun, Node, Biome, …) and wire git hooks
+mise run install    # install JS dependencies from the lockfile
+mise run dev        # Vite dev server (both pages, live reload)
+mise run build      # type-check and build the static site into docs/
+mise run lint       # prettier, markdownlint, yamllint, actionlint, and Biome (TypeScript)
+mise run typecheck  # TypeScript type-check only
+mise run fmt        # format everything in place (incl. TypeScript via Biome)
+mise run validate   # validate the canonical JSON store against the Zod schema
+mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)
+mise run gen:schema # regenerate the skill's JSON Schema from the Zod schema
+```
+
+`mise run build` writes the static site to `docs/`, which is git-ignored: CI rebuilds it and uploads it to GitHub Pages
+on every push to `main` (`.github/workflows/static.yml`).
+
 ## The data model
 
-Each tool is one row with 14 fields: Tool, GitHub URL, Layer, What it does, Conflict / Overlap, Runtime, Requirements,
-Licence, Stars, Trend, Activity, Activity Status, Verdict, and Decision Rule. The CSV is the source of truth; the JSON
-and the HTML table are rebuilt from it. See
-[`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json) for the field
-definitions.
+There is one canonical store: [`data/context-reduction-tools.json`](data/context-reduction-tools.json), shaped
+`{meta, tools:[...]}`. Each tool is a strongly typed record keyed by stable identifiers: enums (`layer`, and the bands
+and decisions inside the objects below), numbers (`stars`, `trend`), and structured objects (`runtime`, `licence`,
+`conflict`, `activity`, `activityStatus`, `verdict`) alongside the plain-text `whatItDoes`, `requirements`, and
+`decisionRule`. Free-text detail is preserved verbatim inside the objects so the table and CSV render losslessly. The
+snapshot date lives in `meta.stars_verified`.
+
+The record shape is defined once, as a Zod schema in [`src/lib/schema.ts`](src/lib/schema.ts). From that single
+definition come the TypeScript types the site compiles against (`z.infer`), the JSON Schema published beside the skill
+([`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json), regenerated by
+`mise run gen:schema`), and runtime validation (`mise run validate`). Zod runs at build/CI time only and is never
+bundled into the browser.
+
+To add or change a tool, fill [`templates/tool.yaml`](templates/tool.yaml) and run `mise run data:add -- <file>.yaml`;
+it validates the record and upserts it into the store. The comparison table and the CSV download are both generated from
+the JSON at build time.
 
 ### Verdicts
 
 Best in class, Add, Add if you use [X], Either/or pick one, Watch (too early or unique but early), Reference only (not a
-tool), and Drop. Full definitions are in [`docs/methodology.md`](docs/methodology.md).
+tool), and Drop. Full definitions are in [`src/pages/methodology.md`](src/pages/methodology.md) (served at
+`/methodology.html`).
 
 ### Conflicts
 
@@ -75,14 +124,15 @@ tool), and Drop. Full definitions are in [`docs/methodology.md`](docs/methodolog
 
 ## Status and roadmap
 
-Docs-only for now. GitHub Pages is not yet enabled and there is no remote.
+The catalogue, the Vite + TypeScript site, the stack builder, and the fetch methodology are all in the repository. CI
+builds the site and deploys it to GitHub Pages on every push to `main`.
 
-1. **Now.** The catalogue, its data files, the interactive table, the stack builder, and the fetch methodology are all
-   in the repository.
-2. **Next.** Enable GitHub Pages from `/docs`. Append fresh star fetches to `star-history.csv` on a schedule so the
-   trend line becomes meaningful.
-3. **Later.** Generate the HTML table and JSON mirror from the CSV automatically, and let an agent following the
-   methodology draft new tool assessments for human review.
+1. **Now.** The comparison table renders from the JSON at build time, so a CSV/JSON update reshapes the site
+   automatically on the next deploy.
+2. **Next.** Append fresh star fetches to `star-history.csv` on a schedule so the trend line becomes meaningful.
+   Reconcile the stack builder's curated dataset (`src/stack-builder/stack-data.ts`) with the main catalogue.
+3. **Later.** Let an agent following the methodology draft new tool assessments for human review; because the JSON shape
+   is a typed contract, generated and hand-written rows share one format.
 
 ---
 

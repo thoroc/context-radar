@@ -1,6 +1,6 @@
-# Deploy the docs/ folder to GitHub Pages as static content. No Jekyll, no
-# build step: upload-pages-artifact serves the files exactly as they are, so
-# docs/index.html is the site root.
+# Build the site with Vite (Bun + TypeScript) and deploy the output to GitHub
+# Pages. The build writes static files to docs/, which is uploaded as-is; there
+# is no Jekyll step.
 name: Deploy Pages
 
 on:
@@ -25,7 +25,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job: upload docs/ and publish it, no build.
+  # Single job: build with Vite, then publish the docs/ output.
   deploy:
     environment:
       name: github-pages
@@ -33,7 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Install the pinned toolchain (Bun, Node)
+        uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2
+      - name: Install dependencies
+        run: mise run install
+      - name: Build the site into docs/
+        run: mise run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload docs/ as the site

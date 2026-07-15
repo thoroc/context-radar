@@ -2,81 +2,240 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/pantheon-org/context-radar/schema/tool-record.schema.json",
   "title": "context-radar tool record",
-  "description": "One row of context-reduction-tools.csv, and one element of the tools array in context-reduction-tools.json. Property names match the CSV column headers exactly, including spaces and slashes.",
+  "description": "One tool record in data/context-reduction-tools.json. Generated from src/lib/schema.ts via `mise run gen:schema` — do not edit by hand.",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "Tool",
-    "GitHub URL",
-    "Layer",
-    "What it does",
-    "Conflict / Overlap",
-    "Runtime",
-    "Requirements",
-    "Licence",
-    "Stars (15 Jul 2026)",
-    "Trend (30d)",
-    "Activity (Issues / PRs)",
-    "Activity Status",
-    "Verdict",
-    "Decision Rule"
-  ],
   "properties": {
-    "Tool": {
+    "tool": {
       "type": "string",
-      "description": "Name used as the unique identifier throughout the catalogue."
+      "minLength": 1
     },
-    "GitHub URL": {
+    "githubUrl": {
       "type": "string",
-      "description": "Canonical repository URL. Re-verify on org or owner transfers (see the fetch methodology)."
+      "format": "uri"
     },
-    "Layer": {
+    "layer": {
       "type": "string",
-      "description": "The tool's primary layer. Group by prefix, not exact string equality: several raw strings collapse to one display layer."
+      "enum": [
+        "Shell output",
+        "All tool output",
+        "Static context injection (push model)",
+        "Conversation history management",
+        "Personal knowledge retrieval",
+        "Library documentation retrieval",
+        "Codebase understanding & onboarding",
+        "Code navigation",
+        "Architecture violation detection (trust-first)",
+        "Architecture violation detection",
+        "MCP definition tokens",
+        "Cross-session governance & reasoning capture",
+        "Cross-session governance",
+        "Response verbosity + memory compression",
+        "Config stack audit & optimisation",
+        "Config stack audit",
+        "Agent safety enforcement",
+        "Tabular data retrieval",
+        "Agent runtime & context orchestration",
+        "Universal context compression middleware",
+        "Reference resource (curated list)",
+        "Agent memory persistence",
+        "Code generation minimalism (YAGNI enforcement)"
+      ]
     },
-    "What it does": {
-      "type": "string",
-      "description": "Free-text description of the tool and how it reduces context tokens."
+    "whatItDoes": {
+      "type": "string"
     },
-    "Conflict / Overlap": {
-      "type": "string",
-      "description": "Starts with the hard-conflict marker for MCP tool-name collisions, the soft-conflict marker for redundant roles, or plain text when there is no conflict."
+    "conflict": {
+      "type": "object",
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": [
+            "hard",
+            "soft",
+            "either-or",
+            "stackable",
+            "none"
+          ]
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "severity",
+        "projects"
+      ],
+      "additionalProperties": false
     },
-    "Runtime": {
-      "type": "string",
-      "description": "Implementation language or runtime, free text."
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "rust",
+              "python",
+              "typescript",
+              "javascript",
+              "node",
+              "go",
+              "powershell",
+              "shell",
+              "lua",
+              "gleam",
+              "none"
+            ]
+          },
+          "minItems": 1
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "languages"
+      ],
+      "additionalProperties": false
     },
-    "Requirements": {
-      "type": "string",
-      "description": "Starts with a warning marker if the tool needs an LLM API key, external infra, or a model download. Records the LLM dependency tier."
+    "requirements": {
+      "type": "string"
     },
-    "Licence": {
-      "type": "string",
-      "description": "SPDX-ish licence string. Non-permissive licences (PolyForm NC, AGPL, Commons Clause, no licence) are called out."
+    "licence": {
+      "type": "object",
+      "properties": {
+        "spdx": {
+          "type": "string",
+          "minLength": 1
+        },
+        "warning": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "spdx"
+      ],
+      "additionalProperties": false
     },
-    "Stars (15 Jul 2026)": {
-      "type": "string",
-      "description": "Verified star count at the snapshot date. Small counts are exact; large counts are rounded to the nearest thousand. The header carries the refresh date."
+    "stars": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
-    "Trend (30d)": {
-      "type": "string",
-      "description": "Direction and percentage versus the previously recorded figure. Direction is reliable; the exact percentage is approximate and the window is not strictly 30 days."
+    "trend": {
+      "type": [
+        "number",
+        "null"
+      ]
     },
-    "Activity (Issues / PRs)": {
-      "type": "string",
-      "description": "Free-text detail on contributors, releases, and corroborating sources."
+    "activity": {
+      "type": "object",
+      "properties": {
+        "contributors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "latestVersion": {
+          "type": "string"
+        },
+        "releaseCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "releasedOn": {
+          "type": "string"
+        },
+        "corroboration": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     },
-    "Activity Status": {
-      "type": "string",
-      "description": "Status emoji plus label, for example the very-active, active, early, or dormant bands."
+    "activityStatus": {
+      "type": "object",
+      "properties": {
+        "band": {
+          "type": "string",
+          "enum": [
+            "active",
+            "stable",
+            "slowing",
+            "early",
+            "dormant",
+            "none"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "band",
+        "label"
+      ],
+      "additionalProperties": false
     },
-    "Verdict": {
-      "type": "string",
-      "description": "Adoption verdict. See the verdict guide: Best in class, Add, Add if you use [X], Either/or pick one, Watch, Reference only, Drop."
+    "verdict": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "best",
+            "add",
+            "add-if",
+            "either-or",
+            "watch",
+            "reference",
+            "drop"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision",
+        "rationale"
+      ],
+      "additionalProperties": false
     },
-    "Decision Rule": {
-      "type": "string",
-      "description": "Free-text guidance, often including install commands and caveats such as which tools not to run alongside this one."
+    "decisionRule": {
+      "type": "string"
     }
-  }
+  },
+  "required": [
+    "tool",
+    "githubUrl",
+    "layer",
+    "whatItDoes",
+    "conflict",
+    "runtime",
+    "requirements",
+    "licence",
+    "stars",
+    "trend",
+    "activity",
+    "activityStatus",
+    "verdict",
+    "decisionRule"
+  ],
+  "additionalProperties": false
 }
