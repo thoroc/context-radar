@@ -6,7 +6,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["src/**/*.ts", "plugins/**/*.ts", "vite.config.ts", "!src/stack-builder/stack-data.ts"]
+    "includes": [
+      "src/**/*.ts",
+      "plugins/**/*.ts",
+      "scripts/**/*.ts",
+      "vite.config.ts",
+      "!src/stack-builder/stack-data.ts"
+    ]
   },
   "formatter": {
     "enabled": true,

@@ -39,7 +39,7 @@ local linters = new Mapping<String, Step> {
   }
   // TypeScript linting and formatting for the site source (biome.json).
   ["biome"] {
-    glob = List("src/**/*.ts", "plugins/**/*.ts", "vite.config.ts")
+    glob = List("src/**/*.ts", "plugins/**/*.ts", "scripts/**/*.ts", "vite.config.ts")
     check = "biome check {{files}}"
     fix = "biome check --write {{files}}"
   }
@@ -50,15 +50,14 @@ hooks {
     fix = true       // apply fixes to staged files
     stash = "git"    // stash unstaged changes while fixing
     steps = (linters) {
-      // Data drift guard: when the data or its schema changes, the CSV source of
-      // truth and the JSON mirror must still agree.
+      // Data guard: when the canonical store or its Zod schema changes, the data
+      // must still validate against the schema.
       ["validate-data"] {
         glob = List(
-          "data/context-reduction-tools.csv",
           "data/context-reduction-tools.json",
-          "plugin/skills/project-comparison-fetch/schema/tool-record.schema.json"
+          "src/lib/schema.ts"
         )
-        check = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
+        check = "bun run validate"
       }
     }
   }

@@ -4,6 +4,7 @@ docs/
 node_modules/
 src/**/*.ts
 plugins/**/*.ts
+scripts/**/*.ts
 vite.config.ts
 data/context-reduction-tools.json
 data/*.csv

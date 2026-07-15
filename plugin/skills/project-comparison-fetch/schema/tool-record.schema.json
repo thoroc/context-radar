@@ -2,81 +2,70 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/pantheon-org/context-radar/schema/tool-record.schema.json",
   "title": "context-radar tool record",
-  "description": "One row of context-reduction-tools.csv, and one element of the tools array in context-reduction-tools.json. Property names match the CSV column headers exactly, including spaces and slashes.",
+  "description": "One tool record in data/context-reduction-tools.json. Generated from src/lib/schema.ts via `mise run gen:schema` — do not edit by hand.",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "Tool",
-    "GitHub URL",
-    "Layer",
-    "What it does",
-    "Conflict / Overlap",
-    "Runtime",
-    "Requirements",
-    "Licence",
-    "Stars (15 Jul 2026)",
-    "Trend (30d)",
-    "Activity (Issues / PRs)",
-    "Activity Status",
-    "Verdict",
-    "Decision Rule"
-  ],
   "properties": {
-    "Tool": {
+    "tool": {
       "type": "string",
-      "description": "Name used as the unique identifier throughout the catalogue."
+      "minLength": 1
     },
-    "GitHub URL": {
+    "githubUrl": {
       "type": "string",
-      "description": "Canonical repository URL. Re-verify on org or owner transfers (see the fetch methodology)."
+      "minLength": 1
     },
-    "Layer": {
+    "layer": {
       "type": "string",
-      "description": "The tool's primary layer. Group by prefix, not exact string equality: several raw strings collapse to one display layer."
+      "minLength": 1
     },
-    "What it does": {
-      "type": "string",
-      "description": "Free-text description of the tool and how it reduces context tokens."
+    "whatItDoes": {
+      "type": "string"
     },
-    "Conflict / Overlap": {
-      "type": "string",
-      "description": "Starts with the hard-conflict marker for MCP tool-name collisions, the soft-conflict marker for redundant roles, or plain text when there is no conflict."
+    "conflict": {
+      "type": "string"
     },
-    "Runtime": {
-      "type": "string",
-      "description": "Implementation language or runtime, free text."
+    "runtime": {
+      "type": "string"
     },
-    "Requirements": {
-      "type": "string",
-      "description": "Starts with a warning marker if the tool needs an LLM API key, external infra, or a model download. Records the LLM dependency tier."
+    "requirements": {
+      "type": "string"
     },
-    "Licence": {
-      "type": "string",
-      "description": "SPDX-ish licence string. Non-permissive licences (PolyForm NC, AGPL, Commons Clause, no licence) are called out."
+    "licence": {
+      "type": "string"
     },
-    "Stars (15 Jul 2026)": {
-      "type": "string",
-      "description": "Verified star count at the snapshot date. Small counts are exact; large counts are rounded to the nearest thousand. The header carries the refresh date."
+    "stars": {
+      "type": "string"
     },
-    "Trend (30d)": {
-      "type": "string",
-      "description": "Direction and percentage versus the previously recorded figure. Direction is reliable; the exact percentage is approximate and the window is not strictly 30 days."
+    "trend": {
+      "type": "string"
     },
-    "Activity (Issues / PRs)": {
-      "type": "string",
-      "description": "Free-text detail on contributors, releases, and corroborating sources."
+    "activity": {
+      "type": "string"
     },
-    "Activity Status": {
-      "type": "string",
-      "description": "Status emoji plus label, for example the very-active, active, early, or dormant bands."
+    "activityStatus": {
+      "type": "string"
     },
-    "Verdict": {
-      "type": "string",
-      "description": "Adoption verdict. See the verdict guide: Best in class, Add, Add if you use [X], Either/or pick one, Watch, Reference only, Drop."
+    "verdict": {
+      "type": "string"
     },
-    "Decision Rule": {
-      "type": "string",
-      "description": "Free-text guidance, often including install commands and caveats such as which tools not to run alongside this one."
+    "decisionRule": {
+      "type": "string"
     }
-  }
+  },
+  "required": [
+    "tool",
+    "githubUrl",
+    "layer",
+    "whatItDoes",
+    "conflict",
+    "runtime",
+    "requirements",
+    "licence",
+    "stars",
+    "trend",
+    "activity",
+    "activityStatus",
+    "verdict",
+    "decisionRule"
+  ],
+  "additionalProperties": false
 }

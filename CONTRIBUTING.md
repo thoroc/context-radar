@@ -85,7 +85,7 @@ Three GitHub Actions workflows run on push to `main` and on pull requests. Third
   output to GitHub Pages.
 - `.github/workflows/lint.yml` sets up the mise toolchain, installs the JS dependencies, and runs `mise run lint`
   (prettier, markdownlint, yamllint, actionlint, and Biome via hk), then `mise run typecheck` (TypeScript), then
-  `mise run validate` (the CSV and JSON mirror must agree).
+  `mise run validate` (the canonical JSON store must pass the Zod schema).
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
@@ -95,7 +95,7 @@ Run the same checks locally:
 ```sh
 mise run lint       # prettier, markdownlint, yamllint, actionlint, Biome
 mise run typecheck  # TypeScript type-check
-mise run validate   # CSV and JSON mirror consistency
+mise run validate   # validate the canonical JSON against the Zod schema
 mise run security   # Plumber scan (needs a git remote; use the CI job otherwise)
 ```
 
@@ -118,13 +118,15 @@ enabled.
    releases and changelog. Verify feature and benchmark claims against source, not README copy.
 3. **Classify.** Assign the primary layer, the LLM dependency tier, and the verdict. Check for hard and soft conflicts
    against existing entries, especially MCP tool-name collisions.
-4. **Write the row.** Add or update the row in [`data/context-reduction-tools.csv`](data/context-reduction-tools.csv).
-   It must have exactly 14 fields and validate against
-   [`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json).
-5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `src/public/llms.txt` index from the CSV. The
-   comparison table imports the JSON at build time, so it needs no manual edit. If the tool belongs in the stack
-   builder, add it to `src/stack-builder/stack-data.ts`, and update the conflict entries for any existing tools it
-   affects. Then run `mise run build` to confirm the site still builds.
+4. **Fill the template.** Copy [`templates/tool.yaml`](templates/tool.yaml), complete every field using the stable
+   identifier keys, then ingest it: `mise run data:add -- <your-file>.yaml`. This validates the record against the
+   schema and upserts it into [`data/context-reduction-tools.json`](data/context-reduction-tools.json) (the single
+   canonical store), refreshing `meta.tool_count` and `meta.last_updated`. Editing the JSON by hand is fine too, as long
+   as `mise run validate` still passes.
+5. **Update the derived artefacts.** Update the `src/public/llms.txt` index. The comparison table and the CSV download
+   are both generated from the JSON at build time, so they need no manual edit. If the tool belongs in the stack
+   builder, add it to `src/stack-builder/stack-data.ts` and update the conflict entries for any existing tools it
+   affects. Run `mise run build` to confirm the site still builds.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in
    `date,tool,repo,stars` format. Do not overwrite existing rows.
 
@@ -133,17 +135,19 @@ enabled.
 - British English.
 - Dates as DD-MM-YYYY.
 - No em dashes.
-- The `Stars` column header carries the refresh date; update it on a full sweep.
+- `meta.stars_verified` carries the refresh date (the CSV export's `Stars` header is derived from it); update it on a
+  full sweep.
 - When a refresh is partial, state which tools were re-verified and which retained older data. Never let a partial sweep
   read as if every entry was checked.
 - State the source of any figure that could be disputed, and prefer a fresh direct fetch over a cached aggregator.
 
 ## Validating the data
 
-Run `mise run validate` after editing the data. It checks that the CSV carries the 14 schema columns, that every row has
-14 fields, and that the JSON mirror agrees with the CSV on row count and tool names. This runs in CI on every push and
-pull request. The JSON shape is also a contract consumed by the site build — see the Data Shape Contract section in the
-[skill](plugin/skills/project-comparison-fetch/SKILL.md).
+Run `mise run validate` after editing the data. It parses `data/context-reduction-tools.json` against the Zod schema in
+`src/lib/schema.ts` (14 string fields per record, unique tool names, `meta.tool_count` equal to `tools.length`). This
+runs in CI and in the pre-commit hook. The Zod schema is the single source of truth for the record shape — see the Data
+Shape Contract section in the [skill](plugin/skills/project-comparison-fetch/SKILL.md). After changing the schema, run
+`mise run gen:schema` to refresh the published JSON Schema.
 
 If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
 `mise run build`.

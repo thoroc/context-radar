@@ -1,5 +1,6 @@
-import { META, ROWS } from "../lib/data";
-import { Column, type ToolRow } from "../lib/types";
+import { formatDisplayDate } from "../lib/columns";
+import { META, TOOLS } from "../lib/data";
+import type { Tool } from "../lib/schema";
 
 interface LayerDef {
   label: string;
@@ -91,7 +92,7 @@ const LWARN = new Set([
 ]);
 
 // All tool names, longest first, for conflict-text highlighting.
-const TOOL_NAMES = ROWS.map((r) => r[Column.Tool]).sort((a, b) => b.length - a.length);
+const TOOL_NAMES = TOOLS.map((t) => t.tool).sort((a, b) => b.length - a.length);
 
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -216,8 +217,8 @@ function sNum(s: string): number {
   return Number.isNaN(n) ? -1 : n;
 }
 
-function isDrop(r: ToolRow): boolean {
-  return r[Column.Verdict].toLowerCase().includes("drop");
+function isDrop(t: Tool): boolean {
+  return t.verdict.toLowerCase().includes("drop");
 }
 
 function lShort(l: string): string {
@@ -234,7 +235,7 @@ function el<T extends HTMLElement>(id: string): T {
   return node as T;
 }
 
-let sCol: number | null = null;
+let sCol: keyof Tool | null = null;
 let sDir = 1;
 
 function render(): void {
@@ -247,22 +248,21 @@ function render(): void {
   tb.innerHTML = "";
   let total = 0;
   for (const layer of LAYERS) {
-    const rows = ROWS.filter((r) => {
-      if (!layer.match.some((m) => r[Column.Layer].startsWith(m))) return false;
-      if (fl && !r[Column.Layer].startsWith(fl) && !layer.match.some((m) => m.startsWith(fl)))
-        return false;
-      if (q && !r.join(" ").toLowerCase().includes(q)) return false;
+    const rows = TOOLS.filter((t) => {
+      if (!layer.match.some((m) => t.layer.startsWith(m))) return false;
+      if (fl && !t.layer.startsWith(fl) && !layer.match.some((m) => m.startsWith(fl))) return false;
+      if (q && !Object.values(t).join(" ").toLowerCase().includes(q)) return false;
       if (fv) {
-        const v = r[Column.Verdict].toLowerCase();
+        const v = t.verdict.toLowerCase();
         if (fv === "best" && !v.includes("best")) return false;
         if (fv === "keep" && !v.includes("keep") && !v.includes("already")) return false;
         if (fv === "add" && !v.startsWith("add")) return false;
         if (fv === "watch" && !v.includes("watch")) return false;
         if (fv === "drop" && !v.includes("drop")) return false;
       }
-      if (!aFilter(r[Column.ActivityStatus], fa)) return false;
-      if (fr === "clean" && r[Column.Requirements].startsWith("⚠")) return false;
-      if (fr === "warn" && !r[Column.Requirements].startsWith("⚠")) return false;
+      if (!aFilter(t.activityStatus, fa)) return false;
+      if (fr === "clean" && t.requirements.startsWith("⚠")) return false;
+      if (fr === "warn" && !t.requirements.startsWith("⚠")) return false;
       return true;
     });
     if (!rows.length) continue;
@@ -271,55 +271,47 @@ function render(): void {
       rows.sort((a, b) => {
         let av: string | number = a[col];
         let bv: string | number = b[col];
-        if (col === Column.Stars) {
-          av = sNum(a[col]);
-          bv = sNum(b[col]);
+        if (col === "stars") {
+          av = sNum(a.stars);
+          bv = sNum(b.stars);
         }
         return av < bv ? -sDir : av > bv ? sDir : 0;
       });
     } else {
       // Default: alphabetical by tool name within each layer.
-      rows.sort((a, b) => a[Column.Tool].toLowerCase().localeCompare(b[Column.Tool].toLowerCase()));
+      rows.sort((a, b) => a.tool.toLowerCase().localeCompare(b.tool.toLowerCase()));
     }
     total += rows.length;
     const hdr = document.createElement("tr");
     hdr.className = "lh";
     hdr.innerHTML = `<td colspan="12">${layer.label}</td>`;
     tb.appendChild(hdr);
-    for (const r of rows) {
+    for (const t of rows) {
       const tr = document.createElement("tr");
-      if (isDrop(r)) tr.className = "dropped";
-      const tc = LTAG[r[Column.Layer]] || "t-code";
-      const lc = LWARN.has(r[Column.Licence]) ? "lic lic-warn" : "lic";
-      const vc = vClass(r[Column.Verdict]);
-      const ac = aClass(r[Column.ActivityStatus]);
-      const reqHtml = r[Column.Requirements].startsWith("⚠")
-        ? `<span style="color:#A32D2D;font-size:11px">${r[Column.Requirements]}</span>`
-        : `<span style="font-size:11px;color:var(--text2,#777)">${r[Column.Requirements]}</span>`;
-      const conf = highlightConflict(r[Column.Conflict], r[Column.Tool]);
-      const rtHtml = runtimeBadges(r[Column.Runtime]);
-      const trendHtml = trendBadge(r[Column.Trend]);
-      tr.innerHTML = `<td><div class="tname"><a href="${r[Column.GitHubUrl]}" target="_blank" rel="noopener">${r[Column.Tool]}</a></div></td><td><span class="tag ${tc}">${lShort(r[Column.Layer])}</span></td><td>${r[Column.WhatItDoes]}</td><td class="conf-cell ${conf.cls}">${conf.html}</td><td>${rtHtml}</td><td>${reqHtml}</td><td><span class="${lc}">${r[Column.Licence]}</span></td><td style="white-space:nowrap">${r[Column.Stars]}</td><td>${trendHtml}</td><td><span class="act ${ac}">${r[Column.ActivityStatus]}</span><div class="detail">${r[Column.Activity]}</div></td><td><span class="verdict ${vc}">${r[Column.Verdict]}</span></td><td>${r[Column.DecisionRule]}</td>`;
+      if (isDrop(t)) tr.className = "dropped";
+      const tc = LTAG[t.layer] || "t-code";
+      const lc = LWARN.has(t.licence) ? "lic lic-warn" : "lic";
+      const vc = vClass(t.verdict);
+      const ac = aClass(t.activityStatus);
+      const reqHtml = t.requirements.startsWith("⚠")
+        ? `<span style="color:#A32D2D;font-size:11px">${t.requirements}</span>`
+        : `<span style="font-size:11px;color:var(--text2,#777)">${t.requirements}</span>`;
+      const conf = highlightConflict(t.conflict, t.tool);
+      const rtHtml = runtimeBadges(t.runtime);
+      const trendHtml = trendBadge(t.trend);
+      tr.innerHTML = `<td><div class="tname"><a href="${t.githubUrl}" target="_blank" rel="noopener">${t.tool}</a></div></td><td><span class="tag ${tc}">${lShort(t.layer)}</span></td><td>${t.whatItDoes}</td><td class="conf-cell ${conf.cls}">${conf.html}</td><td>${rtHtml}</td><td>${reqHtml}</td><td><span class="${lc}">${t.licence}</span></td><td style="white-space:nowrap">${t.stars}</td><td>${trendHtml}</td><td><span class="act ${ac}">${t.activityStatus}</span><div class="detail">${t.activity}</div></td><td><span class="verdict ${vc}">${t.verdict}</span></td><td>${t.decisionRule}</td>`;
       tb.appendChild(tr);
     }
   }
   el("cnt").textContent = `${total} tool${total === 1 ? "" : "s"}`;
 }
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function formatDate(iso: string): string {
-  const [y, m, d] = iso.split("-").map((n) => Number.parseInt(n, 10));
-  const month = MONTHS[(m ?? 1) - 1] ?? "";
-  return `${d} ${month} ${y}`;
-}
-
 function renderSummary(): void {
   const layerCount = LAYERS.filter((layer) =>
-    ROWS.some((r) => layer.match.some((m) => r[Column.Layer].startsWith(m))),
+    TOOLS.some((t) => layer.match.some((m) => t.layer.startsWith(m))),
   ).length;
   el("summary").innerHTML =
-    `${ROWS.length} tools across ${layerCount} layers &middot; Stars &amp; activity verified ${formatDate(META.last_updated)} &middot; <a href="context-reduction-tools.csv">Download CSV</a>`;
+    `${TOOLS.length} tools across ${layerCount} layers &middot; Stars &amp; activity verified ${formatDisplayDate(META.stars_verified)} &middot; <a href="context-reduction-tools.csv">Download CSV</a>`;
 }
 
 el("s").addEventListener("input", render);
@@ -329,7 +321,7 @@ el("fa").addEventListener("change", render);
 el("fr").addEventListener("change", render);
 for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")) {
   th.addEventListener("click", () => {
-    const c = Number.parseInt(th.dataset.col ?? "", 10);
+    const c = th.dataset.col as keyof Tool;
     if (sCol === c) sDir *= -1;
     else {
       sCol = c;

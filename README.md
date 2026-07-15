@@ -13,8 +13,8 @@ The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 ## Audience and outputs
 
 - **Humans** browse the interactive comparison table and assemble a conflict-free stack on GitHub Pages.
-- **Agents and tooling** read the same catalogue in an LLM-friendly shape: a CSV source of truth, a JSON mirror, and a
-  flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
+- **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
+  export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
 
 ## Repository layout
 
@@ -23,25 +23,31 @@ context-radar/
   README.md                              This file
   CONTRIBUTING.md                        How to add or re-assess a tool
   data/
-    context-reduction-tools.csv          Source of truth (14 columns, 79 rows)
-    context-reduction-tools.json         JSON mirror ({meta, tools:[...]}), imported by the build
+    context-reduction-tools.json         Canonical store ({meta, tools:[...]}), imported by the build
     star-history.csv                     Append-only star history (date,tool,repo,stars)
+  templates/
+    tool.yaml                            Authoring scaffold; fill and ingest with `mise run data:add`
+  scripts/
+    validate-data.ts                     Zod validator for the canonical store
+    gen-schema.ts                        Regenerates the skill's JSON Schema from the Zod schema
+    data-add.ts                          Ingests a filled template into the store
   src/                                   Site source (Vite + TypeScript)
     index.html                           Comparison table page (landing page)
     stack-builder.html                   MCP stack builder page
     comparison/                          Comparison table logic + styles
     stack-builder/                       Stack builder logic, styles, and curated dataset
-    lib/                                 types.ts (data contract) and data.ts (JSON loader)
+    lib/schema.ts                        Zod schema: single source of truth for the record shape
+    lib/columns.ts                       Canonical column order + CSV serialisation
+    lib/data.ts                          Typed loader for the canonical JSON
     pages/                               methodology.md, glossary.md (rendered to HTML at build)
     public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
-  plugins/                               Vite build plugins (markdown pages, asset copy)
+  plugins/                               Vite build plugins (markdown pages, CSV export)
   docs/                                  Vite build OUTPUT (git-ignored; uploaded to Pages)
   plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
     skills/project-comparison-fetch/
       SKILL.md                           The full fetch and assessment methodology (skill)
-      schema/tool-record.schema.json     JSON Schema for one tool record
-      scripts/validate-data.mjs          CSV and JSON mirror consistency validator
+      schema/tool-record.schema.json     JSON Schema, generated from src/lib/schema.ts
   .github/workflows/
     static.yml                           CI: build the site with Vite and deploy to GitHub Pages
     lint.yml                             CI: lint, type-check, format check, data validation
@@ -76,6 +82,9 @@ mise run build      # type-check and build the static site into docs/
 mise run lint       # prettier, markdownlint, yamllint, actionlint, and Biome (TypeScript)
 mise run typecheck  # TypeScript type-check only
 mise run fmt        # format everything in place (incl. TypeScript via Biome)
+mise run validate   # validate the canonical JSON store against the Zod schema
+mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)
+mise run gen:schema # regenerate the skill's JSON Schema from the Zod schema
 ```
 
 `mise run build` writes the static site to `docs/`, which is git-ignored: CI rebuilds it and uploads it to GitHub Pages
@@ -83,12 +92,20 @@ on every push to `main` (`.github/workflows/static.yml`).
 
 ## The data model
 
-Each tool is one row with 14 fields: Tool, GitHub URL, Layer, What it does, Conflict / Overlap, Runtime, Requirements,
-Licence, Stars, Trend, Activity, Activity Status, Verdict, and Decision Rule. The CSV is the source of truth; the JSON
-mirror is generated from it and imported directly by the site build, so the comparison table is a typed view of the same
-data. The JSON shape is a contract between the data and the build — see
-[`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json) for the field
-definitions and [`src/lib/types.ts`](src/lib/types.ts) for the TypeScript type the app compiles against.
+There is one canonical store: [`data/context-reduction-tools.json`](data/context-reduction-tools.json), shaped
+`{meta, tools:[...]}`. Each tool has 14 string fields keyed by stable identifiers (`tool`, `githubUrl`, `layer`,
+`whatItDoes`, `conflict`, `runtime`, `requirements`, `licence`, `stars`, `trend`, `activity`, `activityStatus`,
+`verdict`, `decisionRule`); the snapshot date lives in `meta.stars_verified`.
+
+The record shape is defined once, as a Zod schema in [`src/lib/schema.ts`](src/lib/schema.ts). From that single
+definition come the TypeScript types the site compiles against (`z.infer`), the JSON Schema published beside the skill
+([`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json), regenerated by
+`mise run gen:schema`), and runtime validation (`mise run validate`). Zod runs at build/CI time only and is never
+bundled into the browser.
+
+To add or change a tool, fill [`templates/tool.yaml`](templates/tool.yaml) and run `mise run data:add -- <file>.yaml`;
+it validates the record and upserts it into the store. The comparison table and the CSV download are both generated from
+the JSON at build time.
 
 ### Verdicts
 

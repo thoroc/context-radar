@@ -55,8 +55,16 @@ description = "Check markdown, YAML, HTML, JSON, and TypeScript across all files
 run = "hk check --all"
 
 [tasks.validate]
-description = "Assert the CSV source of truth and the JSON mirror are consistent"
-run = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
+description = "Validate the canonical JSON store against the Zod schema"
+run = "bun run validate"
+
+[tasks."data:add"]
+description = "Validate a filled tool template (YAML) and upsert it into the JSON store"
+run = "bun run data:add"
+
+[tasks."gen:schema"]
+description = "Regenerate the skill's JSON Schema from the Zod schema"
+run = "bun run gen:schema"
 
 [tasks.security]
 description = "Scan CI/CD workflows for security and compliance issues (Plumber)"

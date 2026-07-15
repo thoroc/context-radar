@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
-import { copyAssets } from "./plugins/copy-assets";
+import { generateCsv } from "./plugins/generate-csv";
 import { markdownPages } from "./plugins/markdown-pages";
 
 const projectRoot = import.meta.dirname;
@@ -36,15 +36,11 @@ export default defineConfig({
         },
       ],
     }),
-    // The CSV is generated data that lives in data/. Serve and ship it at the
-    // site root so the "Download CSV" link resolves.
-    copyAssets({
-      assets: [
-        {
-          from: resolve(projectRoot, "data/context-reduction-tools.csv"),
-          to: "context-reduction-tools.csv",
-        },
-      ],
+    // The CSV download is generated from the canonical JSON store so the
+    // "Download CSV" link resolves without a second source of truth.
+    generateCsv({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
+      outFile: "context-reduction-tools.csv",
     }),
   ],
 });
