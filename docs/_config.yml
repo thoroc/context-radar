@@ -6,7 +6,6 @@
 # as-is. methodology.md and glossary.md are rendered by Jekyll using the theme below.
 title: context-radar
 description: >-
-  A comparison catalogue of tools that reduce context-window token consumption in
-  Claude Code and comparable coding agents.
+  A comparison catalogue of tools that reduce context-window token consumption in Claude Code and comparable coding agents.
 theme: jekyll-theme-cayman
 show_downloads: false

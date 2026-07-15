@@ -1,0 +1,50 @@
+amends "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Builtins.pkl"
+
+// Files that are generated or preserved verbatim and must not be reformatted:
+// - the interactive table and the stack-builder SPA are rebuilt from the CSV
+// - the JSON mirror is generated from the CSV source of truth
+// - the skill methodology is vendored and kept exactly as published
+local generated = List(
+  "docs/index.html",
+  "docs/stack-builder.html",
+  "data/context-reduction-tools.json",
+  ".agents/skills/**"
+)
+
+local linters = new Mapping<String, Step> {
+  // Formatting for markdown, YAML, HTML, and JSON.
+  ["prettier"] = (Builtins.prettier) {
+    glob = List("*.md", "*.markdown", "*.yaml", "*.yml", "*.html", "*.json", "*.jsonc")
+    exclude = generated
+  }
+  // Markdown style linting for rules prettier does not enforce.
+  // Uses markdownlint-cli2 (reads .markdownlint.jsonc) rather than the builtin,
+  // which expects the older `markdownlint` binary.
+  ["markdownlint"] {
+    glob = List("*.md", "*.markdown")
+    exclude = generated
+    depends = List("prettier")
+    check = "markdownlint-cli2 {{files}}"
+    fix = "markdownlint-cli2 --fix {{files}}"
+  }
+  // YAML linting.
+  ["yamllint"] = (Builtins.yamllint) {
+    glob = List("*.yaml", "*.yml")
+  }
+}
+
+hooks {
+  ["pre-commit"] {
+    fix = true       // apply fixes to staged files
+    stash = "git"    // stash unstaged changes while fixing
+    steps = linters
+  }
+  ["fix"] {
+    fix = true
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+}

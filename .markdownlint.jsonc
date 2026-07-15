@@ -1,0 +1,12 @@
+{
+  // Markdown linting rules for context-radar (markdownlint-cli2).
+  // Rules that conflict with prettier's formatting are disabled so the two
+  // tools do not fight over the same files.
+  "default": true,
+  "MD013": false, // line length: prettier owns wrapping
+  "MD033": false, // allow inline HTML in docs
+  "MD040": false, // fenced code blocks need not declare a language
+  "MD041": false, // first line need not be a top-level heading (YAML frontmatter)
+  "MD024": { "siblings_only": true }, // duplicate headings allowed under different parents
+  "MD025": { "front_matter_title": "" }, // do not treat YAML frontmatter title as the page H1
+}

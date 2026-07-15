@@ -1,0 +1,11 @@
+# yamllint configuration for context-radar.
+# Relaxed to coexist with prettier: prettier owns layout, yamllint catches errors.
+extends: default
+
+rules:
+  line-length: disable # prettier owns wrapping
+  document-start: disable # leading "---" not required
+  comments:
+    min-spaces-from-content: 1
+  truthy:
+    check-keys: false

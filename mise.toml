@@ -1,0 +1,26 @@
+# mise-en-place configuration for context-radar.
+# https://mise.jdx.dev  Install mise, then run `mise install` to get the pinned
+# toolchain, and `mise run lint` / `mise run fmt` to check or format the docs.
+
+[tools]
+# Git hook runner and its config language.
+hk = "1.50.0"
+pkl = "0.31.1"
+# Formatters and linters for markdown, YAML, HTML, and JSON.
+prettier = "3.9.4"
+"markdownlint-cli2" = "0.23.0"
+yamllint = "1.38.0"
+# Runtime for the JS-based tools above.
+node = "lts"
+
+[tasks.lint]
+description = "Check markdown, YAML, HTML, and JSON without modifying files"
+run = "hk check"
+
+[tasks.fmt]
+description = "Format and auto-fix markdown, YAML, HTML, and JSON in place"
+run = "hk fix"
+
+[tasks.hooks]
+description = "Install the hk git hooks into this repository"
+run = "hk install"

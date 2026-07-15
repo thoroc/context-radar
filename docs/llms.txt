@@ -11,7 +11,7 @@
 - Source of truth: data/context-reduction-tools.csv (14 columns, one row per tool)
 - JSON mirror: data/context-reduction-tools.json ({meta, tools:[...]})
 - Star history (append-only): data/star-history.csv
-- Methodology: skills/project-comparison-fetch/SKILL.md
+- Methodology: .agents/skills/project-comparison-fetch/SKILL.md
 
 ## Conflict markers
 
