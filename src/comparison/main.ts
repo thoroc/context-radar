@@ -1,5 +1,7 @@
+import pages from "virtual:context-radar-pages";
 import { formatDisplayDate } from "../lib/columns";
 import { META, TOOLS } from "../lib/data";
+import { wirePageModals } from "../lib/modal";
 import {
   conflictText,
   DECISION_LABEL,
@@ -333,5 +335,6 @@ for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")
   });
 }
 
+wirePageModals(pages);
 renderSummary();
 render();

@@ -1,0 +1,135 @@
+/*
+ * Shared modal overlay for the Methodology/Glossary pages, opened on top of the
+ * comparison or stack-builder page. Uses the native <dialog> element for
+ * backdrop, Escape-to-close and focus handling. Styled through the shared tokens.
+ */
+.modal {
+  /* Restore the dialog's default centring, which a `* { margin: 0 }` reset zeroes. */
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text);
+  width: min(760px, calc(100vw - 40px));
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.modal::backdrop {
+  background: rgba(10, 9, 12, 0.55);
+  backdrop-filter: blur(2px);
+}
+.modal-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.modal-head h2 {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.modal-close {
+  font: inherit;
+  font-size: 20px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text2);
+  cursor: pointer;
+}
+.modal-close:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+.modal-body {
+  padding: 22px 26px 28px;
+  overflow-y: auto;
+  max-height: calc(85vh - 61px);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.modal-body h1,
+.modal-body h2,
+.modal-body h3 {
+  line-height: 1.25;
+  margin: 1.4em 0 0.5em;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.modal-body h1 {
+  font-size: 22px;
+  margin-top: 0;
+}
+.modal-body h2 {
+  font-size: 17px;
+}
+.modal-body h3 {
+  font-size: 15px;
+}
+.modal-body p,
+.modal-body ul,
+.modal-body ol,
+.modal-body table,
+.modal-body blockquote,
+.modal-body pre {
+  margin: 0 0 1em;
+}
+.modal-body ul,
+.modal-body ol {
+  padding-left: 1.4em;
+}
+.modal-body li {
+  margin: 0.25em 0;
+}
+.modal-body a {
+  color: var(--accent);
+}
+.modal-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--bg3);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.modal-body pre {
+  background: var(--bg3);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.modal-body pre code {
+  background: none;
+  padding: 0;
+}
+.modal-body blockquote {
+  border-left: 3px solid var(--border2);
+  padding-left: 14px;
+  color: var(--text2);
+}
+.modal-body table {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+.modal-body th,
+.modal-body td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 13px;
+}
+.modal-body th {
+  background: var(--bg3);
+}

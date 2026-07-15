@@ -1,4 +1,5 @@
 @import "../styles/tokens.css";
+@import "../styles/modal.css";
 
 * {
   box-sizing: border-box;

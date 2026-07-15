@@ -52,8 +52,14 @@ function stripFrontMatter(source: string): string {
   return source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
 }
 
+/** Rendered inner HTML of the markdown, without the standalone-page chrome. */
+function renderBody(page: MarkdownPage): string {
+  return md.render(stripFrontMatter(readFileSync(page.source, "utf8")));
+}
+
+/** Full standalone HTML page, kept as a no-JS fallback for the modal overlay. */
 function renderPage(page: MarkdownPage): string {
-  const body = md.render(stripFrontMatter(readFileSync(page.source, "utf8")));
+  const body = renderBody(page);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -72,6 +78,20 @@ ${body}
 `;
 }
 
+// Virtual module the site entries import to render Methodology/Glossary as modal
+// overlays instead of navigating away: `import pages from "virtual:context-radar-pages"`.
+const VIRTUAL_ID = "virtual:context-radar-pages";
+const RESOLVED_VIRTUAL_ID = `\0${VIRTUAL_ID}`;
+
+/** Map of route -> { title, html } for the in-page modal overlays. */
+function pageFragments(pages: MarkdownPage[]): Record<string, { title: string; html: string }> {
+  const out: Record<string, { title: string; html: string }> = {};
+  for (const page of pages) {
+    out[page.route] = { title: page.title, html: renderBody(page) };
+  }
+  return out;
+}
+
 function requestPath(url: string | undefined): string {
   return (url ?? "").split("?")[0].replace(/^\//, "");
 }
@@ -84,6 +104,13 @@ function requestPath(url: string | undefined): string {
 export function markdownPages(options: MarkdownPagesOptions): Plugin {
   return {
     name: "context-radar:markdown-pages",
+    resolveId(id) {
+      return id === VIRTUAL_ID ? RESOLVED_VIRTUAL_ID : null;
+    },
+    load(id) {
+      if (id !== RESOLVED_VIRTUAL_ID) return null;
+      return `export default ${JSON.stringify(pageFragments(options.pages))};`;
+    },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const page = options.pages.find((p) => p.route === requestPath(req.url));
