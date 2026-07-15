@@ -1,17 +1,12 @@
 # GitHub Pages configuration.
 # To publish: repository Settings then Pages, set Source to "Deploy from a branch",
-# branch main (or your default), folder /docs. No local build is required; GitHub
-# renders these Markdown files with Jekyll.
+# branch main (or your default), folder /docs. No local build is required.
+#
+# index.html (the interactive comparison table) is the landing page and is served
+# as-is. methodology.md and glossary.md are rendered by Jekyll using the theme below.
 title: context-radar
 description: >-
-  A catalogue rating GitHub projects on agentic context efficiency:
-  how cheaply an AI agent can work on them in tokens.
+  A comparison catalogue of tools that reduce context-window token consumption in
+  Claude Code and comparable coding agents.
 theme: jekyll-theme-cayman
 show_downloads: false
-
-# Keep repository meta and data out of the built site.
-exclude:
-  - README.md
-  - CONTRIBUTING.md
-  - templates
-  - schema

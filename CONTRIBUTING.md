@@ -1,46 +1,61 @@
 # Contributing
 
-context-radar grows one project analysis at a time. Analyses can be written by hand
-now and generated automatically later. Both paths produce the same artefact, so they
-stay interchangeable.
+context-radar grows one tool at a time. The methodology is strict because the whole
+value of the catalogue is that its numbers and verdicts are trustworthy.
 
-## The artefact
+## Before you start
 
-One Markdown file per project under `docs/projects/<slug>.md`. Its YAML frontmatter is
-the structured, machine-readable record; the prose beneath it is the human explanation.
-The frontmatter must validate against
-[`schema/project-analysis.schema.json`](schema/project-analysis.schema.json).
+Read the methodology in
+[`skills/project-comparison-fetch/SKILL.md`](skills/project-comparison-fetch/SKILL.md).
+It encodes hard-won lessons (stale renders, org transfers, benchmark metric traps, MCP
+tool-name collisions) that are not obvious from the data alone. A shorter summary is at
+[`docs/methodology.md`](docs/methodology.md).
 
-## Add an analysis by hand
+## Adding or re-assessing a tool
 
-1. Read the [methodology](docs/methodology.md) so you score against the shared rubric.
-2. Copy [`templates/project-analysis.md`](templates/project-analysis.md) to
-   `docs/projects/<slug>.md`, where `<slug>` is a short lowercase name.
-3. Score each of the seven dimensions 0 to 5, citing evidence.
-4. Compute the radar score with the formula in the methodology and set the grade and
-   recommendation.
-5. Add a row to the catalogue table in [`docs/projects/index.md`](docs/projects/index.md)
-   and a line to [`docs/llms.txt`](docs/llms.txt).
+1. **Check scope.** Is it a context-reduction tool that works with a coding agent, and
+   not a full runtime or a generic library? If not, say why and stop.
+2. **Fetch and verify.** Follow the fetch protocol: fetch the repo page, cross-verify
+   stars with a search, check releases and changelog. Verify feature and benchmark
+   claims against source, not README copy.
+3. **Classify.** Assign the primary layer, the LLM dependency tier, and the verdict.
+   Check for hard and soft conflicts against existing entries, especially MCP tool-name
+   collisions.
+4. **Write the row.** Add or update the row in
+   [`data/context-reduction-tools.csv`](data/context-reduction-tools.csv). It must have
+   exactly 14 fields and validate against
+   [`schema/tool-record.schema.json`](schema/tool-record.schema.json).
+5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `docs/llms.txt`
+   index from the CSV, and update the HTML table and the stack builder for the new entry
+   and for any existing tools whose conflict column it affects.
+6. **Record stars in history.** Append a row to
+   [`data/star-history.csv`](data/star-history.csv) in `date,tool,repo,stars` format.
+   Do not overwrite existing rows.
 
 ## Conventions
 
 - British English.
 - Dates as DD-MM-YYYY.
 - No em dashes.
-- State the version or commit you reviewed, and the assumed task behind the context
-  budget estimate, so the analysis is reproducible.
-- Set `analyst` to `manual` or `automated` so the source of each entry is visible.
+- The `Stars` column header carries the refresh date; update it on a full sweep.
+- When a refresh is partial, state which tools were re-verified and which retained older
+  data. Never let a partial sweep read as if every entry was checked.
+- State the source of any figure that could be disputed, and prefer a fresh direct fetch
+  over a cached aggregator.
 
-## Validating frontmatter
+## Validating the data
 
-Any JSON Schema validator works against the frontmatter. For example, with a YAML to
-JSON step and a validator of your choice, check each file in `docs/projects/` against
-`schema/project-analysis.schema.json`. A validation step will be wired into CI once a
-remote and Pages build exist.
+Any CSV and JSON Schema toolchain works. At minimum, after editing:
+
+- Confirm every CSV row has exactly 14 fields.
+- Validate each record against `schema/tool-record.schema.json`.
+- If you touch the stack builder, extract its script block and run a syntax check.
+
+A validation step will be wired into CI once a remote and a Pages build exist.
 
 ## Automated contributions (planned)
 
-A future scanner will read a repository, apply the rubric, and draft a
-`docs/projects/<slug>.md` with `analyst: automated`. Because the schema is the contract,
-generated and hand-written analyses share one format and one catalogue. Automated
-drafts are expected to be reviewed by a human before merge.
+An agent following the fetch methodology can draft a new assessment: fetch, verify,
+classify, and propose a CSV row. Because the schema is the contract, generated and
+hand-written rows share one format. Automated drafts are reviewed by a human before
+merge.

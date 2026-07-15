@@ -1,66 +1,80 @@
 # context-radar
 
-A catalogue that rates GitHub projects on **agentic context efficiency**: how well a
-project is set up so that an AI coding agent can work on it while spending as few
-tokens as possible.
+A comparison catalogue of tools that reduce **context-window token consumption** in
+Claude Code and comparable coding agents (Codex, OpenCode, Cursor, Gemini CLI).
 
-When an agent picks up a task in a repository, most of its token budget is spent
-just building context: reading files, tracing callers, re-scanning docs. Some
-projects make that cheap (clear agent instructions, a code index, progressive
-documentation, retrieval affordances). Others force the agent to read everything.
-context-radar measures that difference and publishes the findings.
+Every entry answers one question: **does this tool reduce what gets loaded into or
+generated within an agent's context window, and how does it interact with everything
+else in the stack?** Tools are grouped by the layer they act on (shell output, code
+navigation, agent memory, MCP definition tokens, and so on), rated with a verdict, and
+checked for conflicts, above all the MCP tool-name collisions that break an agent's
+ability to route between two servers.
 
-## What this repository is
-
-Three things in one place:
-
-1. **A methodology.** A scoring rubric that defines what "good agentic context" means,
-   across seven dimensions. See [`docs/methodology.md`](docs/methodology.md).
-2. **A catalogue.** One analysis per project, each scored against the rubric. See
-   [`docs/projects/`](docs/projects/).
-3. **A contribution path.** Templates and a schema so analyses can be added by hand
-   today and generated automatically later. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 
 ## Audience and outputs
 
-- **Humans** browse the catalogue (via GitHub Pages, once enabled) to infer which
-  tools and project patterns to adopt.
-- **Agents and tooling** consume the same data in an LLM-friendly shape: every
-  analysis is a Markdown file whose YAML frontmatter is the structured record, and
-  [`docs/llms.txt`](docs/llms.txt) is a flat index of the whole catalogue.
+- **Humans** browse the interactive comparison table and assemble a conflict-free stack
+  (via GitHub Pages, once enabled).
+- **Agents and tooling** read the same catalogue in an LLM-friendly shape: a CSV source
+  of truth, a JSON mirror, and a flat [`docs/llms.txt`](docs/llms.txt) index.
 
 ## Repository layout
 
 ```
 context-radar/
-  README.md                     This file
-  CONTRIBUTING.md               How to add or update a project analysis
-  docs/                         GitHub Pages source (Settings then Pages then /docs)
-    _config.yml                 Jekyll config for GitHub Pages
-    index.md                    Landing page
-    methodology.md              The scoring rubric
-    glossary.md                 Terms used across the catalogue
-    llms.txt                    Flat, LLM-friendly index of the catalogue
-    projects/
-      index.md                  Catalogue table
-      example-context-mode.md   Worked example analysis
-  templates/
-    project-analysis.md         Blank template for a new analysis
+  README.md                              This file
+  CONTRIBUTING.md                        How to add or re-assess a tool
+  data/
+    context-reduction-tools.csv          Source of truth (14 columns, 79 rows)
+    context-reduction-tools.json         JSON mirror ({meta, tools:[...]})
+    star-history.csv                     Append-only star history (date,tool,repo,stars)
+  docs/                                  GitHub Pages source (Settings then Pages then /docs)
+    index.html                           Interactive comparison table (landing page)
+    stack-builder.html                   MCP stack builder SPA
+    methodology.md                       How tools are fetched, verified, and rated
+    glossary.md                          Terms used across the catalogue
+    llms.txt                             Flat, LLM-friendly index of the catalogue
+    _config.yml                          Jekyll config for GitHub Pages
   schema/
-    project-analysis.schema.json  JSON Schema describing the frontmatter
+    tool-record.schema.json              JSON Schema for one tool record
+  skills/
+    project-comparison-fetch/SKILL.md    The full fetch and assessment methodology (skill)
 ```
 
-## Status
+## The data model
 
-Docs-only for now. GitHub Pages is not yet enabled and there is no remote. The
-structure is arranged so that enabling Pages (source: `/docs`) and adding automated
-generation later are both low-effort. See the roadmap in
-[`docs/index.md`](docs/index.md).
+Each tool is one row with 14 fields: Tool, GitHub URL, Layer, What it does,
+Conflict / Overlap, Runtime, Requirements, Licence, Stars, Trend, Activity, Activity
+Status, Verdict, and Decision Rule. The CSV is the source of truth; the JSON and the
+HTML table are rebuilt from it. See [`schema/tool-record.schema.json`](schema/tool-record.schema.json)
+for the field definitions.
 
-## The scoring model in one paragraph
+### Verdicts
 
-Each project is scored 0 to 5 on seven dimensions. The weighted total is the
-**radar score** out of 100, which maps to a grade (A to F) and an adoption
-recommendation (adopt, trial, assess, hold). The seven axes are chosen so the profile
-can be read as a radar chart, which is where the name comes from. Full definitions
-live in [`docs/methodology.md`](docs/methodology.md).
+Best in class, Add, Add if you use [X], Either/or pick one, Watch (too early or unique
+but early), Reference only (not a tool), and Drop. Full definitions are in
+[`docs/methodology.md`](docs/methodology.md).
+
+### Conflicts
+
+- **Hard conflict:** two MCP servers expose the same or near-identical tool name, so an
+  agent cannot route between them. Pick one.
+- **Soft conflict:** redundant role or overlap. Running both wastes resources but does
+  not break routing.
+
+## Status and roadmap
+
+Docs-only for now. GitHub Pages is not yet enabled and there is no remote.
+
+1. **Now.** The catalogue, its data files, the interactive table, the stack builder, and
+   the fetch methodology are all in the repository.
+2. **Next.** Enable GitHub Pages from `/docs`. Append fresh star fetches to
+   `star-history.csv` on a schedule so the trend line becomes meaningful.
+3. **Later.** Generate the HTML table and JSON mirror from the CSV automatically, and
+   let an agent following the methodology draft new tool assessments for human review.
+
+---
+
+_These ratings are decision support. A human should make and document any adoption
+decision that materially affects a team or product._
