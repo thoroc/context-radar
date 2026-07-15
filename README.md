@@ -51,6 +51,7 @@ context-radar/
   .markdownlint.jsonc                    Markdown lint rules
   .yamllint                              YAML lint rules
   .prettierignore                        Files prettier must not format
+  renovate.json                          Automated dependency updates (Renovate)
 ```
 
 ## The data model

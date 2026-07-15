@@ -87,6 +87,14 @@ mise run security   # Plumber scan (needs a git remote; use the CI job otherwise
 The Plumber CLI needs a git remote to resolve the owner and repository. Until this repo has a remote, run the scan
 through the CI workflow rather than locally.
 
+### Dependency updates (Renovate)
+
+[Renovate](https://docs.renovatebot.com) keeps dependencies current, configured in `renovate.json`. Its `mise` manager
+bumps the pinned tools in `mise.toml` (including the `github:getplumber/plumber` CLI), and its `github-actions` manager
+updates the SHA-pinned actions in the workflows while preserving the `# vX` version comment. New releases wait out a
+7-day `minimumReleaseAge` before a pull request opens. Renovate runs once the repository is on GitHub and the app is
+enabled.
+
 ## Adding or re-assessing a tool
 
 1. **Check scope.** Is it a context-reduction tool that works with a coding agent, and not a full runtime or a generic
