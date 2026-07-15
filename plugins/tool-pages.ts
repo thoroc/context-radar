@@ -10,6 +10,7 @@ import {
   LANG_BADGE,
   starsText,
   statusText,
+  toolSlug,
   trendText,
   verdictClass,
 } from "../src/lib/present";
@@ -48,14 +49,6 @@ function esc(value: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-/** URL-safe stable identifier for a tool name. */
-export function toolSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 }
 
 function licenceWarns(licence: Tool["licence"]): boolean {
