@@ -12,7 +12,8 @@ The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 
 ## Audience and outputs
 
-- **Humans** browse the interactive comparison table and assemble a conflict-free stack on GitHub Pages.
+- **Humans** browse the interactive comparison table (each tool has a full detail page) and assemble a conflict-free
+  stack on GitHub Pages, reached from a landing page.
 - **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
   export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
 
@@ -32,17 +33,21 @@ context-radar/
     gen-schema.ts                        Regenerates the skill's JSON Schema from the Zod schema
     data-add.ts                          Ingests a filled template into the store
   src/                                   Site source (Vite + TypeScript)
-    index.html                           Comparison table page (landing page)
+    index.html                           Landing page (intro, tool cards, verdict legend)
+    comparison.html                      Comparison table page (summary; links to detail pages)
     stack-builder.html                   MCP stack builder page
+    landing/                             Landing page logic + styles
     comparison/                          Comparison table logic + styles
     stack-builder/                       Stack builder logic, styles, and curated dataset
     lib/schema.ts                        Zod schema: single source of truth for the record shape
-    lib/present.ts                       Reconstructs display strings/classes from the structured record
+    lib/present.ts                       Reconstructs display strings/classes from the record; tool slug
     lib/columns.ts                       Canonical column order + CSV serialisation
     lib/data.ts                          Typed loader for the canonical JSON
-    pages/                               methodology.md, glossary.md (rendered to HTML at build)
+    lib/modal.ts                         Shared modal overlay for the Methodology/Glossary pages
+    styles/                              Shared CSS: design tokens, top nav, modal
+    pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)
     public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
-  plugins/                               Vite build plugins (markdown pages, CSV export)
+  plugins/                               Vite build plugins (markdown pages, per-tool pages, CSV export)
   docs/                                  Vite build OUTPUT (git-ignored; uploaded to Pages)
   plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
@@ -107,8 +112,8 @@ definition come the TypeScript types the site compiles against (`z.infer`), the 
 bundled into the browser.
 
 To add or change a tool, fill [`templates/tool.yaml`](templates/tool.yaml) and run `mise run data:add -- <file>.yaml`;
-it validates the record and upserts it into the store. The comparison table and the CSV download are both generated from
-the JSON at build time.
+it validates the record and upserts it into the store. The comparison table, the per-tool detail pages, and the CSV
+download are all generated from the JSON at build time.
 
 ### Verdicts
 

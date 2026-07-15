@@ -28,7 +28,7 @@ operations go through mise tasks; use those rather than calling `bun`/`vite`/`bi
 
 ```sh
 mise run install    # install JS dependencies from the lockfile (bun install --frozen-lockfile)
-mise run dev        # Vite dev server for both pages, with live reload
+mise run dev        # Vite dev server for all pages, with live reload
 mise run build      # type-check and build the static site into docs/ (git-ignored output)
 ```
 
@@ -123,10 +123,10 @@ enabled.
    schema and upserts it into [`data/context-reduction-tools.json`](data/context-reduction-tools.json) (the single
    canonical store), refreshing `meta.tool_count` and `meta.last_updated`. Editing the JSON by hand is fine too, as long
    as `mise run validate` still passes.
-5. **Update the derived artefacts.** Update the `src/public/llms.txt` index. The comparison table and the CSV download
-   are both generated from the JSON at build time, so they need no manual edit. If the tool belongs in the stack
-   builder, add it to `src/stack-builder/stack-data.ts` and update the conflict entries for any existing tools it
-   affects. Run `mise run build` to confirm the site still builds.
+5. **Update the derived artefacts.** Update the `src/public/llms.txt` index. The comparison table, the per-tool detail
+   pages, and the CSV download are all generated from the JSON at build time, so they need no manual edit. If the tool
+   belongs in the stack builder, add it to `src/stack-builder/stack-data.ts` and update the conflict entries for any
+   existing tools it affects. Run `mise run build` to confirm the site still builds.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in
    `date,tool,repo,stars` format. Do not overwrite existing rows.
 
