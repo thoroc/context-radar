@@ -1,14 +1,19 @@
 # context-radar — Agent Guide
 
-A docs-only comparison catalogue of tools that reduce context-window token consumption in coding agents. The CSV is the
-source of truth; the JSON mirror and HTML table are derived from it.
+A comparison catalogue of tools that reduce context-window token consumption in coding agents, published as a Vite +
+TypeScript site on GitHub Pages. The CSV is the source of truth; the JSON mirror is generated from it and imported
+directly by the site build (the comparison table is a typed view of the same data).
 
 ## Commands
 
 Toolchain and tasks are managed by [mise](https://mise.jdx.dev). Run `mise install` once to get the pinned toolchain and
-install the git hooks.
+install the git hooks, then `mise run install` for the JS dependencies. All build/lint/format operations go through mise
+tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 
-- Lint (no changes): `mise run lint`
+- Dev server: `mise run dev`
+- Build the site into docs/: `mise run build`
+- Type-check TypeScript: `mise run typecheck`
+- Lint (no changes): `mise run lint` (prettier, markdownlint, yamllint, actionlint, Biome)
 - Format and auto-fix in place: `mise run fmt`
 - Validate CSV/JSON consistency: `mise run validate`
 - Security/compliance scan: `mise run security`
@@ -28,16 +33,19 @@ install the git hooks.
 ## Key paths
 
 - Source of truth: `data/context-reduction-tools.csv` (14 columns)
-- JSON mirror: `data/context-reduction-tools.json`
-- LLM-friendly index: `docs/llms.txt`
-- GitHub Pages source: `docs/` (`index.html`, `stack-builder.html`, `methodology.md`, `glossary.md`)
+- JSON mirror (imported by the build): `data/context-reduction-tools.json`
+- Data contract (TypeScript): `src/lib/types.ts` — keep in sync with the schema and validator
+- Site source (Vite + TS): `src/` — `index.html` + `comparison/` (table), `stack-builder.html` + `stack-builder/`
+  (builder, with its own curated `stack-data.ts`), `pages/` (markdown), `public/llms.txt`
+- Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
 - Data schema: `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`
 - Validator: `plugin/skills/project-comparison-fetch/scripts/validate-data.mjs`
 
 ## CI
 
-- `.github/workflows/lint.yml` — lint, format check, data validation
+- `.github/workflows/static.yml` — build with Vite and deploy to GitHub Pages
+- `.github/workflows/lint.yml` — lint, type-check, format check, data validation
 - `.github/workflows/plumber.yml` — Plumber security/compliance scan
 
 ## How to add or re-assess a tool

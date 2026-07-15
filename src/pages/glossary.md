@@ -1,7 +1,3 @@
----
-title: Glossary
----
-
 # Glossary
 
 **Context window.** The bounded amount of text an agent can hold at once. Everything the agent reads, is told, or

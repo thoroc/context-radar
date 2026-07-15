@@ -1,8 +1,11 @@
 # Generated or vendored files (kept in sync with the excludes in hk.pkl).
-docs/index.html
-docs/stack-builder.html
+# docs/ is the Vite build output; TypeScript is formatted by Biome, not prettier.
+docs/
+node_modules/
+src/**/*.ts
+plugins/**/*.ts
+vite.config.ts
 data/context-reduction-tools.json
 data/*.csv
-docs/llms.txt
 .plumber.yaml
 .agents/skills/

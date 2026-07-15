@@ -1,7 +1,3 @@
----
-title: Methodology
----
-
 # Methodology
 
 How a tool is fetched, verified, and rated before it enters the catalogue. This is a summary. The full, authoritative

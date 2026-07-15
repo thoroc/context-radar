@@ -217,16 +217,35 @@ If out of scope, explain why concisely rather than fetching and assessing fully.
 
 ---
 
+## Data Shape Contract (consumed by the site build)
+
+The comparison table is a Vite + TypeScript app that **imports `data/context-reduction-tools.json` directly at build time**. The JSON shape is therefore a contract, not just a mirror. Four artefacts must stay in agreement:
+
+1. `data/context-reduction-tools.csv` — source of truth (14 columns, one row per tool).
+2. `data/context-reduction-tools.json` — `{ meta: { last_updated, tool_count, columns[] }, tools: [ { <column>: <string> } ] }`. Every tool object's keys are the CSV headers verbatim, including the dated `Stars (<date>)` header. `meta.columns` lists the 14 headers in canonical order and is authoritative — the app builds positional rows from it, so it tolerates the changing stars header.
+3. `schema/tool-record.schema.json` (beside this skill) — JSON Schema for one tool record.
+4. `src/lib/types.ts` — the TypeScript type the app compiles against (`Column` enum + `Dataset`).
+
+Rules when the data changes:
+
+- All values are strings. Do not introduce nested objects, numbers, or nulls into a tool record.
+- If you add, remove, or reorder a column, update **all four**: the CSV header, `meta.columns`, the JSON Schema `required`/`properties`, and `src/lib/types.ts` (the `Column` enum and `COLUMN_COUNT`). `mise run typecheck` and `mise run validate` fail until they agree.
+- `src/lib/data.ts` throws at build if the column count drifts from `COLUMN_COUNT`, so a shape mismatch fails the build rather than shipping a broken table.
+
+The stack builder does **not** consume this JSON. Its dataset (`src/stack-builder/stack-data.ts`) is a separate, richer, hand-curated structure (per-tool `rec`/`free`/`warn` flags, short ids, layer notes, and a conflict ruleset). Keep the two reconciled by hand when tools change.
+
+---
+
 ## Post-Assessment Actions
 
 After writing the assessment, always:
 
-1. **Update the comparison table**: add the new row with the correct layer, overlap tags, and verdict
+1. **Update the comparison data**: add the new row with the correct layer, overlap tags, and verdict
 2. **Update the CSV**: append or modify the row in `data/context-reduction-tools.csv` (the source of truth)
 3. **Validate the data**: run `mise run validate` after every write. The CSV must have exactly 14 columns and the JSON mirror must agree. The validator and schema live beside this skill under `scripts/` and `schema/`
-4. **Rebuild the JSON mirror, `docs/llms.txt`, and the HTML table** from the updated CSV
-5. **Update the MCP Stack Builder SPA**: add the tool card to the correct layer in `docs/stack-builder.html`
-6. **Validate SPA JS syntax** after edits: extract the `<script>` block and run `node --check`
+4. **Rebuild the JSON mirror and `src/public/llms.txt`** from the updated CSV. The comparison table needs no separate rebuild: the Vite app imports the JSON directly, so a corrected JSON is enough — the table regenerates on the next `mise run build`
+5. **Update the MCP Stack Builder dataset** if the tool belongs there: add it to the correct layer in `src/stack-builder/stack-data.ts` (see the Data Shape Contract above — this is separate from the CSV)
+6. **Type-check and build** after edits: `mise run typecheck` then `mise run build` (replaces the old `node --check` on an inline `<script>` block)
 7. **Update overlap/conflict columns** for existing tools affected by the new entry
 
 ### File locations
@@ -234,10 +253,12 @@ After writing the assessment, always:
 All data and artefacts live in the repository:
 
 - `data/context-reduction-tools.csv`: source of truth (14 columns)
-- `data/context-reduction-tools.json`: JSON mirror (rebuilt from the CSV)
-- `docs/index.html`: filterable/sortable comparison table (rebuilt from the CSV)
-- `docs/stack-builder.html`: interactive stack builder SPA (maintained separately)
-- `docs/llms.txt`: flat, LLM-friendly index of the catalogue
+- `data/context-reduction-tools.json`: JSON mirror, imported directly by the site build (`src/lib/data.ts`)
+- `src/index.html` + `src/comparison/`: filterable/sortable comparison table (Vite + TypeScript; renders from the JSON)
+- `src/stack-builder.html` + `src/stack-builder/`: interactive stack builder; its dataset is `src/stack-builder/stack-data.ts` (maintained separately from the CSV)
+- `src/lib/types.ts`: TypeScript mirror of the record schema — the build-time data contract
+- `src/public/llms.txt`: flat, LLM-friendly index of the catalogue (served at `/llms.txt`)
+- `docs/`: the Vite build output (git-ignored; produced by `mise run build`, uploaded to GitHub Pages by CI)
 - `schema/tool-record.schema.json` (beside this skill): the 14-field record schema
 - `scripts/validate-data.mjs` (beside this skill): CSV and JSON consistency validator, run via `mise run validate`
 

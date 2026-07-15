@@ -8,7 +8,7 @@ numbers and verdicts are trustworthy.
 Read the methodology in
 [`plugin/skills/project-comparison-fetch/SKILL.md`](plugin/skills/project-comparison-fetch/SKILL.md). It encodes
 hard-won lessons (stale renders, org transfers, benchmark metric traps, MCP tool-name collisions) that are not obvious
-from the data alone. A shorter summary is at [`docs/methodology.md`](docs/methodology.md).
+from the data alone. A shorter summary is at [`src/pages/methodology.md`](src/pages/methodology.md).
 
 ## Local setup
 
@@ -19,16 +19,29 @@ mise trust      # approve this project's mise.toml (first time only)
 mise install    # install the toolchain AND wire up the git hooks (see below)
 ```
 
-`mise install` installs hk, pkl, prettier, markdownlint-cli2, yamllint, node, and the tessl CLI. Its `postinstall` hook
-then runs `hk install`, so the git hooks are set up in the same step. If you use `mise activate` in your shell, the
-`enter` hook does this automatically when you `cd` into the project.
+`mise install` installs hk, pkl, prettier, markdownlint-cli2, yamllint, actionlint, node, Bun, Biome, and the tessl CLI.
+Its `postinstall` hook then runs `hk install`, so the git hooks are set up in the same step. If you use `mise activate`
+in your shell, the `enter` hook does this automatically when you `cd` into the project.
 
-Format and lint the docs:
+The site is a [Vite](https://vite.dev) + TypeScript app built with [Bun](https://bun.sh). All build, lint, and format
+operations go through mise tasks; use those rather than calling `bun`/`vite`/`biome` directly.
 
 ```sh
-mise run fmt    # format markdown, YAML, HTML, and JSON in place
-mise run lint   # check only, no changes
+mise run install    # install JS dependencies from the lockfile (bun install --frozen-lockfile)
+mise run dev        # Vite dev server for both pages, with live reload
+mise run build      # type-check and build the static site into docs/ (git-ignored output)
 ```
+
+Format and lint:
+
+```sh
+mise run fmt        # format markdown, YAML, HTML, JSON, and TypeScript in place
+mise run lint       # check only, no changes (prettier, markdownlint, yamllint, actionlint, Biome)
+mise run typecheck  # TypeScript type-check
+```
+
+When adding or upgrading a JS dependency, run `bun add`/`bun install` directly so the lockfile updates, then commit
+`bun.lock`. `mise run install` is the reproducible, lockfile-frozen install used for setup and CI.
 
 ### Git hooks (hk)
 
@@ -66,10 +79,13 @@ the tessl registry is optional and not done yet.
 
 ## Continuous integration
 
-Two GitHub Actions workflows run on push to `main` and on pull requests. Third-party actions are pinned by commit SHA.
+Three GitHub Actions workflows run on push to `main` and on pull requests. Third-party actions are pinned by commit SHA.
 
-- `.github/workflows/lint.yml` sets up the mise toolchain and runs `mise run lint` (prettier, markdownlint, yamllint,
-  and actionlint via hk) followed by `mise run validate` (the CSV and JSON mirror must agree).
+- `.github/workflows/static.yml` builds the site with Vite (`bun install` then `bun run build`) and deploys the `docs/`
+  output to GitHub Pages.
+- `.github/workflows/lint.yml` sets up the mise toolchain, installs the JS dependencies, and runs `mise run lint`
+  (prettier, markdownlint, yamllint, actionlint, and Biome via hk), then `mise run typecheck` (TypeScript), then
+  `mise run validate` (the CSV and JSON mirror must agree).
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
@@ -77,7 +93,8 @@ Two GitHub Actions workflows run on push to `main` and on pull requests. Third-p
 Run the same checks locally:
 
 ```sh
-mise run lint       # prettier, markdownlint, yamllint, actionlint
+mise run lint       # prettier, markdownlint, yamllint, actionlint, Biome
+mise run typecheck  # TypeScript type-check
 mise run validate   # CSV and JSON mirror consistency
 mise run security   # Plumber scan (needs a git remote; use the CI job otherwise)
 ```
@@ -104,8 +121,10 @@ enabled.
 4. **Write the row.** Add or update the row in [`data/context-reduction-tools.csv`](data/context-reduction-tools.csv).
    It must have exactly 14 fields and validate against
    [`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json).
-5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `docs/llms.txt` index from the CSV, and update
-   the HTML table and the stack builder for the new entry and for any existing tools whose conflict column it affects.
+5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `src/public/llms.txt` index from the CSV. The
+   comparison table imports the JSON at build time, so it needs no manual edit. If the tool belongs in the stack
+   builder, add it to `src/stack-builder/stack-data.ts`, and update the conflict entries for any existing tools it
+   affects. Then run `mise run build` to confirm the site still builds.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in
    `date,tool,repo,stars` format. Do not overwrite existing rows.
 
@@ -123,9 +142,11 @@ enabled.
 
 Run `mise run validate` after editing the data. It checks that the CSV carries the 14 schema columns, that every row has
 14 fields, and that the JSON mirror agrees with the CSV on row count and tool names. This runs in CI on every push and
-pull request.
+pull request. The JSON shape is also a contract consumed by the site build — see the Data Shape Contract section in the
+[skill](plugin/skills/project-comparison-fetch/SKILL.md).
 
-If you touch the stack builder, extract its script block and run a syntax check.
+If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
+`mise run build`.
 
 ## Automated contributions (planned)
 
