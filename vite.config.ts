@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { generateCsv } from "./plugins/generate-csv";
 import { markdownPages } from "./plugins/markdown-pages";
+import { toolPages } from "./plugins/tool-pages";
 
 const projectRoot = import.meta.dirname;
 const srcRoot = resolve(projectRoot, "src");
@@ -35,6 +36,11 @@ export default defineConfig({
           title: "Glossary — Context Radar",
         },
       ],
+    }),
+    // One detail page per tool, generated from the canonical JSON store so the
+    // comparison table can summarise while the full record stays one click away.
+    toolPages({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
     }),
     // The CSV download is generated from the canonical JSON store so the
     // "Download CSV" link resolves without a second source of truth.

@@ -1,0 +1,123 @@
+/*
+ * Shared design tokens for the whole site: one palette, one type language.
+ * Consumed two ways so there is a single source of truth:
+ *   - imported by the bundled page stylesheets (comparison, stack-builder)
+ *   - read from disk and inlined by the page-generating Vite plugins
+ *     (markdown-pages, tool-pages)
+ * Theme is token-level: the light palette is the default, redefined under the
+ * dark media query and under the explicit data-theme overrides so a viewer
+ * toggle wins in both directions.
+ */
+:root {
+  --bg: #ffffff;
+  --bg2: #f6f5f3;
+  --bg3: #edece8;
+  --text: #17161a;
+  --text2: #56545e;
+  --text3: #8b8994;
+  --border: rgba(23, 22, 26, 0.1);
+  --border2: rgba(23, 22, 26, 0.2);
+  --accent: #534ab7;
+  --accent-bg: #eeedfe;
+  --accent-border: #7f77dd;
+  --green: #27500a;
+  --green-bg: #eaf3de;
+  --amber: #7a4a06;
+  --amber-bg: #faeeda;
+  --red: #8a2020;
+  --red-bg: #fcebeb;
+  --gray: #4a4844;
+  --gray-bg: #f0efe9;
+  --dot-active: #3f9142;
+  --dot-stable: #c88a1a;
+  --dot-slowing: #d97706;
+  --dot-early: #c04141;
+  --dot-dormant: #9b99a2;
+  --shadow: 0 6px 22px rgba(23, 22, 26, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111013;
+    --bg2: #17161a;
+    --bg3: #232229;
+    --text: #e9e8ec;
+    --text2: #a6a4ae;
+    --text3: #6d6b76;
+    --border: rgba(255, 255, 255, 0.1);
+    --border2: rgba(255, 255, 255, 0.2);
+    --accent: #c4b5fd;
+    --accent-bg: #26215c;
+    --accent-border: #7c3aed;
+    --green: #9fe08a;
+    --green-bg: #1a3406;
+    --amber: #f2c766;
+    --amber-bg: #3d2807;
+    --red: #f29a9a;
+    --red-bg: #430c0c;
+    --gray: #b6b4ac;
+    --gray-bg: #2b2a27;
+    --dot-active: #5fbf62;
+    --dot-stable: #e2b551;
+    --dot-slowing: #f59e0b;
+    --dot-early: #ef7676;
+    --dot-dormant: #6a6872;
+    --shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #111013;
+  --bg2: #17161a;
+  --bg3: #232229;
+  --text: #e9e8ec;
+  --text2: #a6a4ae;
+  --text3: #6d6b76;
+  --border: rgba(255, 255, 255, 0.1);
+  --border2: rgba(255, 255, 255, 0.2);
+  --accent: #c4b5fd;
+  --accent-bg: #26215c;
+  --accent-border: #7c3aed;
+  --green: #9fe08a;
+  --green-bg: #1a3406;
+  --amber: #f2c766;
+  --amber-bg: #3d2807;
+  --red: #f29a9a;
+  --red-bg: #430c0c;
+  --gray: #b6b4ac;
+  --gray-bg: #2b2a27;
+  --dot-active: #5fbf62;
+  --dot-stable: #e2b551;
+  --dot-slowing: #f59e0b;
+  --dot-early: #ef7676;
+  --dot-dormant: #6a6872;
+  --shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg2: #f6f5f3;
+  --bg3: #edece8;
+  --text: #17161a;
+  --text2: #56545e;
+  --text3: #8b8994;
+  --border: rgba(23, 22, 26, 0.1);
+  --border2: rgba(23, 22, 26, 0.2);
+  --accent: #534ab7;
+  --accent-bg: #eeedfe;
+  --accent-border: #7f77dd;
+  --green: #27500a;
+  --green-bg: #eaf3de;
+  --amber: #7a4a06;
+  --amber-bg: #faeeda;
+  --red: #8a2020;
+  --red-bg: #fcebeb;
+  --gray: #4a4844;
+  --gray-bg: #f0efe9;
+  --dot-active: #3f9142;
+  --dot-stable: #c88a1a;
+  --dot-slowing: #d97706;
+  --dot-early: #c04141;
+  --dot-dormant: #9b99a2;
+  --shadow: 0 6px 22px rgba(23, 22, 26, 0.1);
+}

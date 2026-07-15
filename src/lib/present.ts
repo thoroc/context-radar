@@ -30,7 +30,7 @@ const BAND_CLASS: Record<ActivityBand, string> = {
   none: "a-stable",
 };
 
-const DECISION_LABEL: Record<VerdictDecision, string> = {
+export const DECISION_LABEL: Record<VerdictDecision, string> = {
   best: "Best in class",
   add: "Add",
   "add-if": "Add if you use",
