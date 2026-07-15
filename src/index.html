@@ -38,25 +38,23 @@
         <option>Code generation minimalism (YAGNI enforcement)</option>
         <option>Tabular data retrieval</option>
       </select>
-      <label for="fv">Verdict</label>
-      <select id="fv">
-        <option value="">All verdicts</option>
-        <option value="best">Best</option>
-        <option value="add">Add</option>
-        <option value="either-or">Either/or</option>
-        <option value="watch">Watch</option>
-        <option value="reference">Reference</option>
-        <option value="drop">Drop</option>
-      </select>
-      <label for="fa">Activity</label>
-      <select id="fa">
-        <option value="">All activity</option>
-        <option value="green">🟢 Active</option>
-        <option value="yellow">🟡 Active / Stable</option>
-        <option value="slow">🟠 Slowing</option>
-        <option value="red">🔴 Early / Pre-release</option>
-        <option value="dead">⚫ Dormant</option>
-      </select>
+      <span class="chip-label">Verdict</span>
+      <div class="chipset" id="fv" role="group" aria-label="Filter by verdict">
+        <label class="chip"><input type="checkbox" value="best" />Best</label>
+        <label class="chip"><input type="checkbox" value="add" />Add</label>
+        <label class="chip"><input type="checkbox" value="either-or" />Either/or</label>
+        <label class="chip"><input type="checkbox" value="watch" />Watch</label>
+        <label class="chip"><input type="checkbox" value="reference" />Reference</label>
+        <label class="chip"><input type="checkbox" value="drop" />Drop</label>
+      </div>
+      <span class="chip-label">Activity</span>
+      <div class="chipset" id="fa" role="group" aria-label="Filter by activity">
+        <label class="chip"><input type="checkbox" value="green" />🟢 Active</label>
+        <label class="chip"><input type="checkbox" value="yellow" />🟡 Active / Stable</label>
+        <label class="chip"><input type="checkbox" value="slow" />🟠 Slowing</label>
+        <label class="chip"><input type="checkbox" value="red" />🔴 Early / Pre-release</label>
+        <label class="chip"><input type="checkbox" value="dead" />⚫ Dormant</label>
+      </div>
       <label for="fr">Requirements</label>
       <select id="fr">
         <option value="">All tools</option>
