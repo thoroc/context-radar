@@ -1,31 +1,43 @@
+import {
+  conflictText,
+  runtimeText,
+  starsText,
+  statusText,
+  trendText,
+  verdictText,
+} from "./present";
 import type { Tool } from "./schema";
 
 export interface ColumnDef {
-  key: keyof Tool;
   /** Full display header, used in the CSV export. */
   header: string;
+  /** Flattens the structured record to a single display string for the CSV. */
+  value: (t: Tool) => string;
 }
 
 /**
- * Canonical column order. Drives the CSV export (order and headers). The
- * comparison table's own column labels live in the markup; this list is the
- * machine-facing order shared by the CSV export and any tabular consumer.
+ * Canonical column order and CSV serialisation. The structured record is
+ * flattened back to the 14 display columns the download has always had, so the
+ * CSV is unchanged even though the JSON is now structured.
  */
 export const COLUMNS: ColumnDef[] = [
-  { key: "tool", header: "Tool" },
-  { key: "githubUrl", header: "GitHub URL" },
-  { key: "layer", header: "Layer" },
-  { key: "whatItDoes", header: "What it does" },
-  { key: "conflict", header: "Conflict / Overlap" },
-  { key: "runtime", header: "Runtime" },
-  { key: "requirements", header: "Requirements" },
-  { key: "licence", header: "Licence" },
-  { key: "stars", header: "Stars" },
-  { key: "trend", header: "Trend (30d)" },
-  { key: "activity", header: "Activity (Issues / PRs)" },
-  { key: "activityStatus", header: "Activity Status" },
-  { key: "verdict", header: "Verdict" },
-  { key: "decisionRule", header: "Decision Rule" },
+  { header: "Tool", value: (t) => t.tool },
+  { header: "GitHub URL", value: (t) => t.githubUrl },
+  { header: "Layer", value: (t) => t.layer },
+  { header: "What it does", value: (t) => t.whatItDoes },
+  { header: "Conflict / Overlap", value: (t) => conflictText(t.conflict) },
+  { header: "Runtime", value: (t) => runtimeText(t.runtime) },
+  { header: "Requirements", value: (t) => t.requirements },
+  {
+    header: "Licence",
+    value: (t) => (t.licence.warning ? `⚠ ${t.licence.warning}` : t.licence.spdx),
+  },
+  { header: "Stars", value: (t) => starsText(t.stars) },
+  { header: "Trend (30d)", value: (t) => trendText(t.trend) },
+  { header: "Activity (Issues / PRs)", value: (t) => t.activity.notes ?? "" },
+  { header: "Activity Status", value: (t) => statusText(t.activityStatus) },
+  { header: "Verdict", value: (t) => verdictText(t.verdict) },
+  { header: "Decision Rule", value: (t) => t.decisionRule },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -51,8 +63,8 @@ export interface CsvDataset {
  * snapshot date (from meta.stars_verified) for continuity with the old export. */
 export function toCsv(dataset: CsvDataset): string {
   const headers = COLUMNS.map((c) =>
-    c.key === "stars" ? `Stars (${formatDisplayDate(dataset.meta.stars_verified)})` : c.header,
+    c.header === "Stars" ? `Stars (${formatDisplayDate(dataset.meta.stars_verified)})` : c.header,
   );
-  const rows = dataset.tools.map((t) => COLUMNS.map((c) => csvCell(t[c.key])).join(","));
+  const rows = dataset.tools.map((t) => COLUMNS.map((c) => csvCell(c.value(t))).join(","));
   return `${[headers.map(csvCell).join(","), ...rows].join("\n")}\n`;
 }

@@ -11,41 +11,211 @@
     },
     "githubUrl": {
       "type": "string",
-      "minLength": 1
+      "format": "uri"
     },
     "layer": {
       "type": "string",
-      "minLength": 1
+      "enum": [
+        "Shell output",
+        "All tool output",
+        "Static context injection (push model)",
+        "Conversation history management",
+        "Personal knowledge retrieval",
+        "Library documentation retrieval",
+        "Codebase understanding & onboarding",
+        "Code navigation",
+        "Architecture violation detection (trust-first)",
+        "Architecture violation detection",
+        "MCP definition tokens",
+        "Cross-session governance & reasoning capture",
+        "Cross-session governance",
+        "Response verbosity + memory compression",
+        "Config stack audit & optimisation",
+        "Config stack audit",
+        "Agent safety enforcement",
+        "Tabular data retrieval",
+        "Agent runtime & context orchestration",
+        "Universal context compression middleware",
+        "Reference resource (curated list)",
+        "Agent memory persistence",
+        "Code generation minimalism (YAGNI enforcement)"
+      ]
     },
     "whatItDoes": {
       "type": "string"
     },
     "conflict": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": [
+            "hard",
+            "soft",
+            "either-or",
+            "stackable",
+            "none"
+          ]
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "severity",
+        "projects"
+      ],
+      "additionalProperties": false
     },
     "runtime": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "rust",
+              "python",
+              "typescript",
+              "javascript",
+              "node",
+              "go",
+              "powershell",
+              "shell",
+              "lua",
+              "gleam",
+              "none"
+            ]
+          },
+          "minItems": 1
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "languages"
+      ],
+      "additionalProperties": false
     },
     "requirements": {
       "type": "string"
     },
     "licence": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "spdx": {
+          "type": "string",
+          "minLength": 1
+        },
+        "warning": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "spdx"
+      ],
+      "additionalProperties": false
     },
     "stars": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "trend": {
-      "type": "string"
+      "type": [
+        "number",
+        "null"
+      ]
     },
     "activity": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "contributors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "latestVersion": {
+          "type": "string"
+        },
+        "releaseCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "releasedOn": {
+          "type": "string"
+        },
+        "corroboration": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     },
     "activityStatus": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "band": {
+          "type": "string",
+          "enum": [
+            "active",
+            "stable",
+            "slowing",
+            "early",
+            "dormant",
+            "none"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "band",
+        "label"
+      ],
+      "additionalProperties": false
     },
     "verdict": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "best",
+            "add",
+            "add-if",
+            "either-or",
+            "watch",
+            "reference",
+            "drop"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision",
+        "rationale"
+      ],
+      "additionalProperties": false
     },
     "decisionRule": {
       "type": "string"

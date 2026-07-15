@@ -12,24 +12,149 @@ import { z } from "zod";
  * from here (erased at compile time), never the schema values, so Zod is not
  * shipped to the browser.
  *
- * All fields are strings: the catalogue is free-text by design (star counts like
- * "~20" or "—", emoji-prefixed requirements, etc.).
+ * Records are strongly typed: enums for closed vocabularies, numbers for counts
+ * and trend, and objects for fields that carry more than one datum. Free-text
+ * detail is preserved verbatim in `notes`/`note`/`detail`/`rationale` so nothing
+ * is lost and the table and CSV export can reproduce the original display.
  */
+
+/** Primary display layer. Group by prefix; several raw strings collapse in the UI. */
+export const layerSchema = z.enum([
+  "Shell output",
+  "All tool output",
+  "Static context injection (push model)",
+  "Conversation history management",
+  "Personal knowledge retrieval",
+  "Library documentation retrieval",
+  "Codebase understanding & onboarding",
+  "Code navigation",
+  "Architecture violation detection (trust-first)",
+  "Architecture violation detection",
+  "MCP definition tokens",
+  "Cross-session governance & reasoning capture",
+  "Cross-session governance",
+  "Response verbosity + memory compression",
+  "Config stack audit & optimisation",
+  "Config stack audit",
+  "Agent safety enforcement",
+  "Tabular data retrieval",
+  "Agent runtime & context orchestration",
+  "Universal context compression middleware",
+  "Reference resource (curated list)",
+  "Agent memory persistence",
+  "Code generation minimalism (YAGNI enforcement)",
+]);
+
+/** Normalised implementation language. `none` for built-ins / skill files / curated lists. */
+export const runtimeLanguageSchema = z.enum([
+  "rust",
+  "python",
+  "typescript",
+  "javascript",
+  "node",
+  "go",
+  "powershell",
+  "shell",
+  "lua",
+  "gleam",
+  "none",
+]);
+
+/** Activity band, driving the colour and the activity filter. */
+export const activityBandSchema = z.enum([
+  "active",
+  "stable",
+  "slowing",
+  "early",
+  "dormant",
+  "none",
+]);
+
+/** Conflict severity between this tool and others. */
+export const conflictSeveritySchema = z.enum(["hard", "soft", "either-or", "stackable", "none"]);
+
+/** Adoption decision. `add-if` is "Add if you use [X]". */
+export const verdictDecisionSchema = z.enum([
+  "best",
+  "add",
+  "add-if",
+  "either-or",
+  "watch",
+  "reference",
+  "drop",
+]);
+
+export const runtimeSchema = z
+  .object({
+    languages: z.array(runtimeLanguageSchema).min(1),
+    detail: z.string().optional(),
+  })
+  .strict();
+
+export const licenceSchema = z
+  .object({
+    /** SPDX-ish identifier, e.g. "MIT", "AGPL-3.0", "PolyForm Noncommercial". */
+    spdx: z.string().min(1),
+    /** Optional caveat, e.g. missing LICENSE file or a dual-licence note. */
+    warning: z.string().optional(),
+  })
+  .strict();
+
+export const activitySchema = z
+  .object({
+    contributors: z.number().int().nonnegative().optional(),
+    latestVersion: z.string().optional(),
+    releaseCount: z.number().int().nonnegative().optional(),
+    releasedOn: z.string().optional(),
+    corroboration: z.string().optional(),
+    /** Full free-text detail, preserved verbatim. */
+    notes: z.string().optional(),
+  })
+  .strict();
+
+export const activityStatusSchema = z
+  .object({
+    band: activityBandSchema,
+    /** Display label without the band emoji, e.g. "Hyper-active", "Active (solo)". */
+    label: z.string().min(1),
+  })
+  .strict();
+
+export const conflictSchema = z
+  .object({
+    severity: conflictSeveritySchema,
+    /** Names of the tools this one conflicts or overlaps with. */
+    projects: z.array(z.string()),
+    /** Full free-text explanation, preserved verbatim. */
+    note: z.string().optional(),
+  })
+  .strict();
+
+export const verdictSchema = z
+  .object({
+    decision: verdictDecisionSchema,
+    /** The reasoning that followed the decision, preserved verbatim. */
+    rationale: z.string(),
+  })
+  .strict();
+
 export const toolSchema = z
   .object({
     tool: z.string().min(1),
-    githubUrl: z.string().min(1),
-    layer: z.string().min(1),
+    githubUrl: z.string().url(),
+    layer: layerSchema,
     whatItDoes: z.string(),
-    conflict: z.string(),
-    runtime: z.string(),
+    conflict: conflictSchema,
+    runtime: runtimeSchema,
     requirements: z.string(),
-    licence: z.string(),
-    stars: z.string(),
-    trend: z.string(),
-    activity: z.string(),
-    activityStatus: z.string(),
-    verdict: z.string(),
+    licence: licenceSchema,
+    /** Verified star count; null when unknown or not applicable (built-ins). */
+    stars: z.number().int().nonnegative().nullable(),
+    /** Signed 30-day trend as a percentage; null when unknown. Sign carries direction. */
+    trend: z.number().nullable(),
+    activity: activitySchema,
+    activityStatus: activityStatusSchema,
+    verdict: verdictSchema,
     decisionRule: z.string(),
   })
   .strict();
@@ -38,11 +163,8 @@ const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be an ISO date (YY
 
 export const metaSchema = z
   .object({
-    /** When the catalogue was last touched. */
     last_updated: isoDate,
-    /** Date the star counts and activity were verified (shown in the site header). */
     stars_verified: isoDate,
-    /** Number of tools; must equal tools.length. */
     tool_count: z.number().int().nonnegative(),
   })
   .strict();
@@ -62,6 +184,17 @@ export const datasetSchema = z
     path: ["tools"],
   });
 
+export type Layer = z.infer<typeof layerSchema>;
+export type RuntimeLanguage = z.infer<typeof runtimeLanguageSchema>;
+export type ActivityBand = z.infer<typeof activityBandSchema>;
+export type ConflictSeverity = z.infer<typeof conflictSeveritySchema>;
+export type VerdictDecision = z.infer<typeof verdictDecisionSchema>;
+export type Runtime = z.infer<typeof runtimeSchema>;
+export type Licence = z.infer<typeof licenceSchema>;
+export type Activity = z.infer<typeof activitySchema>;
+export type ActivityStatus = z.infer<typeof activityStatusSchema>;
+export type Conflict = z.infer<typeof conflictSchema>;
+export type Verdict = z.infer<typeof verdictSchema>;
 export type Tool = z.infer<typeof toolSchema>;
 export type Meta = z.infer<typeof metaSchema>;
 export type Dataset = z.infer<typeof datasetSchema>;

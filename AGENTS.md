@@ -36,7 +36,9 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 ## Key paths
 
 - Canonical store: `data/context-reduction-tools.json` (`{meta, tools:[]}`, stable-key records)
-- Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape
+- Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: enums, numbers,
+  structured objects for runtime/licence/conflict/activity/activityStatus/verdict)
+- Display reconstruction (shared by table + CSV): `src/lib/present.ts`
 - Column order + CSV serialisation: `src/lib/columns.ts`
 - Authoring template: `templates/tool.yaml`
 - Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/data-add.ts`

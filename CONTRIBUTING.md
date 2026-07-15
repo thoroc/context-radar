@@ -144,10 +144,10 @@ enabled.
 ## Validating the data
 
 Run `mise run validate` after editing the data. It parses `data/context-reduction-tools.json` against the Zod schema in
-`src/lib/schema.ts` (14 string fields per record, unique tool names, `meta.tool_count` equal to `tools.length`). This
-runs in CI and in the pre-commit hook. The Zod schema is the single source of truth for the record shape — see the Data
-Shape Contract section in the [skill](plugin/skills/project-comparison-fetch/SKILL.md). After changing the schema, run
-`mise run gen:schema` to refresh the published JSON Schema.
+`src/lib/schema.ts` (typed records: enums, numbers, and structured objects; unique tool names; `meta.tool_count` equal
+to `tools.length`). This runs in CI and in the pre-commit hook. The Zod schema is the single source of truth for the
+record shape — see the Data Shape Contract section in the [skill](plugin/skills/project-comparison-fetch/SKILL.md).
+After changing the schema, run `mise run gen:schema` to refresh the published JSON Schema.
 
 If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
 `mise run build`.

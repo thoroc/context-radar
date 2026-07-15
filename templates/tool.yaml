@@ -1,59 +1,84 @@
 # Tool record template for the context-radar catalogue.
 #
-# Copy this file, fill every field, then ingest it with:
+# Copy this file, fill it in, then ingest it with:
 #   mise run data:add -- templates/my-tool.yaml
 # That validates it against the schema (src/lib/schema.ts) and upserts it into
 # data/context-reduction-tools.json by tool name (re-adding an existing name
-# updates it). All fields are required and must be strings; use block scalars
-# (|) for the long free-text fields so commas, quotes and emoji stay readable.
-#
-# See plugin/skills/project-comparison-fetch/SKILL.md for the fetch protocol,
-# the verdict guide, and the layer assignment guide.
+# updates it). See plugin/skills/project-comparison-fetch/SKILL.md for the fetch
+# protocol, the verdict guide, and the layer assignment guide.
 
-# Unique display name; also the identifier used for upserts and conflict rules.
+# Unique display name; also the identifier used for upserts and conflict lists.
 tool: Example Tool
 
-# Canonical repository URL (re-verify on org/owner transfers).
+# Canonical repository URL (must be a valid URL; re-verify on org/owner transfers).
 githubUrl: https://github.com/owner/repo
 
-# Primary display layer. Must match one of the catalogue's layer strings, e.g.
-# "Shell output", "Code navigation", "Agent memory persistence". Group by prefix.
+# Primary display layer. Must be one of the enum values in src/lib/schema.ts
+# (layerSchema), e.g. "Shell output", "Code navigation", "Agent memory persistence".
 layer: Code navigation
 
 # What it does and how it reduces context tokens.
 whatItDoes: >-
   One or two sentences describing the tool and how it cuts context-window usage.
 
-# Conflict / overlap. Start with the hard-conflict marker (⛔) for MCP tool-name
-# collisions, the soft-conflict marker (⚠) for redundant roles, or a dash for none.
-conflict: '—'
+# Conflict / overlap with other tools.
+conflict:
+  # hard = MCP tool-name collision; soft = redundant role; either-or = pick one of
+  # a set; stackable = complementary; none = no conflict.
+  severity: none
+  # Names of the tools this one conflicts or overlaps with.
+  projects: []
+  # Optional free-text explanation (kept verbatim; shown in the table).
+  # note: ⛔ HARD ctx_* namespace collision with magic-context if both loaded.
 
-# Implementation language or runtime, free text (e.g. "Rust binary", "Node.js 18+").
-runtime: Rust binary
+# Implementation runtime.
+runtime:
+  # One or more of: rust python typescript javascript node go powershell shell lua gleam none
+  # Use [none] for built-ins, skill files, and curated lists.
+  languages: [rust]
+  # Optional free-text detail shown verbatim (e.g. "Rust binary; no model calls").
+  detail: Rust binary; no model calls; no external deps
 
 # Requirements. Start with ⚠ if it needs an LLM API key, external infra, or a
 # model download; record the LLM dependency tier (see the skill).
 requirements: Rust binary; no model calls; no external deps
 
-# SPDX-ish licence string (e.g. MIT, Apache-2.0, AGPL-3.0, PolyForm NC).
-licence: MIT
+# Licence.
+licence:
+  # SPDX-ish identifier, e.g. MIT, Apache-2.0, AGPL-3.0, PolyForm Noncommercial.
+  spdx: MIT
+  # Optional caveat, e.g. a missing LICENSE file or a dual-licence note.
+  # warning: No LICENSE file visible in repo
 
-# Verified star count at the snapshot date. Small counts exact; large rounded.
-stars: '1200'
+# Verified star count as an integer, or null if unknown / not applicable.
+stars: 1200
 
-# 30-day trend: direction marker plus approximate percentage, or a dash.
-trend: ▲ +5%
+# Signed 30-day trend as a percentage (sign carries direction), or null if unknown.
+trend: 5
 
-# Free-text detail on contributors, releases, and corroborating sources.
-activity: >-
-  120 contributors, v1.2.0 (Jun 2026), daily commits.
+# Activity detail. All fields optional except keep `notes` as the verbatim summary.
+activity:
+  contributors: 120
+  latestVersion: v1.2.0
+  releaseCount: 14
+  releasedOn: 12 Jun 2026
+  corroboration: star-history.com
+  notes: >-
+    120 contributors, v1.2.0 (12 Jun 2026), daily commits, confirmed via star-history.com.
 
-# Status emoji plus label (e.g. "🟢 Hyper-active", "🟡 Active / Stable", "⚫ Dormant").
-activityStatus: 🟢 Hyper-active
+# Activity status.
+activityStatus:
+  # One of: active stable slowing early dormant none
+  band: active
+  # Display label without the band emoji, e.g. "Hyper-active", "Active (solo)".
+  label: Hyper-active
 
-# Adoption verdict. One of: Best in class, Add, Add if you use [X],
-# Either/or pick one, Watch, Reference only, Drop.
-verdict: Add
+# Adoption verdict.
+verdict:
+  # One of: best add add-if either-or watch reference drop
+  decision: add
+  # The reasoning that follows the decision (shown after "Add — ...").
+  rationale: fills a clear role without problematic conflicts
 
 # Free-text guidance, often with install commands and "do not run alongside X" caveats.
 decisionRule: >-

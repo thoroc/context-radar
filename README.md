@@ -37,6 +37,7 @@ context-radar/
     comparison/                          Comparison table logic + styles
     stack-builder/                       Stack builder logic, styles, and curated dataset
     lib/schema.ts                        Zod schema: single source of truth for the record shape
+    lib/present.ts                       Reconstructs display strings/classes from the structured record
     lib/columns.ts                       Canonical column order + CSV serialisation
     lib/data.ts                          Typed loader for the canonical JSON
     pages/                               methodology.md, glossary.md (rendered to HTML at build)
@@ -93,9 +94,11 @@ on every push to `main` (`.github/workflows/static.yml`).
 ## The data model
 
 There is one canonical store: [`data/context-reduction-tools.json`](data/context-reduction-tools.json), shaped
-`{meta, tools:[...]}`. Each tool has 14 string fields keyed by stable identifiers (`tool`, `githubUrl`, `layer`,
-`whatItDoes`, `conflict`, `runtime`, `requirements`, `licence`, `stars`, `trend`, `activity`, `activityStatus`,
-`verdict`, `decisionRule`); the snapshot date lives in `meta.stars_verified`.
+`{meta, tools:[...]}`. Each tool is a strongly typed record keyed by stable identifiers: enums (`layer`, and the bands
+and decisions inside the objects below), numbers (`stars`, `trend`), and structured objects (`runtime`, `licence`,
+`conflict`, `activity`, `activityStatus`, `verdict`) alongside the plain-text `whatItDoes`, `requirements`, and
+`decisionRule`. Free-text detail is preserved verbatim inside the objects so the table and CSV render losslessly. The
+snapshot date lives in `meta.stars_verified`.
 
 The record shape is defined once, as a Zod schema in [`src/lib/schema.ts`](src/lib/schema.ts). From that single
 definition come the TypeScript types the site compiles against (`z.infer`), the JSON Schema published beside the skill
