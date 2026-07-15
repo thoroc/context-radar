@@ -1,0 +1,11 @@
+# GitHub Pages configuration.
+# To publish: repository Settings then Pages, set Source to "Deploy from a branch",
+# branch main (or your default), folder /docs. No local build is required.
+#
+# index.html (the interactive comparison table) is the landing page and is served
+# as-is. methodology.md and glossary.md are rendered by Jekyll using the theme below.
+title: context-radar
+description: >-
+  A comparison catalogue of tools that reduce context-window token consumption in Claude Code and comparable coding agents.
+theme: jekyll-theme-cayman
+show_downloads: false

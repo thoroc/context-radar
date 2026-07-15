@@ -1,0 +1,8 @@
+# Generated or vendored files (kept in sync with the excludes in hk.pkl).
+docs/index.html
+docs/stack-builder.html
+data/context-reduction-tools.json
+data/*.csv
+docs/llms.txt
+.plumber.yaml
+.agents/skills/

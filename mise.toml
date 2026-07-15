@@ -1,0 +1,57 @@
+# mise-en-place configuration for context-radar.
+# https://mise.jdx.dev  Install mise, then run `mise install` to get the pinned
+# toolchain, and `mise run lint` / `mise run fmt` to check or format the docs.
+
+[tools]
+# Git hook runner and its config language.
+hk = "1.50.0"
+pkl = "0.31.1"
+# Formatters and linters for markdown, YAML, HTML, and JSON.
+prettier = "3.9.4"
+"markdownlint-cli2" = "0.23.0"
+yamllint = "1.38.0"
+# Runtime for the JS-based tools above.
+node = "lts"
+# GitHub Actions workflow linter.
+actionlint = "1.7.12"
+# CI/CD security and compliance scanner (Plumber). mise holds newer releases under
+# minimum_release_age; this is the latest version mise currently allows.
+"github:getplumber/plumber" = "0.3.92"
+# tessl CLI: manages the local skill plugin declared in tessl.json.
+"npm:@tessl/cli" = "0.90.0"
+
+[hooks]
+# Install the git hooks after tools are installed. Runs on every `mise install`,
+# including a no-op install where all tools are already present.
+postinstall = "hk install"
+
+# On entering the project directory (requires `mise activate` in your shell),
+# install any missing tools. That install fires the postinstall hook above, so
+# dependencies and the git hooks are both set up in one step.
+enter = "mise install"
+
+[tasks.lint]
+description = "Check markdown, YAML, HTML, and JSON across all files (no changes)"
+run = "hk check --all"
+
+[tasks.validate]
+description = "Assert the CSV source of truth and the JSON mirror are consistent"
+run = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
+
+[tasks.security]
+description = "Scan CI/CD workflows for security and compliance issues (Plumber)"
+run = "plumber analyze"
+
+[tasks.skill]
+description = "Install the local tessl skill plugin declared in tessl.json"
+# Scope to claude-code so tessl only wires the Claude skill link and does not
+# create a stray .agents/ dir for its generic "agents" agent.
+run = "tessl install --agent claude-code"
+
+[tasks.fmt]
+description = "Format and auto-fix markdown, YAML, HTML, and JSON in place"
+run = "hk fix"
+
+[tasks.hooks]
+description = "Install the hk git hooks into this repository"
+run = "hk install"

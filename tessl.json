@@ -1,0 +1,9 @@
+{
+  "name": "context-radar",
+  "mode": "vendored",
+  "dependencies": {
+    "pantheon-ai/context-radar": {
+      "source": "file:plugin"
+    }
+  }
+}

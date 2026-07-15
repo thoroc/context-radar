@@ -1,0 +1,34 @@
+# Jekyll / GitHub Pages local build output
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# OS and editor cruft
+.DS_Store
+*.swp
+
+# Local tooling indexes and caches
+.tokensave/
+.context/
+.aislop/
+
+# tessl / coding-agent local install OUTPUTS (machine-specific, not committed).
+# tessl.json and .mcp.json ARE committed so `tessl install` reproduces the local
+# skill install; these are the vendored plugin copy and agent wiring it regenerates.
+.tessl/
+.claude/skills/
+.cursor/
+.gemini/
+.codex/
+# tessl's generic "agents" agent wires skill symlinks into .agents/skills/ on
+# install. The plugin source lives in plugin/, so .agents/ is install output only.
+.agents/
+
+# This project intentionally tracks files that the user's global ~/.gitignore
+# excludes (mise.toml, tessl.json, .mcp.json, AGENTS.md, CLAUDE.md). Re-include
+# them here. CLAUDE.md is a symlink to AGENTS.md.
+!mise.toml
+!tessl.json
+!.mcp.json
+!AGENTS.md
+!CLAUDE.md

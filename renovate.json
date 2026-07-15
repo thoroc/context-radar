@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "semanticCommits": "enabled",
+  "labels": ["dependencies"],
+  "minimumReleaseAge": "7 days",
+  "packageRules": [
+    {
+      "description": "Group mise toolchain bumps into a single pull request",
+      "matchManagers": ["mise"],
+      "groupName": "mise tools"
+    },
+    {
+      "description": "Keep node on the lts alias rather than pinning a version",
+      "matchManagers": ["mise"],
+      "matchPackageNames": ["node"],
+      "enabled": false
+    }
+  ]
+}
