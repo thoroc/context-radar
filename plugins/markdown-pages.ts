@@ -1,6 +1,13 @@
 import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import MarkdownIt from "markdown-it";
 import type { Plugin } from "vite";
+
+const TOKENS_CSS = readFileSync(
+  resolve(dirname(fileURLToPath(import.meta.url)), "../src/styles/tokens.css"),
+  "utf8",
+);
 
 export interface MarkdownPage {
   /** Absolute path to the source `.md` file. */
@@ -19,32 +26,24 @@ const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
 
 const PAGE_STYLE = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;
-  line-height:1.65;background:#f5f5f5;color:#111;padding:32px 20px}
-main{max-width:760px;margin:0 auto;background:#fff;border:1px solid #e0e0e0;border-radius:8px;
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;
+  line-height:1.65;background:var(--bg2);color:var(--text);padding:32px 20px;-webkit-font-smoothing:antialiased}
+main{max-width:760px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:14px;
   padding:32px 40px}
 .backlink{font-size:13px;margin-bottom:20px}
-a{color:#0066cc}
-h1,h2,h3{line-height:1.25;margin:1.4em 0 .5em;font-weight:600}
+a{color:var(--accent)}
+h1,h2,h3{line-height:1.25;margin:1.4em 0 .5em;font-weight:650;letter-spacing:-.01em}
 h1{font-size:26px;margin-top:0}h2{font-size:20px}h3{font-size:16px}
 p,ul,ol,table,blockquote,pre{margin:0 0 1em}
 ul,ol{padding-left:1.4em}li{margin:.25em 0}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
-  background:#f0f0f0;padding:1px 5px;border-radius:3px}
-pre{background:#f0f0f0;padding:12px 14px;border-radius:6px;overflow-x:auto}
+  background:var(--bg3);padding:1px 5px;border-radius:3px}
+pre{background:var(--bg3);padding:12px 14px;border-radius:8px;overflow-x:auto}
 pre code{background:none;padding:0}
-blockquote{border-left:3px solid #ddd;padding-left:14px;color:#555}
-table{border-collapse:collapse;width:100%}
-th,td{border:1px solid #ddd;padding:6px 10px;text-align:left;font-size:14px}
-th{background:#f0f0f0}
-@media(prefers-color-scheme:dark){
-  body{background:#111;color:#e5e5e5}
-  main{background:#1a1a1a;border-color:#333}
-  a{color:#60a5fa}
-  code,pre{background:#242424}
-  blockquote{border-left-color:#444;color:#aaa}
-  th,td{border-color:#333}th{background:#242424}
-}
+blockquote{border-left:3px solid var(--border2);padding-left:14px;color:var(--text2)}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;font-size:14px}
+th{background:var(--bg3)}
 `;
 
 /** Strips a leading YAML front-matter block (`---` ... `---`) if present. */
@@ -54,7 +53,10 @@ function stripFrontMatter(source: string): string {
 
 /** Rendered inner HTML of the markdown, without the standalone-page chrome. */
 function renderBody(page: MarkdownPage): string {
-  return md.render(stripFrontMatter(readFileSync(page.source, "utf8")));
+  const html = md.render(stripFrontMatter(readFileSync(page.source, "utf8")));
+  // Cross-links in the source point at sibling `.md` files; rewrite them to the
+  // generated `.html` routes so both the standalone page and the modal resolve.
+  return html.replace(/href="(?!https?:)([^"]+)\.md(#[^"]*)?"/g, 'href="$1.html$2"');
 }
 
 /** Full standalone HTML page, kept as a no-JS fallback for the modal overlay. */
@@ -66,7 +68,7 @@ function renderPage(page: MarkdownPage): string {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${page.title}</title>
-<style>${PAGE_STYLE}</style>
+<style>${TOKENS_CSS}${PAGE_STYLE}</style>
 </head>
 <body>
 <main>

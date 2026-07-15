@@ -43,7 +43,7 @@ a {
 /* Toolbar */
 .toolbar {
   position: sticky;
-  top: 55px;
+  top: var(--topbar-h);
   z-index: 40;
   background: var(--bg);
   border-top: 1px solid var(--border);

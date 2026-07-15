@@ -3,22 +3,32 @@
  * stack-builder pages so the chrome is identical across the site. Styled
  * through the shared tokens.
  */
+:root {
+  /* One deterministic top-bar height, referenced by every page's sticky
+     offsets so the bar is identical across the comparison and stack-builder. */
+  --topbar-h: 53px;
+}
 .topbar {
   position: sticky;
   top: 0;
   z-index: 50;
+  min-height: var(--topbar-h);
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 11px 24px;
+  padding: 8px 24px;
   flex-wrap: wrap;
 }
 .brand {
   display: flex;
   align-items: baseline;
   gap: 9px;
+  text-decoration: none;
+}
+.brand:hover {
+  text-decoration: none;
 }
 .brand .mark {
   font-size: 15px;
