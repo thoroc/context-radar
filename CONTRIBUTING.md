@@ -105,7 +105,7 @@ enabled.
    against existing entries, especially MCP tool-name collisions.
 4. **Write the row.** Add or update the row in [`data/context-reduction-tools.csv`](data/context-reduction-tools.csv).
    It must have exactly 14 fields and validate against
-   [`schema/tool-record.schema.json`](schema/tool-record.schema.json).
+   [`tool-record.schema.json`](.agents/skills/project-comparison-fetch/schema/tool-record.schema.json).
 5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `docs/llms.txt` index from the CSV, and update
    the HTML table and the stack builder for the new entry and for any existing tools whose conflict column it affects.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in

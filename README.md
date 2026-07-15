@@ -34,14 +34,12 @@ context-radar/
     glossary.md                          Terms used across the catalogue
     llms.txt                             Flat, LLM-friendly index of the catalogue
     _config.yml                          Jekyll config for GitHub Pages
-  schema/
-    tool-record.schema.json              JSON Schema for one tool record
-  scripts/
-    validate-data.mjs                    Assert the CSV and JSON mirror agree
   .agents/                               Agent-facing tooling (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
-    skills/
-      project-comparison-fetch/SKILL.md  The full fetch and assessment methodology (skill)
+    skills/project-comparison-fetch/
+      SKILL.md                           The full fetch and assessment methodology (skill)
+      schema/tool-record.schema.json     JSON Schema for one tool record
+      scripts/validate-data.mjs          CSV and JSON mirror consistency validator
   .github/workflows/
     lint.yml                             CI: lint, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
@@ -58,8 +56,9 @@ context-radar/
 
 Each tool is one row with 14 fields: Tool, GitHub URL, Layer, What it does, Conflict / Overlap, Runtime, Requirements,
 Licence, Stars, Trend, Activity, Activity Status, Verdict, and Decision Rule. The CSV is the source of truth; the JSON
-and the HTML table are rebuilt from it. See [`schema/tool-record.schema.json`](schema/tool-record.schema.json) for the
-field definitions.
+and the HTML table are rebuilt from it. See
+[`tool-record.schema.json`](.agents/skills/project-comparison-fetch/schema/tool-record.schema.json) for the field
+definitions.
 
 ### Verdicts
 

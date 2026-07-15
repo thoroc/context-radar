@@ -44,7 +44,18 @@ hooks {
   ["pre-commit"] {
     fix = true       // apply fixes to staged files
     stash = "git"    // stash unstaged changes while fixing
-    steps = linters
+    steps = (linters) {
+      // Data drift guard: when the data or its schema changes, the CSV source of
+      // truth and the JSON mirror must still agree.
+      ["validate-data"] {
+        glob = List(
+          "data/context-reduction-tools.csv",
+          "data/context-reduction-tools.json",
+          ".agents/skills/project-comparison-fetch/schema/tool-record.schema.json"
+        )
+        check = "node .agents/skills/project-comparison-fetch/scripts/validate-data.mjs"
+      }
+    }
   }
   ["fix"] {
     fix = true

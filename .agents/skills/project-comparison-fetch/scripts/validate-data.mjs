@@ -1,8 +1,13 @@
 #!/usr/bin/env node
 // Validate that the CSV source of truth and the JSON mirror agree, and that
 // every record carries exactly the 14 fields declared in the schema.
-// Exits non-zero on any failure. Run with: node scripts/validate-data.mjs
+// Exits non-zero on any failure. Run from the repo root via `mise run validate`;
+// the schema is resolved next to this script, the data is read from ./data.
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 let ok = true;
 const fail = (msg) => {
@@ -53,7 +58,7 @@ function parseCsv(text) {
   return rows;
 }
 
-const schema = JSON.parse(readFileSync("schema/tool-record.schema.json", "utf8"));
+const schema = JSON.parse(readFileSync(join(here, "..", "schema", "tool-record.schema.json"), "utf8"));
 const columns = Object.keys(schema.properties);
 const required = [...schema.required].sort();
 

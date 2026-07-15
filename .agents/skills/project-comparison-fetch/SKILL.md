@@ -221,21 +221,25 @@ If out of scope, explain why concisely rather than fetching and assessing fully.
 
 After writing the assessment, always:
 
-1. **Update the comparison table** — add the new row with the correct layer, overlap tags, and verdict
-2. **Update the CSV** — append or modify the row in `/mnt/user-data/outputs/context-reduction-tools.csv`
-3. **Validate CSV column count** with Python after every write — all rows must have exactly 13 columns
-4. **Rebuild HTML and JSON** from the updated CSV
-5. **Update the MCP Stack Builder SPA** — add tool card to the correct layer in `mcp-stack-builder.html`
+1. **Update the comparison table**: add the new row with the correct layer, overlap tags, and verdict
+2. **Update the CSV**: append or modify the row in `data/context-reduction-tools.csv` (the source of truth)
+3. **Validate the data**: run `mise run validate` after every write. The CSV must have exactly 14 columns and the JSON mirror must agree. The validator and schema live beside this skill under `scripts/` and `schema/`
+4. **Rebuild the JSON mirror, `docs/llms.txt`, and the HTML table** from the updated CSV
+5. **Update the MCP Stack Builder SPA**: add the tool card to the correct layer in `docs/stack-builder.html`
 6. **Validate SPA JS syntax** after edits: extract the `<script>` block and run `node --check`
 7. **Update overlap/conflict columns** for existing tools affected by the new entry
 
 ### File locations
 
-All outputs live in `/mnt/user-data/outputs/`:
-- `context-reduction-tools.csv` — source of truth (13 columns)
-- `context-reduction-tools.html` — filterable/sortable comparison table (rebuilt from CSV)
-- `context-reduction-tools.json` — JSON mirror (rebuilt from CSV)
-- `mcp-stack-builder.html` — interactive stack builder SPA (maintained separately)
+All data and artefacts live in the repository:
+
+- `data/context-reduction-tools.csv`: source of truth (14 columns)
+- `data/context-reduction-tools.json`: JSON mirror (rebuilt from the CSV)
+- `docs/index.html`: filterable/sortable comparison table (rebuilt from the CSV)
+- `docs/stack-builder.html`: interactive stack builder SPA (maintained separately)
+- `docs/llms.txt`: flat, LLM-friendly index of the catalogue
+- `schema/tool-record.schema.json` (beside this skill): the 14-field record schema
+- `scripts/validate-data.mjs` (beside this skill): CSV and JSON consistency validator, run via `mise run validate`
 
 ### Layer assignment guide
 

@@ -34,7 +34,7 @@ run = "hk check --all"
 
 [tasks.validate]
 description = "Assert the CSV source of truth and the JSON mirror are consistent"
-run = "node scripts/validate-data.mjs"
+run = "node .agents/skills/project-comparison-fetch/scripts/validate-data.mjs"
 
 [tasks.security]
 description = "Scan CI/CD workflows for security and compliance issues (Plumber)"
