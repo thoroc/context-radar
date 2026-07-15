@@ -2,5 +2,6 @@
   "name": "pantheon-ai/context-radar",
   "version": "0.1.0",
   "description": "context-radar tooling: the project-comparison-fetch skill for fetching, verifying, and rating context-reduction tools before they enter the catalogue.",
-  "private": true
+  "private": true,
+  "skills": "skills"
 }
