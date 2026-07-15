@@ -1,0 +1,13 @@
+# Jekyll / GitHub Pages local build output
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# OS and editor cruft
+.DS_Store
+*.swp
+
+# Local tooling indexes and caches
+.tokensave/
+.context/
+.aislop/

@@ -1,0 +1,37 @@
+# context-radar
+
+> A catalogue rating GitHub projects on agentic context efficiency: how cheaply an AI
+> coding agent can build the context it needs to work on a project, measured in tokens.
+> Each project is scored 0 to 5 on seven dimensions; the weighted total is a radar
+> score out of 100, mapped to a grade (A to F) and an adoption recommendation
+> (adopt, trial, assess, hold).
+
+## Scoring dimensions
+
+- Agent instructions (weight 20)
+- Code navigability and indexing (weight 20)
+- Documentation structure (weight 15)
+- Retrieval affordances (weight 15)
+- Repository signal-to-noise (weight 10)
+- Verification loops (weight 10)
+- Context budget footprint (weight 10)
+
+radar_score = sum over dimensions of (weight * score / 5). Maximum 100.
+
+## Docs
+
+- Methodology: methodology.md
+- Glossary: glossary.md
+- Catalogue index: projects/index.md
+
+## Catalogue
+
+Each entry is a Markdown file whose YAML frontmatter is the structured record,
+validated against schema/project-analysis.schema.json.
+
+- tokensave (mcp-server): radar 82, grade B, recommendation trial. projects/example-tokensave.md
+
+## Notes
+
+These ratings are decision support. A human should make and document any adoption
+decision that materially affects a team or product.

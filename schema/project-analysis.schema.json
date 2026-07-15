@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pantheon-org/context-radar/schema/project-analysis.schema.json",
+  "title": "context-radar project analysis",
+  "description": "Schema for the YAML frontmatter of a project analysis page in docs/projects/.",
+  "type": "object",
+  "required": [
+    "name",
+    "repo",
+    "analysed",
+    "analyst",
+    "summary",
+    "scores",
+    "radar_score",
+    "grade",
+    "recommendation"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable project name."
+    },
+    "repo": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical repository URL."
+    },
+    "category": {
+      "type": "string",
+      "description": "Free-form category, for example mcp-server, cli, framework, library."
+    },
+    "analysed": {
+      "type": "string",
+      "pattern": "^[0-3][0-9]-[0-1][0-9]-[0-9]{4}$",
+      "description": "Date of analysis in DD-MM-YYYY."
+    },
+    "analyst": {
+      "type": "string",
+      "enum": ["manual", "automated"],
+      "description": "How the analysis was produced."
+    },
+    "version_reviewed": {
+      "type": "string",
+      "description": "Version tag or commit SHA of the project at analysis time."
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-line summary of the project and its agentic-context posture."
+    },
+    "scores": {
+      "type": "object",
+      "required": [
+        "agent_instructions",
+        "code_navigability",
+        "documentation_structure",
+        "retrieval_affordances",
+        "repo_signal_to_noise",
+        "verification_loops",
+        "context_budget_footprint"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "agent_instructions": { "$ref": "#/$defs/dimensionScore" },
+        "code_navigability": { "$ref": "#/$defs/dimensionScore" },
+        "documentation_structure": { "$ref": "#/$defs/dimensionScore" },
+        "retrieval_affordances": { "$ref": "#/$defs/dimensionScore" },
+        "repo_signal_to_noise": { "$ref": "#/$defs/dimensionScore" },
+        "verification_loops": { "$ref": "#/$defs/dimensionScore" },
+        "context_budget_footprint": { "$ref": "#/$defs/dimensionScore" }
+      }
+    },
+    "radar_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Weighted total. See docs/methodology.md for the formula."
+    },
+    "grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "F"]
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["adopt", "trial", "assess", "hold"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "dimensionScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    }
+  }
+}
