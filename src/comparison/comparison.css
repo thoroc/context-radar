@@ -10,12 +10,17 @@ header a { color: #0066cc; }
 .controls input[type=text] { width: 200px; }
 .count { font-size: 12px; color: #888; margin-left: auto; white-space: nowrap; }
 .chip-label { font-size: 12px; color: #555; font-weight: 500; white-space: nowrap; }
-.chipset { display: inline-flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.chip { position: relative; display: inline-flex; align-items: center; font-size: 11px; padding: 4px 9px; border: 1px solid #ccc; border-radius: 999px; background: #fff; color: #333; cursor: pointer; user-select: none; white-space: nowrap; }
-.chip input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-.chip:hover { border-color: #999; }
-.chip:has(input:checked) { background: #0066cc; border-color: #0066cc; color: #fff; }
-.chip:has(input:focus-visible) { outline: 2px solid #0066cc; outline-offset: 1px; }
+.ms { position: relative; display: inline-flex; }
+.ms-toggle { position: relative; min-width: 96px; font-size: 12px; padding: 5px 26px 5px 8px; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #111; cursor: pointer; text-align: left; white-space: nowrap; }
+.ms-toggle::after { content: "\25BE"; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #888; font-size: 10px; }
+.ms-toggle:hover { border-color: #999; }
+.ms-toggle:focus-visible { outline: 2px solid #0066cc; outline-offset: 1px; }
+.ms-active .ms-toggle { border-color: #0066cc; color: #0066cc; font-weight: 600; }
+.ms-panel { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; display: flex; flex-direction: column; gap: 2px; min-width: 100%; padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); }
+.ms-panel[hidden] { display: none; }
+.ms-opt { display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 8px; border-radius: 4px; color: #333; cursor: pointer; user-select: none; white-space: nowrap; }
+.ms-opt:hover { background: #f0f0f0; }
+.ms-opt input { margin: 0; cursor: pointer; }
 .wrap { padding: 20px 28px; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
 thead tr { background: #f0f0f0; }
@@ -77,8 +82,10 @@ tr:hover td { background: #fafafa; }
   body{background:#111;color:#e5e5e5;} header,.controls{background:#1a1a1a;border-color:#333;}
   header h1{color:#f0f0f0;} header p,.count{color:#888;} header a{color:#60a5fa;}
   .controls label{color:#aaa;} .controls select,.controls input[type=text]{background:#222;border-color:#444;color:#e5e5e5;}
-  .chip-label{color:#aaa;} .chip{background:#222;border-color:#444;color:#ccc;}
-  .chip:hover{border-color:#666;} .chip:has(input:checked){background:#2563eb;border-color:#2563eb;color:#fff;}
+  .chip-label{color:#aaa;} .ms-toggle{background:#222;border-color:#444;color:#e5e5e5;}
+  .ms-toggle:hover{border-color:#666;} .ms-active .ms-toggle{border-color:#60a5fa;color:#93c5fd;}
+  .ms-panel{background:#1a1a1a;border-color:#444;box-shadow:0 4px 14px rgba(0,0,0,0.5);}
+  .ms-opt{color:#ccc;} .ms-opt:hover{background:#2a2a2a;}
   table{background:#1a1a1a;border-color:#333;} thead tr{background:#242424;}
   th{color:#bbb;border-color:#333;} th:hover{background:#2c2c2c;}
   td{border-color:#252525;} tr:hover td{background:#1e1e1e;}
