@@ -34,7 +34,7 @@ context-radar/
     glossary.md                          Terms used across the catalogue
     llms.txt                             Flat, LLM-friendly index of the catalogue
     _config.yml                          Jekyll config for GitHub Pages
-  .agents/                               Agent-facing tooling (tracked)
+  plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
     skills/project-comparison-fetch/
       SKILL.md                           The full fetch and assessment methodology (skill)
@@ -50,6 +50,8 @@ context-radar/
   .yamllint                              YAML lint rules
   .prettierignore                        Files prettier must not format
   renovate.json                          Automated dependency updates (Renovate)
+  tessl.json                             Local tessl plugin install manifest
+  .mcp.json                              tessl MCP server config (Claude Code)
 ```
 
 ## The data model
@@ -57,7 +59,7 @@ context-radar/
 Each tool is one row with 14 fields: Tool, GitHub URL, Layer, What it does, Conflict / Overlap, Runtime, Requirements,
 Licence, Stars, Trend, Activity, Activity Status, Verdict, and Decision Rule. The CSV is the source of truth; the JSON
 and the HTML table are rebuilt from it. See
-[`tool-record.schema.json`](.agents/skills/project-comparison-fetch/schema/tool-record.schema.json) for the field
+[`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json) for the field
 definitions.
 
 ### Verdicts

@@ -6,7 +6,7 @@ numbers and verdicts are trustworthy.
 ## Before you start
 
 Read the methodology in
-[`.agents/skills/project-comparison-fetch/SKILL.md`](.agents/skills/project-comparison-fetch/SKILL.md). It encodes
+[`plugin/skills/project-comparison-fetch/SKILL.md`](plugin/skills/project-comparison-fetch/SKILL.md). It encodes
 hard-won lessons (stale renders, org transfers, benchmark metric traps, MCP tool-name collisions) that are not obvious
 from the data alone. A shorter summary is at [`docs/methodology.md`](docs/methodology.md).
 
@@ -19,9 +19,9 @@ mise trust      # approve this project's mise.toml (first time only)
 mise install    # install the toolchain AND wire up the git hooks (see below)
 ```
 
-`mise install` installs hk, pkl, prettier, markdownlint-cli2, yamllint, and node. Its `postinstall` hook then runs
-`hk install`, so the git hooks are set up in the same step. If you use `mise activate` in your shell, the `enter` hook
-does this automatically when you `cd` into the project.
+`mise install` installs hk, pkl, prettier, markdownlint-cli2, yamllint, node, and the tessl CLI. Its `postinstall` hook
+then runs `hk install`, so the git hooks are set up in the same step. If you use `mise activate` in your shell, the
+`enter` hook does this automatically when you `cd` into the project.
 
 Format and lint the docs:
 
@@ -48,23 +48,21 @@ hk would fire twice. In a repo with the global install active, disable the local
 
 ### The skill (tessl plugin)
 
-The `project-comparison-fetch` skill lives under `.agents/` as a tessl plugin (`.agents/.tessl-plugin/plugin.json`). To
-make it available to your coding agent from a local clone, install the tessl CLI (see [tessl.io](https://tessl.io)), run
-`tessl login`, then install from the local path:
+The `project-comparison-fetch` skill lives under `plugin/` as a **local** tessl plugin
+(`plugin/.tessl-plugin/plugin.json`). The committed `tessl.json` declares it as a dependency with a relative source
+(`file:plugin`), so it installs into this project, not globally, and reproducibly. The committed `.mcp.json` wires the
+tessl MCP server for Claude Code in this project.
+
+`mise install` provides the tessl CLI. Then authenticate if prompted and install the skill into the project:
 
 ```sh
-tessl install --global --agent claude-code "file:$PWD/.agents"
+tessl login     # first time only, if prompted
+mise run skill  # runs `tessl install`, reading tessl.json
 ```
 
-Other agents are supported in place of `claude-code`: `cursor`, `gemini`, `codex`, `copilot`, `copilot-vscode`. After
-editing the skill, re-sync the install:
-
-```sh
-tessl update --global pantheon-ai/context-radar
-```
-
-Publishing the plugin to the tessl registry (so workspace members can install it by name without cloning) is optional
-and not done yet.
+That vendors the plugin into `.tessl/` and links the skill into `.claude/skills/` (both git-ignored install outputs that
+`tessl install` regenerates). After editing the skill, run `mise run skill` again to re-sync. Publishing the plugin to
+the tessl registry is optional and not done yet.
 
 ## Continuous integration
 
@@ -105,7 +103,7 @@ enabled.
    against existing entries, especially MCP tool-name collisions.
 4. **Write the row.** Add or update the row in [`data/context-reduction-tools.csv`](data/context-reduction-tools.csv).
    It must have exactly 14 fields and validate against
-   [`tool-record.schema.json`](.agents/skills/project-comparison-fetch/schema/tool-record.schema.json).
+   [`tool-record.schema.json`](plugin/skills/project-comparison-fetch/schema/tool-record.schema.json).
 5. **Rebuild the derived artefacts.** Regenerate the JSON mirror and the `docs/llms.txt` index from the CSV, and update
    the HTML table and the stack builder for the new entry and for any existing tools whose conflict column it affects.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in

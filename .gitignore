@@ -12,18 +12,20 @@ _site/
 .context/
 .aislop/
 
-# tessl / coding-agent local install state (machine-specific, not committed).
-# The plugin definition under .agents/ IS tracked; these are transient install
-# artefacts created by `tessl install` / project init.
+# tessl / coding-agent local install OUTPUTS (machine-specific, not committed).
+# tessl.json and .mcp.json ARE committed so `tessl install` reproduces the local
+# skill install; these are the vendored plugin copy and agent wiring it regenerates.
 .tessl/
-tessl.json
-.mcp.json
+.claude/skills/
 .cursor/
 .gemini/
 .codex/
+# tessl's generic "agents" agent wires skill symlinks into .agents/skills/ on
+# install. The plugin source lives in plugin/, so .agents/ is install output only.
+.agents/
 
 # This project intentionally tracks files that the user's global ~/.gitignore
-# excludes (mise.toml, .agents/). Re-include them here.
+# excludes (mise.toml, tessl.json, .mcp.json). Re-include them here.
 !mise.toml
-!.agents/
-!.agents/**
+!tessl.json
+!.mcp.json

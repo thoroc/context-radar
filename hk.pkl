@@ -10,7 +10,7 @@ local generated = List(
   "docs/stack-builder.html",
   "data/context-reduction-tools.json",
   ".plumber.yaml",
-  ".agents/skills/**"
+  "plugin/skills/**"
 )
 
 local linters = new Mapping<String, Step> {
@@ -51,9 +51,9 @@ hooks {
         glob = List(
           "data/context-reduction-tools.csv",
           "data/context-reduction-tools.json",
-          ".agents/skills/project-comparison-fetch/schema/tool-record.schema.json"
+          "plugin/skills/project-comparison-fetch/schema/tool-record.schema.json"
         )
-        check = "node .agents/skills/project-comparison-fetch/scripts/validate-data.mjs"
+        check = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
       }
     }
   }

@@ -17,6 +17,8 @@ actionlint = "1.7.12"
 # CI/CD security and compliance scanner (Plumber). mise holds newer releases under
 # minimum_release_age; this is the latest version mise currently allows.
 "github:getplumber/plumber" = "0.3.92"
+# tessl CLI: manages the local skill plugin declared in tessl.json.
+"npm:@tessl/cli" = "0.90.0"
 
 [hooks]
 # Install the git hooks after tools are installed. Runs on every `mise install`,
@@ -34,11 +36,17 @@ run = "hk check --all"
 
 [tasks.validate]
 description = "Assert the CSV source of truth and the JSON mirror are consistent"
-run = "node .agents/skills/project-comparison-fetch/scripts/validate-data.mjs"
+run = "node plugin/skills/project-comparison-fetch/scripts/validate-data.mjs"
 
 [tasks.security]
 description = "Scan CI/CD workflows for security and compliance issues (Plumber)"
 run = "plumber analyze"
+
+[tasks.skill]
+description = "Install the local tessl skill plugin declared in tessl.json"
+# Scope to claude-code so tessl only wires the Claude skill link and does not
+# create a stray .agents/ dir for its generic "agents" agent.
+run = "tessl install --agent claude-code"
 
 [tasks.fmt]
 description = "Format and auto-fix markdown, YAML, HTML, and JSON in place"
