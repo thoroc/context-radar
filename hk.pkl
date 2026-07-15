@@ -9,6 +9,7 @@ local generated = List(
   "docs/index.html",
   "docs/stack-builder.html",
   "data/context-reduction-tools.json",
+  ".plumber.yaml",
   ".agents/skills/**"
 )
 
@@ -31,6 +32,11 @@ local linters = new Mapping<String, Step> {
   // YAML linting.
   ["yamllint"] = (Builtins.yamllint) {
     glob = List("*.yaml", "*.yml")
+    exclude = generated
+  }
+  // GitHub Actions workflow linting.
+  ["actionlint"] = (Builtins.actionlint) {
+    glob = List(".github/workflows/*.yml", ".github/workflows/*.yaml")
   }
 }
 

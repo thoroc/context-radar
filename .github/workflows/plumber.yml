@@ -1,0 +1,21 @@
+name: plumber
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  plumber:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: getplumber/plumber@fdd2a2d0555bb3b33cbb2efff3b955dea5a6bbf0 # v0.4.3
+        with:
+          # score-push publishes a public A-E badge and makes the repo name
+          # public. Keep it off; this catalogue is not ready to publish a score.
+          score-push: false

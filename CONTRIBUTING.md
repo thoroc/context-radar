@@ -66,6 +66,27 @@ tessl update --global pantheon-ai/context-radar
 Publishing the plugin to the tessl registry (so workspace members can install it by name without cloning) is optional
 and not done yet.
 
+## Continuous integration
+
+Two GitHub Actions workflows run on push to `main` and on pull requests. Third-party actions are pinned by commit SHA.
+
+- `.github/workflows/lint.yml` sets up the mise toolchain and runs `mise run lint` (prettier, markdownlint, yamllint,
+  and actionlint via hk) followed by `mise run validate` (the CSV and JSON mirror must agree).
+- `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
+  and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
+  `score-push` is off, so nothing about this repository is made public.
+
+Run the same checks locally:
+
+```sh
+mise run lint       # prettier, markdownlint, yamllint, actionlint
+mise run validate   # CSV and JSON mirror consistency
+mise run security   # Plumber scan (needs a git remote; use the CI job otherwise)
+```
+
+The Plumber CLI needs a git remote to resolve the owner and repository. Until this repo has a remote, run the scan
+through the CI workflow rather than locally.
+
 ## Adding or re-assessing a tool
 
 1. **Check scope.** Is it a context-reduction tool that works with a coding agent, and not a full runtime or a generic
@@ -94,13 +115,11 @@ and not done yet.
 
 ## Validating the data
 
-Any CSV and JSON Schema toolchain works. At minimum, after editing:
+Run `mise run validate` after editing the data. It checks that the CSV carries the 14 schema columns, that every row has
+14 fields, and that the JSON mirror agrees with the CSV on row count and tool names. This runs in CI on every push and
+pull request.
 
-- Confirm every CSV row has exactly 14 fields.
-- Validate each record against `schema/tool-record.schema.json`.
-- If you touch the stack builder, extract its script block and run a syntax check.
-
-A validation step will be wired into CI once a remote and a Pages build exist.
+If you touch the stack builder, extract its script block and run a syntax check.
 
 ## Automated contributions (planned)
 

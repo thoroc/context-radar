@@ -4,4 +4,5 @@ docs/stack-builder.html
 data/context-reduction-tools.json
 data/*.csv
 docs/llms.txt
+.plumber.yaml
 .agents/skills/

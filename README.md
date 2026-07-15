@@ -36,12 +36,18 @@ context-radar/
     _config.yml                          Jekyll config for GitHub Pages
   schema/
     tool-record.schema.json              JSON Schema for one tool record
+  scripts/
+    validate-data.mjs                    Assert the CSV and JSON mirror agree
   .agents/                               Agent-facing tooling (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
     skills/
       project-comparison-fetch/SKILL.md  The full fetch and assessment methodology (skill)
+  .github/workflows/
+    lint.yml                             CI: lint, format check, data validation
+    plumber.yml                          CI: Plumber CI/CD security and compliance scan
   mise.toml                              Toolchain and tasks (mise-en-place)
   hk.pkl                                 Git pre-commit hooks (hk)
+  .plumber.yaml                          Plumber scan configuration
   .markdownlint.jsonc                    Markdown lint rules
   .yamllint                              YAML lint rules
   .prettierignore                        Files prettier must not format
