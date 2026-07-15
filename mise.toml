@@ -13,6 +13,16 @@ yamllint = "1.38.0"
 # Runtime for the JS-based tools above.
 node = "lts"
 
+[hooks]
+# Install the git hooks after tools are installed. Runs on every `mise install`,
+# including a no-op install where all tools are already present.
+postinstall = "hk install"
+
+# On entering the project directory (requires `mise activate` in your shell),
+# install any missing tools. That install fires the postinstall hook above, so
+# dependencies and the git hooks are both set up in one step.
+enter = "mise install"
+
 [tasks.lint]
 description = "Check markdown, YAML, HTML, and JSON without modifying files"
 run = "hk check"

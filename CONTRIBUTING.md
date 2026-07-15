@@ -16,8 +16,12 @@ The toolchain is pinned with [mise](https://mise.jdx.dev). From the repository r
 
 ```sh
 mise trust      # approve this project's mise.toml (first time only)
-mise install    # install hk, pkl, prettier, markdownlint-cli2, yamllint, node
+mise install    # install the toolchain AND wire up the git hooks (see below)
 ```
+
+`mise install` installs hk, pkl, prettier, markdownlint-cli2, yamllint, and node. Its `postinstall` hook then runs
+`hk install`, so the git hooks are set up in the same step. If you use `mise activate` in your shell, the `enter` hook
+does this automatically when you `cd` into the project.
 
 Format and lint the docs:
 
@@ -28,23 +32,18 @@ mise run lint   # check only, no changes
 
 ### Git hooks (hk)
 
-Linting and formatting run automatically on commit via [hk](https://hk.jdx.dev), configured in `hk.pkl`. Install the
-hooks once.
+Linting and formatting run automatically on commit via [hk](https://hk.jdx.dev), configured in `hk.pkl`. `mise install`
+wires them up per repository for you (via the `postinstall` hook). No extra step is needed.
 
-- Recommended, once per machine (works in every repo that has an `hk.pkl`):
+If you would rather install the hooks once per machine so every repo with an `hk.pkl` is covered, use the global install
+instead:
 
-  ```sh
-  hk install --global
-  ```
+```sh
+hk install --global
+```
 
-- Or per repository:
-
-  ```sh
-  mise run hooks   # runs `hk install` for this repo only
-  ```
-
-Do not do both in the same repo: Git aggregates hook commands across scopes and hk would fire twice. If a repo has the
-global install and you also ran the per-repo one, disable the local entries with
+Do not run both the global install and the per-repo one in the same repo: Git aggregates hook commands across scopes and
+hk would fire twice. In a repo with the global install active, disable the local entries with
 `git config --local hook.hk-pre-commit.enabled false`.
 
 ### The skill (tessl plugin)
