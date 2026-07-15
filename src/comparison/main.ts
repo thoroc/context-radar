@@ -167,13 +167,59 @@ function verdictMatches(t: Tool, fv: Set<string>): boolean {
   return fv.has(d === "add-if" ? "add" : d);
 }
 
-// Read the checked values of a chipset multiselect group.
+// Read the checked values of a dropdown multiselect group.
 function selectedValues(id: string): Set<string> {
   const set = new Set<string>();
   for (const cb of el(id).querySelectorAll<HTMLInputElement>("input[type=checkbox]")) {
     if (cb.checked) set.add(cb.value);
   }
   return set;
+}
+
+// Wire a dropdown multiselect: a toggle button that opens a checkbox panel,
+// with a live summary label and outside-click/Escape dismissal. The panel keeps
+// the group id so selectedValues() can read it unchanged.
+function setupMultiselect(panelId: string, allLabel: string): void {
+  const toggle = el<HTMLButtonElement>(`${panelId}-toggle`);
+  const panel = el<HTMLElement>(panelId);
+  const ms = toggle.closest(".ms");
+  if (!ms) throw new Error(`Multiselect wrapper missing for #${panelId}`);
+  const wrapper: Element = ms;
+
+  function updateLabel(): void {
+    const checked = [...panel.querySelectorAll<HTMLInputElement>("input:checked")];
+    if (checked.length === 0) {
+      toggle.textContent = allLabel;
+    } else if (checked.length === 1) {
+      toggle.textContent = (checked[0].closest("label")?.textContent ?? "").trim();
+    } else {
+      toggle.textContent = `${checked.length} selected`;
+    }
+    wrapper.classList.toggle("ms-active", checked.length > 0);
+  }
+
+  function close(): void {
+    panel.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    panel.hidden = !panel.hidden;
+    toggle.setAttribute("aria-expanded", String(!panel.hidden));
+  });
+  panel.addEventListener("change", () => {
+    updateLabel();
+    render();
+  });
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target as Node)) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  updateLabel();
 }
 
 function el<T extends HTMLElement>(id: string): T {
@@ -278,9 +324,9 @@ function renderSummary(): void {
 
 el("s").addEventListener("input", render);
 el("fl").addEventListener("change", render);
-el("fv").addEventListener("change", render);
-el("fa").addEventListener("change", render);
 el("fr").addEventListener("change", render);
+setupMultiselect("fv", "All verdicts");
+setupMultiselect("fa", "All activity");
 for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")) {
   th.addEventListener("click", () => {
     const c = th.dataset.col ?? "";

@@ -39,21 +39,31 @@
         <option>Tabular data retrieval</option>
       </select>
       <span class="chip-label">Verdict</span>
-      <div class="chipset" id="fv" role="group" aria-label="Filter by verdict">
-        <label class="chip"><input type="checkbox" value="best" />Best</label>
-        <label class="chip"><input type="checkbox" value="add" />Add</label>
-        <label class="chip"><input type="checkbox" value="either-or" />Either/or</label>
-        <label class="chip"><input type="checkbox" value="watch" />Watch</label>
-        <label class="chip"><input type="checkbox" value="reference" />Reference</label>
-        <label class="chip"><input type="checkbox" value="drop" />Drop</label>
+      <div class="ms">
+        <button type="button" class="ms-toggle" id="fv-toggle" aria-haspopup="true" aria-expanded="false">
+          All verdicts
+        </button>
+        <div class="ms-panel" id="fv" role="group" aria-label="Filter by verdict" hidden>
+          <label class="ms-opt"><input type="checkbox" value="best" />Best</label>
+          <label class="ms-opt"><input type="checkbox" value="add" />Add</label>
+          <label class="ms-opt"><input type="checkbox" value="either-or" />Either/or</label>
+          <label class="ms-opt"><input type="checkbox" value="watch" />Watch</label>
+          <label class="ms-opt"><input type="checkbox" value="reference" />Reference</label>
+          <label class="ms-opt"><input type="checkbox" value="drop" />Drop</label>
+        </div>
       </div>
       <span class="chip-label">Activity</span>
-      <div class="chipset" id="fa" role="group" aria-label="Filter by activity">
-        <label class="chip"><input type="checkbox" value="green" />🟢 Active</label>
-        <label class="chip"><input type="checkbox" value="yellow" />🟡 Active / Stable</label>
-        <label class="chip"><input type="checkbox" value="slow" />🟠 Slowing</label>
-        <label class="chip"><input type="checkbox" value="red" />🔴 Early / Pre-release</label>
-        <label class="chip"><input type="checkbox" value="dead" />⚫ Dormant</label>
+      <div class="ms">
+        <button type="button" class="ms-toggle" id="fa-toggle" aria-haspopup="true" aria-expanded="false">
+          All activity
+        </button>
+        <div class="ms-panel" id="fa" role="group" aria-label="Filter by activity" hidden>
+          <label class="ms-opt"><input type="checkbox" value="green" />🟢 Active</label>
+          <label class="ms-opt"><input type="checkbox" value="yellow" />🟡 Active / Stable</label>
+          <label class="ms-opt"><input type="checkbox" value="slow" />🟠 Slowing</label>
+          <label class="ms-opt"><input type="checkbox" value="red" />🔴 Early / Pre-release</label>
+          <label class="ms-opt"><input type="checkbox" value="dead" />⚫ Dormant</label>
+        </div>
       </div>
       <label for="fr">Requirements</label>
       <select id="fr">
