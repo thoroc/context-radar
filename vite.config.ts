@@ -18,6 +18,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(srcRoot, "index.html"),
+        comparison: resolve(srcRoot, "comparison.html"),
         "stack-builder": resolve(srcRoot, "stack-builder.html"),
       },
     },

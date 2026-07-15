@@ -70,7 +70,7 @@ function renderPage(page: MarkdownPage): string {
 </head>
 <body>
 <main>
-<p class="backlink"><a href="./">&larr; Back to the comparison table</a></p>
+<p class="backlink"><a href="./comparison.html">&larr; Back to the comparison table</a></p>
 ${body}
 </main>
 </body>

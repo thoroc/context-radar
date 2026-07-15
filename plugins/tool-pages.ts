@@ -185,9 +185,10 @@ function renderPage(tool: Tool, store: Store, slugByName: Map<string, string>): 
 </head>
 <body>
 <div class="topbar">
-  <div class="brand"><span class="mark">Context Radar<span class="d">.</span></span></div>
+  <a class="brand" href="../index.html"><span class="mark">Context Radar<span class="d">.</span></span></a>
   <nav>
-    <a href="../index.html" class="active">Comparison</a>
+    <a href="../index.html">Home</a>
+    <a href="../comparison.html">Comparison</a>
     <a href="../stack-builder.html">Stack builder</a>
     <a href="../methodology.html">Methodology</a>
     <a href="../glossary.html">Glossary</a>
@@ -195,7 +196,7 @@ function renderPage(tool: Tool, store: Store, slugByName: Map<string, string>): 
 </div>
 <div class="page">
   <div class="crumb">
-    <a href="../index.html">Comparison</a><span class="sep">/</span>
+    <a href="../comparison.html">Comparison</a><span class="sep">/</span>
     <span>${esc(tool.layer)}</span><span class="sep">/</span><span>${esc(tool.tool)}</span>
   </div>
   <div class="head">
