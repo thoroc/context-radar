@@ -160,11 +160,20 @@ const BAND_FOR_FILTER: Record<string, string> = {
   dead: "dormant",
 };
 
-function verdictMatches(t: Tool, fv: string): boolean {
-  if (!fv) return true;
+function verdictMatches(t: Tool, fv: Set<string>): boolean {
+  if (fv.size === 0) return true;
   const d = t.verdict.decision;
-  if (fv === "add") return d === "add" || d === "add-if";
-  return d === fv;
+  // "add" also covers the conditional "add-if" decision.
+  return fv.has(d === "add-if" ? "add" : d);
+}
+
+// Read the checked values of a chipset multiselect group.
+function selectedValues(id: string): Set<string> {
+  const set = new Set<string>();
+  for (const cb of el(id).querySelectorAll<HTMLInputElement>("input[type=checkbox]")) {
+    if (cb.checked) set.add(cb.value);
+  }
+  return set;
 }
 
 function el<T extends HTMLElement>(id: string): T {
@@ -208,8 +217,9 @@ let sDir = 1;
 function render(): void {
   const q = el<HTMLInputElement>("s").value.toLowerCase();
   const fl = el<HTMLSelectElement>("fl").value;
-  const fv = el<HTMLSelectElement>("fv").value;
-  const fa = el<HTMLSelectElement>("fa").value;
+  const fv = selectedValues("fv");
+  const fa = selectedValues("fa");
+  const allowedBands = new Set([...fa].map((v) => BAND_FOR_FILTER[v]));
   const fr = el<HTMLSelectElement>("fr").value;
   const tb = el("tb");
   tb.innerHTML = "";
@@ -220,7 +230,7 @@ function render(): void {
       if (fl && !t.layer.startsWith(fl) && !layer.match.some((m) => m.startsWith(fl))) return false;
       if (q && !searchText(t).includes(q)) return false;
       if (!verdictMatches(t, fv)) return false;
-      if (fa && t.activityStatus.band !== BAND_FOR_FILTER[fa]) return false;
+      if (fa.size && !allowedBands.has(t.activityStatus.band)) return false;
       if (fr === "clean" && t.requirements.startsWith("⚠")) return false;
       if (fr === "warn" && !t.requirements.startsWith("⚠")) return false;
       return true;
