@@ -144,10 +144,13 @@ enabled.
 Code shape (site source and scripts):
 
 - Prefer arrow functions (`export const foo = () => ...`) over named `function` declarations. Enforced at review time,
-  not by Biome. `src/lib/` is converted; convert other files as you touch them.
-- Expose a folder's public API through an `index.ts` barrel when it is imported from elsewhere, and import from the
-  folder rather than deep module paths. `src/lib/index.ts` is the example; single-entry page folders have no barrel.
-- Collocate unit tests as `*.test.ts` next to the module they cover.
+  not by Biome. Nested closures may stay inside their parent function.
+- One function per module, grouped into domain folders. Shared mutable state lives in a `state.ts`; shared constants and
+  lookup tables live in a dedicated `constants.ts` / `labels.ts` / `types.ts`. Each domain folder has an `index.ts`
+  barrel, and `main.ts` entry points stay thin (wire events, call into domains).
+- Import from a folder's barrel, not deep module paths. The root `src/lib/index.ts` re-exports `schema` as
+  `export type *` so Zod is never bundled into the browser.
+- Collocate unit tests as `*.test.ts` next to the code they cover.
 
 ## Validating the data
 
@@ -162,16 +165,16 @@ If you touch the site source (comparison table, stack builder, or the data types
 
 ## Testing
 
-Unit tests are collocated next to the module they exercise (`src/lib/present.test.ts` sits beside `src/lib/present.ts`)
-and run with [`bun test`](https://bun.sh/docs/cli/test):
+Unit tests are collocated next to the code they exercise (`src/lib/present/present.test.ts` sits in the `present/`
+domain) and run with [`bun test`](https://bun.sh/docs/cli/test):
 
 ```sh
 mise run test       # run every *.test.ts once
 bun test --watch    # re-run on change while developing
 ```
 
-Test the pure logic (presentation helpers, CSV serialisation, the schema). DOM-bound code such as `src/lib/modal.ts` is
-not unit-tested yet; adding a DOM harness (e.g. happy-dom) is a later step. `mise run test` runs in CI in
+Test the pure logic (presentation helpers, CSV serialisation, the schema). DOM-bound code such as `src/lib/dom/` is not
+unit-tested yet; adding a DOM harness (e.g. happy-dom) is a later step. `mise run test` runs in CI in
 `.github/workflows/lint.yml`.
 
 ## Automated contributions (planned)
