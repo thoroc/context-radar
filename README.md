@@ -41,7 +41,7 @@ context-radar/
     stack-builder/                       Stack builder logic, styles, and curated dataset
     lib/index.ts                         Root barrel: the shared library's public surface (import from here)
     lib/schema.ts                        Zod schema: single source of truth for the record shape
-    lib/present/                         Presentation helpers, one function per module (+ labels.ts, present.test.ts)
+    lib/present/                         Presentation helpers, one function per module (+ labels.ts, per-module *.test.ts)
     lib/csv/                             CSV column order + serialisation (+ csv.test.ts)
     lib/data/                            Typed loader for the canonical JSON
     lib/dom/                             Shared modal overlay (state + one function per module)

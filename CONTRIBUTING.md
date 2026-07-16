@@ -168,8 +168,9 @@ If you touch the site source (comparison table, stack builder, or the data types
 
 ## Testing
 
-Unit tests are collocated next to the code they exercise (`src/lib/present/present.test.ts` sits in the `present/`
-domain) and run with [Vitest](https://vitest.dev):
+Unit tests are collocated one file per module: each module has its own `*.test.ts` beside it
+(`src/lib/present/tool-slug.test.ts` sits next to `tool-slug.ts`), not one test file per folder. Run with
+[Vitest](https://vitest.dev):
 
 ```sh
 mise run test           # run every *.test.ts once

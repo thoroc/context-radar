@@ -26,17 +26,17 @@ export default defineConfig({
       // percentage is a true whole-project figure.
       all: true,
       include: ["src/**/*.ts", "plugins/**/*.ts", "scripts/**/*.ts"],
-      exclude: ["**/*.test.ts", "**/*.d.ts"],
+      exclude: ["**/*.test.ts", "**/*.d.ts", "src/test-support/**"],
       reporter: ["text-summary", "text"],
       // The ratchet: autoUpdate raises these floors as coverage climbs (never
       // lowers them). CI fails if coverage drops below the committed floor.
       // Target: 85-90%.
       thresholds: {
         autoUpdate: true,
-        lines: 7.74,
-        functions: 17,
-        branches: 5,
-        statements: 8.11,
+        lines: 24.1,
+        functions: 39.5,
+        branches: 18.27,
+        statements: 23.86,
       },
     },
   },

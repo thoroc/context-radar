@@ -51,10 +51,11 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   (`../lib`, `../render`), not deep module paths. Page entry points (`main.ts`) stay thin: they wire events and call
   into their domains. The root `src/lib/index.ts` re-exports `schema` as `export type *` so Zod stays out of the browser
   bundle.
-- **Collocated unit tests.** Put `*.test.ts` next to the code it exercises (e.g. `src/lib/present/present.test.ts`), run
-  with `vitest`. Whole-project coverage (`vitest.config.ts`, `coverage.all`) is ratcheted: `thresholds.autoUpdate`
-  raises the floor as coverage climbs and CI (`mise run test:coverage`) fails on any drop. Target 85-90%; raise the
-  floor by adding tests, then commit the bumped `vitest.config.ts`.
+- **Collocated unit tests, one file per module.** Each module has its own `*.test.ts` beside it (e.g.
+  `tool-slug.test.ts` next to `tool-slug.ts`) — not one test file per folder. Run with `vitest`. Whole-project coverage
+  (`vitest.config.ts`, `coverage.all`) is ratcheted: `thresholds.autoUpdate` raises the floor as coverage climbs and CI
+  (`mise run test:coverage`) fails on any drop. Target 85-90%; raise the floor by adding tests, then commit the bumped
+  `vitest.config.ts`.
 
 ## Key paths
 
