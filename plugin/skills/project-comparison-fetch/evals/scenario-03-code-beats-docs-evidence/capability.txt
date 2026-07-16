@@ -1,0 +1,1 @@
+Apply the code-beats-docs rule and record cited evidence with confirmed/caveated status correctly.

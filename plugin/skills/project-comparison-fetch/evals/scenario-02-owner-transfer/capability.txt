@@ -1,0 +1,1 @@
+Distinguish a genuine org/repo transfer from a stale aggregator snapshot via repository_id.

@@ -1150,7 +1150,18 @@
           "GitNexus",
           "Serena"
         ],
-        "note": "⚠ SOFT: same role as codegraph, GitNexus, codebase-memory-mcp, CodeGraphContext, Serena, pharos-mcp in the pick-ONE-primary code nav slot — running two full code graph MCP servers doubles indexing and schema overhead. Tool names are tokensave_* prefixed so no hard name collision, but functionally redundant with any other code nav tool. Direct lineage: explicit Rust port of codegraph, already in this comparison."
+        "note": "⚠ SOFT: same role as codegraph, GitNexus, codebase-memory-mcp, CodeGraphContext, Serena, pharos-mcp in the pick-ONE-primary code nav slot — running two full code graph MCP servers doubles indexing and schema overhead. Tool names are tokensave_* prefixed so no hard name collision, but functionally redundant with any other code nav tool. Direct lineage: explicit Rust port of codegraph, already in this comparison.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/aovestdipaperino/tokensave/blob/f14b3bb5d70256211d094aced9a48c7018355dd5/README.md#L802",
+              "quote": "tokensave is a ground-up Rust rewrite of CodeGraph (Node.js/TypeScript). Both build semantic code graphs for AI coding agents, but they diverge significantly in scope and capabilities.",
+              "checkedOn": "2026-07-16",
+              "evidenceType": "readme"
+            }
+          ]
+        }
       },
       "runtime": {
         "languages": [
@@ -1178,7 +1189,32 @@
         "decision": "best",
         "rationale": "direct successor to codegraph with much broader scope; strong candidate for best-in-class pending community growth"
       },
-      "decisionRule": "Self-disclosed as a ground-up Rust port of codegraph, with a README comparison table showing it ahead on nearly every dimension: 80+ tools vs 9, 50+ languages vs 19+, 16 agent integrations vs 1, multi-branch indexing (unique), 26x faster indexing (1.2s vs 31.2s on the same 1,782-file benchmark), smaller binary (25MB vs 80MB) despite far more features. Fully open source MIT — explicitly contrasted in its own README against GrapeRoot/Dual-Graph proprietary core and OpenWolf AGPL-3.0. Reproducible benchmark methodology (fixed query set + pinned-ref criterion benches against real repos) is more rigorous than most tools in this comparison. Only 253 stars vs codegraph 57.1k — much newer and less battle-tested despite the technical case being strong. cargo install tokensave --features medium for a smaller binary if 50+ languages is not needed."
+      "decisionRule": "Self-disclosed as a ground-up Rust port of codegraph, with a README comparison table showing it ahead on nearly every dimension: 80+ tools vs 9, 50+ languages vs 19+, 16 agent integrations vs 1, multi-branch indexing (unique), 26x faster indexing (1.2s vs 31.2s on the same 1,782-file benchmark), smaller binary (25MB vs 80MB) despite far more features. Fully open source MIT — explicitly contrasted in its own README against GrapeRoot/Dual-Graph proprietary core and OpenWolf AGPL-3.0. Reproducible benchmark methodology (fixed query set + pinned-ref criterion benches against real repos) is more rigorous than most tools in this comparison. Only 253 stars vs codegraph 57.1k — much newer and less battle-tested despite the technical case being strong. cargo install tokensave --features medium for a smaller binary if 50+ languages is not needed.",
+      "extraClaims": [
+        {
+          "kind": "benchmark",
+          "label": "Retrieval savings (tokensave bench)",
+          "statement": "Ships a reproducible benchmark: a fixed 10-query set run through tokensave_context, reporting retrieval savings versus a full-file baseline. Self-selected queries, self-run.",
+          "proofLedger": "SUPPORTED",
+          "evidence": {
+            "status": "confirmed",
+            "sources": [
+              {
+                "url": "https://github.com/aovestdipaperino/tokensave/blob/f14b3bb5d70256211d094aced9a48c7018355dd5/src/bench.rs#L1-L6",
+                "quote": "Reproducible benchmark harness for `tokensave bench`. Loads a query file (TOML), runs each query through `cg.build_context(...)`, and reports retrieval savings: how many tokens an agent would have spent reading the full content of every file referenced, vs the tokens in the actual context response.",
+                "checkedOn": "2026-07-16",
+                "evidenceType": "source-code"
+              },
+              {
+                "url": "https://github.com/aovestdipaperino/tokensave/blob/f14b3bb5d70256211d094aced9a48c7018355dd5/README.md#L288",
+                "quote": "`tokensave bench` runs a fixed query set through `tokensave_context` and reports retrieval savings vs a full-file baseline (mirrors the CCE methodology)",
+                "checkedOn": "2026-07-16",
+                "evidenceType": "readme"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "tool": "CodeGraphContext",

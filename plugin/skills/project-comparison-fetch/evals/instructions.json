@@ -1,0 +1,71 @@
+{
+  "skill": "project-comparison-fetch",
+  "description": "Atomic, checkable instructions the skill enforces, mapped to the eval scenarios that cover each. Keep in sync with SKILL.md and the scenario-*/ directories.",
+  "instructions": [
+    {
+      "id": "I01",
+      "text": "Fetch the GitHub repo page before assessing, and cross-verify the star count with a separate search rather than trusting the render.",
+      "scenarios": ["scenario-01-star-cross-verify"]
+    },
+    {
+      "id": "I02",
+      "text": "When a fetch and a search disagree, resolve via repository_id: a matching id under a new owner is a transfer, and the githubUrl field must be updated, not just the star count.",
+      "scenarios": ["scenario-02-owner-transfer"]
+    },
+    {
+      "id": "I03",
+      "text": "Verify feature and benchmark claims against source code or official docs, not README marketing copy.",
+      "scenarios": ["scenario-03-code-beats-docs-evidence"]
+    },
+    {
+      "id": "I04",
+      "text": "Record a claim as confirmed only when backed by a source-code, official-docs, or release source; a README-only claim tops out at caveated.",
+      "scenarios": ["scenario-03-code-beats-docs-evidence"]
+    },
+    {
+      "id": "I05",
+      "text": "Cite evidence with commit-SHA permalinks, a verbatim quote, and a checkedOn date; never fabricate a source or quote.",
+      "scenarios": ["scenario-03-code-beats-docs-evidence"]
+    },
+    {
+      "id": "I06",
+      "text": "Pressure-test a headline benchmark through the six-step method and assign a proof-ledger decision (PROVEN, SUPPORTED, OPEN, REJECTED).",
+      "scenarios": ["scenario-04-benchmark-proof-ledger"]
+    },
+    {
+      "id": "I07",
+      "text": "Record a standalone benchmark claim as an extraClaims entry carrying a proofLedger; a benchmark entry without one fails validation.",
+      "scenarios": ["scenario-04-benchmark-proof-ledger"]
+    },
+    {
+      "id": "I08",
+      "text": "Reject an out-of-scope project (alternative runtime or MCP client, general library) without a full fetch-and-assess, and explain why.",
+      "scenarios": ["scenario-05-out-of-scope"]
+    },
+    {
+      "id": "I09",
+      "text": "Detect threat-pattern repos (all links to one raw URL, binaries with no source) and decline to add them without downloading or executing anything.",
+      "scenarios": ["scenario-06-threat-pattern"]
+    },
+    {
+      "id": "I10",
+      "text": "Flag an MCP tool-name collision as a HARD conflict and list the overlapping projects.",
+      "scenarios": ["scenario-07-conflict-and-ingest"]
+    },
+    {
+      "id": "I11",
+      "text": "Assign the primary layer from the layer guide.",
+      "scenarios": ["scenario-07-conflict-and-ingest"]
+    },
+    {
+      "id": "I12",
+      "text": "Assign a new-user-framed verdict; never use 'keep, already in stack' framing.",
+      "scenarios": ["scenario-07-conflict-and-ingest"]
+    },
+    {
+      "id": "I13",
+      "text": "Ingest via the template with stable keys (mise run data:add) then validate (mise run validate).",
+      "scenarios": ["scenario-07-conflict-and-ingest"]
+    }
+  ]
+}

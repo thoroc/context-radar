@@ -30,6 +30,16 @@ conflict:
   projects: []
   # Optional free-text explanation (kept verbatim; shown in the table).
   # note: ⛔ HARD ctx_* namespace collision with magic-context if both loaded.
+  # Optional evidence backing this claim. Cite commit-SHA permalinks, not moving
+  # branches. A "confirmed" status needs at least one source-code / official-docs
+  # / release source; a README-only citation tops out at "caveated".
+  # evidence:
+  #   status: confirmed          # confirmed | caveated | refuted | unverified
+  #   sources:
+  #     - url: https://github.com/owner/repo/blob/<sha>/src/server.ts#L42
+  #       quote: exposes search_code, matching an existing tool's tool name
+  #       checkedOn: 2026-07-16
+  #       evidenceType: source-code   # source-code|official-docs|readme|release|search|third-party
 
 # Implementation runtime.
 runtime:
@@ -83,3 +93,20 @@ verdict:
 # Free-text guidance, often with install commands and "do not run alongside X" caveats.
 decisionRule: >-
   Install if you need structural code navigation. Do not run alongside <other tool>.
+
+# Optional. Standalone benchmark / feature claims that map to no field above.
+# A benchmark claim must carry a proofLedger (PROVEN | SUPPORTED | OPEN | REJECTED).
+# extraClaims:
+#   - kind: benchmark          # benchmark | feature
+#     label: retrieval savings
+#     statement: >-
+#       93% mean tokens-after/tokens-before across 10 published queries against
+#       the tool's own repo (self-selected, self-run).
+#     proofLedger: SUPPORTED
+#     evidence:
+#       status: confirmed
+#       sources:
+#         - url: https://github.com/owner/repo/blob/<sha>/bench.ts
+#           quote: runnable benchmark harness committed in the repo
+#           checkedOn: 2026-07-16
+#           evidenceType: source-code

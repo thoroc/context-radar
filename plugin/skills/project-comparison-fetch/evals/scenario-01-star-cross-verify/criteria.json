@@ -1,0 +1,10 @@
+{
+  "capability": "Fetch fresh GitHub data and cross-verify star counts before assessing",
+  "checklist": [
+    { "criterion": "Fetches the GitHub repo page before assessing", "max_score": 15 },
+    { "criterion": "Runs a separate search to cross-verify the star count", "max_score": 25 },
+    { "criterion": "Detects the render-versus-search discrepancy", "max_score": 20 },
+    { "criterion": "Uses the higher, more recent star figure (~2.3k, not 6)", "max_score": 25 },
+    { "criterion": "Notes both sources and the discrepancy in the record", "max_score": 15 }
+  ]
+}
