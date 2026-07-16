@@ -65,7 +65,7 @@ If a feature cannot be traced to source code or official docs, record it with a 
 
 Verdict-bearing claims carry cited sources in the record itself, so the factual basis for a verdict is re-auditable. This is enforced by `src/lib/schema.ts`, not by discipline.
 
-**Scope**: source the claims that carry the verdict — benchmark numbers, conflict / overlap assertions, and headline capability claims. Do **not** mandate sourcing star counts (they move weekly and are governed by the Star count refresh policy). Licence and runtime may carry evidence when a claim about them is genuinely contested.
+**Scope**: source the claims that carry the verdict — benchmark numbers, conflict / overlap assertions, and headline capability claims. Do **not** mandate sourcing star counts (they move weekly and are governed by the freshness refresh policy). Licence and runtime may carry evidence when a claim about them is genuinely contested.
 
 **Where evidence lives**:
 
@@ -172,4 +172,4 @@ Both the comparison HTML and the MCP Stack Builder SPA assume **no prior install
 | [Layer assignment guide](references/layer-guide.md) | Choosing the `layer` value |
 | [Verdict guide](references/verdict-guide.md) | Choosing the `verdict.decision` value |
 | [MCP tool-name conflict rules](references/mcp-conflict-rules.md) | Setting `conflict` severity for a code-nav, memory, or MCP tool |
-| [Star count refresh policy](references/star-refresh-policy.md) | Refreshing star counts across the catalogue |
+| [Freshness refresh policy](references/star-refresh-policy.md) | Refreshing stars, version, and activity across the catalogue |
