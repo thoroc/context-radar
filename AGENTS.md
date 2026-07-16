@@ -14,7 +14,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Dev server: `mise run dev`
 - Build the site into docs/: `mise run build`
 - Type-check TypeScript: `mise run typecheck`
-- Run the unit tests: `mise run test` (bun test, collocated `*.test.ts`)
+- Run the unit tests: `mise run test` (vitest, collocated `*.test.ts`)
+- Run tests with coverage + the ratchet floor: `mise run test:coverage`
 - Lint (no changes): `mise run lint` (prettier, markdownlint, yamllint, actionlint, Biome)
 - Format and auto-fix in place: `mise run fmt`
 - Validate the canonical JSON against the Zod schema: `mise run validate`
@@ -51,8 +52,9 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   into their domains. The root `src/lib/index.ts` re-exports `schema` as `export type *` so Zod stays out of the browser
   bundle.
 - **Collocated unit tests.** Put `*.test.ts` next to the code it exercises (e.g. `src/lib/present/present.test.ts`), run
-  with `bun test`. Test pure logic; DOM-bound modules (`src/lib/dom/`) are out of the unit slice until a DOM harness is
-  added.
+  with `vitest`. Whole-project coverage (`vitest.config.ts`, `coverage.all`) is ratcheted: `thresholds.autoUpdate`
+  raises the floor as coverage climbs and CI (`mise run test:coverage`) fails on any drop. Target 85-90%; raise the
+  floor by adding tests, then commit the bumped `vitest.config.ts`.
 
 ## Key paths
 

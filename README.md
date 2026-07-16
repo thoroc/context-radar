@@ -60,6 +60,7 @@ context-radar/
     lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
+  vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
   tsconfig.json                          TypeScript config
   biome.json                             Biome (TypeScript lint + format) config
   package.json                           Dependencies and scripts (Bun)
@@ -88,7 +89,8 @@ mise run dev        # Vite dev server (both pages, live reload)
 mise run build      # type-check and build the static site into docs/
 mise run lint       # prettier, markdownlint, yamllint, actionlint, and Biome (TypeScript)
 mise run typecheck  # TypeScript type-check only
-mise run test       # collocated unit tests (bun test)
+mise run test       # collocated unit tests (vitest)
+mise run test:coverage  # tests + whole-project coverage; enforces the ratcheted floor
 mise run fmt        # format everything in place (incl. TypeScript via Biome)
 mise run validate   # validate the canonical JSON store against the Zod schema
 mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)

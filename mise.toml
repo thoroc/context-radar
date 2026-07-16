@@ -53,8 +53,12 @@ description = "Type-check the TypeScript sources (no emit)"
 run = "bun run typecheck"
 
 [tasks.test]
-description = "Run the collocated unit tests (bun test)"
+description = "Run the collocated unit tests (vitest)"
 run = "bun run test"
+
+[tasks."test:coverage"]
+description = "Run tests with whole-project coverage and enforce the ratchet floor"
+run = "bun run test:coverage"
 
 [tasks.lint]
 description = "Check markdown, YAML, HTML, JSON, and TypeScript across all files (no changes)"

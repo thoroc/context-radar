@@ -20,7 +20,8 @@ jobs:
       - run: mise run lint
       # TypeScript type-checking for the site source.
       - run: mise run typecheck
-      # Collocated unit tests (bun test).
-      - run: mise run test
+      # Collocated unit tests (vitest) with whole-project coverage; fails if
+      # coverage drops below the ratcheted floor in vitest.config.ts.
+      - run: mise run test:coverage
       # Data integrity: CSV source of truth and JSON mirror must agree.
       - run: mise run validate

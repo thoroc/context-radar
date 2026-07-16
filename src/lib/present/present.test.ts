@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { conflictClass } from "./conflict-class";
 import { conflictText } from "./conflict-text";
 import { licenceText } from "./licence-text";

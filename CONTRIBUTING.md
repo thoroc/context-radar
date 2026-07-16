@@ -85,7 +85,8 @@ Three GitHub Actions workflows run on push to `main` and on pull requests. Third
   output to GitHub Pages.
 - `.github/workflows/lint.yml` sets up the mise toolchain, installs the JS dependencies, and runs `mise run lint`
   (prettier, markdownlint, yamllint, actionlint, and Biome via hk), then `mise run typecheck` (TypeScript), then
-  `mise run validate` (the canonical JSON store must pass the Zod schema).
+  `mise run test:coverage` (Vitest with the coverage ratchet), then `mise run validate` (the canonical JSON store must
+  pass the Zod schema).
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
@@ -168,16 +169,26 @@ If you touch the site source (comparison table, stack builder, or the data types
 ## Testing
 
 Unit tests are collocated next to the code they exercise (`src/lib/present/present.test.ts` sits in the `present/`
-domain) and run with [`bun test`](https://bun.sh/docs/cli/test):
+domain) and run with [Vitest](https://vitest.dev):
 
 ```sh
-mise run test       # run every *.test.ts once
-bun test --watch    # re-run on change while developing
+mise run test           # run every *.test.ts once
+mise run test:coverage  # tests + whole-project coverage, enforcing the ratchet floor
+bunx vitest             # watch mode while developing
 ```
 
-Test the pure logic (presentation helpers, CSV serialisation, the schema). DOM-bound code such as `src/lib/dom/` is not
-unit-tested yet; adding a DOM harness (e.g. happy-dom) is a later step. `mise run test` runs in CI in
-`.github/workflows/lint.yml`.
+### Coverage ratchet
+
+`vitest.config.ts` measures **whole-project** coverage (`coverage.all`, so every file in `src/`, `plugins/`, and
+`scripts/` counts, not just the ones a test imports). The `thresholds` block is a ratchet: `autoUpdate` raises the floor
+as coverage climbs and never lowers it, and CI (`mise run test:coverage` in `.github/workflows/lint.yml`) fails if
+coverage drops below the committed floor. The target is **85-90%**; the baseline is low because most of the codebase is
+still untested.
+
+To raise the floor: add tests, run `mise run test:coverage` locally (autoUpdate rewrites the thresholds in
+`vitest.config.ts`), and commit the bumped config with your tests. DOM-bound code (`src/lib/dom/`, the page `render`
+modules, `main.ts` entries) needs the happy-dom environment (`// @vitest-environment happy-dom`); build scripts and
+plugins need fs/GitHub mocks.
 
 ## Automated contributions (planned)
 
