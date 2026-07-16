@@ -13,7 +13,9 @@ import { readFileSync } from "node:fs";
 const LABEL = "freshness";
 const TOOL_MARKER = "<!-- freshness-tool:"; // per-tool issue
 const DIGEST_MARKER = "<!-- freshness-state:"; // legacy consolidated digest, to be closed
-const MUTATION_SPACING_MS = 400;
+// GitHub's secondary rate limit rejects bursts of content creation (~>80/min).
+// Keep writes to roughly one per 1.5s so a full backfill does not trip it.
+const MUTATION_SPACING_MS = 1500;
 
 interface Entry {
   id: string;
@@ -171,6 +173,7 @@ async function run(reportPath: string, dryRun: boolean): Promise<void> {
   let opened = 0;
   let updated = 0;
   let unchanged = 0;
+  const failed: string[] = [];
   for (const e of drift) {
     const { title, body } = composeIssue(e);
     const existing = byId.get(e.id);
@@ -182,15 +185,24 @@ async function run(reportPath: string, dryRun: boolean): Promise<void> {
       }
       if (existing.state === "open") {
         await sleep(MUTATION_SPACING_MS);
-        await api("PATCH", `/repos/${owner}/${repo}/issues/${existing.number}`, { title, body });
-        updated++;
+        const res = await api("PATCH", `/repos/${owner}/${repo}/issues/${existing.number}`, {
+          title,
+          body,
+        });
+        if (res.status === 200) updated++;
+        else failed.push(`${e.id} (update HTTP ${res.status})`);
         continue;
       }
       // Closed but upstream moved again: do not reopen; open a fresh issue below.
     }
     await sleep(MUTATION_SPACING_MS);
-    await api("POST", `/repos/${owner}/${repo}/issues`, { title, body, labels: [LABEL] });
-    opened++;
+    const res = await api("POST", `/repos/${owner}/${repo}/issues`, {
+      title,
+      body,
+      labels: [LABEL],
+    });
+    if (res.status === 201) opened++;
+    else failed.push(`${e.id} (create HTTP ${res.status})`);
   }
 
   // Retire any legacy consolidated digest in favour of the per-tool issues.
@@ -211,6 +223,14 @@ async function run(reportPath: string, dryRun: boolean): Promise<void> {
       (closed ? `, ${closed} legacy digest(s) closed` : "") +
       `. (${report.counts.unparseable} unparseable, ${report.counts.structuralSkip} skipped, ${report.counts.transientError} errors not issued.)`,
   );
+
+  if (failed.length) {
+    console.error(
+      `Failed to sync ${failed.length} issue(s): ${failed.join(", ")}. ` +
+        "Re-run to complete; issues already synced this run will no-op.",
+    );
+    process.exit(1);
+  }
 }
 
 const args = process.argv.slice(2);
