@@ -23,6 +23,8 @@ actionlint = "1.7.12"
 "github:getplumber/plumber" = "0.3.92"
 # tessl CLI: manages the local skill plugin declared in tessl.json.
 "npm:@tessl/cli" = "0.90.0"
+# Headless-browser automation for visually verifying the site during development.
+"npm:agent-browser" = "0.31.1"
 
 [hooks]
 # Install the git hooks after tools are installed. Runs on every `mise install`,
