@@ -21,6 +21,9 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Validate the canonical JSON against the Zod schema: `mise run validate`
 - Ingest a filled `templates/*.yaml` into the store: `mise run data:add -- <file>.yaml`
 - Regenerate the skill's JSON Schema from Zod: `mise run gen:schema`
+- Regenerate `src/styles/icons.css` from the Tabler SVGs: `mise run gen:icons`
+- Detect version/activity drift into `freshness-report.json`: `mise run freshness`
+- Turn the freshness report into GitHub issues: `mise run freshness:sync`
 - Security/compliance scan: `mise run security`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
@@ -62,12 +65,14 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 ## Key paths
 
 - Canonical store: `data/context-reduction-tools.json` (`{meta, tools:[]}`, stable-key records)
-- Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: enums, numbers,
-  structured objects for runtime/licence/conflict/activity/activityStatus/verdict)
+- Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: immutable `id`,
+  enums, numbers, structured objects for runtime/licence/conflict/activity/activityStatus/verdict/extraClaims, plus an
+  `evidence` block on verdict-carrying claims)
 - Display reconstruction (shared by table + CSV): `src/lib/present/` (one function per module)
 - Column order + CSV serialisation: `src/lib/csv/`
 - Authoring template: `templates/tool.yaml`
-- Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/data-add.ts`
+- Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/gen-icons.ts`, `scripts/data-add.ts`,
+  `scripts/check-freshness.ts`, `scripts/sync-freshness-issue.ts`
 - Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
   table linking to detail pages), `stack-builder.html` + `stack-builder/` (builder, with its own curated
   `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `styles/` (shared tokens/nav/modal CSS), `pages/`
@@ -75,7 +80,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages/`, reusing `lib/present/`; the
   comparison links and the generated filenames share `toolSlug` (in `lib/present/tool-slug.ts`)
 - Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
-- Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
+- Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md` (entry point), with deep-dive
+  `references/` and a scenario `evals/` suite alongside it
 - Published JSON Schema (generated from Zod): `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`
 
 ## CI
@@ -83,6 +89,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - `.github/workflows/static.yml` — build with Vite and deploy to GitHub Pages
 - `.github/workflows/lint.yml` — lint, type-check, format check, data validation
 - `.github/workflows/plumber.yml` — Plumber security/compliance scan
+- `.github/workflows/freshness.yml` — weekly (and on-demand) version/activity drift check; opens one issue per drifting
+  tool
 
 ## How to add or re-assess a tool
 

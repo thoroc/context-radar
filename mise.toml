@@ -85,7 +85,7 @@ description = "Detect freshness drift (upstream version vs recorded) and write f
 run = "bun run freshness"
 
 [tasks."freshness:sync"]
-description = "Turn freshness-report.json into a consolidated digest issue in this repo"
+description = "Turn freshness-report.json into one GitHub issue per drifting tool in this repo"
 run = "bun run freshness:sync"
 
 [tasks.security]

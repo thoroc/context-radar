@@ -31,7 +31,10 @@ context-radar/
   scripts/
     validate-data.ts                     Zod validator for the canonical store
     gen-schema.ts                        Regenerates the skill's JSON Schema from the Zod schema
+    gen-icons.ts                         Regenerates src/styles/icons.css from the Tabler SVGs
     data-add.ts                          Ingests a filled template into the store
+    check-freshness.ts                   Detects drift (upstream version vs recorded) into freshness-report.json
+    sync-freshness-issue.ts              Opens/updates one GitHub issue per drifting tool
   src/                                   Site source (Vite + TypeScript)
     index.html                           Landing page (intro, tool cards, verdict legend)
     comparison.html                      Comparison table page (summary; links to detail pages)
@@ -53,12 +56,15 @@ context-radar/
   plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
     skills/project-comparison-fetch/
-      SKILL.md                           The full fetch and assessment methodology (skill)
+      SKILL.md                           Fetch and assessment methodology (entry point)
+      references/                        Deep-dive references linked from SKILL.md (layer, verdict, evidence, conflicts, freshness)
+      evals/                             Scenario-based eval suite for the skill
       schema/tool-record.schema.json     JSON Schema, generated from src/lib/schema.ts
   .github/workflows/
     static.yml                           CI: build the site with Vite and deploy to GitHub Pages
     lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
+    freshness.yml                        Scheduled: detect version/activity drift and open per-tool issues
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
   vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
   tsconfig.json                          TypeScript config
@@ -95,6 +101,8 @@ mise run fmt        # format everything in place (incl. TypeScript via Biome)
 mise run validate   # validate the canonical JSON store against the Zod schema
 mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)
 mise run gen:schema # regenerate the skill's JSON Schema from the Zod schema
+mise run gen:icons  # regenerate src/styles/icons.css from the Tabler SVGs
+mise run freshness  # detect version/activity drift into freshness-report.json (git-ignored)
 ```
 
 `mise run build` writes the static site to `docs/`, which is git-ignored: CI rebuilds it and uploads it to GitHub Pages
@@ -103,11 +111,14 @@ on every push to `main` (`.github/workflows/static.yml`).
 ## The data model
 
 There is one canonical store: [`data/context-reduction-tools.json`](data/context-reduction-tools.json), shaped
-`{meta, tools:[...]}`. Each tool is a strongly typed record keyed by stable identifiers: enums (`layer`, and the bands
-and decisions inside the objects below), numbers (`stars`, `trend`), and structured objects (`runtime`, `licence`,
-`conflict`, `activity`, `activityStatus`, `verdict`) alongside the plain-text `whatItDoes`, `requirements`, and
-`decisionRule`. Free-text detail is preserved verbatim inside the objects so the table and CSV render losslessly. The
-snapshot date lives in `meta.stars_verified`.
+`{meta, tools:[...]}`. Each tool is a strongly typed record with an immutable `id` and stable identifier keys: enums
+(`layer`, and the bands and decisions inside the objects below), numbers (`stars`, `trend`), and structured objects
+(`runtime`, `licence`, `conflict`, `activity`, `activityStatus`, `verdict`, `extraClaims`) alongside the plain-text
+`whatItDoes`, `requirements`, and `decisionRule`. Verdict-carrying claims can attach an `evidence` block (status plus
+cited sources), and benchmark claims carry a `proofLedger`. The recorded upstream version lives in
+`activity.latestVersion` with an ISO `activity.releasedOn`; the weekly freshness check compares it against upstream.
+Free-text detail is preserved verbatim inside the objects so the table and CSV render losslessly. The snapshot date
+lives in `meta.stars_verified`.
 
 The record shape is defined once, as a Zod schema in [`src/lib/schema.ts`](src/lib/schema.ts). From that single
 definition come the TypeScript types the site compiles against (`z.infer`), the JSON Schema published beside the skill
@@ -134,10 +145,11 @@ tool), and Drop. Full definitions are in [`src/pages/methodology.md`](src/pages/
 ## Status and roadmap
 
 The catalogue, the Vite + TypeScript site, the stack builder, and the fetch methodology are all in the repository. CI
-builds the site and deploys it to GitHub Pages on every push to `main`.
+builds the site and deploys it to GitHub Pages on every push to `main`. A weekly `freshness.yml` workflow checks each
+tool's recorded version and activity against upstream and opens one GitHub issue per drifting tool.
 
 1. **Now.** The comparison table renders from the JSON at build time, so a CSV/JSON update reshapes the site
-   automatically on the next deploy.
+   automatically on the next deploy. The freshness check flags drift weekly for human re-assessment.
 2. **Next.** Append fresh star fetches to `star-history.csv` on a schedule so the trend line becomes meaningful.
    Reconcile the stack builder's curated dataset (`src/stack-builder/stack-data.ts`) with the main catalogue.
 3. **Later.** Let an agent following the methodology draft new tool assessments for human review; because the JSON shape

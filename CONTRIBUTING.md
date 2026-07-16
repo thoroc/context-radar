@@ -79,7 +79,8 @@ the tessl registry is optional and not done yet.
 
 ## Continuous integration
 
-Three GitHub Actions workflows run on push to `main` and on pull requests. Third-party actions are pinned by commit SHA.
+Four GitHub Actions workflows. The first three run on push to `main` and on pull requests; the fourth runs on a weekly
+schedule. Third-party actions are pinned by commit SHA.
 
 - `.github/workflows/static.yml` builds the site with Vite (`bun install` then `bun run build`) and deploys the `docs/`
   output to GitHub Pages.
@@ -90,6 +91,9 @@ Three GitHub Actions workflows run on push to `main` and on pull requests. Third
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
+- `.github/workflows/freshness.yml` runs every Sunday (and on demand via `workflow_dispatch`): `mise run freshness`
+  detects tools whose recorded version or activity is behind upstream, then `mise run freshness:sync` opens or updates
+  one GitHub issue per drifting tool for human re-assessment.
 
 Run the same checks locally:
 
@@ -161,8 +165,10 @@ Code shape (site source and scripts):
 Run `mise run validate` after editing the data. It parses `data/context-reduction-tools.json` against the Zod schema in
 `src/lib/schema.ts` (typed records: enums, numbers, and structured objects; unique tool names; `meta.tool_count` equal
 to `tools.length`). This runs in CI and in the pre-commit hook. The Zod schema is the single source of truth for the
-record shape — see the Data Shape Contract section in the [skill](plugin/skills/project-comparison-fetch/SKILL.md).
-After changing the schema, run `mise run gen:schema` to refresh the published JSON Schema.
+record shape. For the full record shape and file map, see
+[Data shape contract and file locations](plugin/skills/project-comparison-fetch/references/data-shape-contract.md), the
+reference linked from the [skill](plugin/skills/project-comparison-fetch/SKILL.md). After changing the schema, run
+`mise run gen:schema` to refresh the published JSON Schema.
 
 If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
 `mise run build`.
