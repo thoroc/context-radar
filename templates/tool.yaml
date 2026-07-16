@@ -7,6 +7,12 @@
 # updates it). See plugin/skills/project-comparison-fetch/SKILL.md for the fetch
 # protocol, the verdict guide, and the layer assignment guide.
 
+# Immutable, URL-safe stable id. Leave this out on a first add: it is seeded from
+# the name automatically and preserved on re-adds. Only set it by hand to carry the
+# original id through a rename (change `tool`, keep the same `id`) so freshness
+# prompts keyed on it are not orphaned.
+# id: example-tool
+
 # Unique display name; also the identifier used for upserts and conflict lists.
 tool: Example Tool
 
@@ -71,7 +77,8 @@ activity:
   contributors: 120
   latestVersion: v1.2.0
   releaseCount: 14
-  releasedOn: 12 Jun 2026
+  # Date of the latest release, ISO YYYY-MM-DD.
+  releasedOn: 2026-06-12
   corroboration: star-history.com
   notes: >-
     120 contributors, v1.2.0 (12 Jun 2026), daily commits, confirmed via star-history.com.

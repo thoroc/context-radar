@@ -5,6 +5,10 @@
   "description": "One tool record in data/context-reduction-tools.json. Generated from src/lib/schema.ts via `mise run gen:schema` — do not edit by hand.",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
     "tool": {
       "type": "string",
       "minLength": 1
@@ -327,7 +331,8 @@
           "minimum": 0
         },
         "releasedOn": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
         },
         "corroboration": {
           "type": "string"
@@ -546,6 +551,7 @@
     }
   },
   "required": [
+    "id",
     "tool",
     "githubUrl",
     "layer",

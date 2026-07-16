@@ -193,9 +193,16 @@ export const licenceSchema = z
 export const activitySchema = z
   .object({
     contributors: z.number().int().nonnegative().optional(),
+    /**
+     * The newest upstream release observed on the evidence `checkedOn` date, i.e.
+     * the value the freshness check diffs against. This is an observation of
+     * upstream, never a recommended pin, so the drift comparison converges once a
+     * human re-records it. Must be a comparable version string (e.g. "v1.2.3").
+     */
     latestVersion: z.string().optional(),
     releaseCount: z.number().int().nonnegative().optional(),
-    releasedOn: z.string().optional(),
+    /** Date of the latest release, ISO YYYY-MM-DD. */
+    releasedOn: isoDate.optional(),
     corroboration: z.string().optional(),
     /** Full free-text detail, preserved verbatim. */
     notes: z.string().optional(),
@@ -232,6 +239,12 @@ export const verdictSchema = z
 
 export const toolSchema = z
   .object({
+    /**
+     * Immutable, URL-safe stable identifier, assigned once and never regenerated
+     * from the display name. Freshness prompts and issues key on this, so a later
+     * rename of `tool` cannot orphan them. Seeded from `toolSlug(tool)` on first add.
+     */
+    id: z.string().min(1),
     tool: z.string().min(1),
     githubUrl: z.string().url(),
     layer: layerSchema,
@@ -273,6 +286,10 @@ export const datasetSchema = z
   })
   .refine((d) => new Set(d.tools.map((t) => t.tool)).size === d.tools.length, {
     message: "tool names must be unique",
+    path: ["tools"],
+  })
+  .refine((d) => new Set(d.tools.map((t) => t.id)).size === d.tools.length, {
+    message: "tool ids must be unique",
     path: ["tools"],
   });
 
