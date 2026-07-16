@@ -1,7 +1,5 @@
 import pages from "virtual:context-radar-pages";
-import { formatDisplayDate } from "../lib/columns";
-import { META, TOOLS } from "../lib/data";
-import { wirePageModals } from "../lib/modal";
+import { formatDisplayDate, META, TOOLS, wirePageModals } from "../lib";
 
 function setText(id: string, text: string): void {
   const node = document.getElementById(id);

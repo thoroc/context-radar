@@ -20,5 +20,7 @@ jobs:
       - run: mise run lint
       # TypeScript type-checking for the site source.
       - run: mise run typecheck
+      # Collocated unit tests (bun test).
+      - run: mise run test
       # Data integrity: CSV source of truth and JSON mirror must agree.
       - run: mise run validate

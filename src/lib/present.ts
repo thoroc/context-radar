@@ -86,64 +86,51 @@ export const LANG_BADGE: Record<RuntimeLanguage, [string, string]> = {
  * (which links to detail pages) and the tool-pages plugin (which emits them),
  * so the link targets and the generated filenames never drift apart.
  */
-export function toolSlug(name: string): string {
-  return name
+export const toolSlug = (name: string): string =>
+  name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
-}
 
-export function starsText(stars: number | null): string {
-  return stars === null ? "—" : String(stars);
-}
+export const starsText = (stars: number | null): string => (stars === null ? "—" : String(stars));
 
-export function trendText(trend: number | null): string {
+export const trendText = (trend: number | null): string => {
   if (trend === null) return "—";
   if (trend === 0) return "● flat";
   return trend > 0 ? `▲ +${trend}%` : `▼ ${trend}%`;
-}
+};
 
-export function statusText(status: Tool["activityStatus"]): string {
-  return `${BAND_EMOJI[status.band]} ${status.label}`.trim();
-}
+export const statusText = (status: Tool["activityStatus"]): string =>
+  `${BAND_EMOJI[status.band]} ${status.label}`.trim();
 
-export function statusClass(band: ActivityBand): string {
-  return BAND_CLASS[band];
-}
+export const statusClass = (band: ActivityBand): string => BAND_CLASS[band];
 
-export function verdictText(verdict: Tool["verdict"]): string {
-  return verdict.rationale
+export const verdictText = (verdict: Tool["verdict"]): string =>
+  verdict.rationale
     ? `${DECISION_LABEL[verdict.decision]} — ${verdict.rationale}`
     : DECISION_LABEL[verdict.decision];
-}
 
-export function verdictClass(decision: VerdictDecision): string {
-  return DECISION_CLASS[decision];
-}
+export const verdictClass = (decision: VerdictDecision): string => DECISION_CLASS[decision];
 
-export function conflictText(conflict: Tool["conflict"]): string {
+export const conflictText = (conflict: Tool["conflict"]): string => {
   if (conflict.note) return conflict.note;
   if (conflict.severity === "none") return "—";
   const head = SEVERITY_LABEL[conflict.severity];
   return conflict.projects.length ? `${head}: ${conflict.projects.join(", ")}` : head;
-}
+};
 
-export function conflictClass(severity: ConflictSeverity): string {
-  return CONFLICT_CLASS[severity];
-}
+export const conflictClass = (severity: ConflictSeverity): string => CONFLICT_CLASS[severity];
 
-export function runtimeText(runtime: Runtime): string {
+export const runtimeText = (runtime: Runtime): string => {
   if (runtime.detail) return runtime.detail;
   const named = runtime.languages.filter((l) => l !== "none").map((l) => LANG_BADGE[l][1]);
   return named.length ? named.join(" + ") : "—";
-}
+};
 
-export function licenceText(licence: Tool["licence"]): string {
-  return licence.spdx;
-}
+export const licenceText = (licence: Tool["licence"]): string => licence.spdx;
 
 /** Lowercased haystack of every human-readable value, for the search box. */
-export function searchText(t: Tool): string {
+export const searchText = (t: Tool): string => {
   const a = t.activity;
   return [
     t.tool,
@@ -163,4 +150,4 @@ export function searchText(t: Tool): string {
   ]
     .join(" ")
     .toLowerCase();
-}
+};

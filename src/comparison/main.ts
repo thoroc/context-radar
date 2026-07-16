@@ -1,17 +1,18 @@
 import pages from "virtual:context-radar-pages";
-import { formatDisplayDate } from "../lib/columns";
-import { META, TOOLS } from "../lib/data";
-import { wirePageModals } from "../lib/modal";
+import type { ConflictSeverity, Tool } from "../lib";
 import {
   conflictText,
   DECISION_LABEL,
+  formatDisplayDate,
   LANG_BADGE,
+  META,
   runtimeText,
   searchText,
+  TOOLS,
   toolSlug,
   verdictClass,
-} from "../lib/present";
-import type { ConflictSeverity, Tool } from "../lib/schema";
+  wirePageModals,
+} from "../lib";
 
 interface LayerDef {
   label: string;

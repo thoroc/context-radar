@@ -141,6 +141,14 @@ enabled.
   read as if every entry was checked.
 - State the source of any figure that could be disputed, and prefer a fresh direct fetch over a cached aggregator.
 
+Code shape (site source and scripts):
+
+- Prefer arrow functions (`export const foo = () => ...`) over named `function` declarations. Enforced at review time,
+  not by Biome. `src/lib/` is converted; convert other files as you touch them.
+- Expose a folder's public API through an `index.ts` barrel when it is imported from elsewhere, and import from the
+  folder rather than deep module paths. `src/lib/index.ts` is the example; single-entry page folders have no barrel.
+- Collocate unit tests as `*.test.ts` next to the module they cover.
+
 ## Validating the data
 
 Run `mise run validate` after editing the data. It parses `data/context-reduction-tools.json` against the Zod schema in
@@ -151,6 +159,20 @@ After changing the schema, run `mise run gen:schema` to refresh the published JS
 
 If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
 `mise run build`.
+
+## Testing
+
+Unit tests are collocated next to the module they exercise (`src/lib/present.test.ts` sits beside `src/lib/present.ts`)
+and run with [`bun test`](https://bun.sh/docs/cli/test):
+
+```sh
+mise run test       # run every *.test.ts once
+bun test --watch    # re-run on change while developing
+```
+
+Test the pure logic (presentation helpers, CSV serialisation, the schema). DOM-bound code such as `src/lib/modal.ts` is
+not unit-tested yet; adding a DOM harness (e.g. happy-dom) is a later step. `mise run test` runs in CI in
+`.github/workflows/lint.yml`.
 
 ## Automated contributions (planned)
 

@@ -2,19 +2,19 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Plugin } from "vite";
-import { formatDisplayDate } from "../src/lib/columns";
+import type { Evidence, Tool } from "../src/lib";
 import {
   conflictClass,
   conflictText,
   DECISION_LABEL,
+  formatDisplayDate,
   LANG_BADGE,
   starsText,
   statusText,
   toolSlug,
   trendText,
   verdictClass,
-} from "../src/lib/present";
-import type { Evidence, Tool } from "../src/lib/schema";
+} from "../src/lib";
 
 export interface ToolPagesOptions {
   /** Absolute path to the canonical JSON store. */

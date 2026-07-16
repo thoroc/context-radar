@@ -52,6 +52,10 @@ run = "bun run build"
 description = "Type-check the TypeScript sources (no emit)"
 run = "bun run typecheck"
 
+[tasks.test]
+description = "Run the collocated unit tests (bun test)"
+run = "bun run test"
+
 [tasks.lint]
 description = "Check markdown, YAML, HTML, JSON, and TypeScript across all files (no changes)"
 run = "hk check --all"

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import type { Plugin } from "vite";
-import { type CsvDataset, toCsv } from "../src/lib/columns";
+import { type CsvDataset, toCsv } from "../src/lib";
 
 export interface GenerateCsvOptions {
   /** Absolute path to the canonical JSON store. */

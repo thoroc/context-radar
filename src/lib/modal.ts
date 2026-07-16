@@ -14,11 +14,9 @@ let bodyEl: HTMLDivElement;
 // one page's body (e.g. Glossary linking to Methodology) swap modals in place.
 let knownPages: Record<string, PageFragment> = {};
 
-function routeOf(href: string | null): string {
-  return (href ?? "").replace(/^\.?\//, "");
-}
+const routeOf = (href: string | null): string => (href ?? "").replace(/^\.?\//, "");
 
-function ensureDialog(): HTMLDialogElement {
+const ensureDialog = (): HTMLDialogElement => {
   if (dialog) return dialog;
   const d = document.createElement("dialog");
   d.className = "modal";
@@ -46,23 +44,23 @@ function ensureDialog(): HTMLDialogElement {
   document.body.appendChild(d);
   dialog = d;
   return d;
-}
+};
 
 /** Open the overlay with a heading and pre-rendered HTML body. */
-export function openModal(title: string, html: string): void {
+export const openModal = (title: string, html: string): void => {
   const d = ensureDialog();
   // Drop the " — Context Radar" page-title suffix for the modal heading.
   titleEl.textContent = title.split(" — ")[0];
   bodyEl.innerHTML = html;
   bodyEl.scrollTop = 0;
   d.showModal();
-}
+};
 
 /**
  * Wire nav anchors so those pointing at a modal-backed page open the overlay
  * instead of navigating. The anchor keeps its href as a no-JS fallback.
  */
-export function wirePageModals(pages: Record<string, PageFragment>): void {
+export const wirePageModals = (pages: Record<string, PageFragment>): void => {
   knownPages = pages;
   for (const a of document.querySelectorAll<HTMLAnchorElement>("nav a[href]")) {
     const route = routeOf(a.getAttribute("href"));
@@ -73,4 +71,4 @@ export function wirePageModals(pages: Record<string, PageFragment>): void {
       openModal(page.title, page.html);
     });
   }
-}
+};

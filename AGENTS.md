@@ -14,6 +14,7 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Dev server: `mise run dev`
 - Build the site into docs/: `mise run build`
 - Type-check TypeScript: `mise run typecheck`
+- Run the unit tests: `mise run test` (bun test, collocated `*.test.ts`)
 - Lint (no changes): `mise run lint` (prettier, markdownlint, yamllint, actionlint, Biome)
 - Format and auto-fix in place: `mise run fmt`
 - Validate the canonical JSON against the Zod schema: `mise run validate`
@@ -32,6 +33,18 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   `mise run validate` (the pre-commit hook enforces it). Hand-editing the JSON is fine if it still validates.
 - Never commit directly to `main`. Use feature branches and conventional commits.
 - Do not invent charity names, donation figures, or prize copy; ratings are decision support, not adoption decisions.
+
+### Code shape
+
+- **Arrow functions over named declarations.** Prefer `export const foo = (): T => ...` over `export function foo()`.
+  This is a review-time convention; Biome has no rule that bans function declarations, so keep an eye on it in review.
+  Rollout is incremental: `src/lib/` is converted; other files follow as they are touched.
+- **Barrel modules.** A folder exposes its public API through an `index.ts` barrel when that API is imported from
+  elsewhere; consumers import from the folder (`../lib`), not deep paths (`../lib/present`). `src/lib/index.ts` is the
+  worked example. Page folders (`landing/`, `comparison/`, `stack-builder/`) are Vite entry points that nothing imports,
+  so they have no barrel.
+- **Collocated unit tests.** Put `*.test.ts` next to the module it exercises (e.g. `src/lib/present.test.ts`), run with
+  `bun test`. Test pure logic; DOM-bound modules (`modal.ts`) are out of the unit slice until a DOM harness is added.
 
 ## Key paths
 

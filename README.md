@@ -39,11 +39,13 @@ context-radar/
     landing/                             Landing page logic + styles
     comparison/                          Comparison table logic + styles
     stack-builder/                       Stack builder logic, styles, and curated dataset
+    lib/index.ts                         Barrel: the shared library's public surface (consumers import from here)
     lib/schema.ts                        Zod schema: single source of truth for the record shape
     lib/present.ts                       Reconstructs display strings/classes from the record; tool slug
     lib/columns.ts                       Canonical column order + CSV serialisation
     lib/data.ts                          Typed loader for the canonical JSON
     lib/modal.ts                         Shared modal overlay for the Methodology/Glossary pages
+    lib/*.test.ts                        Collocated unit tests (bun test)
     styles/                              Shared CSS: design tokens, top nav, modal
     pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)
     public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
@@ -87,6 +89,7 @@ mise run dev        # Vite dev server (both pages, live reload)
 mise run build      # type-check and build the static site into docs/
 mise run lint       # prettier, markdownlint, yamllint, actionlint, and Biome (TypeScript)
 mise run typecheck  # TypeScript type-check only
+mise run test       # collocated unit tests (bun test)
 mise run fmt        # format everything in place (incl. TypeScript via Biome)
 mise run validate   # validate the canonical JSON store against the Zod schema
 mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)

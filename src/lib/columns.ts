@@ -43,16 +43,15 @@ export const COLUMNS: ColumnDef[] = [
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /** Formats an ISO date (YYYY-MM-DD) as a short display date, e.g. "15 Jul 2026". */
-export function formatDisplayDate(iso: string): string {
+export const formatDisplayDate = (iso: string): string => {
   const [y, m, d] = iso.split("-").map((n) => Number.parseInt(n, 10));
   return `${d} ${MONTHS[(m ?? 1) - 1] ?? ""} ${y}`;
-}
+};
 
 /** RFC 4180 quoting: wrap in quotes and double any internal quotes when the
  * value contains a comma, quote, or newline. */
-function csvCell(value: string): string {
-  return /[",\n\r]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
-}
+const csvCell = (value: string): string =>
+  /[",\n\r]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
 
 export interface CsvDataset {
   meta: { stars_verified: string };
@@ -61,10 +60,10 @@ export interface CsvDataset {
 
 /** Serialises the dataset to CSV in COLUMNS order. The Stars header carries the
  * snapshot date (from meta.stars_verified) for continuity with the old export. */
-export function toCsv(dataset: CsvDataset): string {
+export const toCsv = (dataset: CsvDataset): string => {
   const headers = COLUMNS.map((c) =>
     c.header === "Stars" ? `Stars (${formatDisplayDate(dataset.meta.stars_verified)})` : c.header,
   );
   const rows = dataset.tools.map((t) => COLUMNS.map((c) => csvCell(c.value(t))).join(","));
   return `${[headers.map(csvCell).join(","), ...rows].join("\n")}\n`;
-}
+};
