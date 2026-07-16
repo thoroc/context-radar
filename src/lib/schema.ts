@@ -84,10 +84,99 @@ export const verdictDecisionSchema = z.enum([
   "drop",
 ]);
 
+/** ISO date, YYYY-MM-DD. */
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be an ISO date (YYYY-MM-DD)");
+
+/** Where a cited source sits on the evidence spectrum. */
+export const evidenceTypeSchema = z.enum([
+  "source-code",
+  "official-docs",
+  "readme",
+  "release",
+  "search",
+  "third-party",
+]);
+
+/** Status of a claim once its sources are weighed. */
+export const evidenceStatusSchema = z.enum(["confirmed", "caveated", "refuted", "unverified"]);
+
+/** Proof-ledger decision for a headline / benchmark claim. */
+export const proofLedgerSchema = z.enum(["PROVEN", "SUPPORTED", "OPEN", "REJECTED"]);
+
+/** Source types stronger than a README mention (drives the code-beats-docs rule). */
+const STRONG_EVIDENCE: readonly string[] = ["source-code", "official-docs", "release"];
+
+/** A single citation. `url` should be a commit-SHA permalink, not a moving branch. */
+export const evidenceSourceSchema = z
+  .object({
+    url: z.string().url(),
+    /** The cited text, quoted verbatim from the source. */
+    quote: z.string().min(1),
+    /** Date the source was checked, ISO YYYY-MM-DD. */
+    checkedOn: isoDate,
+    evidenceType: evidenceTypeSchema,
+  })
+  .strict();
+
+/**
+ * Evidence attached to a claim: its status and the sources behind it. A
+ * `confirmed` claim needs at least one source rooted in code, official docs, or
+ * a release; README-only backing tops out at `caveated` (code-beats-docs).
+ */
+export const evidenceSchema = z
+  .object({
+    status: evidenceStatusSchema,
+    sources: z.array(evidenceSourceSchema),
+  })
+  .strict()
+  .superRefine((e, ctx) => {
+    if (e.status !== "unverified" && e.sources.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "a claim that is not 'unverified' must cite at least one source",
+        path: ["sources"],
+      });
+    }
+    if (
+      e.status === "confirmed" &&
+      !e.sources.some((s) => STRONG_EVIDENCE.includes(s.evidenceType))
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          "a 'confirmed' claim needs a source-code, official-docs, or release source (README alone is 'caveated')",
+        path: ["status"],
+      });
+    }
+  });
+
+/** A standalone claim that maps to no record field (e.g. a benchmark number). */
+export const extraClaimSchema = z
+  .object({
+    kind: z.enum(["benchmark", "feature"]),
+    /** Short label, e.g. "LoCoMo accuracy@1", "offline operation". */
+    label: z.string().min(1),
+    /** Falsifiable restatement of the claim. */
+    statement: z.string().min(1),
+    evidence: evidenceSchema,
+    proofLedger: proofLedgerSchema.optional(),
+  })
+  .strict()
+  .superRefine((c, ctx) => {
+    if (c.kind === "benchmark" && !c.proofLedger) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "a benchmark claim must carry a proofLedger decision",
+        path: ["proofLedger"],
+      });
+    }
+  });
+
 export const runtimeSchema = z
   .object({
     languages: z.array(runtimeLanguageSchema).min(1),
     detail: z.string().optional(),
+    evidence: evidenceSchema.optional(),
   })
   .strict();
 
@@ -97,6 +186,7 @@ export const licenceSchema = z
     spdx: z.string().min(1),
     /** Optional caveat, e.g. missing LICENSE file or a dual-licence note. */
     warning: z.string().optional(),
+    evidence: evidenceSchema.optional(),
   })
   .strict();
 
@@ -109,6 +199,7 @@ export const activitySchema = z
     corroboration: z.string().optional(),
     /** Full free-text detail, preserved verbatim. */
     notes: z.string().optional(),
+    evidence: evidenceSchema.optional(),
   })
   .strict();
 
@@ -127,6 +218,7 @@ export const conflictSchema = z
     projects: z.array(z.string()),
     /** Full free-text explanation, preserved verbatim. */
     note: z.string().optional(),
+    evidence: evidenceSchema.optional(),
   })
   .strict();
 
@@ -156,10 +248,10 @@ export const toolSchema = z
     activityStatus: activityStatusSchema,
     verdict: verdictSchema,
     decisionRule: z.string(),
+    /** Standalone benchmark / feature claims that map to no field above. */
+    extraClaims: z.array(extraClaimSchema).optional(),
   })
   .strict();
-
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be an ISO date (YYYY-MM-DD)");
 
 export const metaSchema = z
   .object({
@@ -195,6 +287,12 @@ export type Activity = z.infer<typeof activitySchema>;
 export type ActivityStatus = z.infer<typeof activityStatusSchema>;
 export type Conflict = z.infer<typeof conflictSchema>;
 export type Verdict = z.infer<typeof verdictSchema>;
+export type EvidenceType = z.infer<typeof evidenceTypeSchema>;
+export type EvidenceStatus = z.infer<typeof evidenceStatusSchema>;
+export type ProofLedger = z.infer<typeof proofLedgerSchema>;
+export type EvidenceSource = z.infer<typeof evidenceSourceSchema>;
+export type Evidence = z.infer<typeof evidenceSchema>;
+export type ExtraClaim = z.infer<typeof extraClaimSchema>;
 export type Tool = z.infer<typeof toolSchema>;
 export type Meta = z.infer<typeof metaSchema>;
 export type Dataset = z.infer<typeof datasetSchema>;

@@ -14,7 +14,7 @@ import {
   trendText,
   verdictClass,
 } from "../src/lib/present";
-import type { Tool } from "../src/lib/schema";
+import type { Evidence, Tool } from "../src/lib/schema";
 
 export interface ToolPagesOptions {
   /** Absolute path to the canonical JSON store. */
@@ -102,6 +102,55 @@ function conflictBlock(tool: Tool, slugByName: Map<string, string>): string {
     </div>`;
 }
 
+const EVIDENCE_STATUS_LABEL: Record<Evidence["status"], string> = {
+  confirmed: "Confirmed",
+  caveated: "Caveated",
+  refuted: "Refuted",
+  unverified: "Unverified",
+};
+
+interface EvidenceRow {
+  label: string;
+  evidence: Evidence;
+  proofLedger?: string;
+}
+
+function evidenceRows(tool: Tool): EvidenceRow[] {
+  const rows: EvidenceRow[] = [];
+  if (tool.conflict.evidence)
+    rows.push({ label: "Conflict / overlap", evidence: tool.conflict.evidence });
+  if (tool.activity.evidence) rows.push({ label: "Activity", evidence: tool.activity.evidence });
+  if (tool.licence.evidence) rows.push({ label: "Licence", evidence: tool.licence.evidence });
+  if (tool.runtime.evidence) rows.push({ label: "Runtime", evidence: tool.runtime.evidence });
+  for (const claim of tool.extraClaims ?? []) {
+    rows.push({ label: claim.label, evidence: claim.evidence, proofLedger: claim.proofLedger });
+  }
+  return rows;
+}
+
+function evidenceSection(tool: Tool): string {
+  const rows = evidenceRows(tool);
+  if (!rows.length) return "";
+  const items = rows
+    .map((row) => {
+      const sources = row.evidence.sources
+        .map(
+          (s) =>
+            `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.evidenceType)}</a><span class="ev-when">${esc(s.checkedOn)}</span><blockquote>${esc(s.quote)}</blockquote></li>`,
+        )
+        .join("");
+      const ledger = row.proofLedger
+        ? `<span class="ev-ledger">${esc(row.proofLedger)}</span>`
+        : "";
+      return `<div class="ev-item">
+        <div class="ev-head"><span class="ev-claim">${esc(row.label)}</span><span class="ev-status ev-${row.evidence.status}">${esc(EVIDENCE_STATUS_LABEL[row.evidence.status])}</span>${ledger}</div>
+        ${sources ? `<ul class="ev-sources">${sources}</ul>` : ""}
+      </div>`;
+    })
+    .join("");
+  return `<section><h2>Evidence</h2><div class="ev">${items}</div></section>`;
+}
+
 const DETAIL_STYLE = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -163,6 +212,21 @@ section p{color:var(--text)}
 .btn{display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:600;padding:9px 12px;border-radius:9px;border:1px solid var(--border2);color:var(--text)}
 .btn:hover{background:var(--bg3);text-decoration:none}
 .btn.accent{border-color:var(--accent-border);color:var(--accent)}.btn.accent:hover{background:var(--accent-bg)}
+.ev{display:flex;flex-direction:column;gap:12px}
+.ev-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.ev-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.ev-claim{font-size:13px;font-weight:650;color:var(--text)}
+.ev-status{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:20px}
+.ev-confirmed{background:var(--green-bg);color:var(--green)}
+.ev-caveated{background:var(--amber-bg);color:var(--amber)}
+.ev-refuted{background:var(--red-bg);color:var(--red)}
+.ev-unverified{background:var(--gray-bg);color:var(--gray)}
+.ev-ledger{font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:var(--bg3);color:var(--text2)}
+.ev-sources{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ev-sources li{font-size:12px}
+.ev-sources a{font-weight:600}
+.ev-when{color:var(--text3);margin-left:8px;font-variant-numeric:tabular-nums}
+.ev-sources blockquote{margin-top:4px;padding-left:11px;border-left:2px solid var(--border2);color:var(--text2);font-style:italic}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 @media(max-width:820px){.cols{grid-template-columns:1fr}.facts{position:static}.head h1{font-size:25px}}
 `;
@@ -212,6 +276,7 @@ function renderPage(tool: Tool, store: Store, slugByName: Map<string, string>): 
       <section><h2>Conflicts &amp; overlap</h2>${conflictBlock(tool, slugByName)}</section>
       <section><h2>Requirements</h2>${requirementsBlock(tool.requirements)}</section>
       <section><h2>Activity</h2>${activityParagraph(tool)}</section>
+      ${evidenceSection(tool)}
     </div>
     <aside>
       <div class="facts">

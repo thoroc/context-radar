@@ -94,6 +94,49 @@ If a feature cannot be traced to source code or official docs, record it with a 
 
 This rule was learned from `carsteneu/ai-memory-comparison`, which applies it consistently across 66 features and catches meaningful gaps between what tools claim and what they implement.
 
+This rule is now **schema-enforced** for cited claims (see Evidence Layer below): a claim
+whose only sources are `readme` cannot be recorded as `confirmed`.
+
+---
+
+## Evidence Layer (schema-enforced)
+
+Verdict-bearing claims carry cited sources in the record itself, so the factual basis for a
+verdict is re-auditable. This is enforced by `src/lib/schema.ts`, not by discipline.
+
+**Scope**: source the claims that carry the verdict — benchmark numbers, conflict / overlap
+assertions, and headline capability claims. Do **not** mandate sourcing star counts (they
+move weekly and are governed by the Star Count Refresh Policy). Licence and runtime may carry
+evidence when a claim about them is genuinely contested.
+
+**Where evidence lives**:
+
+- On the sub-object it backs: `conflict.evidence`, `activity.evidence`, `licence.evidence`,
+  `runtime.evidence`.
+- Standalone benchmark / feature claims that map to no field go in `extraClaims[]`
+  (`{ kind: benchmark|feature, label, statement, evidence, proofLedger? }`).
+
+Each `evidence` block is `{ status, sources: [{ url, quote, checkedOn, evidenceType }] }`:
+
+- `status`: `confirmed | caveated | refuted | unverified`.
+- `evidenceType` per source: `source-code | official-docs | readme | release | search | third-party`.
+- `url` must be a **commit-SHA permalink** (e.g. `.../blob/<sha>/path#Lnn`), never a moving
+  branch — line references into `main` rot on any refactor. `quote` holds the cited text
+  verbatim. `checkedOn` is ISO `YYYY-MM-DD`.
+
+**Enforced rules** (validation fails otherwise):
+
+- A `confirmed` claim needs at least one `source-code`, `official-docs`, or `release` source;
+  a README-only claim tops out at `caveated` (Code-Beats-Docs as schema).
+- A claim that is not `unverified` must cite at least one source.
+- An `extraClaims` entry with `kind: benchmark` must carry a `proofLedger`
+  (`PROVEN | SUPPORTED | OPEN | REJECTED`) — see the Claim Pressure-Test.
+
+Evidence is **not** required across every tool. It is required for verdict-bearing claims on
+new and re-assessed tools, and backfilled opportunistically. Never present an unsourced
+verdict claim as sourced. The MCP Stack Builder dataset (`src/stack-builder/stack-data.ts`)
+is separate and carries no evidence.
+
 ---
 
 ## Assessment Checklist
@@ -239,6 +282,8 @@ Records use **stable identifier keys** and are strongly typed, not flat strings:
 | `activity` | `{ contributors?, latestVersion?, releaseCount?, releasedOn?, corroboration?, notes? }` |
 | `activityStatus` | `{ band: active\|stable\|slowing\|early\|dormant\|none, label: string }` |
 | `verdict` | `{ decision: best\|add\|add-if\|either-or\|watch\|reference\|drop, rationale: string }` |
+| `<subobject>.evidence` | optional `{ status, sources: [{ url, quote, checkedOn, evidenceType }] }` on `conflict`/`activity`/`licence`/`runtime` (see Evidence Layer) |
+| `extraClaims` | optional `[{ kind: benchmark\|feature, label, statement, evidence, proofLedger? }]` |
 
 Free-text detail is preserved verbatim in the `notes`/`note`/`detail`/`rationale` fields, so the table and CSV export reproduce the original display losslessly. The snapshot date lives in `meta.stars_verified` (the dated `Stars (<date>)` header is reconstructed only in the CSV export).
 
