@@ -14,14 +14,15 @@
     "format": "biome format --write src plugins scripts vite.config.ts",
     "validate": "bun scripts/validate-data.ts",
     "data:add": "bun scripts/data-add.ts",
-    "gen:schema": "bun scripts/gen-schema.ts"
+    "gen:schema": "bun scripts/gen-schema.ts",
+    "gen:icons": "bun scripts/gen-icons.ts"
   },
   "dependencies": {
-    "@tabler/icons-webfont": "^3.19.0",
     "markdown-it": "^14.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.0",
+    "@tabler/icons": "^3.44.0",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.10.0",
     "typescript": "^5.7.0",

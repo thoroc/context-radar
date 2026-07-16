@@ -1,97 +1,101 @@
+import pages from "virtual:context-radar-pages";
 import { formatDisplayDate } from "../lib/columns";
 import { META, TOOLS } from "../lib/data";
+import { wirePageModals } from "../lib/modal";
 import {
-  conflictClass,
   conflictText,
+  DECISION_LABEL,
   LANG_BADGE,
   runtimeText,
   searchText,
-  starsText,
-  statusClass,
-  statusText,
+  toolSlug,
   verdictClass,
-  verdictText,
 } from "../lib/present";
-import type { Tool } from "../lib/schema";
+import type { ConflictSeverity, Tool } from "../lib/schema";
 
 interface LayerDef {
   label: string;
+  note: string;
   match: string[];
 }
 
 // Display layers, in order. `match` lists the raw Layer strings that collapse
-// into this display group (matched by prefix).
+// into this display group (matched by prefix). The group heading replaces the
+// per-row layer tag, so the layer is shown once per section rather than on
+// every row.
 const LAYERS: LayerDef[] = [
   {
-    label: "Shell & tool output compression — pick exactly one shell tool",
+    label: "Shell & tool output compression",
+    note: "pick exactly one shell tool",
     match: ["Shell output", "All tool output"],
   },
-  { label: "Static context injection", match: ["Static context injection (push model)"] },
-  { label: "Conversation history management", match: ["Conversation history management"] },
-  { label: "Personal knowledge retrieval", match: ["Personal knowledge retrieval"] },
-  { label: "Library documentation retrieval", match: ["Library documentation retrieval"] },
-  { label: "Codebase understanding & onboarding", match: ["Codebase understanding & onboarding"] },
-  { label: "Code navigation — pick primary; others stackable", match: ["Code navigation"] },
+  { label: "Static context injection", note: "", match: ["Static context injection (push model)"] },
+  {
+    label: "Conversation history management",
+    note: "",
+    match: ["Conversation history management"],
+  },
+  { label: "Personal knowledge retrieval", note: "", match: ["Personal knowledge retrieval"] },
+  {
+    label: "Library documentation retrieval",
+    note: "",
+    match: ["Library documentation retrieval"],
+  },
+  {
+    label: "Codebase understanding & onboarding",
+    note: "",
+    match: ["Codebase understanding & onboarding"],
+  },
+  {
+    label: "Code navigation",
+    note: "pick a primary; others stackable",
+    match: ["Code navigation"],
+  },
   {
     label: "Architecture violation detection",
+    note: "",
     match: ["Architecture violation detection (trust-first)", "Architecture violation detection"],
   },
-  { label: "MCP definition tokens", match: ["MCP definition tokens"] },
-  { label: "Agent memory persistence", match: ["Agent memory persistence"] },
+  { label: "MCP definition tokens", note: "", match: ["MCP definition tokens"] },
+  { label: "Agent memory persistence", note: "", match: ["Agent memory persistence"] },
   {
     label: "Cross-session governance & reasoning capture",
+    note: "",
     match: ["Cross-session governance & reasoning capture", "Cross-session governance"],
   },
   {
     label: "Response verbosity & memory compression",
+    note: "",
     match: ["Response verbosity & memory compression", "Response verbosity + memory compression"],
   },
   {
     label: "Config stack audit & optimisation",
+    note: "",
     match: ["Config stack audit & optimisation", "Config stack audit"],
   },
-  { label: "Agent safety enforcement", match: ["Agent safety enforcement"] },
+  { label: "Agent safety enforcement", note: "", match: ["Agent safety enforcement"] },
   {
     label: "Agent runtime & context orchestration",
+    note: "",
     match: ["Agent runtime & context orchestration"],
   },
   {
     label: "Universal context compression middleware",
+    note: "",
     match: ["Universal context compression middleware"],
   },
-  { label: "Tabular data retrieval", match: ["Tabular data retrieval"] },
-  { label: "Reference resource (curated list)", match: ["Reference resource (curated list)"] },
+  { label: "Tabular data retrieval", note: "", match: ["Tabular data retrieval"] },
+  {
+    label: "Reference resource (curated list)",
+    note: "not installable",
+    match: ["Reference resource (curated list)"],
+  },
   {
     label: "Code generation minimalism (YAGNI enforcement)",
+    note: "",
     match: ["Code generation minimalism (YAGNI enforcement)"],
   },
 ];
-
-const LTAG: Record<string, string> = {
-  "Shell output": "t-shell",
-  "All tool output": "t-output",
-  "Static context injection (push model)": "t-push",
-  "Conversation history management": "t-conv",
-  "Personal knowledge retrieval": "t-know",
-  "Library documentation retrieval": "t-lib",
-  "Codebase understanding & onboarding": "t-onboard",
-  "Code navigation": "t-code",
-  "Architecture violation detection (trust-first)": "t-viol",
-  "Architecture violation detection": "t-viol",
-  "MCP definition tokens": "t-defs",
-  "Agent memory persistence": "t-purple",
-  "Cross-session governance & reasoning capture": "t-gov",
-  "Cross-session governance": "t-gov",
-  "Response verbosity + memory compression": "t-resp",
-  "Config stack audit & optimisation": "t-audit",
-  "Config stack audit": "t-audit",
-  "Agent safety enforcement": "t-audit",
-  "Agent runtime & context orchestration": "t-gov",
-  "Universal context compression middleware": "t-resp",
-  "Reference resource (curated list)": "t-gov",
-  "Code generation minimalism (YAGNI enforcement)": "t-resp",
-  "Tabular data retrieval": "t-lib",
-};
 
 // Non-permissive licence identifiers that also get a warning badge.
 const LWARN = new Set([
@@ -104,61 +108,70 @@ const LWARN = new Set([
   "Paid (commercial)",
 ]);
 
-// All tool names, longest first, for conflict-text highlighting.
-const TOOL_NAMES = TOOLS.map((t) => t.tool).sort((a, b) => b.length - a.length);
+// Conflict severity to [css class, short label], concentrating the strong
+// colour on the two decision-support signals (verdict + conflict).
+const CONFLICT: Record<ConflictSeverity, [string, string]> = {
+  hard: ["cf-hard", "Hard conflict"],
+  soft: ["cf-soft", "Soft overlap"],
+  "either-or": ["cf-either", "Either / or"],
+  stackable: ["cf-stack", "Stackable"],
+  none: ["cf-none", "None"],
+};
 
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function fmtStars(stars: number | null): string {
+  if (stars === null) return "—";
+  return stars >= 1000 ? `${(stars / 1000).toFixed(1).replace(/\.0$/, "")}k` : String(stars);
 }
 
-const TOOL_NAME_RE = new RegExp(`(${TOOL_NAMES.map(escapeRegex).join("|")})`, "g");
-
-function highlightConflict(text: string, selfName: string): string {
-  if (!text || text === "—" || text.trim() === "-") return "—";
-  const escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return escaped.replace(TOOL_NAME_RE, (m) =>
-    m === selfName ? m : `<span class="conf-tool">${m}</span>`,
-  );
+function el<T extends HTMLElement>(id: string): T {
+  const node = document.getElementById(id);
+  if (!node) throw new Error(`Missing element #${id}`);
+  return node as T;
 }
 
-function runtimeBadges(runtime: Tool["runtime"]): string {
-  const named = runtime.languages.filter((l) => l !== "none");
-  if (!named.length) {
-    return `<span class="rt-chip rt-none">${runtime.detail?.slice(0, 20) || "—"}</span>`;
-  }
-  const chips = named.slice(0, 3).map((l) => {
-    const [cls, label] = LANG_BADGE[l];
-    return `<span class="rt-chip ${cls}">${label}</span>`;
-  });
-  return `<div class="rt-badges">${chips.join("")}</div>`;
-}
-
-function trendBadge(trend: number | null): string {
-  if (trend === null) return '<span class="trend trend-none">—</span>';
-  const cls = trend > 0 ? "trend-up" : trend < 0 ? "trend-down" : "trend-flat";
-  const display = trend > 0 ? `▲ +${trend}%` : trend < 0 ? `▼ ${trend}%` : "● flat";
-  return `<span class="trend ${cls}">${display}</span>`;
+function escapeHtml(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function isDrop(t: Tool): boolean {
   return t.verdict.decision === "drop";
 }
 
-function lShort(l: string): string {
-  return l
-    .replace(" (push model)", "")
-    .replace(" (trust-first)", "")
-    .replace(" & reasoning capture", "")
-    .replace(" & onboarding", "");
+function needsExternal(t: Tool): boolean {
+  return t.requirements.trimStart().startsWith("⚠");
 }
 
-const BAND_FOR_FILTER: Record<string, string> = {
-  green: "active",
-  yellow: "stable",
-  slow: "slowing",
-  red: "early",
-  dead: "dormant",
-};
+function toolCell(t: Tool): string {
+  const named = t.runtime.languages.filter((l) => l !== "none");
+  const rt = named.length ? LANG_BADGE[named[0]][1] : (t.runtime.detail ?? runtimeText(t.runtime));
+  const licClass = t.licence.warning || LWARN.has(t.licence.spdx) ? "lic warn" : "lic";
+  let html = `<div class="tname"><a href="tools/${toolSlug(t.tool)}.html">${escapeHtml(t.tool)}</a></div>`;
+  html += `<div class="tmeta"><span class="rt">${escapeHtml(rt)}</span>`;
+  html += `<span class="${licClass}">${escapeHtml(t.licence.spdx)}</span>`;
+  html += `<span class="stars">★ ${fmtStars(t.stars)}</span>`;
+  html += `<a class="gh" href="${t.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+  if (needsExternal(t)) html += `<div class="reqwarn">⚠ needs model or infra</div>`;
+  return html;
+}
+
+function conflictCell(t: Tool): string {
+  const [cls, label] = CONFLICT[t.conflict.severity];
+  if (t.conflict.severity === "none" && !t.conflict.note) {
+    return `<div class="conf cf-none">None</div>`;
+  }
+  return `<div class="conf ${cls}"><span class="sv">${label}</span>${escapeHtml(conflictText(t.conflict))}</div>`;
+}
+
+function activityCell(t: Tool): string {
+  const band = t.activityStatus.band;
+  let html = `<div class="act"><span class="dot dot-${band}"></span><span class="lbl">${escapeHtml(t.activityStatus.label)}</span></div>`;
+  if (t.trend !== null) {
+    const cls = t.trend > 0 ? "tr-up" : t.trend < 0 ? "tr-down" : "tr-flat";
+    const glyph = t.trend > 0 ? `▲ +${t.trend}%` : t.trend < 0 ? `▼ ${t.trend}%` : "● flat";
+    html += `<div class="trend ${cls}">${glyph}</div>`;
+  }
+  return html;
+}
 
 function verdictMatches(t: Tool, fv: Set<string>): boolean {
   if (fv.size === 0) return true;
@@ -177,8 +190,7 @@ function selectedValues(id: string): Set<string> {
 }
 
 // Wire a dropdown multiselect: a toggle button that opens a checkbox panel,
-// with a live summary label and outside-click/Escape dismissal. The panel keeps
-// the group id so selectedValues() can read it unchanged.
+// with a live summary label and outside-click/Escape dismissal.
 function setupMultiselect(panelId: string, allLabel: string): void {
   const toggle = el<HTMLButtonElement>(`${panelId}-toggle`);
   const panel = el<HTMLElement>(panelId);
@@ -195,7 +207,7 @@ function setupMultiselect(panelId: string, allLabel: string): void {
     } else {
       toggle.textContent = `${checked.length} selected`;
     }
-    wrapper.classList.toggle("ms-active", checked.length > 0);
+    wrapper.classList.toggle("on", checked.length > 0);
   }
 
   function close(): void {
@@ -222,32 +234,14 @@ function setupMultiselect(panelId: string, allLabel: string): void {
   updateLabel();
 }
 
-function el<T extends HTMLElement>(id: string): T {
-  const node = document.getElementById(id);
-  if (!node) throw new Error(`Missing element #${id}`);
-  return node as T;
-}
-
 function sortValue(t: Tool, col: string): string | number {
   switch (col) {
-    case "layer":
-      return t.layer.toLowerCase();
     case "whatItDoes":
       return t.whatItDoes.toLowerCase();
     case "conflict":
-      return conflictText(t.conflict).toLowerCase();
-    case "runtime":
-      return runtimeText(t.runtime).toLowerCase();
-    case "requirements":
-      return t.requirements.toLowerCase();
-    case "licence":
-      return t.licence.spdx.toLowerCase();
-    case "stars":
-      return t.stars ?? -1;
-    case "trend":
-      return t.trend ?? Number.NEGATIVE_INFINITY;
+      return t.conflict.severity;
     case "activityStatus":
-      return t.activityStatus.label.toLowerCase();
+      return t.activityStatus.band;
     case "verdict":
       return t.verdict.decision;
     case "decisionRule":
@@ -265,7 +259,6 @@ function render(): void {
   const fl = el<HTMLSelectElement>("fl").value;
   const fv = selectedValues("fv");
   const fa = selectedValues("fa");
-  const allowedBands = new Set([...fa].map((v) => BAND_FOR_FILTER[v]));
   const fr = el<HTMLSelectElement>("fr").value;
   const tb = el("tb");
   tb.innerHTML = "";
@@ -276,9 +269,9 @@ function render(): void {
       if (fl && !t.layer.startsWith(fl) && !layer.match.some((m) => m.startsWith(fl))) return false;
       if (q && !searchText(t).includes(q)) return false;
       if (!verdictMatches(t, fv)) return false;
-      if (fa.size && !allowedBands.has(t.activityStatus.band)) return false;
-      if (fr === "clean" && t.requirements.startsWith("⚠")) return false;
-      if (fr === "warn" && !t.requirements.startsWith("⚠")) return false;
+      if (fa.size && !fa.has(t.activityStatus.band)) return false;
+      if (fr === "clean" && needsExternal(t)) return false;
+      if (fr === "warn" && !needsExternal(t)) return false;
       return true;
     });
     if (!rows.length) continue;
@@ -296,22 +289,23 @@ function render(): void {
     total += rows.length;
     const hdr = document.createElement("tr");
     hdr.className = "lh";
-    hdr.innerHTML = `<td colspan="12">${layer.label}</td>`;
+    const note = layer.note ? `<span class="lh-note">${escapeHtml(layer.note)}</span>` : "";
+    hdr.innerHTML = `<td colspan="6">${escapeHtml(layer.label)}${note}</td>`;
     tb.appendChild(hdr);
     for (const t of rows) {
       const tr = document.createElement("tr");
       if (isDrop(t)) tr.className = "dropped";
-      const tc = LTAG[t.layer] || "t-code";
-      const lc = t.licence.warning || LWARN.has(t.licence.spdx) ? "lic lic-warn" : "lic";
-      const reqHtml = t.requirements.startsWith("⚠")
-        ? `<span style="color:#A32D2D;font-size:11px">${t.requirements}</span>`
-        : `<span style="font-size:11px;color:var(--text2,#777)">${t.requirements}</span>`;
-      const confHtml = highlightConflict(conflictText(t.conflict), t.tool);
-      tr.innerHTML = `<td><div class="tname"><a href="${t.githubUrl}" target="_blank" rel="noopener">${t.tool}</a></div></td><td><span class="tag ${tc}">${lShort(t.layer)}</span></td><td>${t.whatItDoes}</td><td class="conf-cell ${conflictClass(t.conflict.severity)}">${confHtml}</td><td>${runtimeBadges(t.runtime)}</td><td>${reqHtml}</td><td><span class="${lc}">${t.licence.spdx}</span></td><td style="white-space:nowrap">${starsText(t.stars)}</td><td>${trendBadge(t.trend)}</td><td><span class="act ${statusClass(t.activityStatus.band)}">${statusText(t.activityStatus)}</span><div class="detail">${t.activity.notes ?? ""}</div></td><td><span class="verdict ${verdictClass(t.verdict.decision)}">${verdictText(t.verdict)}</span></td><td>${t.decisionRule}</td>`;
+      tr.innerHTML =
+        `<td>${toolCell(t)}</td>` +
+        `<td><div class="desc" title="${escapeHtml(t.whatItDoes)}">${escapeHtml(t.whatItDoes)}</div></td>` +
+        `<td>${conflictCell(t)}</td>` +
+        `<td>${activityCell(t)}</td>` +
+        `<td><span class="verdict ${verdictClass(t.verdict.decision)}">${DECISION_LABEL[t.verdict.decision]}</span></td>` +
+        `<td><div class="rule" title="${escapeHtml(t.decisionRule)}">${escapeHtml(t.decisionRule)}</div></td>`;
       tb.appendChild(tr);
     }
   }
-  el("cnt").textContent = `${total} tool${total === 1 ? "" : "s"}`;
+  el("cnt").textContent = `${total} tool${total === 1 ? "" : "s"} shown`;
 }
 
 function renderSummary(): void {
@@ -319,7 +313,7 @@ function renderSummary(): void {
     TOOLS.some((t) => layer.match.some((m) => t.layer.startsWith(m))),
   ).length;
   el("summary").innerHTML =
-    `${TOOLS.length} tools across ${layerCount} layers &middot; Stars &amp; activity verified ${formatDisplayDate(META.stars_verified)} &middot; <a href="context-reduction-tools.csv">Download CSV</a>`;
+    `<strong>${TOOLS.length} tools</strong> across <strong>${layerCount} layers</strong> &middot; stars &amp; activity verified ${formatDisplayDate(META.stars_verified)} &middot; <a href="context-reduction-tools.csv">Download CSV</a>`;
 }
 
 el("s").addEventListener("input", render);
@@ -335,11 +329,12 @@ for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")
       sCol = c;
       sDir = 1;
     }
-    for (const t of document.querySelectorAll("th")) t.classList.remove("asc", "desc");
-    th.classList.add(sDir === 1 ? "asc" : "desc");
+    for (const t of document.querySelectorAll("th")) t.classList.remove("sort-asc", "sort-desc");
+    th.classList.add(sDir === 1 ? "sort-asc" : "sort-desc");
     render();
   });
 }
 
+wirePageModals(pages);
 renderSummary();
 render();

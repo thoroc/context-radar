@@ -3,97 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Context Reduction Tools — Comparison</title>
-    <link rel="stylesheet" href="./comparison/comparison.css" />
+    <title>Context Radar — Context reduction tools for coding agents</title>
+    <link rel="stylesheet" href="./landing/landing.css" />
   </head>
   <body>
-    <header>
-      <h1>Context Reduction Tools — Comparison</h1>
-      <p id="summary"></p>
-    </header>
-    <div class="controls">
-      <label for="s">Search</label>
-      <input type="text" id="s" placeholder="Tool, layer, requirements, verdict&hellip;" />
-      <label for="fl">Layer</label>
-      <select id="fl">
-        <option value="">All layers</option>
-        <option>Shell output</option>
-        <option>All tool output</option>
-        <option>Static context injection (push model)</option>
-        <option>Conversation history management</option>
-        <option>Personal knowledge retrieval</option>
-        <option>Library documentation retrieval</option>
-        <option>Codebase understanding &amp; onboarding</option>
-        <option>Code navigation</option>
-        <option>Architecture violation detection</option>
-        <option>MCP definition tokens</option>
-        <option>Agent memory persistence</option>
-        <option>Cross-session governance</option>
-        <option>Response verbosity &amp; memory compression</option>
-        <option>Config stack audit &amp; optimisation</option>
-        <option>Agent safety enforcement</option>
-        <option>Agent runtime &amp; context orchestration</option>
-        <option>Universal context compression middleware</option>
-        <option>Reference resource (curated list)</option>
-        <option>Code generation minimalism (YAGNI enforcement)</option>
-        <option>Tabular data retrieval</option>
-      </select>
-      <span class="chip-label">Verdict</span>
-      <div class="ms">
-        <button type="button" class="ms-toggle" id="fv-toggle" aria-haspopup="true" aria-expanded="false">
-          All verdicts
-        </button>
-        <div class="ms-panel" id="fv" role="group" aria-label="Filter by verdict" hidden>
-          <label class="ms-opt"><input type="checkbox" value="best" />Best</label>
-          <label class="ms-opt"><input type="checkbox" value="add" />Add</label>
-          <label class="ms-opt"><input type="checkbox" value="either-or" />Either/or</label>
-          <label class="ms-opt"><input type="checkbox" value="watch" />Watch</label>
-          <label class="ms-opt"><input type="checkbox" value="reference" />Reference</label>
-          <label class="ms-opt"><input type="checkbox" value="drop" />Drop</label>
-        </div>
-      </div>
-      <span class="chip-label">Activity</span>
-      <div class="ms">
-        <button type="button" class="ms-toggle" id="fa-toggle" aria-haspopup="true" aria-expanded="false">
-          All activity
-        </button>
-        <div class="ms-panel" id="fa" role="group" aria-label="Filter by activity" hidden>
-          <label class="ms-opt"><input type="checkbox" value="green" />🟢 Active</label>
-          <label class="ms-opt"><input type="checkbox" value="yellow" />🟡 Active / Stable</label>
-          <label class="ms-opt"><input type="checkbox" value="slow" />🟠 Slowing</label>
-          <label class="ms-opt"><input type="checkbox" value="red" />🔴 Early / Pre-release</label>
-          <label class="ms-opt"><input type="checkbox" value="dead" />⚫ Dormant</label>
-        </div>
-      </div>
-      <label for="fr">Requirements</label>
-      <select id="fr">
-        <option value="">All tools</option>
-        <option value="clean">No model / external deps</option>
-        <option value="warn">⚠ Needs model or infra</option>
-      </select>
-      <span class="count" id="cnt"></span>
+    <div class="topbar">
+      <a class="brand" href="./index.html">
+        <span class="mark">Context Radar<span class="d">.</span></span>
+        <span class="tag">Context reduction tools</span>
+      </a>
+      <nav>
+        <a href="./index.html" class="active">Home</a>
+        <a href="./comparison.html">Comparison</a>
+        <a href="./stack-builder.html">Stack builder</a>
+        <a href="./methodology.html">Methodology</a>
+        <a href="./glossary.html">Glossary</a>
+      </nav>
     </div>
-    <div class="wrap">
-      <table id="tbl">
-        <thead>
-          <tr>
-            <th data-col="tool">Tool</th>
-            <th data-col="layer">Layer</th>
-            <th data-col="whatItDoes" style="min-width: 180px">What it does</th>
-            <th data-col="conflict" style="min-width: 140px">Conflict / Overlap</th>
-            <th data-col="runtime">Runtime</th>
-            <th data-col="requirements" style="min-width: 160px">Requirements</th>
-            <th data-col="licence">Licence</th>
-            <th data-col="stars">Stars</th>
-            <th data-col="trend">Trend (30d)</th>
-            <th data-col="activityStatus">Activity</th>
-            <th data-col="verdict">Verdict</th>
-            <th data-col="decisionRule" style="min-width: 160px">Decision rule</th>
-          </tr>
-        </thead>
-        <tbody id="tb"></tbody>
-      </table>
+
+    <div class="page">
+      <section class="hero">
+        <h1>Context Radar<span class="d">.</span></h1>
+        <p class="lede">
+          A comparison catalogue of tools that cut context-window token use in Claude Code and comparable coding agents.
+          Tools are grouped by the layer they act on and rated as decision support, not adoption advice.
+        </p>
+        <p class="stats">
+          <strong id="toolcount">&mdash;</strong> tools &middot; stars &amp; activity verified
+          <strong id="verified">&mdash;</strong>
+        </p>
+      </section>
+
+      <section class="cards">
+        <a class="card" href="./comparison.html">
+          <h2>Comparison table</h2>
+          <p>
+            Browse and sort every tool by layer, verdict, activity and licence. Each row summarises a tool; click
+            through for the full detail page.
+          </p>
+          <span class="go">Open the comparison &rarr;</span>
+        </a>
+        <a class="card" href="./stack-builder.html">
+          <h2>Stack builder</h2>
+          <p>
+            Assemble a conflict-free stack from scratch and watch layer coverage, conflicts and community weight update
+            as you add tools.
+          </p>
+          <span class="go">Build a stack &rarr;</span>
+        </a>
+      </section>
+
+      <section class="legend">
+        <h2>How to read the verdicts</h2>
+        <ul>
+          <li><span class="verdict v-best">Best</span> The pick for its layer.</li>
+          <li><span class="verdict v-add">Add</span> Worth adding to most stacks.</li>
+          <li><span class="verdict v-cond">Add if</span> Add only if you use that workflow.</li>
+          <li><span class="verdict v-either">Either/or</span> Pick one of a mutually exclusive set.</li>
+          <li><span class="verdict v-watch">Watch</span> Promising, but early or unproven.</li>
+          <li><span class="verdict v-watch">Reference</span> Not installable; a discovery resource.</li>
+          <li><span class="verdict v-drop">Drop</span> Superseded or not worth the cost.</li>
+        </ul>
+      </section>
+
+      <p class="foot">
+        <a href="context-reduction-tools.csv">Download CSV</a>
+        <span>Ratings are decision support, not adoption decisions.</span>
+      </p>
     </div>
-    <script type="module" src="./comparison/main.ts"></script>
+    <script type="module" src="./landing/main.ts"></script>
   </body>
 </html>

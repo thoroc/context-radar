@@ -30,7 +30,7 @@ const BAND_CLASS: Record<ActivityBand, string> = {
   none: "a-stable",
 };
 
-const DECISION_LABEL: Record<VerdictDecision, string> = {
+export const DECISION_LABEL: Record<VerdictDecision, string> = {
   best: "Best in class",
   add: "Add",
   "add-if": "Add if you use",
@@ -80,6 +80,18 @@ export const LANG_BADGE: Record<RuntimeLanguage, [string, string]> = {
   gleam: ["rt-gleam", "Gleam/BEAM"],
   none: ["rt-none", "—"],
 };
+
+/**
+ * URL-safe stable identifier for a tool name. Shared by the comparison table
+ * (which links to detail pages) and the tool-pages plugin (which emits them),
+ * so the link targets and the generated filenames never drift apart.
+ */
+export function toolSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
 export function starsText(stars: number | null): string {
   return stars === null ? "—" : String(stars);

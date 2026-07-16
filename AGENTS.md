@@ -42,8 +42,12 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Column order + CSV serialisation: `src/lib/columns.ts`
 - Authoring template: `templates/tool.yaml`
 - Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/data-add.ts`
-- Site source (Vite + TS): `src/` — `index.html` + `comparison/` (table), `stack-builder.html` + `stack-builder/`
-  (builder, with its own curated `stack-data.ts`), `lib/` (schema/columns/data), `pages/` (markdown), `public/llms.txt`
+- Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
+  table linking to detail pages), `stack-builder.html` + `stack-builder/` (builder, with its own curated
+  `stack-data.ts`), `lib/` (schema/columns/data/modal), `styles/` (shared tokens/nav/modal CSS), `pages/` (markdown,
+  shown as modal overlays with an HTML fallback), `public/llms.txt`
+- Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages.ts`, reusing `lib/present.ts`; the
+  comparison links and the generated filenames share `toolSlug` (in `lib/present.ts`)
 - Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
 - Published JSON Schema (generated from Zod): `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`
