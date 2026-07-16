@@ -9,6 +9,12 @@ Evaluation scenarios that exercise the skill's trigger surface. Each
   weights sum to 100.
 - `capability.txt` — a one-line statement of the capability under test.
 
+Two index files sit alongside the scenarios:
+
+- `instructions.json` — the atomic, checkable instructions the skill enforces, each
+  mapped to the scenarios that cover it.
+- `summary.json` — coverage stats (currently 13/13 instructions, 100%).
+
 ## Coverage
 
 | Scenario | Capability |

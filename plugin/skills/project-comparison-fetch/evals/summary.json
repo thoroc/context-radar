@@ -1,0 +1,18 @@
+{
+  "skill": "project-comparison-fetch",
+  "scenario_count": 7,
+  "instructions_coverage": {
+    "total_instructions": 13,
+    "covered_instructions": 13,
+    "coverage_percentage": 100
+  },
+  "scenarios": [
+    { "id": "scenario-01-star-cross-verify", "instructions": ["I01"] },
+    { "id": "scenario-02-owner-transfer", "instructions": ["I02"] },
+    { "id": "scenario-03-code-beats-docs-evidence", "instructions": ["I03", "I04", "I05"] },
+    { "id": "scenario-04-benchmark-proof-ledger", "instructions": ["I06", "I07"] },
+    { "id": "scenario-05-out-of-scope", "instructions": ["I08"] },
+    { "id": "scenario-06-threat-pattern", "instructions": ["I09"] },
+    { "id": "scenario-07-conflict-and-ingest", "instructions": ["I10", "I11", "I12", "I13"] }
+  ]
+}
