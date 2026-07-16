@@ -1,9 +1,9 @@
 {
   "capability": "Reject out-of-scope projects without a full assessment",
   "checklist": [
-    { "criterion": "Checks scope before a full fetch-and-assess", "weight": 25 },
-    { "criterion": "Correctly classifies it as an out-of-scope runtime/MCP client", "weight": 30 },
-    { "criterion": "Gives a concise scope rationale", "weight": 20 },
-    { "criterion": "Declines to add it and invents no verdict", "weight": 25 }
+    { "criterion": "Checks scope before a full fetch-and-assess", "max_score": 25 },
+    { "criterion": "Correctly classifies it as an out-of-scope runtime/MCP client", "max_score": 30 },
+    { "criterion": "Gives a concise scope rationale", "max_score": 20 },
+    { "criterion": "Declines to add it and invents no verdict", "max_score": 25 }
   ]
 }

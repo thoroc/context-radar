@@ -1,10 +1,10 @@
 {
   "capability": "Apply code-beats-docs and record cited evidence with the correct status",
   "checklist": [
-    { "criterion": "Verifies each headline claim against source, not README copy", "weight": 20 },
-    { "criterion": "Records Neo4j support as confirmed with a source-code permalink", "weight": 20 },
-    { "criterion": "Records the unbenchmarked 96% claim as caveated/OPEN, not confirmed", "weight": 25 },
-    { "criterion": "Confirmed status requires a source-code/official-docs/release source", "weight": 15 },
-    { "criterion": "Uses commit-SHA permalinks with verbatim quote and checkedOn; no fabrication", "weight": 20 }
+    { "criterion": "Verifies each headline claim against source, not README copy", "max_score": 20 },
+    { "criterion": "Records Neo4j support as confirmed with a source-code permalink", "max_score": 20 },
+    { "criterion": "Records the unbenchmarked 96% claim as caveated/OPEN, not confirmed", "max_score": 25 },
+    { "criterion": "Confirmed status requires a source-code/official-docs/release source", "max_score": 15 },
+    { "criterion": "Uses commit-SHA permalinks with verbatim quote and checkedOn; no fabrication", "max_score": 20 }
   ]
 }

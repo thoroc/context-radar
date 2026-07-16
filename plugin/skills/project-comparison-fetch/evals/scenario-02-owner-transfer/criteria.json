@@ -1,10 +1,10 @@
 {
   "capability": "Distinguish an org/repo transfer from a stale aggregator using repository_id",
   "checklist": [
-    { "criterion": "Recognises a possible transfer (new owner, matching README/topics)", "weight": 20 },
-    { "criterion": "Fetches the alternate URL and compares repository_id", "weight": 30 },
-    { "criterion": "Concludes same repository when repository_id matches", "weight": 20 },
-    { "criterion": "Updates the githubUrl field, not only the star count", "weight": 20 },
-    { "criterion": "Prefers the direct fetch over aggregator snapshots", "weight": 10 }
+    { "criterion": "Recognises a possible transfer (new owner, matching README/topics)", "max_score": 20 },
+    { "criterion": "Fetches the alternate URL and compares repository_id", "max_score": 30 },
+    { "criterion": "Concludes same repository when repository_id matches", "max_score": 20 },
+    { "criterion": "Updates the githubUrl field, not only the star count", "max_score": 20 },
+    { "criterion": "Prefers the direct fetch over aggregator snapshots", "max_score": 10 }
   ]
 }

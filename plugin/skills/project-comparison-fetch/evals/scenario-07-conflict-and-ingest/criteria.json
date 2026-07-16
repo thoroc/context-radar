@@ -1,10 +1,10 @@
 {
   "capability": "Flag MCP tool-name conflicts, assign layer and verdict, and ingest via the template",
   "checklist": [
-    { "criterion": "Assigns the primary layer 'Code navigation'", "weight": 15 },
-    { "criterion": "Flags the tool-name collision as HARD and lists the overlapping projects", "weight": 30 },
-    { "criterion": "Assigns a defensible new-user verdict from the verdict guide", "weight": 20 },
-    { "criterion": "Fills the template with stable keys and ingests via data:add then validate", "weight": 25 },
-    { "criterion": "Record validates; tool_count and last_updated update", "weight": 10 }
+    { "criterion": "Assigns the primary layer 'Code navigation'", "max_score": 15 },
+    { "criterion": "Flags the tool-name collision as HARD and lists the overlapping projects", "max_score": 30 },
+    { "criterion": "Assigns a defensible new-user verdict from the verdict guide", "max_score": 20 },
+    { "criterion": "Fills the template with stable keys and ingests via data:add then validate", "max_score": 25 },
+    { "criterion": "Record validates; tool_count and last_updated update", "max_score": 10 }
   ]
 }
