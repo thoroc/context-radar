@@ -1,0 +1,36 @@
+name: freshness
+
+on:
+  schedule:
+    # Sunday 18:00 UTC. GitHub cron is best-effort: it can be delayed or skipped,
+    # only runs from the default branch, and auto-disables after 60 days idle.
+    - cron: "0 18 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+# One digest at a time; never cancel a run mid-write. Constant group so a manual
+# dispatch and the schedule serialise instead of racing to open duplicate issues.
+concurrency:
+  group: freshness
+  cancel-in-progress: false
+
+jobs:
+  freshness:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2
+      - run: mise run install
+      # Observe upstream versions and classify drift into freshness-report.json.
+      - name: Detect freshness drift
+        run: mise run freshness
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Open or update the single consolidated digest issue from that report.
+      - name: Sync the freshness digest issue
+        run: mise run freshness:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

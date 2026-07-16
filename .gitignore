@@ -5,6 +5,9 @@ node_modules/
 # GitHub Pages workflow uploads it. Do not commit generated output.
 docs/
 
+# Freshness detector output; regenerated each run, consumed by the digest sync.
+freshness-report.json
+
 # OS and editor cruft
 .DS_Store
 *.swp

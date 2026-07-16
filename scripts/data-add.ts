@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { parse as parseYaml } from "yaml";
+import { toolSlug } from "../src/lib/present";
 import { datasetSchema, toolSchema } from "../src/lib/schema";
 
 // Ingests a filled-in tool template (YAML), validates it against the schema, and
@@ -12,7 +13,23 @@ if (!yamlPath) {
   process.exit(1);
 }
 
-const toolResult = toolSchema.safeParse(parseYaml(readFileSync(yamlPath, "utf8")));
+const dataPath = "data/context-reduction-tools.json";
+const dataset = datasetSchema.parse(JSON.parse(readFileSync(dataPath, "utf8")));
+
+// Resolve the immutable `id` before validation: an explicit id in the YAML wins
+// (author carrying one through a rename); otherwise reuse the existing record's id
+// when the name already exists; otherwise seed it from the name. This keeps the id
+// stable across re-adds so freshness prompts keyed on it are never orphaned.
+const raw = parseYaml(readFileSync(yamlPath, "utf8"));
+if (raw && typeof raw === "object" && (raw as { id?: unknown }).id == null) {
+  const name = (raw as { tool?: unknown }).tool;
+  if (typeof name === "string") {
+    const existing = dataset.tools.find((t) => t.tool === name);
+    (raw as { id?: string }).id = existing ? existing.id : toolSlug(name);
+  }
+}
+
+const toolResult = toolSchema.safeParse(raw);
 if (!toolResult.success) {
   console.error(`${yamlPath} does not match the tool schema:`);
   for (const issue of toolResult.error.issues) {
@@ -21,9 +38,6 @@ if (!toolResult.success) {
   process.exit(1);
 }
 const tool = toolResult.data;
-
-const dataPath = "data/context-reduction-tools.json";
-const dataset = datasetSchema.parse(JSON.parse(readFileSync(dataPath, "utf8")));
 
 const idx = dataset.tools.findIndex((t) => t.tool === tool.tool);
 if (idx >= 0) dataset.tools[idx] = tool;
