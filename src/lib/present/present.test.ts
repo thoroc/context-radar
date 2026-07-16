@@ -1,15 +1,15 @@
 import { describe, expect, test } from "bun:test";
-import { conflictClass } from "./conflictClass";
-import { conflictText } from "./conflictText";
-import { licenceText } from "./licenceText";
-import { runtimeText } from "./runtimeText";
-import { starsText } from "./starsText";
-import { statusClass } from "./statusClass";
-import { statusText } from "./statusText";
-import { toolSlug } from "./toolSlug";
-import { trendText } from "./trendText";
-import { verdictClass } from "./verdictClass";
-import { verdictText } from "./verdictText";
+import { conflictClass } from "./conflict-class";
+import { conflictText } from "./conflict-text";
+import { licenceText } from "./licence-text";
+import { runtimeText } from "./runtime-text";
+import { starsText } from "./stars-text";
+import { statusClass } from "./status-class";
+import { statusText } from "./status-text";
+import { toolSlug } from "./tool-slug";
+import { trendText } from "./trend-text";
+import { verdictClass } from "./verdict-class";
+import { verdictText } from "./verdict-text";
 
 describe("toolSlug", () => {
   test("lowercases and hyphenates", () => {

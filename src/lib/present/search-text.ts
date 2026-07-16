@@ -1,8 +1,8 @@
 import type { Tool } from "../schema";
-import { conflictText } from "./conflictText";
-import { runtimeText } from "./runtimeText";
-import { statusText } from "./statusText";
-import { verdictText } from "./verdictText";
+import { conflictText } from "./conflict-text";
+import { runtimeText } from "./runtime-text";
+import { statusText } from "./status-text";
+import { verdictText } from "./verdict-text";
 
 /** Lowercased haystack of every human-readable value, for the search box. */
 export const searchText = (t: Tool): string => {

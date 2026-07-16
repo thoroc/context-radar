@@ -1,5 +1,5 @@
 import { state } from "../state";
-import { getConflicts } from "./getConflicts";
+import { getConflicts } from "./get-conflicts";
 
 export const getConflictedIds = (): Set<string> => {
   const s = new Set<string>();

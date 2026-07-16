@@ -145,6 +145,8 @@ Code shape (site source and scripts):
 
 - Prefer arrow functions (`export const foo = () => ...`) over named `function` declarations. Enforced at review time,
   not by Biome. Nested closures may stay inside their parent function.
+- Name source files in kebab-case (`tool-slug.ts`), even when the exported function keeps its camelCase name
+  (`toolSlug`). Biome's `useFilenamingConvention` enforces this, so it is checked in CI.
 - One function per module, grouped into domain folders. Shared mutable state lives in a `state.ts`; shared constants and
   lookup tables live in a dedicated `constants.ts` / `labels.ts` / `types.ts`. Each domain folder has an `index.ts`
   barrel, and `main.ts` entry points stay thin (wire events, call into domains).

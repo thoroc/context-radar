@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import type { Tool } from "../schema";
 import { COLUMNS } from "./columns";
-import { formatDisplayDate } from "./formatDisplayDate";
-import { toCsv } from "./toCsv";
+import { formatDisplayDate } from "./format-display-date";
+import { toCsv } from "./to-csv";
 import type { CsvDataset } from "./types";
 
 const makeTool = (overrides: Partial<Tool> = {}): Tool => ({

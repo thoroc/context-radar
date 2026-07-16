@@ -1,4 +1,4 @@
-import { ensureDialog } from "./ensureDialog";
+import { ensureDialog } from "./ensure-dialog";
 import { modalState } from "./state";
 
 /** Open the overlay with a heading and pre-rendered HTML body. */

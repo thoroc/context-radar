@@ -2,5 +2,5 @@
 // filters that re-render on change.
 
 export * from "./render";
-export * from "./renderSummary";
-export * from "./setupMultiselect";
+export * from "./render-summary";
+export * from "./setup-multiselect";

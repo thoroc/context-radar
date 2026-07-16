@@ -2,16 +2,16 @@
 // structured tool record. One function per module; the shared lookup tables live
 // in labels.ts.
 
-export * from "./conflictClass";
-export * from "./conflictText";
+export * from "./conflict-class";
+export * from "./conflict-text";
 export * from "./labels";
-export * from "./licenceText";
-export * from "./runtimeText";
-export * from "./searchText";
-export * from "./starsText";
-export * from "./statusClass";
-export * from "./statusText";
-export * from "./toolSlug";
-export * from "./trendText";
-export * from "./verdictClass";
-export * from "./verdictText";
+export * from "./licence-text";
+export * from "./runtime-text";
+export * from "./search-text";
+export * from "./stars-text";
+export * from "./status-class";
+export * from "./status-text";
+export * from "./tool-slug";
+export * from "./trend-text";
+export * from "./verdict-class";
+export * from "./verdict-text";

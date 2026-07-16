@@ -2,6 +2,6 @@
 // panels from the current state.
 
 export * from "./render";
-export * from "./renderGrid";
-export * from "./renderPanels";
-export * from "./renderSidebar";
+export * from "./render-grid";
+export * from "./render-panels";
+export * from "./render-sidebar";

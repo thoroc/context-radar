@@ -1,7 +1,7 @@
 import { coveredLayers, getConflictedIds, getConflicts, getWarnedTools } from "../selectors";
-import { renderGrid } from "./renderGrid";
-import { renderPanels } from "./renderPanels";
-import { renderSidebar } from "./renderSidebar";
+import { renderGrid } from "./render-grid";
+import { renderPanels } from "./render-panels";
+import { renderSidebar } from "./render-sidebar";
 
 export const render = (): void => {
   const cIds = getConflictedIds();

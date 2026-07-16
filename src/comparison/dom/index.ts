@@ -1,3 +1,3 @@
 export * from "./el";
-export * from "./escapeHtml";
-export * from "./fmtStars";
+export * from "./escape-html";
+export * from "./fmt-stars";

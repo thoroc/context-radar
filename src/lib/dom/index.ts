@@ -1,6 +1,6 @@
 // DOM domain: the shared modal overlay. Public surface only; ensureDialog,
 // routeOf, and the mutable modalState are internal to the domain.
 
-export { openModal } from "./openModal";
+export { openModal } from "./open-modal";
 export type { PageFragment } from "./state";
-export { wirePageModals } from "./wirePageModals";
+export { wirePageModals } from "./wire-page-modals";

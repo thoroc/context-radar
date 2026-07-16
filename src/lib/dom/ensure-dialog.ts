@@ -1,5 +1,5 @@
-import { openModal } from "./openModal";
-import { routeOf } from "./routeOf";
+import { openModal } from "./open-modal";
+import { routeOf } from "./route-of";
 import { modalState } from "./state";
 
 /** Lazily create the singleton <dialog> and wire its close/backdrop/link

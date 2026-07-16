@@ -39,6 +39,9 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - **Arrow functions over named declarations.** Prefer `export const foo = (): T => ...` over `export function foo()`. A
   review-time convention; Biome has no rule that bans function declarations. Nested closures inside a function stay
   inside it; only top-level functions are subject to the rule below.
+- **Kebab-case filenames.** Source files are kebab-case (`tool-slug.ts`, `get-conflicted-ids.ts`) even though the
+  function they export keeps its camelCase identifier (`toolSlug`). Enforced by Biome's `useFilenamingConvention`, so CI
+  fails on a camelCase filename.
 - **One function per module, grouped into domains.** A module exports at most one function. Shared mutable state goes in
   a `state.ts` and shared constants/lookup tables in a dedicated const/type module (`constants.ts`, `labels.ts`,
   `types.ts`). The single-function modules are grouped into domain folders (`src/lib/present`, `src/lib/csv`,
@@ -65,7 +68,7 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `styles/` (shared tokens/nav/modal CSS), `pages/`
   (markdown, shown as modal overlays with an HTML fallback), `public/llms.txt`
 - Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages.ts`, reusing `lib/present/`; the
-  comparison links and the generated filenames share `toolSlug` (in `lib/present/toolSlug.ts`)
+  comparison links and the generated filenames share `toolSlug` (in `lib/present/tool-slug.ts`)
 - Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
 - Published JSON Schema (generated from Zod): `plugin/skills/project-comparison-fetch/schema/tool-record.schema.json`

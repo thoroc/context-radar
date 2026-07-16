@@ -1,6 +1,6 @@
 import { COLUMNS } from "./columns";
-import { csvCell } from "./csvCell";
-import { formatDisplayDate } from "./formatDisplayDate";
+import { csvCell } from "./csv-cell";
+import { formatDisplayDate } from "./format-display-date";
 import type { CsvDataset } from "./types";
 
 /** Serialises the dataset to CSV in COLUMNS order. The Stars header carries the
