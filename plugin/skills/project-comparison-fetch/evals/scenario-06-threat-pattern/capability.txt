@@ -1,0 +1,1 @@
+Recognise malware/threat patterns in a repo and refuse to add it.

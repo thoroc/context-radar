@@ -1,0 +1,10 @@
+{
+  "capability": "Pressure-test a headline benchmark and record it as an extraClaims entry with a proof ledger",
+  "checklist": [
+    { "criterion": "Restates the claim as a falsifiable statement", "weight": 15 },
+    { "criterion": "Applies the six-step claim pressure-test", "weight": 25 },
+    { "criterion": "Assigns SUPPORTED, not PROVEN, for self-selected self-run methodology", "weight": 25 },
+    { "criterion": "Records an extraClaims benchmark entry with proofLedger and a source-code permalink", "weight": 25 },
+    { "criterion": "Notes that a benchmark extraClaim without proofLedger fails validation", "weight": 10 }
+  ]
+}

@@ -1,0 +1,1 @@
+Flag an MCP tool-name conflict, assign layer and verdict, and ingest the record via the template.
