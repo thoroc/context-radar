@@ -66,6 +66,10 @@ run = "bun run data:add"
 description = "Regenerate the skill's JSON Schema from the Zod schema"
 run = "bun run gen:schema"
 
+[tasks."gen:icons"]
+description = "Regenerate src/styles/icons.css from the Tabler outline SVGs"
+run = "bun run gen:icons"
+
 [tasks.security]
 description = "Scan CI/CD workflows for security and compliance issues (Plumber)"
 run = "plumber analyze"

@@ -1,4 +1,3 @@
-import "@tabler/icons-webfont/dist/tabler-icons.min.css";
 import pages from "virtual:context-radar-pages";
 import { wirePageModals } from "../lib/modal";
 import { CONFLICTS, LAYERS, RECOMMENDED, type StackTool, TOTAL_LAYERS } from "./stack-data";

@@ -1,6 +1,7 @@
 @import "../styles/tokens.css";
 @import "../styles/nav.css";
 @import "../styles/modal.css";
+@import "../styles/icons.css";
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 /* Map the stack-builder's original palette names onto the shared tokens so the
    component styles below keep working while the whole site shares one palette. */
