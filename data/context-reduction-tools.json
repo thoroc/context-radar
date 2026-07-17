@@ -44,7 +44,24 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "pick this"
+        "rationale": "pick this",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/rtk-ai/rtk/blob/5d32d0736f686b69d1e8b9dc45c007d4eb77a0a2/src/discover/rules.rs#L13",
+              "quote": "pub const RULES: &[RtkRule] = &[",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/rtk-ai/rtk/blob/5d32d0736f686b69d1e8b9dc45c007d4eb77a0a2/src/core/tracking.rs#L1284-L1286",
+              "quote": "pub fn estimate_tokens(text: &str) -> usize {\n    // ~4 chars per token on average\n    (text.len() as f64 / 4.0).ceil() as usize",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "~53.6k stars, Apache-2.0, v0.42.0. Daily PRs. Do NOT run alongside sqz or lean-ctx.",
       "requiresExternal": false
