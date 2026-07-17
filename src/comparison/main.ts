@@ -1,5 +1,6 @@
 import pages from "virtual:context-radar-pages";
-import { wirePageModals } from "../lib";
+import { toolFragments } from "../detail";
+import { delegateModals, wirePageModals } from "../lib";
 import { el } from "./dom";
 import { render, renderSummary, setupMultiselect } from "./render";
 import { sortState } from "./state";
@@ -24,6 +25,11 @@ for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")
   });
 }
 
-wirePageModals(pages);
+// Nav links (Methodology/Glossary) and every tool's detail are modal-backed.
+// Registering the tool fragments here lets in-modal conflict links swap tools.
+wirePageModals({ ...pages, ...toolFragments() });
+// Tool-name links in the table body are re-rendered on every filter/sort, so
+// delegate their clicks to open the detail overlay in place.
+delegateModals(el("tb"));
 renderSummary();
 render();

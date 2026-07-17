@@ -12,8 +12,8 @@ The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 
 ## Audience and outputs
 
-- **Humans** browse the interactive comparison table (each tool has a full detail page) and assemble a conflict-free
-  stack on GitHub Pages, reached from a landing page.
+- **Humans** browse the interactive comparison table (each tool opens its detail as a modal overlay, with a standalone
+  page as the direct-link fallback) and assemble a conflict-free stack on GitHub Pages, reached from a landing page.
 - **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
   export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
 
@@ -37,7 +37,7 @@ context-radar/
     sync-freshness-issue.ts              Opens/updates one GitHub issue per drifting tool
   src/                                   Site source (Vite + TypeScript)
     index.html                           Landing page (intro, tool cards, verdict legend)
-    comparison.html                      Comparison table page (summary; links to detail pages)
+    comparison.html                      Comparison table page (tool links open detail as a modal overlay)
     stack-builder.html                   MCP stack builder page
     landing/                             Landing page logic + styles
     comparison/                          Comparison table logic + styles
@@ -48,7 +48,8 @@ context-radar/
     lib/csv/                             CSV column order + serialisation (+ csv.test.ts)
     lib/data/                            Typed loader for the canonical JSON
     lib/dom/                             Shared modal overlay (state + one function per module)
-    styles/                              Shared CSS: design tokens, top nav, modal
+    detail/                              Shared tool-detail renderer (standalone pages + comparison overlay)
+    styles/                              Shared CSS: design tokens, top nav, modal, detail (scoped .tool-detail)
     pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)
     public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
   plugins/                               Vite build plugins (markdown pages, per-tool pages, CSV export)

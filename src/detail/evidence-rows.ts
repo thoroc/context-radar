@@ -1,4 +1,4 @@
-import type { Tool } from "../../src/lib";
+import type { Tool } from "../lib";
 import type { EvidenceRow } from "./types";
 
 export const evidenceRows = (tool: Tool): EvidenceRow[] => {

@@ -1,4 +1,4 @@
-import type { Evidence, Tool } from "../../src/lib";
+import type { Tool } from "../../src/lib";
 
 export interface ToolPagesOptions {
   /** Absolute path to the canonical JSON store. */
@@ -10,10 +10,4 @@ export interface ToolPagesOptions {
 export interface Store {
   meta: { stars_verified: string };
   tools: Tool[];
-}
-
-export interface EvidenceRow {
-  label: string;
-  evidence: Evidence;
-  proofLedger?: string;
 }

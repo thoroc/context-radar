@@ -1,7 +1,11 @@
-import { conflictClass, conflictText, type Tool } from "../../src/lib";
+import { conflictClass, conflictText, type Tool } from "../lib";
 import { esc } from "./esc";
 
-export const conflictBlock = (tool: Tool, slugByName: Map<string, string>): string => {
+export const conflictBlock = (
+  tool: Tool,
+  slugByName: Map<string, string>,
+  base: string,
+): string => {
   const severity = tool.conflict.severity;
   if (severity === "none" && !tool.conflict.note) {
     return '<p class="conf-none">No known conflicts or overlap.</p>';
@@ -10,7 +14,7 @@ export const conflictBlock = (tool: Tool, slugByName: Map<string, string>): stri
     .map((name) => {
       const slug = slugByName.get(name);
       return slug
-        ? `<a href="../tools/${slug}.html">${esc(name)}</a>`
+        ? `<a href="${base}tools/${slug}.html">${esc(name)}</a>`
         : `<span>${esc(name)}</span>`;
     })
     .join("");

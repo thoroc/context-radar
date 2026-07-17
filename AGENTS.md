@@ -73,11 +73,16 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/gen-icons.ts`, `scripts/data-add.ts`,
   `scripts/check-freshness.ts`, `scripts/sync-freshness-issue.ts`
 - Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
-  table linking to detail pages), `stack-builder.html` + `stack-builder/` (builder, with its own curated
-  `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `styles/` (shared tokens/nav/modal CSS), `pages/`
-  (markdown, shown as modal overlays with an HTML fallback), `public/llms.txt`
-- Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages/`, reusing `lib/present/`; the
-  comparison links and the generated filenames share `toolSlug` (in `lib/present/tool-slug.ts`)
+  table whose tool links open the detail as a modal overlay), `stack-builder.html` + `stack-builder/` (builder, with its
+  own curated `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `detail/` (shared tool-detail renderer),
+  `styles/` (shared tokens/nav/modal/detail CSS), `pages/` (markdown, shown as modal overlays with an HTML fallback),
+  `public/llms.txt`
+- Tool detail is rendered once, in `src/detail/` (`renderDetailBody`): the `plugins/tool-pages/` build plugin wraps it
+  in page chrome to emit the standalone `/tools/<slug>.html` pages, and the comparison page renders it into the shared
+  modal overlay (`toolFragments`) so a tool opens in place like Methodology/Glossary; the standalone pages remain as the
+  no-JS fallback and direct-link target. Styles live in `src/styles/detail.css`, scoped under `.tool-detail`. The
+  comparison links, the generated filenames, and the overlay route keys all share `toolSlug` (in
+  `lib/present/tool-slug.ts`)
 - Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md` (entry point), with deep-dive
   `references/` and a scenario `evals/` suite alongside it

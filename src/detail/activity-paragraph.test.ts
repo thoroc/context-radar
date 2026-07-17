@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { makeTool } from "../../src/test-support/make-tool";
+import { makeTool } from "../test-support/make-tool";
 import { activityParagraph } from "./activity-paragraph";
 
 describe("activityParagraph", () => {
