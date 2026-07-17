@@ -2,6 +2,14 @@
 # https://mise.jdx.dev  Install mise, then run `mise install` to get the pinned
 # toolchain, and `mise run lint` / `mise run fmt` to check or format the docs.
 
+[settings]
+# Only install tool versions released more than 7 days ago. This mirrors
+# Renovate's minimumReleaseAge (renovate.json) so the two agree on which
+# versions are eligible: Renovate never opens a bump for a version mise would
+# refuse to install. Keep the two values in step. Pinned here (not only in a
+# personal global config) so CI and fresh clones enforce the same floor.
+minimum_release_age = "7d"
+
 [tools]
 # Git hook runner and its config language.
 hk = "1.50.0"
