@@ -35,7 +35,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Install the pinned toolchain (Bun, Node)
-        uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2
+        uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
+        with:
+          # Authenticate mise's GitHub releases API calls so tool installs are not
+          # capped at the 60 req/hr unauthenticated rate limit.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         run: mise run install
       - name: Build the site into docs/
