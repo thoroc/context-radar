@@ -85,7 +85,8 @@ Three GitHub Actions workflows run on push to `main` and on pull requests. Third
   output to GitHub Pages.
 - `.github/workflows/lint.yml` sets up the mise toolchain, installs the JS dependencies, and runs `mise run lint`
   (prettier, markdownlint, yamllint, actionlint, and Biome via hk), then `mise run typecheck` (TypeScript), then
-  `mise run validate` (the canonical JSON store must pass the Zod schema).
+  `mise run test:coverage` (Vitest with the coverage ratchet), then `mise run validate` (the canonical JSON store must
+  pass the Zod schema).
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
@@ -141,6 +142,20 @@ enabled.
   read as if every entry was checked.
 - State the source of any figure that could be disputed, and prefer a fresh direct fetch over a cached aggregator.
 
+Code shape (site source and scripts):
+
+- Prefer arrow functions (`export const foo = () => ...`) over named `function` declarations. Enforced at review time,
+  not by Biome. Nested closures may stay inside their parent function.
+- Name source files in kebab-case (`tool-slug.ts`), even when the exported function keeps its camelCase name
+  (`toolSlug`). Biome's `useFilenamingConvention` enforces this, so it is checked in CI.
+- One function per module, grouped into domain folders. This applies across `src/`, `plugins/`, and `scripts/`. Shared
+  mutable state lives in a `state.ts`; shared constants and lookup tables live in a dedicated `constants.ts` /
+  `labels.ts` / `types.ts`. Each domain folder has an `index.ts` barrel, and entry points (a page `main.ts` or a CLI
+  script's package.json-invoked file) stay thin: wire events / parse argv, then call into the domain.
+- Import from a folder's barrel, not deep module paths. The root `src/lib/index.ts` re-exports `schema` as
+  `export type *` so Zod is never bundled into the browser.
+- Collocate unit tests as `*.test.ts` next to the code they cover.
+
 ## Validating the data
 
 Run `mise run validate` after editing the data. It parses `data/context-reduction-tools.json` against the Zod schema in
@@ -151,6 +166,31 @@ After changing the schema, run `mise run gen:schema` to refresh the published JS
 
 If you touch the site source (comparison table, stack builder, or the data types), run `mise run typecheck` and
 `mise run build`.
+
+## Testing
+
+Unit tests are collocated one file per module: each module has its own `*.test.ts` beside it
+(`src/lib/present/tool-slug.test.ts` sits next to `tool-slug.ts`), not one test file per folder. Run with
+[Vitest](https://vitest.dev):
+
+```sh
+mise run test           # run every *.test.ts once
+mise run test:coverage  # tests + whole-project coverage, enforcing the ratchet floor
+bunx vitest             # watch mode while developing
+```
+
+### Coverage ratchet
+
+`vitest.config.ts` measures **whole-project** coverage (`coverage.all`, so every file in `src/`, `plugins/`, and
+`scripts/` counts, not just the ones a test imports). The `thresholds` block is a ratchet: `autoUpdate` raises the floor
+as coverage climbs and never lowers it, and CI (`mise run test:coverage` in `.github/workflows/lint.yml`) fails if
+coverage drops below the committed floor. The target is **85-90%**; the baseline is low because most of the codebase is
+still untested.
+
+To raise the floor: add tests, run `mise run test:coverage` locally (autoUpdate rewrites the thresholds in
+`vitest.config.ts`), and commit the bumped config with your tests. DOM-bound code (`src/lib/dom/`, the page `render`
+modules, `main.ts` entries) needs the happy-dom environment (`// @vitest-environment happy-dom`); build scripts and
+plugins need fs/GitHub mocks.
 
 ## Automated contributions (planned)
 

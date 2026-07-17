@@ -11,6 +11,7 @@
       "plugins/**/*.ts",
       "scripts/**/*.ts",
       "vite.config.ts",
+      "vitest.config.ts",
       "!src/stack-builder/stack-data.ts"
     ]
   },
@@ -23,7 +24,13 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": { "filenameCases": ["kebab-case"] }
+        }
+      }
     }
   },
   "javascript": {

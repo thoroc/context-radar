@@ -39,11 +39,12 @@ context-radar/
     landing/                             Landing page logic + styles
     comparison/                          Comparison table logic + styles
     stack-builder/                       Stack builder logic, styles, and curated dataset
+    lib/index.ts                         Root barrel: the shared library's public surface (import from here)
     lib/schema.ts                        Zod schema: single source of truth for the record shape
-    lib/present.ts                       Reconstructs display strings/classes from the record; tool slug
-    lib/columns.ts                       Canonical column order + CSV serialisation
-    lib/data.ts                          Typed loader for the canonical JSON
-    lib/modal.ts                         Shared modal overlay for the Methodology/Glossary pages
+    lib/present/                         Presentation helpers, one function per module (+ labels.ts, per-module *.test.ts)
+    lib/csv/                             CSV column order + serialisation (+ csv.test.ts)
+    lib/data/                            Typed loader for the canonical JSON
+    lib/dom/                             Shared modal overlay (state + one function per module)
     styles/                              Shared CSS: design tokens, top nav, modal
     pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)
     public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
@@ -59,6 +60,7 @@ context-radar/
     lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
+  vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
   tsconfig.json                          TypeScript config
   biome.json                             Biome (TypeScript lint + format) config
   package.json                           Dependencies and scripts (Bun)
@@ -87,6 +89,8 @@ mise run dev        # Vite dev server (both pages, live reload)
 mise run build      # type-check and build the static site into docs/
 mise run lint       # prettier, markdownlint, yamllint, actionlint, and Biome (TypeScript)
 mise run typecheck  # TypeScript type-check only
+mise run test       # collocated unit tests (vitest)
+mise run test:coverage  # tests + whole-project coverage; enforces the ratcheted floor
 mise run fmt        # format everything in place (incl. TypeScript via Biome)
 mise run validate   # validate the canonical JSON store against the Zod schema
 mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)

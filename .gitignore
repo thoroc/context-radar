@@ -8,6 +8,9 @@ docs/
 # Freshness detector output; regenerated each run, consumed by the digest sync.
 freshness-report.json
 
+# Vitest coverage output (text reporters print to stdout; any file reporters land here).
+coverage/
+
 # OS and editor cruft
 .DS_Store
 *.swp
