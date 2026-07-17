@@ -4,7 +4,24 @@
   "semanticCommits": "enabled",
   "labels": ["dependencies"],
   "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "prCreation": "not-pending",
+  "dependencyDashboard": true,
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": null
+  },
   "packageRules": [
+    {
+      "description": "Group all GitHub Actions digest bumps into a single pull request",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Group non-major npm/bun bumps into a single pull request; majors stay separate",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "npm (non-major)"
+    },
     {
       "description": "Group mise toolchain bumps into a single pull request",
       "matchManagers": ["mise"],
