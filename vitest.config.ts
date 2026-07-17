@@ -19,7 +19,7 @@ export default defineConfig({
   plugins: [stubVirtualPages()],
   test: {
     environment: "node",
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "plugins/**/*.test.ts", "scripts/**/*.test.ts"],
     coverage: {
       provider: "v8",
       // Count every source file, not just the ones a test imports, so the
@@ -33,10 +33,10 @@ export default defineConfig({
       // Target: 85-90%.
       thresholds: {
         autoUpdate: true,
-        lines: 24.1,
-        functions: 39.5,
-        branches: 18.27,
-        statements: 23.86,
+        lines: 36.36,
+        functions: 55.1,
+        branches: 36.53,
+        statements: 37.12,
       },
     },
   },

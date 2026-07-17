@@ -1,155 +1,28 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Plugin } from "vite";
-import type { Evidence, Tool } from "../src/lib";
 import {
-  conflictClass,
-  conflictText,
   DECISION_LABEL,
   formatDisplayDate,
-  LANG_BADGE,
   starsText,
   statusText,
-  toolSlug,
-  trendText,
+  type Tool,
   verdictClass,
-} from "../src/lib";
+} from "../../src/lib";
+import { activityParagraph } from "./activity-paragraph";
+import { conflictBlock } from "./conflict-block";
+import { esc } from "./esc";
+import { evidenceSection } from "./evidence-section";
+import { licenceWarns } from "./licence-warns";
+import { requirementsBlock } from "./requirements-block";
+import { runtimeChips } from "./runtime-chips";
+import { trendCell } from "./trend-cell";
+import type { Store } from "./types";
 
-export interface ToolPagesOptions {
-  /** Absolute path to the canonical JSON store. */
-  dataPath: string;
-  /** Output directory (relative to the site root) the pages are emitted into. */
-  outDir?: string;
-}
-
-interface Store {
-  meta: { stars_verified: string };
-  tools: Tool[];
-}
-
-const here = dirname(fileURLToPath(import.meta.url));
-const TOKENS_CSS = readFileSync(resolve(here, "../src/styles/tokens.css"), "utf8");
-
-// Non-permissive licence identifiers that get a warning treatment, matching the
-// comparison table.
-const LICENCE_WARN = new Set([
-  "ELv2",
-  "AGPL-3",
-  "AGPL-3.0",
-  "PolyForm Noncommercial",
-  "PolyForm NC",
-  "Source-available (commercial licence for distribution)",
-  "Paid (commercial)",
-]);
-
-function esc(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function licenceWarns(licence: Tool["licence"]): boolean {
-  return Boolean(licence.warning) || LICENCE_WARN.has(licence.spdx);
-}
-
-function runtimeChips(runtime: Tool["runtime"]): string {
-  const named = runtime.languages.filter((l) => l !== "none");
-  if (!named.length) return `<span class="rt">${esc(runtime.detail ?? "—")}</span>`;
-  return named.map((l) => `<span class="rt">${esc(LANG_BADGE[l][1])}</span>`).join(" ");
-}
-
-function requirementsBlock(requirements: string): string {
-  const warn = requirements.trimStart().startsWith("⚠");
-  const cls = warn ? "req-warn" : "req-ok";
-  const mark = warn ? "⚠" : "✓";
-  return `<div class="${cls}">${mark} ${esc(requirements)}</div>`;
-}
-
-function activityParagraph(tool: Tool): string {
-  const a = tool.activity;
-  const parts: string[] = [];
-  if (a.notes) parts.push(esc(a.notes));
-  const facts: string[] = [];
-  if (typeof a.contributors === "number") facts.push(`${a.contributors} contributors`);
-  if (typeof a.releaseCount === "number") facts.push(`${a.releaseCount} releases`);
-  if (a.latestVersion) facts.push(`latest ${esc(a.latestVersion)}`);
-  if (a.releasedOn) facts.push(`released ${esc(a.releasedOn)}`);
-  if (a.corroboration) facts.push(`corroborated via ${esc(a.corroboration)}`);
-  if (facts.length) parts.push(facts.join(", "));
-  return parts.length ? parts.map((p) => `<p>${p}</p>`).join("") : "<p>No activity notes.</p>";
-}
-
-function conflictBlock(tool: Tool, slugByName: Map<string, string>): string {
-  const severity = tool.conflict.severity;
-  if (severity === "none" && !tool.conflict.note) {
-    return '<p class="conf-none">No known conflicts or overlap.</p>';
-  }
-  const links = tool.conflict.projects
-    .map((name) => {
-      const slug = slugByName.get(name);
-      return slug
-        ? `<a href="../tools/${slug}.html">${esc(name)}</a>`
-        : `<span>${esc(name)}</span>`;
-    })
-    .join("");
-  return `<div class="conf ${conflictClass(severity)}">
-      <div class="conf-sev">${esc(severity === "none" ? "Note" : severity.replace("-", " / "))}</div>
-      <p>${esc(conflictText(tool.conflict))}</p>
-      ${links ? `<div class="conf-tools">${links}</div>` : ""}
-    </div>`;
-}
-
-const EVIDENCE_STATUS_LABEL: Record<Evidence["status"], string> = {
-  confirmed: "Confirmed",
-  caveated: "Caveated",
-  refuted: "Refuted",
-  unverified: "Unverified",
-};
-
-interface EvidenceRow {
-  label: string;
-  evidence: Evidence;
-  proofLedger?: string;
-}
-
-function evidenceRows(tool: Tool): EvidenceRow[] {
-  const rows: EvidenceRow[] = [];
-  if (tool.conflict.evidence)
-    rows.push({ label: "Conflict / overlap", evidence: tool.conflict.evidence });
-  if (tool.activity.evidence) rows.push({ label: "Activity", evidence: tool.activity.evidence });
-  if (tool.licence.evidence) rows.push({ label: "Licence", evidence: tool.licence.evidence });
-  if (tool.runtime.evidence) rows.push({ label: "Runtime", evidence: tool.runtime.evidence });
-  for (const claim of tool.extraClaims ?? []) {
-    rows.push({ label: claim.label, evidence: claim.evidence, proofLedger: claim.proofLedger });
-  }
-  return rows;
-}
-
-function evidenceSection(tool: Tool): string {
-  const rows = evidenceRows(tool);
-  if (!rows.length) return "";
-  const items = rows
-    .map((row) => {
-      const sources = row.evidence.sources
-        .map(
-          (s) =>
-            `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.evidenceType)}</a><span class="ev-when">${esc(s.checkedOn)}</span><blockquote>${esc(s.quote)}</blockquote></li>`,
-        )
-        .join("");
-      const ledger = row.proofLedger
-        ? `<span class="ev-ledger">${esc(row.proofLedger)}</span>`
-        : "";
-      return `<div class="ev-item">
-        <div class="ev-head"><span class="ev-claim">${esc(row.label)}</span><span class="ev-status ev-${row.evidence.status}">${esc(EVIDENCE_STATUS_LABEL[row.evidence.status])}</span>${ledger}</div>
-        ${sources ? `<ul class="ev-sources">${sources}</ul>` : ""}
-      </div>`;
-    })
-    .join("");
-  return `<section><h2>Evidence</h2><div class="ev">${items}</div></section>`;
-}
+const TOKENS_CSS = readFileSync(
+  resolve(dirname(fileURLToPath(import.meta.url)), "../../src/styles/tokens.css"),
+  "utf8",
+);
 
 const DETAIL_STYLE = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -231,13 +104,7 @@ section p{color:var(--text)}
 @media(max-width:820px){.cols{grid-template-columns:1fr}.facts{position:static}.head h1{font-size:25px}}
 `;
 
-function trendCell(trend: number | null): string {
-  if (trend === null) return "";
-  const cls = trend > 0 ? "trend-up" : trend < 0 ? "trend-down" : "trend-flat";
-  return ` <span class="${cls}">${esc(trendText(trend))}</span>`;
-}
-
-function renderPage(tool: Tool, store: Store, slugByName: Map<string, string>): string {
+export const renderPage = (tool: Tool, store: Store, slugByName: Map<string, string>): string => {
   const verified = formatDisplayDate(store.meta.stars_verified);
   return `<!doctype html>
 <html lang="en">
@@ -297,66 +164,4 @@ function renderPage(tool: Tool, store: Store, slugByName: Map<string, string>): 
 </body>
 </html>
 `;
-}
-
-function loadStore(dataPath: string): { store: Store; slugByName: Map<string, string> } {
-  const store = JSON.parse(readFileSync(dataPath, "utf8")) as Store;
-  const slugByName = new Map<string, string>();
-  const used = new Map<string, string>();
-  for (const tool of store.tools) {
-    const slug = toolSlug(tool.tool);
-    const clash = used.get(slug);
-    if (clash)
-      throw new Error(`Tool slug collision: "${tool.tool}" and "${clash}" both map to "${slug}"`);
-    used.set(slug, tool.tool);
-    slugByName.set(tool.tool, slug);
-  }
-  return { store, slugByName };
-}
-
-function requestSlug(url: string | undefined, outDir: string): string | null {
-  const path = (url ?? "").split("?")[0].replace(/^\//, "");
-  const prefix = `${outDir}/`;
-  if (!path.startsWith(prefix) || !path.endsWith(".html")) return null;
-  return path.slice(prefix.length, -".html".length);
-}
-
-/**
- * Generates one standalone detail page per tool from the canonical JSON store:
- * served on the fly during `vite dev`, emitted into the build output at
- * `vite build`. The JSON is the single source of truth; each page is a lossless
- * view of one record, reusing the shared presentation helpers.
- */
-export function toolPages(options: ToolPagesOptions): Plugin {
-  const outDir = options.outDir ?? "tools";
-  return {
-    name: "context-radar:tool-pages",
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const slug = requestSlug(req.url, outDir);
-        if (slug === null) {
-          next();
-          return;
-        }
-        const { store, slugByName } = loadStore(options.dataPath);
-        const tool = store.tools.find((t) => slugByName.get(t.tool) === slug);
-        if (!tool) {
-          next();
-          return;
-        }
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.end(renderPage(tool, store, slugByName));
-      });
-    },
-    generateBundle() {
-      const { store, slugByName } = loadStore(options.dataPath);
-      for (const tool of store.tools) {
-        this.emitFile({
-          type: "asset",
-          fileName: `${outDir}/${slugByName.get(tool.tool)}.html`,
-          source: renderPage(tool, store, slugByName),
-        });
-      }
-    },
-  };
-}
+};
