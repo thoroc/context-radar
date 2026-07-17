@@ -148,9 +148,10 @@ Code shape (site source and scripts):
   not by Biome. Nested closures may stay inside their parent function.
 - Name source files in kebab-case (`tool-slug.ts`), even when the exported function keeps its camelCase name
   (`toolSlug`). Biome's `useFilenamingConvention` enforces this, so it is checked in CI.
-- One function per module, grouped into domain folders. Shared mutable state lives in a `state.ts`; shared constants and
-  lookup tables live in a dedicated `constants.ts` / `labels.ts` / `types.ts`. Each domain folder has an `index.ts`
-  barrel, and `main.ts` entry points stay thin (wire events, call into domains).
+- One function per module, grouped into domain folders. This applies across `src/`, `plugins/`, and `scripts/`. Shared
+  mutable state lives in a `state.ts`; shared constants and lookup tables live in a dedicated `constants.ts` /
+  `labels.ts` / `types.ts`. Each domain folder has an `index.ts` barrel, and entry points (a page `main.ts` or a CLI
+  script's package.json-invoked file) stay thin: wire events / parse argv, then call into the domain.
 - Import from a folder's barrel, not deep module paths. The root `src/lib/index.ts` re-exports `schema` as
   `export type *` so Zod is never bundled into the browser.
 - Collocate unit tests as `*.test.ts` next to the code they cover.

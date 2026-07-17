@@ -45,8 +45,10 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   fails on a camelCase filename.
 - **One function per module, grouped into domains.** A module exports at most one function. Shared mutable state goes in
   a `state.ts` and shared constants/lookup tables in a dedicated const/type module (`constants.ts`, `labels.ts`,
-  `types.ts`). The single-function modules are grouped into domain folders (`src/lib/present`, `src/lib/csv`,
-  `src/comparison/render`, `src/stack-builder/selectors`, …), each with its own `index.ts` barrel.
+  `types.ts`). The single-function modules are grouped into domain folders (`src/lib/present`, `src/comparison/render`,
+  `plugins/tool-pages`, `scripts/freshness`, …), each with its own `index.ts` barrel. This holds across the whole
+  codebase — `src/`, `plugins/`, and `scripts/`; the CLI scripts keep a thin entry file (the path package.json invokes)
+  that parses argv and calls into its domain.
 - **Barrel modules.** A folder exposes its public API through an `index.ts` barrel; consumers import from the folder
   (`../lib`, `../render`), not deep module paths. Page entry points (`main.ts`) stay thin: they wire events and call
   into their domains. The root `src/lib/index.ts` re-exports `schema` as `export type *` so Zod stays out of the browser
