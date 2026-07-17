@@ -109,7 +109,7 @@ const STRONG_EVIDENCE: readonly string[] = ["source-code", "official-docs", "rel
 /** A single citation. `url` should be a commit-SHA permalink, not a moving branch. */
 export const evidenceSourceSchema = z
   .object({
-    url: z.string().url(),
+    url: z.url(),
     /** The cited text, quoted verbatim from the source. */
     quote: z.string().min(1),
     /** Date the source was checked, ISO YYYY-MM-DD. */
@@ -132,7 +132,7 @@ export const evidenceSchema = z
   .superRefine((e, ctx) => {
     if (e.status !== "unverified" && e.sources.length === 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: "a claim that is not 'unverified' must cite at least one source",
         path: ["sources"],
       });
@@ -142,7 +142,7 @@ export const evidenceSchema = z
       !e.sources.some((s) => STRONG_EVIDENCE.includes(s.evidenceType))
     ) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message:
           "a 'confirmed' claim needs a source-code, official-docs, or release source (README alone is 'caveated')",
         path: ["status"],
@@ -165,7 +165,7 @@ export const extraClaimSchema = z
   .superRefine((c, ctx) => {
     if (c.kind === "benchmark" && !c.proofLedger) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: "a benchmark claim must carry a proofLedger decision",
         path: ["proofLedger"],
       });
@@ -246,7 +246,7 @@ export const toolSchema = z
      */
     id: z.string().min(1),
     tool: z.string().min(1),
-    githubUrl: z.string().url(),
+    githubUrl: z.url(),
     layer: layerSchema,
     whatItDoes: z.string(),
     conflict: conflictSchema,
