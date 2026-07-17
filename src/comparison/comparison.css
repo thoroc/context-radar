@@ -177,6 +177,14 @@ select:focus {
   background: var(--bg3);
   color: var(--text);
 }
+/* Activity options reuse the table's status dot, not an emoji, so the vocabulary
+   matches the rows they filter. */
+.ms-opt .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
 .count {
   margin-left: auto;
   font-size: 12px;
@@ -353,13 +361,11 @@ tr.dropped .tname a {
   overflow: hidden;
 }
 
-/* Conflict cell: quiet severity stripe */
+/* Conflict cell: severity is carried by the coloured label, not a side stripe. */
 .conf {
   font-size: 11.5px;
   color: var(--text2);
   line-height: 1.45;
-  border-left: 3px solid transparent;
-  padding-left: 9px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -374,22 +380,12 @@ tr.dropped .tname a {
   letter-spacing: 0.04em;
   margin-bottom: 2px;
 }
-.cf-hard {
-  border-left-color: var(--red);
-}
 .cf-hard .sv {
   color: var(--red);
-}
-.cf-soft,
-.cf-either {
-  border-left-color: var(--dot-stable);
 }
 .cf-soft .sv,
 .cf-either .sv {
   color: var(--amber);
-}
-.cf-stack {
-  border-left-color: var(--dot-active);
 }
 .cf-stack .sv {
   color: var(--green);
@@ -487,6 +483,42 @@ tr.dropped .tname a {
   color: var(--red);
 }
 
+/* Empty state: when filters match nothing, teach the way out instead of a blank grid. */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 20px 52px;
+  text-align: center;
+}
+.empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.empty-hint {
+  font-size: 12.5px;
+  color: var(--text2);
+}
+.empty-clear {
+  margin-top: 6px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 14px;
+  min-height: 36px;
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  cursor: pointer;
+}
+.empty-clear:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -495,5 +527,116 @@ tr.dropped .tname a {
 @media (max-width: 860px) {
   .toolbar {
     top: 0;
+  }
+}
+
+/* Touch + reflow: below 720px the fixed 6-column table is unreadable, so give
+   filter controls a 44px hit area and reflow each row into a labelled card. */
+@media (max-width: 720px) {
+  .search input,
+  select,
+  .ms-toggle {
+    min-height: 44px;
+  }
+  /* Stop the filter controls (a <select> sizes to its widest option) from
+     forcing horizontal overflow: each group takes a full row and shrinks. */
+  .toolbar {
+    padding: 11px 14px;
+  }
+  .search,
+  .fgroup {
+    width: 100%;
+  }
+  .search input {
+    width: 100%;
+  }
+  .fgroup select,
+  .fgroup .ms {
+    flex: 1;
+    min-width: 0;
+  }
+  select {
+    max-width: 100%;
+  }
+  .wrap {
+    overflow-x: visible;
+    padding: 14px 14px 48px;
+  }
+  table {
+    display: block;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+  }
+  thead {
+    display: none;
+  }
+  tbody {
+    display: block;
+  }
+  /* Layer band stays a full-width heading between card groups. */
+  tr.lh {
+    display: block;
+    margin: 20px 0 10px;
+  }
+  tr.lh td {
+    display: block;
+    border-radius: 8px;
+  }
+  /* Each tool row becomes a card. */
+  tbody tr:not(.lh):not(.empty) {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px 14px;
+    margin-bottom: 10px;
+  }
+  tbody tr:not(.lh):hover td {
+    background: transparent;
+  }
+  tbody tr:not(.lh):not(.empty) td {
+    display: flex;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:not(.lh):not(.empty) td:last-child {
+    border-bottom: none;
+  }
+  tbody tr:not(.lh):not(.empty) td::before {
+    content: attr(data-label);
+    flex: 0 0 84px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text3);
+    padding-top: 2px;
+  }
+  tbody tr:not(.lh):not(.empty) td > * {
+    flex: 1;
+    min-width: 0;
+  }
+  /* Tool name is the card header: full width, no label, bottom rule. */
+  tbody tr:not(.lh):not(.empty) td[data-label="Tool"] {
+    display: block;
+    padding-top: 12px;
+  }
+  tbody tr:not(.lh):not(.empty) td[data-label="Tool"]::before {
+    display: none;
+  }
+  /* Cards have room; show the full text rather than clamping. */
+  .desc,
+  .rule,
+  .conf {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    display: block;
+  }
+  .empty td {
+    display: block;
   }
 }

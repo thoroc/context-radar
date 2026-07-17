@@ -9,7 +9,7 @@ describe("conflictText", () => {
   });
 
   test("renders a dash for none and a labelled list otherwise", () => {
-    expect(conflictText({ severity: "none", projects: [] })).toBe("—");
+    expect(conflictText({ severity: "none", projects: [] })).toBe("-");
     expect(conflictText({ severity: "hard", projects: ["x", "y"] })).toBe("⛔ HARD: x, y");
     expect(conflictText({ severity: "soft", projects: [] })).toBe("⚠ SOFT");
   });

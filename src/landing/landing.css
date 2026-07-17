@@ -184,4 +184,10 @@ a {
   .hero h1 {
     font-size: 32px;
   }
+  /* Touch: give the footer link a 44px hit area. */
+  .foot a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

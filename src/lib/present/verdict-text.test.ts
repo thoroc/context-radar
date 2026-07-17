@@ -5,7 +5,7 @@ describe("verdictText", () => {
   test("appends the rationale only when present", () => {
     expect(verdictText({ decision: "add", rationale: "" })).toBe("Add");
     expect(verdictText({ decision: "best", rationale: "fast and stable" })).toBe(
-      "Best in class — fast and stable",
+      "Best in class - fast and stable",
     );
   });
 });

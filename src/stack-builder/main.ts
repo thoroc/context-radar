@@ -1,5 +1,5 @@
 import pages from "virtual:context-radar-pages";
-import { wirePageModals } from "../lib";
+import { initThemeToggle, wirePageModals } from "../lib";
 import { clearAll, exportMd, loadRec, setFilter } from "./actions";
 import { FILTERS } from "./constants";
 import { el } from "./dom";
@@ -21,4 +21,5 @@ el("btn-export").addEventListener("click", exportMd);
 el("q").addEventListener("input", render);
 
 wirePageModals(pages);
+initThemeToggle();
 render();

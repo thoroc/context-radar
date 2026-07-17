@@ -14,7 +14,7 @@
   --bg3: #edece8;
   --text: #17161a;
   --text2: #56545e;
-  --text3: #8b8994;
+  --text3: #67656f;
   --border: rgba(23, 22, 26, 0.1);
   --border2: rgba(23, 22, 26, 0.2);
   --accent: #534ab7;
@@ -43,7 +43,7 @@
     --bg3: #232229;
     --text: #e9e8ec;
     --text2: #a6a4ae;
-    --text3: #6d6b76;
+    --text3: #908e99;
     --border: rgba(255, 255, 255, 0.1);
     --border2: rgba(255, 255, 255, 0.2);
     --accent: #c4b5fd;
@@ -72,7 +72,7 @@
   --bg3: #232229;
   --text: #e9e8ec;
   --text2: #a6a4ae;
-  --text3: #6d6b76;
+  --text3: #908e99;
   --border: rgba(255, 255, 255, 0.1);
   --border2: rgba(255, 255, 255, 0.2);
   --accent: #c4b5fd;
@@ -100,7 +100,7 @@
   --bg3: #edece8;
   --text: #17161a;
   --text2: #56545e;
-  --text3: #8b8994;
+  --text3: #67656f;
   --border: rgba(23, 22, 26, 0.1);
   --border2: rgba(23, 22, 26, 0.2);
   --accent: #534ab7;
@@ -120,4 +120,24 @@
   --dot-early: #c04141;
   --dot-dormant: #9b99a2;
   --shadow: 0 6px 22px rgba(23, 22, 26, 0.1);
+}
+
+/* Placeholder text needs the same contrast as body copy; the UA default grey
+   fails AA, so pin it to the (now AA-compliant) muted ink token. */
+::placeholder {
+  color: var(--text3);
+  opacity: 1;
+}
+
+/* Reduced-motion is not optional: collapse every transition/animation to a
+   near-instant crossfade for viewers who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

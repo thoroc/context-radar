@@ -47,14 +47,25 @@ export const render = (): void => {
       const tr = document.createElement("tr");
       if (isDrop(t)) tr.className = "dropped";
       tr.innerHTML =
-        `<td>${toolCell(t)}</td>` +
-        `<td><div class="desc" title="${escapeHtml(t.whatItDoes)}">${escapeHtml(t.whatItDoes)}</div></td>` +
-        `<td>${conflictCell(t)}</td>` +
-        `<td>${activityCell(t)}</td>` +
-        `<td><span class="verdict ${verdictClass(t.verdict.decision)}">${DECISION_LABEL[t.verdict.decision]}</span></td>` +
-        `<td><div class="rule" title="${escapeHtml(t.decisionRule)}">${escapeHtml(t.decisionRule)}</div></td>`;
+        `<td data-label="Tool">${toolCell(t)}</td>` +
+        `<td data-label="What it does"><div class="desc" title="${escapeHtml(t.whatItDoes)}">${escapeHtml(t.whatItDoes)}</div></td>` +
+        `<td data-label="Conflict / overlap">${conflictCell(t)}</td>` +
+        `<td data-label="Activity">${activityCell(t)}</td>` +
+        `<td data-label="Verdict"><span class="verdict ${verdictClass(t.verdict.decision)}">${DECISION_LABEL[t.verdict.decision]}</span></td>` +
+        `<td data-label="Decision rule"><div class="rule" title="${escapeHtml(t.decisionRule)}">${escapeHtml(t.decisionRule)}</div></td>`;
       tb.appendChild(tr);
     }
+  }
+  if (total === 0) {
+    const tr = document.createElement("tr");
+    tr.className = "empty";
+    tr.innerHTML =
+      `<td colspan="6"><div class="empty-state">` +
+      `<p class="empty-title">No tools match these filters.</p>` +
+      `<p class="empty-hint">Try a different search term, or widen a filter.</p>` +
+      `<button type="button" class="empty-clear">Clear all filters</button>` +
+      `</div></td>`;
+    tb.appendChild(tr);
   }
   el("cnt").textContent = `${total} tool${total === 1 ? "" : "s"} shown`;
 };

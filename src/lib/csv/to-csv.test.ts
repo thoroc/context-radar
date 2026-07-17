@@ -14,7 +14,7 @@ describe("toCsv", () => {
     const [header] = toCsv(dataset).split("\n");
     expect(header).toBe(
       "Tool,GitHub URL,Layer,What it does,Conflict / Overlap,Runtime,Requirements,Licence," +
-        "Stars (15 Jul 2026),Trend (30d),Activity (Issues / PRs),Activity Status,Verdict,Decision Rule",
+        "Stars (15-07-2026),Trend (30d),Activity (Issues / PRs),Activity Status,Verdict,Decision Rule",
     );
   });
 

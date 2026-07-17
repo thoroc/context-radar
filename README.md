@@ -13,7 +13,8 @@ The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
 ## Audience and outputs
 
 - **Humans** browse the interactive comparison table (each tool opens its detail as a modal overlay, with a standalone
-  page as the direct-link fallback) and assemble a conflict-free stack on GitHub Pages, reached from a landing page.
+  page as the direct-link fallback) and assemble a conflict-free stack on GitHub Pages, reached from a landing page. The
+  chrome carries a light/dark theme toggle, and the comparison table reflows into per-tool cards on narrow screens.
 - **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
   export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
 
@@ -47,7 +48,7 @@ context-radar/
     lib/present/                         Presentation helpers, one function per module (+ labels.ts, per-module *.test.ts)
     lib/csv/                             CSV column order + serialisation (+ csv.test.ts)
     lib/data/                            Typed loader for the canonical JSON
-    lib/dom/                             Shared modal overlay (state + one function per module)
+    lib/dom/                             Shared modal overlay + theme toggle (state + one function per module)
     detail/                              Shared tool-detail renderer (standalone pages + comparison overlay)
     styles/                              Shared CSS: design tokens, top nav, modal, detail (scoped .tool-detail)
     pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)

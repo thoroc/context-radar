@@ -1,6 +1,7 @@
 import pages from "virtual:context-radar-pages";
 import { toolFragments } from "../detail";
-import { delegateModals, wirePageModals } from "../lib";
+import { delegateModals, initThemeToggle, wirePageModals } from "../lib";
+import { clearFilters } from "./actions";
 import { el } from "./dom";
 import { render, renderSummary, setupMultiselect } from "./render";
 import { sortState } from "./state";
@@ -9,6 +10,11 @@ import { sortState } from "./state";
 el("s").addEventListener("input", render);
 el("fl").addEventListener("change", render);
 el("fr").addEventListener("change", render);
+// The empty-state "Clear all filters" button is re-rendered with the table, so
+// delegate its click from the stable tbody.
+el("tb").addEventListener("click", (e) => {
+  if ((e.target as HTMLElement).closest(".empty-clear")) clearFilters();
+});
 setupMultiselect("fv", "All verdicts");
 setupMultiselect("fa", "All activity");
 for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")) {
@@ -31,5 +37,6 @@ wirePageModals({ ...pages, ...toolFragments() });
 // Tool-name links in the table body are re-rendered on every filter/sort, so
 // delegate their clicks to open the detail overlay in place.
 delegateModals(el("tb"));
+initThemeToggle();
 renderSummary();
 render();

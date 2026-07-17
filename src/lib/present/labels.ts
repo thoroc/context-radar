@@ -10,7 +10,7 @@ export const BAND_EMOJI: Record<ActivityBand, string> = {
   slowing: "🟠",
   early: "🔴",
   dormant: "⚫",
-  none: "—",
+  none: "-",
 };
 
 export const BAND_CLASS: Record<ActivityBand, string> = {
@@ -47,7 +47,7 @@ export const SEVERITY_LABEL: Record<ConflictSeverity, string> = {
   soft: "⚠ SOFT",
   "either-or": "Either/or",
   stackable: "Stackable",
-  none: "—",
+  none: "-",
 };
 
 export const CONFLICT_CLASS: Record<ConflictSeverity, string> = {
@@ -70,5 +70,5 @@ export const LANG_BADGE: Record<RuntimeLanguage, [string, string]> = {
   shell: ["rt-shell", "Shell"],
   lua: ["rt-lua", "Lua"],
   gleam: ["rt-gleam", "Gleam/BEAM"],
-  none: ["rt-none", "—"],
+  none: ["rt-none", "-"],
 };

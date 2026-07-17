@@ -3,7 +3,7 @@ import type { Dataset, Meta, Tool } from "../schema";
 
 // Data domain: the typed, guarded view of the canonical JSON store. The JSON is
 // validated against the Zod schema at build/CI time (`mise run validate`), so the
-// site trusts it and imports only the inferred *type* — Zod itself is never
+// site trusts it and imports only the inferred *type* - Zod itself is never
 // bundled into the browser. A cheap invariant guard stays here so a hand-broken
 // file fails fast in dev too. This domain is const-only, so there is nothing to
 // split into one-function-per-module.

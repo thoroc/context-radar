@@ -6,6 +6,6 @@ describe("runtimeText", () => {
     expect(runtimeText({ languages: ["none"], detail: "custom detail" })).toBe("custom detail");
     expect(runtimeText({ languages: ["rust"] })).toBe("Rust");
     expect(runtimeText({ languages: ["rust", "node", "none"] })).toBe("Rust + Node");
-    expect(runtimeText({ languages: ["none"] })).toBe("—");
+    expect(runtimeText({ languages: ["none"] })).toBe("-");
   });
 });

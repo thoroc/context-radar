@@ -1,1 +1,1 @@
-export const starsText = (stars: number | null): string => (stars === null ? "—" : String(stars));
+export const starsText = (stars: number | null): string => (stars === null ? "-" : String(stars));

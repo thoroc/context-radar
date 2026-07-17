@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comparison — Context Radar</title>
+    <title>Comparison - Context Radar</title>
     <link rel="stylesheet" href="./comparison/comparison.css" />
   </head>
   <body>
@@ -19,6 +19,7 @@
         <a href="./methodology.html">Methodology</a>
         <a href="./glossary.html">Glossary</a>
       </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
     </div>
 
     <div class="titleband">
@@ -83,11 +84,21 @@
             All activity
           </button>
           <div class="ms-panel" id="fa" role="group" aria-label="Filter by activity" hidden>
-            <label class="ms-opt"><input type="checkbox" value="active" />🟢 Active</label>
-            <label class="ms-opt"><input type="checkbox" value="stable" />🟡 Stable</label>
-            <label class="ms-opt"><input type="checkbox" value="slowing" />🟠 Slowing</label>
-            <label class="ms-opt"><input type="checkbox" value="early" />🔴 Early</label>
-            <label class="ms-opt"><input type="checkbox" value="dormant" />⚫ Dormant</label>
+            <label class="ms-opt"
+              ><input type="checkbox" value="active" /><span class="dot dot-active"></span>Active</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="stable" /><span class="dot dot-stable"></span>Stable</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="slowing" /><span class="dot dot-slowing"></span>Slowing</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="early" /><span class="dot dot-early"></span>Early</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="dormant" /><span class="dot dot-dormant"></span>Dormant</label
+            >
           </div>
         </div>
       </div>

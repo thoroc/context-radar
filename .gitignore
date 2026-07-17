@@ -19,6 +19,8 @@ coverage/
 .tokensave/
 .context/
 .aislop/
+# impeccable design-skill output (critique snapshots, per-run state); local only.
+.impeccable/
 
 # tessl / coding-agent local install OUTPUTS (machine-specific, not committed).
 # tessl.json and .mcp.json ARE committed so `tessl install` reproduces the local

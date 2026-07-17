@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MCP Stack Builder — Context Reduction for Claude Code</title>
+    <title>MCP Stack Builder - Context Reduction for Claude Code</title>
     <link rel="stylesheet" href="./stack-builder/stack-builder.css" />
   </head>
   <body>
@@ -19,12 +19,13 @@
         <a href="./methodology.html">Methodology</a>
         <a href="./glossary.html">Glossary</a>
       </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
     </div>
     <header>
       <div class="hdr-left">
-        <h1>MCP Stack Builder — Claude Code Context Reduction</h1>
+        <h1>MCP Stack Builder - Claude Code Context Reduction</h1>
         <p>
-          62 tools · 18 layers · 29 Jun 2026 · Build a conflict-free stack from scratch.<br />
+          62 tools · 18 layers · 29-06-2026 · Build a conflict-free stack from scratch.<br />
           <strong>⚠ orange</strong> = model/API calls or infra required &nbsp;·&nbsp; <strong>★ rec</strong> =
           recommended starting point
         </p>
@@ -60,21 +61,21 @@
           <div id="reqList"></div>
         </div>
         <div class="score-box">
-          <div class="sc-row"><span class="sc-label">Layer coverage</span><span class="sc-val" id="sCov">—</span></div>
+          <div class="sc-row"><span class="sc-label">Layer coverage</span><span class="sc-val" id="sCov">-</span></div>
           <div class="sc-bar">
-            <div class="sc-fill" id="bCov" style="width: 0%; background: var(--purple-border)"></div>
+            <div class="sc-fill sc-fill-cov" id="bCov"></div>
           </div>
-          <div class="sc-row"><span class="sc-label">Conflicts</span><span class="sc-val" id="sConf">—</span></div>
-          <div class="sc-bar"><div class="sc-fill" id="bConf" style="width: 0%; background: #e24b4a"></div></div>
+          <div class="sc-row"><span class="sc-label">Conflicts</span><span class="sc-val" id="sConf">-</span></div>
+          <div class="sc-bar"><div class="sc-fill sc-fill-conf" id="bConf"></div></div>
           <div class="sc-row">
-            <span class="sc-label">Community stars</span><span class="sc-val" id="sStars">—</span>
+            <span class="sc-label">Community stars</span><span class="sc-val" id="sStars">-</span>
           </div>
         </div>
         <div class="legend">
-          <strong>★ rec</strong> — recommended for most users<br />
-          <strong>built-in</strong> — already in Claude Code<br />
-          <span style="color: var(--red-mid)">⛔ red</span> — MCP tool name collision (hard conflict)<br />
-          <span style="color: #d97706">⚠ orange req</span> — model API calls or infra required
+          <strong>★ rec</strong> - recommended for most users<br />
+          <strong>built-in</strong> - already in Claude Code<br />
+          <span style="color: var(--red-mid)">⛔ red</span> - MCP tool name collision (hard conflict)<br />
+          <span style="color: var(--dot-slowing)">⚠ orange req</span> - model API calls or infra required
         </div>
         <div class="stack-footer">
           <button class="accent" id="btn-export"><i class="ti ti-download"></i> Export stack as Markdown</button>

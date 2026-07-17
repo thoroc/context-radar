@@ -24,7 +24,7 @@ export const exportMd = (): void => {
     if (!s.length) continue;
     lines.push(`## ${l.name}`);
     for (const t of s)
-      lines.push(`- **${t.name}** (${t.stars}★, ${t.ll}) — ${t.url}\n  > ${t.req}`);
+      lines.push(`- **${t.name}** (${t.stars}★, ${t.ll}) - ${t.url}\n  > ${t.req}`);
     lines.push("");
   }
   const a = document.createElement("a");
