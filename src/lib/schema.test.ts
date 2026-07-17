@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { makeTool } from "../test-support/make-tool";
-import { datasetSchema, toolSchema } from "./schema";
+import { datasetSchema, evidenceSourceSchema, toolSchema } from "./schema";
 
 describe("toolSchema", () => {
   test("accepts a well-formed record", () => {
@@ -19,6 +19,32 @@ describe("toolSchema", () => {
     expect(toolSchema.safeParse(makeTool({ activity: { releasedOn: "15-07-2026" } })).success).toBe(
       false,
     );
+  });
+});
+
+describe("evidenceSourceSchema — source-code permalink rule", () => {
+  const base = { quote: "some cited text", checkedOn: "2026-07-16" } as const;
+  const ok = (url: string, evidenceType = "source-code") =>
+    evidenceSourceSchema.safeParse({ ...base, url, evidenceType }).success;
+
+  test("accepts SHA-pinned permalinks with a line anchor across hosts", () => {
+    const sha = "f14b3bb5d70256211d094aced9a48c7018355dd5";
+    expect(ok(`https://github.com/o/r/blob/${sha}/src/a.rs#L42`)).toBe(true);
+    expect(ok(`https://github.com/o/r/blob/${sha}/src/a.rs#L1-L6`)).toBe(true);
+    expect(ok(`https://gitlab.com/o/r/-/blob/${sha}/src/a.rs#L42`)).toBe(true);
+    expect(ok(`https://codeberg.org/o/r/src/commit/${sha}/src/a.rs#L42`)).toBe(true);
+  });
+
+  test("rejects a source-code URL on a branch, or without a line anchor", () => {
+    const sha = "f14b3bb5d70256211d094aced9a48c7018355dd5";
+    expect(ok("https://github.com/o/r/blob/main/src/a.rs#L42")).toBe(false);
+    expect(ok(`https://github.com/o/r/blob/${sha}/src/a.rs`)).toBe(false);
+    expect(ok("https://github.com/o/r")).toBe(false);
+  });
+
+  test("applies the rule only to source-code sources", () => {
+    expect(ok("https://example.com/docs", "official-docs")).toBe(true);
+    expect(ok("https://github.com/o/r/blob/main/README.md", "readme")).toBe(true);
   });
 });
 
