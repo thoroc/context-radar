@@ -1,0 +1,41 @@
+name: evidence
+
+on:
+  pull_request:
+    paths:
+      - "data/context-reduction-tools.json"
+      - "src/lib/schema.ts"
+      - "scripts/evidence-verify/**"
+      - "scripts/verify-evidence.ts"
+  push:
+    branches: [main]
+    paths:
+      - "data/context-reduction-tools.json"
+  schedule:
+    # Sunday 19:00 UTC, an hour after freshness. Best-effort GitHub cron: catches a
+    # cited upstream repo going away (soft warn) even when the data has not changed.
+    - cron: "0 19 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Serialise per ref; a re-verify is idempotent, so cancel a superseded run.
+concurrency:
+  group: evidence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: mise run install
+      # Re-verify every source-code citation against upstream: fetch at the pinned
+      # SHA and assert the quoted text is really there. Hard-fails on a mismatch or
+      # an unparseable permalink; a fetch error is a soft warning in the log.
+      - name: Verify source-code evidence
+        run: mise run evidence:verify

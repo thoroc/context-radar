@@ -105,6 +105,10 @@ run = "bun run freshness"
 description = "Turn freshness-report.json into one GitHub issue per drifting tool in this repo"
 run = "bun run freshness:sync"
 
+[tasks."evidence:verify"]
+description = "Re-verify source-code citations against upstream (fetch at pinned SHA, assert the quote). Network-bound; runs in CI, not the offline validate path."
+run = "bun run evidence:verify"
+
 [tasks.skill]
 description = "Install the local tessl skill plugin declared in tessl.json"
 # Scope to claude-code so tessl only wires the Claude skill link and does not
