@@ -40,6 +40,7 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Regenerate `src/styles/icons.css` from the Tabler SVGs: `mise run gen:icons`
 - Detect version/activity drift into `freshness-report.json`: `mise run freshness`
 - Turn the freshness report into GitHub issues: `mise run freshness:sync`
+- Re-verify source-code citations against upstream (fetch at pinned SHA, assert the quote): `mise run evidence:verify`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
 
@@ -87,7 +88,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Column order + CSV serialisation: `src/lib/csv/`
 - Authoring template: `templates/tool.yaml`
 - Data scripts: `scripts/validate-data.ts`, `scripts/gen-schema.ts`, `scripts/gen-icons.ts`, `scripts/data-add.ts`,
-  `scripts/check-freshness.ts`, `scripts/sync-freshness-issue.ts`
+  `scripts/check-freshness.ts`, `scripts/sync-freshness-issue.ts`, `scripts/verify-evidence.ts` (thin entry over the
+  `scripts/evidence-verify/` domain)
 - Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
   table whose tool links open the detail as a modal overlay), `stack-builder.html` + `stack-builder/` (builder, with its
   own curated `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `detail/` (shared tool-detail renderer),
@@ -111,6 +113,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - `.github/workflows/plumber.yml` — Plumber security/compliance scan
 - `.github/workflows/freshness.yml` — weekly (and on-demand) version/activity drift check; opens one issue per drifting
   tool
+- `.github/workflows/evidence.yml` — re-verifies source-code citations against upstream (fetch at pinned SHA, assert the
+  quote) on data/schema changes and weekly; hard-fails on a mismatch, soft-warns on an unreachable source
 
 ## How to add or re-assess a tool
 

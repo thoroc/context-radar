@@ -6,6 +6,11 @@ import { toolSchema } from "../src/lib/schema";
 // the two never drift. Run via `mise run gen:schema` after changing the schema.
 // Zod 4 emits JSON Schema natively (`z.toJSONSchema`); `reused: "inline"` expands
 // shared sub-schemas in place rather than via `$ref`.
+//
+// CAVEAT: `z.toJSONSchema` does NOT emit `.superRefine`/`.refine` checks. The
+// evidence cross-field rules (code-beats-docs, and the source-code permalink shape
+// in schema.ts) are therefore enforced at `mise run validate` time only and do not
+// appear in the published schema. Keep authoring guidance in the skill in step.
 const outPath = "plugin/skills/project-comparison-fetch/schema/tool-record.schema.json";
 
 const base = z.toJSONSchema(toolSchema, {

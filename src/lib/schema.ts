@@ -106,6 +106,21 @@ export const proofLedgerSchema = z.enum(["PROVEN", "SUPPORTED", "OPEN", "REJECTE
 /** Source types stronger than a README mention (drives the code-beats-docs rule). */
 const STRONG_EVIDENCE: readonly string[] = ["source-code", "official-docs", "release"];
 
+/**
+ * A `source-code` citation must be a permalink pinned to a commit SHA (not a moving
+ * branch) with a line anchor, on a recognised code host: GitHub/Gitea (`/blob/<sha>/`),
+ * GitLab (`/-/blob/<sha>/`), or Codeberg/Gitea (`/src/commit/<sha>/`). A hex ref rejects
+ * branch names; the `#L` anchor rejects repo-root and whole-file URLs. Whole-file or
+ * absence claims (e.g. a LICENSE file, "no telemetry") have no single line and belong
+ * under `official-docs`/`release`, not `source-code`.
+ *
+ * Enforced by `mise run validate` only. It does NOT reach the published JSON Schema:
+ * `z.toJSONSchema` drops `superRefine` (see scripts/gen-schema.ts), as it already does
+ * for the code-beats-docs rule below.
+ */
+const SOURCE_CODE_PERMALINK =
+  /^https?:\/\/[^/\s]+\/\S+?(?:\/blob\/|\/-\/blob\/|\/src\/commit\/)[0-9a-f]{7,40}\/\S+#L\d+(?:-L?\d+)?$/i;
+
 /** A single citation. `url` should be a commit-SHA permalink, not a moving branch. */
 export const evidenceSourceSchema = z
   .object({
@@ -116,7 +131,17 @@ export const evidenceSourceSchema = z
     checkedOn: isoDate,
     evidenceType: evidenceTypeSchema,
   })
-  .strict();
+  .strict()
+  .superRefine((s, ctx) => {
+    if (s.evidenceType === "source-code" && !SOURCE_CODE_PERMALINK.test(s.url)) {
+      ctx.addIssue({
+        code: "custom",
+        message:
+          "a 'source-code' source needs a commit-SHA permalink with a line anchor (e.g. .../blob/<sha>/path#L42); a whole-file or licence claim belongs under 'official-docs' or 'release'",
+        path: ["url"],
+      });
+    }
+  });
 
 /**
  * Evidence attached to a claim: its status and the sources behind it. A
@@ -234,8 +259,28 @@ export const verdictSchema = z
     decision: verdictDecisionSchema,
     /** The reasoning that followed the decision, preserved verbatim. */
     rationale: z.string(),
+    /**
+     * Source-verified backing for the decision. Optional so the 79 legacy records
+     * stay valid; Phase 2 backfills it for the tools behind published recommendations.
+     */
+    evidence: evidenceSchema.optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((v, ctx) => {
+    // A recommendation-grade verdict cannot stand on evidence we have refuted or
+    // never verified. This routes an honest evidence downgrade back to failing here,
+    // rather than silently keeping a "best" call behind a weak citation.
+    if (
+      (v.decision === "best" || v.decision === "either-or") &&
+      (v.evidence?.status === "refuted" || v.evidence?.status === "unverified")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "a 'best'/'either-or' verdict may not carry 'refuted' or 'unverified' evidence",
+        path: ["evidence", "status"],
+      });
+    }
+  });
 
 export const toolSchema = z
   .object({

@@ -19,7 +19,8 @@
     "gen:schema": "bun scripts/gen-schema.ts",
     "gen:icons": "bun scripts/gen-icons.ts",
     "freshness": "bun scripts/check-freshness.ts",
-    "freshness:sync": "bun scripts/sync-freshness-issue.ts"
+    "freshness:sync": "bun scripts/sync-freshness-issue.ts",
+    "evidence:verify": "bun scripts/verify-evidence.ts"
   },
   "dependencies": {
     "markdown-it": "^14.1.0"

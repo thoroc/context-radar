@@ -38,7 +38,9 @@ conflict:
   # note: ⛔ HARD ctx_* namespace collision with magic-context if both loaded.
   # Optional evidence backing this claim. Cite commit-SHA permalinks, not moving
   # branches. A "confirmed" status needs at least one source-code / official-docs
-  # / release source; a README-only citation tops out at "caveated".
+  # / release source; a README-only citation tops out at "caveated". A source-code
+  # URL must be a commit-SHA permalink with a line anchor (.../blob/<sha>/path#L42);
+  # a whole-file or licence citation is official-docs / release, not source-code.
   # evidence:
   #   status: confirmed          # confirmed | caveated | refuted | unverified
   #   sources:
@@ -113,7 +115,7 @@ decisionRule: >-
 #     evidence:
 #       status: confirmed
 #       sources:
-#         - url: https://github.com/owner/repo/blob/<sha>/bench.ts
+#         - url: https://github.com/owner/repo/blob/<sha>/bench.ts#L1-L6
 #           quote: runnable benchmark harness committed in the repo
 #           checkedOn: 2026-07-16
 #           evidenceType: source-code

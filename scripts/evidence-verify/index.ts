@@ -1,0 +1,12 @@
+export type { SourceCodeCitation } from "./collect-source-code";
+export { collectSourceCode } from "./collect-source-code";
+export type { QuoteMatch } from "./match-quote";
+export { matchQuote } from "./match-quote";
+export { normalise } from "./normalise";
+export type { ParsedPermalink } from "./parse-permalink";
+export { parsePermalink } from "./parse-permalink";
+export { runVerification } from "./run";
+export type { VerificationSummary } from "./summarise";
+export { summarise } from "./summarise";
+export type { FetchText, VerifyResult, VerifyStatus } from "./verify-source";
+export { verifySource } from "./verify-source";
