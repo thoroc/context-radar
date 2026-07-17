@@ -1,6 +1,6 @@
 {
   "meta": {
-    "last_updated": "2026-07-15",
+    "last_updated": "2026-07-17",
     "stars_verified": "2026-07-15",
     "tool_count": 79
   },
@@ -184,7 +184,7 @@
       "tool": "agent-context-economy",
       "githubUrl": "https://github.com/grafikerdem/agent-context-economy",
       "layer": "Shell output",
-      "whatItDoes": "Six PowerShell scripts the agent calls instead of raw commands to reduce context bloat. run-compact.ps1: runs noisy builds/tests, feeds only error summary to agent (-93% terminal lines). read-symbol.ps1: grabs only a named function/class/component by name instead of reading whole file. read-window.ps1: reads a precise line range. investigate.ps1: batches multiple search patterns into one structured report (-71% shell commands). find-in-file.ps1: fast literal search in known file. diff-summary.ps1: ultra-compact git status. Agent rules in AGENTS.md/CLAUDE.md instruct agent to use these scripts automatically. PowerShell 7.0+. v0.1.1, 14 commits.",
+      "whatItDoes": "PowerShell scripts the agent calls instead of raw commands to reduce context bloat. run-compact.ps1: runs noisy builds/tests, feeds only error summary to agent. read-symbol.ps1 / read-text.ps1: grab a named function/class or a precise line range instead of a whole file. investigate.ps1: batches search patterns into one structured report. diff-summary.ps1: ultra-compact git status. Agent rules in AGENTS.md/CLAUDE.md instruct the agent to use these automatically. PowerShell 7.0+. v1.0.0 adds progressive source navigation (summary/signature/body/full modes), abstract context budgets, adaptive guidance, and bash wrappers for macOS/Linux.",
       "conflict": {
         "severity": "either-or",
         "projects": [
@@ -204,16 +204,17 @@
         ],
         "detail": "PowerShell 7.0+"
       },
-      "requirements": "PowerShell 7.0+ required. Windows-first (works on macOS/Linux via PowerShell Core but tooling is Windows-oriented). No model calls. git clone then run setup-ai-scripts.ps1, then copy agent rules from examples/AGENTS.example.md into CLAUDE.md/AGENTS.md.",
+      "requirements": "PowerShell 7.0+ required. Cross-platform via PowerShell Core plus bash wrappers, though PowerShell is required everywhere. No model calls. git clone then run the setup script, then copy agent rules from examples/AGENTS.example.md into CLAUDE.md/AGENTS.md.",
       "licence": {
         "spdx": "MIT"
       },
       "stars": 15,
       "trend": 650,
       "activity": {
-        "releaseCount": 2,
-        "latestVersion": "v0.1.1",
-        "notes": "0 forks, 2 releases, v0.1.1 Jul 2 2026, 14 commits, solo dev - brand new"
+        "latestVersion": "v1.0.0",
+        "releaseCount": 5,
+        "releasedOn": "2026-07-07",
+        "notes": "15 stars, 1 fork, 5 releases, v1.0.0 (7 Jul 2026), effectively solo dev. v1.0.0 marks API stability, not adoption. Cross-platform via PowerShell Core plus bash wrappers, still PowerShell-first."
       },
       "activityStatus": {
         "band": "early",
@@ -221,9 +222,9 @@
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "too early, Windows-first constraint, explicit-call model"
+        "rationale": "Too early: solo-author v1.0.0 marks API stability, not adoption (15 stars, 1 fork). PowerShell-first, now cross-platform via pwsh and bash wrappers. Explicit-call model: the agent must be told to invoke the scripts."
       },
-      "decisionRule": "2 stars, v0.1.1 released yesterday. Windows/PowerShell-first is a real constraint for macOS/Linux-primary environments. Explicit-call model (agent must be instructed to use scripts) vs automatic hooks (RTK/omni). Stackable rather than competing with shell hooks. Benchmarks (93% terminal reduction, 90% file read reduction) lack methodology detail - treat as illustrative. Note: kayba-ai/agentic-context-engine is also abbreviated ACE - different tool entirely.",
+      "decisionRule": "15 stars, v1.0.0 (Jul 2026). PowerShell-first is a real constraint for macOS/Linux-primary environments though cross-platform wrappers now exist. Explicit-call model (agent must be instructed to use scripts) vs automatic hooks (RTK/omni). Stackable rather than competing with shell hooks. Benchmarks (93% terminal reduction, 90% file read reduction) lack methodology detail - treat as illustrative. Note: kayba-ai/agentic-context-engine is also abbreviated ACE - different tool entirely.",
       "requiresExternal": false
     },
     {
@@ -292,13 +293,15 @@
       },
       "requirements": "Node.js 18+; no model calls",
       "licence": {
-        "spdx": "ELv2"
+        "spdx": "ELv2",
+        "warning": "Elastic License v2 is source-available, not OSI-approved; GitHub does not auto-detect it. Confirm LICENSE terms before commercial reuse."
       },
-      "stars": 19000,
+      "stars": 19045,
       "trend": 197,
       "activity": {
-        "latestVersion": "v0.9.23",
-        "notes": "485+ issues, 15 platforms, v0.9.23, very active - Cursor plugin in progress"
+        "latestVersion": "v1.0.169",
+        "releasedOn": "2026-06-29",
+        "notes": "19k stars, 1,338 forks, 83 open issues, roughly 180 releases, v1.0.169 (29 Jun 2026). 17 platforms via MCP plus Claude Code hooks, session continuity across compaction. Very active, pushed daily."
       },
       "activityStatus": {
         "band": "active",
@@ -308,7 +311,7 @@
         "decision": "add",
         "rationale": "covers all tool output + session continuity"
       },
-      "decisionRule": "Run alongside your chosen shell tool (RTK/sqz/lean-ctx). Handles web fetches, API dumps, Playwright + session continuity. 15 platforms, v0.9.23.",
+      "decisionRule": "Run alongside your chosen shell tool (RTK/sqz/lean-ctx). Handles web fetches, API dumps, Playwright plus session continuity. 17 platforms, v1.0.169.",
       "requiresExternal": false
     },
     {
@@ -360,7 +363,7 @@
       "tool": "sigmap",
       "githubUrl": "https://github.com/manojmallick/sigmap",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "Extracts fn/class signatures → CLAUDE.md passively. Zero deps. 31 languages. Graph-boosted retrieval (80% hit@5). 97.9% token reduction across 21 repos. 9 MCP tools. v6.10.",
+      "whatItDoes": "Extracts fn/class signatures into CLAUDE.md passively. Zero deps. 33 languages. Graph-boosted retrieval (86.7% hit@5). 96.9% token reduction across 21 repos. 20 MCP tools. Now also a deterministic grounding layer: sigmap verify flags fabricated files/imports/symbols/tests against the real repo. v8.18.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -378,11 +381,13 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 596,
+      "stars": 598,
       "trend": 40,
       "activity": {
-        "latestVersion": "v6.10",
-        "notes": "30 forks, v6.10, 31 languages, 9 MCP tools, community contributors, weekly releases"
+        "latestVersion": "v8.18.0",
+        "releaseCount": 147,
+        "releasedOn": "2026-07-12",
+        "notes": "598 stars, 39 forks, 147 releases, v8.18.0 (12 Jul 2026), 33 languages, 20 MCP tools, zero deps. Scope broadened to deterministic grounding/verification (Hallucination Guard). Effectively solo dev."
       },
       "activityStatus": {
         "band": "active",
@@ -390,9 +395,9 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "validated, 426 stars, growing fast"
+        "rationale": "Validated, roughly 600 stars, very active. Zero-dependency, deterministic, MIT. Scope broadened from token reduction to grounding/verification. Not best: single-maintainer, self-reported benchmarks."
       },
-      "decisionRule": "Pre-writes to CLAUDE.md passively. No agent tool call required. Now at v6.x with graph-boosted retrieval and 31 languages. Run: sigmap --monorepo --adapter claude then caveman-compress as post-hook.",
+      "decisionRule": "Pre-writes to CLAUDE.md passively. No agent tool call required. Now at v8.x with graph-boosted retrieval, 33 languages, 20 MCP tools, and a grounding/verify command. Run: sigmap --monorepo --adapter claude then caveman-compress as post-hook.",
       "requiresExternal": false
     },
     {
@@ -690,7 +695,7 @@
       "tool": "jdocmunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdocmunch-mcp",
       "layer": "Library documentation retrieval",
-      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. 10 MCP tools: index_local, index_repo, get_toc, get_toc_tree, search_sections, get_section, get_sections + more. SHA-256 drift detection. Security filtering. _meta envelope reports tokens saved per call. 2.3k LobeHub installs. Python/pip install or uvx. v0.1.1.",
+      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. Roughly 62 MCP tools (index_local, index_repo, get_toc, search_sections, get_section and more). SHA-256 drift detection. Claude Code hooks (PreToolUse, PostToolUse, PreCompact) plus a watch daemon that reindexes on any on-disk change. Security filtering. _meta envelope reports tokens saved per call. Python/pip or uvx. v1.98.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -706,17 +711,20 @@
       },
       "requirements": "Python 3.10+; no model calls; uvx jdocmunch-mcp",
       "licence": {
-        "spdx": "Dual-use (free non-commercial; paid commercial)"
+        "spdx": "Dual-use (free non-commercial; paid commercial)",
+        "warning": "Custom jDocMunch-MCP Dual-Use License (not OSI-approved); commercial use requires a paid licence."
       },
-      "stars": 187,
+      "stars": 191,
       "trend": 15,
       "activity": {
-        "latestVersion": "v0.1.1",
-        "notes": "39 forks, 131 CI runs, v0.1.1, 2.3k LobeHub installs, active"
+        "latestVersion": "v1.98.0",
+        "releaseCount": 132,
+        "releasedOn": "2026-07-16",
+        "notes": "191 stars, 41 forks, 132 releases, v1.98.0 (16 Jul 2026), roughly 62 MCP tools, Claude Code hooks (PreToolUse/PostToolUse/PreCompact) plus a watch daemon, local-first. The 1.x line is disciplined backward-compatible minor releases, not version inflation."
       },
       "activityStatus": {
-        "band": "stable",
-        "label": "Active"
+        "band": "active",
+        "label": "Very active"
       },
       "verdict": {
         "decision": "add",
@@ -1030,7 +1038,7 @@
       "tool": "sourcebot",
       "githubUrl": "https://github.com/sourcebot-dev/sourcebot",
       "layer": "Code navigation",
-      "whatItDoes": "Self-hosted code intelligence platform (Docker Compose + PostgreSQL + Redis). Ask Sourcebot: NL questions answered with inline citations via reasoning model + code search. Blazingly fast code search across all repos/branches (Zoekt trigram engine, regex/boolean/filter support). IDE-level code nav: goto definition, find references. Built-in file explorer with syntax highlighting. Official MCP server for agent integration. Supports GitHub, GitLab, Gitea, Gerrit, Bitbucket. 144 releases, v4.17.2. 469K Docker pulls.",
+      "whatItDoes": "Self-hosted code intelligence platform (Docker Compose plus PostgreSQL plus Redis). Ask Sourcebot: NL questions answered with inline citations via a reasoning model plus code search. Fast code search across all repos/branches (Zoekt trigram engine, regex/boolean/filter). IDE-level code nav: goto definition, find references. Built-in file explorer with syntax highlighting. MCP server for agent integration. Supports GitHub, GitLab, Gitea, Gerrit, Bitbucket. 154 releases, v5.1.2. As of v5.0.0 the MCP server and Ask Sourcebot are Enterprise-licensed (paid).",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1048,24 +1056,43 @@
       },
       "requirements": "Requires Docker Compose + PostgreSQL + Redis; no model calls for search (Ask Sourcebot NL feature calls LLM)",
       "licence": {
-        "spdx": "Fair Source"
+        "spdx": "FSL-1.1-ALv2 + Enterprise (ee)",
+        "warning": "Core is Functional Source License 1.1 (source-available, internal commercial use permitted, converts to Apache-2.0 after two years). The ee/ folder, which includes Ask Sourcebot and the MCP server as of v5.0.0, is under a paid Enterprise licence. Not OSI open source. Confirm licence tier with Legal before commercial or agent use.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/sourcebot-dev/sourcebot/releases/tag/v5.0.0",
+              "quote": "[Breaking Change] Relicensed Ask Sourcebot and MCP under ee.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "release"
+            },
+            {
+              "url": "https://github.com/sourcebot-dev/sourcebot/blob/06acea2a349031e4f13ed3e51367c3a6771769fb/LICENSE.md",
+              "quote": "Content outside of the above mentioned directories or restrictions above is available under the \"Functional Source License\", Version 1.1, ALv2 Future License (FSL-1.1-ALv2)",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
-      "stars": 3600,
+      "stars": 3592,
       "trend": 6,
       "activity": {
-        "releaseCount": 144,
-        "latestVersion": "v4.17.2",
-        "notes": "84 open issues, 42 open PRs, 275 forks, 1196 commits, 144 releases, v4.17.2 May 2026 - very active team"
+        "releaseCount": 154,
+        "latestVersion": "v5.1.2",
+        "releasedOn": "2026-07-16",
+        "notes": "3,592 stars, 322 forks, roughly 54 contributors, 154 releases, v5.1.2 (16 Jul 2026). v5.0.0 moved Ask Sourcebot and the MCP server into the paid Enterprise (ee) tier and made external Postgres and Redis mandatory. Very active team."
       },
       "activityStatus": {
         "band": "active",
         "label": "Very active"
       },
       "verdict": {
-        "decision": "best",
-        "rationale": "best self-hosted code search platform"
+        "decision": "add",
+        "rationale": "Still the leading self-hosted code-search platform, and core search stays free under FSL-1.1-ALv2. Downgraded from best because v5.0.0 moved Ask Sourcebot and the MCP/agent surface into the paid Enterprise (ee) tier, so the free context-reduction value for agents is reduced. Decision support: confirm the licence tier before adoption."
       },
-      "decisionRule": "Fair Source: source-available, internal commercial use permitted, embedding/reselling needs commercial agreement. Requires Docker Compose + PostgreSQL + Redis - real infra commitment vs zero-config tools. Set SOURCEBOT_TELEMETRY_DISABLED=true on deploy. 469K Docker pulls = strongest adoption signal in this comparison. docker compose up is the entire install.",
+      "decisionRule": "Licence: core is FSL-1.1-ALv2 (source-available, internal commercial use permitted, converts to Apache-2.0 after two years); Ask Sourcebot and the MCP server are Enterprise-licensed (paid per seat) as of v5.0.0. v5 requires external Postgres and Redis and no longer auto-generates AUTH_SECRET/SOURCEBOT_ENCRYPTION_KEY (set them as env vars). Set SOURCEBOT_TELEMETRY_DISABLED=true on deploy. Verify whether the standalone @sourcebot/mcp package remains FSL. docker compose up is the install.",
       "requiresExternal": true
     },
     {
@@ -1851,7 +1878,7 @@
       "tool": "aictx",
       "githubUrl": "https://github.com/oldskultxo/aictx",
       "layer": "Cross-session governance",
-      "whatItDoes": "Repo-local continuity runtime. Solves agent cold-start: each session starts from the operational state left by prior work via two CLI calls - aictx resume (produces resume capsule with active task, next action, known failures, verified strategies, branch-safe Work State) and aictx finalize (captures execution evidence). Core capabilities: Work State (task, hypothesis, files, next action, risks), Failure Memory (structured patterns of observed command/test/build/lint failures - agents avoid repeating them), Strategy Memory (reusable successful execution patterns), Handoffs/Decisions (survive session boundaries), RepoMap (optional Tree-sitter structural map). Claude-aware (.claude/hooks/aictx_*.py), Codex-first, generic-agent compatible. All artifacts local JSON/Markdown in .aictx/ directory. No model calls. 28 releases, v5.3.0. Demo: 5 vs 10 files explored, 8 vs 15 commands, 1m12s vs 1m59s (honest framing: not a universal benchmark).",
+      "whatItDoes": "Repo-local continuity runtime. Solves agent cold-start: each session starts from the operational state left by prior work via aictx resume (resume capsule with active task, next action, known failures, verified strategies) and aictx finalize (captures execution evidence). Work State, Failure Memory (structured patterns of failed commands/tests/builds - agents avoid repeating them), Strategy Memory, Handoffs/Decisions, optional Tree-sitter RepoMap. Now ships a local MCP server (readonly/standard/full profiles) and a Claude Code plugin with steer/guard hooks; Codex and Copilot also supported. All artifacts local JSON/Markdown in .aictx/. No model calls. 49 releases, v7.0.1.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1874,19 +1901,20 @@
       "stars": 54,
       "trend": 575,
       "activity": {
-        "releaseCount": 28,
-        "latestVersion": "v5.3.0",
-        "notes": "1 fork, 28 releases, v5.3.0 May 4 2026, 137 commits, solo dev (Santi Santamaria), official website at aictx.org"
+        "releaseCount": 49,
+        "latestVersion": "v7.0.1",
+        "releasedOn": "2026-06-17",
+        "notes": "54 stars (flat), 5 forks, 1 contributor, 49 releases, v7.0.1 (17 Jun 2026). Solo dev (Santi Santamaria), aictx.org. Added a local MCP server and Claude Code plugin/hooks; ranked failure and continuity memory. No model calls."
       },
       "activityStatus": {
-        "band": "stable",
+        "band": "active",
         "label": "Active (solo)"
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "8 stars but 28 releases; unique failure memory; needs community validation"
+        "rationale": "Flat 54 stars and a single contributor, but now 49 releases with a local MCP server and Claude Code hook integration and strong failure/continuity memory. Still needs community validation."
       },
-      "decisionRule": "8 stars but 28 releases from v1 to v5.3.0 suggests sustained personal development before publicizing. README explicitly rules out productivity guarantees and lists what it is not - good epistemic hygiene. Failure Memory is unique in this comparison: structured tracking of commands/tests that failed, with dedupe and staleness metadata. No model calls - entirely offline capable. pip install aictx then aictx install then aictx init.",
+      "decisionRule": "54 stars but 49 releases from v1 to v7.0.1 suggests sustained personal development. README explicitly rules out productivity guarantees and lists what it is not - good epistemic hygiene. Failure Memory is unique in this comparison: structured tracking of commands/tests that failed, with dedupe and staleness metadata. No model calls - entirely offline capable. pip install aictx then aictx install then aictx init.",
       "requiresExternal": false
     },
     {
@@ -2350,7 +2378,7 @@
       "tool": "jdatamunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdatamunch-mcp",
       "layer": "Tabular data retrieval",
-      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. 9 MCP tools: index_local, describe_dataset, describe_column, search_data, get_rows (10 filter operators), aggregate (GROUP BY in SQLite), sample_rows, list_datasets, get_session_stats. Token savings telemetry per call. 25,333x reduction benchmark on 1M-row CSV (111M→3,849 tokens, measured). Incremental re-index on unchanged files (hash check). v0.1.1.",
+      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools (index_local, describe_dataset, describe_column, search_data, get_rows, aggregate, sample_rows, list_datasets and more). Token savings telemetry per call. 25,333x reduction benchmark on a 1M-row CSV (measured). Incremental re-index on unchanged files (hash check). Local-first, no cloud. v1.19.1.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -2366,22 +2394,24 @@
       },
       "requirements": "Python 3.10+; no model calls; uvx jdatamunch-mcp",
       "licence": {
-        "spdx": "Dual-use (free non-commercial; paid commercial)"
+        "spdx": "Dual-use (free non-commercial; paid commercial)",
+        "warning": "Custom jDataMunch-MCP Dual-Use License (not OSI-approved); for-profit or commercial use requires a paid licence."
       },
-      "stars": 70,
+      "stars": 73,
       "trend": 1650,
       "activity": {
-        "releaseCount": 2,
-        "latestVersion": "v0.1.1",
-        "notes": "0 forks, 2 releases, v0.1.1 Mar 2026, 13 commits, solo dev, brand new"
+        "releaseCount": 36,
+        "latestVersion": "v1.19.1",
+        "releasedOn": "2026-07-16",
+        "notes": "73 stars, 19 forks, 1 contributor, 36 releases, v1.19.1 (16 Jul 2026), roughly 36 MCP tools, local-first (SQLite). Feature-mature but single-maintainer and low adoption; recent releases are parity/docs polish."
       },
       "activityStatus": {
-        "band": "early",
-        "label": "Early"
+        "band": "active",
+        "label": "Active (solo)"
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "too early, but genuinely unique layer"
+        "rationale": "Feature-mature (36 releases, roughly 36 MCP tools) but single-maintainer and low adoption (73 stars), under a non-OSI dual-use licence that restricts commercial use. Genuinely unique tabular-data layer."
       },
       "decisionRule": "Only tool in this comparison addressing large CSV/Excel token bloat. 25,333x benchmark is reproducible (LAPD 1M-row dataset). Same dual-use licence as jCodemunch/jDocMunch - free for personal/OSS, commercial use requires paid licence. uvx jdatamunch-mcp to install. Revisit when community forks appear.",
       "requiresExternal": false
