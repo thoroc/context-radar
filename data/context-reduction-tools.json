@@ -33,9 +33,10 @@
       "trend": 1,
       "activity": {
         "contributors": 122,
-        "releasedOn": "2026-07-07",
+        "releasedOn": "2026-06-28",
         "corroboration": "star-history",
-        "notes": "122 contributors, dev-0.44.0-rc.312 (7 Jul 2026), 70.4k stars confirmed via star-history.com live tracker, near-plateau growth (+11/week)"
+        "notes": "122 contributors, dev-0.44.0-rc.312 (7 Jul 2026), 70.4k stars confirmed via star-history.com live tracker, near-plateau growth (+11/week)",
+        "latestVersion": "v0.43.0"
       },
       "activityStatus": {
         "band": "active",
@@ -76,8 +77,9 @@
       "trend": 206,
       "activity": {
         "releaseCount": 19,
-        "latestVersion": "v1.0.9",
-        "notes": "7 forks, 19 releases, v1.0.9, MCP server, brew/npm"
+        "latestVersion": "v1.3.0",
+        "notes": "7 forks, 19 releases, v1.0.9, MCP server, brew/npm",
+        "releasedOn": "2026-06-21"
       },
       "activityStatus": {
         "band": "stable",
@@ -118,7 +120,9 @@
       "stars": 3200,
       "trend": 14,
       "activity": {
-        "notes": "confirmed 2.8k stars, 76 MCP tools (was 59), 30+ agents, active website at leanctx.com"
+        "notes": "confirmed 2.8k stars, 76 MCP tools (was 59), 30+ agents, active website at leanctx.com",
+        "latestVersion": "v3.9.11",
+        "releasedOn": "2026-07-16"
       },
       "activityStatus": {
         "band": "active",
@@ -165,8 +169,9 @@
       "trend": 16,
       "activity": {
         "releaseCount": 42,
-        "latestVersion": "v0.6.0",
-        "notes": "26 forks, 42 releases, v0.6.0 Jun 14 2026, 638 commits, active - organic community discussion comparing directly to RTK"
+        "latestVersion": "v0.6.2",
+        "notes": "26 forks, 42 releases, v0.6.0 Jun 14 2026, 638 commits, active - organic community discussion comparing directly to RTK",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "active",
@@ -259,7 +264,8 @@
       "stars": 5,
       "trend": 67,
       "activity": {
-        "notes": "0 forks, 7 tags, 74 commits, CI passing, solo/small team - no third-party coverage found, genuinely very early"
+        "notes": "0 forks, 7 tags, 74 commits, CI passing, solo/small team - no third-party coverage found, genuinely very early",
+        "latestVersion": "v0.1.9"
       },
       "activityStatus": {
         "band": "early",
@@ -427,7 +433,9 @@
       "stars": 58,
       "trend": 1833,
       "activity": {
-        "notes": "no recent issues, no PRs, no commits"
+        "notes": "no recent issues, no PRs, no commits",
+        "latestVersion": "v0.4.5",
+        "releasedOn": "2026-05-12"
       },
       "activityStatus": {
         "band": "dormant",
@@ -468,8 +476,9 @@
       "trend": 84,
       "activity": {
         "releaseCount": 72,
-        "latestVersion": "v0.15.7",
-        "notes": "84+ open issues, 34 forks, 72 releases, v0.15.7 Apr 2026, 483 commits, very active"
+        "latestVersion": "v0.32.1",
+        "notes": "84+ open issues, 34 forks, 72 releases, v0.15.7 Apr 2026, 483 commits, very active",
+        "releasedOn": "2026-07-15"
       },
       "activityStatus": {
         "band": "active",
@@ -509,7 +518,9 @@
       "stars": 28000,
       "trend": 70,
       "activity": {
-        "notes": "low churn, mature, stable issue/PR rate"
+        "notes": "low churn, mature, stable issue/PR rate",
+        "latestVersion": "v2.5.3",
+        "releasedOn": "2026-05-29"
       },
       "activityStatus": {
         "band": "stable",
@@ -640,8 +651,9 @@
       "trend": 2475,
       "activity": {
         "releaseCount": 5,
-        "latestVersion": "v0.4.3",
-        "notes": "2 forks, 5 releases, v0.4.3 (latest installer)/v0.4.1 (page), 146 commits, backed by Zilliz (Milvus vector DB company) - genuinely early despite company backing"
+        "latestVersion": "v0.4.5",
+        "notes": "2 forks, 5 releases, v0.4.3 (latest installer)/v0.4.1 (page), 146 commits, backed by Zilliz (Milvus vector DB company) - genuinely early despite company backing",
+        "releasedOn": "2026-07-10"
       },
       "activityStatus": {
         "band": "early",
@@ -762,7 +774,7 @@
       "trend": 9,
       "activity": {
         "releaseCount": 48,
-        "latestVersion": "v0.6.1",
+        "latestVersion": "v0.6.4",
         "notes": "4 forks, 48 releases, v0.6.1 Jul 3 2026, 516 commits, 2 open issues, 2 open PRs - founded by opencv-python creator (100M+ downloads), covered on Product Hunt and HN"
       },
       "activityStatus": {
@@ -804,8 +816,9 @@
       "trend": 403,
       "activity": {
         "releaseCount": 6,
-        "latestVersion": "v2.5.0",
-        "notes": "1.4k forks, 14.7k stars, 57 watchers, v2.5.0, 6 releases, 496 commits, very active"
+        "latestVersion": "v2.9.0",
+        "notes": "1.4k forks, 14.7k stars, 57 watchers, v2.5.0, 6 releases, 496 commits, very active",
+        "releasedOn": "2026-07-10"
       },
       "activityStatus": {
         "band": "active",
@@ -847,8 +860,9 @@
       "trend": 109,
       "activity": {
         "releaseCount": 16,
-        "latestVersion": "v0.9.5",
-        "notes": "90 forks, 16 releases, v0.9.5, 323 commits, 4 open issues, 4 open PRs, active"
+        "latestVersion": "v0.13.0",
+        "notes": "90 forks, 16 releases, v0.9.5, 323 commits, 4 open issues, 4 open PRs, active",
+        "releasedOn": "2026-07-13"
       },
       "activityStatus": {
         "band": "stable",
@@ -893,7 +907,9 @@
       "activity": {
         "contributors": 155,
         "corroboration": "star-history",
-        "notes": "155 contributors, 43.8k confirmed via star-history.com live tracker (+11/week), independent research (Ry Walker) corroborates April-June growth to ~42k range"
+        "notes": "155 contributors, 43.8k confirmed via star-history.com live tracker (+11/week), independent research (Ry Walker) corroborates April-June growth to ~42k range",
+        "latestVersion": "v1.6.9",
+        "releasedOn": "2026-07-04"
       },
       "activityStatus": {
         "band": "active",
@@ -934,7 +950,9 @@
       "stars": 32000,
       "trend": 152,
       "activity": {
-        "notes": "confirmed 12.7k stars (was 2.5k, 5x jump), DeusData/codebase-memory-mcp daily trending"
+        "notes": "confirmed 12.7k stars (was 2.5k, 5x jump), DeusData/codebase-memory-mcp daily trending",
+        "latestVersion": "v0.9.0",
+        "releasedOn": "2026-07-08"
       },
       "activityStatus": {
         "band": "active",
@@ -974,8 +992,9 @@
       "stars": 20000,
       "trend": 28,
       "activity": {
-        "latestVersion": "v2.3.2",
-        "notes": "141 commits since v2.3.2, 6 community PRs merged, v2.3.3 recent"
+        "latestVersion": "v2.3.6",
+        "notes": "141 commits since v2.3.2, 6 community PRs merged, v2.3.3 recent",
+        "releasedOn": "2026-06-10"
       },
       "activityStatus": {
         "band": "active",
@@ -1122,7 +1141,9 @@
       "stars": 3100,
       "trend": 384,
       "activity": {
-        "notes": "moderate issue/PR flow"
+        "notes": "moderate issue/PR flow",
+        "latestVersion": "v1.8.18",
+        "releasedOn": "2026-06-28"
       },
       "activityStatus": {
         "band": "stable",
@@ -1162,7 +1183,9 @@
       "stars": 86000,
       "trend": 4,
       "activity": {
-        "notes": "Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep."
+        "notes": "Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep.",
+        "latestVersion": "v0.9.18",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "active",
@@ -1205,7 +1228,9 @@
       "activity": {
         "contributors": 39,
         "corroboration": "GitHub issue live counter + star-history",
-        "notes": "39 contributors, 58.5k confirmed via GitHub issue live counter + star-history.com independently, re-benchmarked on Opus 4.8, current build uses codegraph_explore as primary tool"
+        "notes": "39 contributors, 58.5k confirmed via GitHub issue live counter + star-history.com independently, re-benchmarked on Opus 4.8, current build uses codegraph_explore as primary tool",
+        "latestVersion": "v1.4.1",
+        "releasedOn": "2026-07-10"
       },
       "activityStatus": {
         "band": "active",
@@ -1262,8 +1287,9 @@
       "stars": 433,
       "trend": 71,
       "activity": {
-        "latestVersion": "v7.0.2",
-        "notes": "21 forks, 133+ releases, v7.0.2 Jun 24 2026, 728+ commits, SkillsLLM security scan PASSED (30 May 2026, no high-severity issues), author actively engaging upstream (filed feature request on headroom repo proposing embedding tokensave, fully self-disclosed)"
+        "latestVersion": "v7.4.0",
+        "notes": "21 forks, 133+ releases, v7.0.2 Jun 24 2026, 728+ commits, SkillsLLM security scan PASSED (30 May 2026, no high-severity issues), author actively engaging upstream (filed feature request on headroom repo proposing embedding tokensave, fully self-disclosed)",
+        "releasedOn": "2026-07-16"
       },
       "activityStatus": {
         "band": "active",
@@ -1329,7 +1355,9 @@
       "trend": 86,
       "activity": {
         "contributors": 78,
-        "notes": "78 contributors, community PRs, active issues"
+        "notes": "78 contributors, community PRs, active issues",
+        "latestVersion": "v0.4.7",
+        "releasedOn": "2026-05-07"
       },
       "activityStatus": {
         "band": "stable",
@@ -1409,7 +1437,9 @@
       "stars": 26000,
       "trend": 3,
       "activity": {
-        "notes": "25.2k confirmed stable via independent third-party research (Ry Walker Code Intelligence Tools comparison) - exact match to prior recording, no change"
+        "notes": "25.2k confirmed stable via independent third-party research (Ry Walker Code Intelligence Tools comparison) - exact match to prior recording, no change",
+        "latestVersion": "v1.6.0",
+        "releasedOn": "2026-07-16"
       },
       "activityStatus": {
         "band": "active",
@@ -1451,8 +1481,9 @@
       "trend": 300,
       "activity": {
         "releaseCount": 3,
-        "latestVersion": "v0.1.0",
-        "notes": "0 forks, 3 releases, v0.1.0 released 26 May 2026, 265 commits, solo dev - brand new today"
+        "latestVersion": "v0.1.4",
+        "notes": "0 forks, 3 releases, v0.1.0 released 26 May 2026, 265 commits, solo dev - brand new today",
+        "releasedOn": "2026-07-10"
       },
       "activityStatus": {
         "band": "early",
@@ -1492,8 +1523,9 @@
       "stars": 2000,
       "trend": 5,
       "activity": {
-        "latestVersion": "v1.108.25",
-        "notes": "292 forks, 1.9k stars, 419K installs, v1.108.25 released 26 May 2026, hyper-active daily releases"
+        "latestVersion": "v1.108.136",
+        "notes": "292 forks, 1.9k stars, 419K installs, v1.108.25 released 26 May 2026, hyper-active daily releases",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "active",
@@ -1577,7 +1609,8 @@
       "stars": 4,
       "trend": 100,
       "activity": {
-        "notes": "0 forks, 2 tags, 15 commits, solo developer (Tiendil/Aliaksei Yaletski, 79 followers) - very early, no third-party coverage yet"
+        "notes": "0 forks, 2 tags, 15 commits, solo developer (Tiendil/Aliaksei Yaletski, 79 followers) - very early, no third-party coverage yet",
+        "latestVersion": "v0.1.2"
       },
       "activityStatus": {
         "band": "early",
@@ -1625,8 +1658,9 @@
       "trend": null,
       "activity": {
         "releaseCount": 10,
-        "latestVersion": "v0.5.2",
-        "notes": "0 forks, 10 releases, v0.5.2 Apr 20 2026, 112 commits, published on crates.io, author has 65 GitHub repos - technically mature but genuinely undiscovered, no third-party coverage found"
+        "latestVersion": "0.7.22",
+        "notes": "0 forks, 10 releases, v0.5.2 Apr 20 2026, 112 commits, published on crates.io, author has 65 GitHub repos - technically mature but genuinely undiscovered, no third-party coverage found",
+        "releasedOn": "2026-07-15"
       },
       "activityStatus": {
         "band": "early",
@@ -1665,7 +1699,9 @@
       "stars": 11,
       "trend": 267,
       "activity": {
-        "notes": "no issues, no PRs, no releases yet"
+        "notes": "no issues, no PRs, no releases yet",
+        "latestVersion": "v0.7.0",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "early",
@@ -1705,7 +1741,9 @@
       "stars": 496,
       "trend": 2262,
       "activity": {
-        "notes": "minimal issues/PRs, solo dev, early stage"
+        "notes": "minimal issues/PRs, solo dev, early stage",
+        "latestVersion": "v0.7.3-next.9",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "early",
@@ -1780,7 +1818,8 @@
       "stars": 91,
       "trend": null,
       "activity": {
-        "notes": "low churn, stable"
+        "notes": "low churn, stable",
+        "latestVersion": "v0.0.26"
       },
       "activityStatus": {
         "band": "stable",
@@ -1820,8 +1859,9 @@
       "stars": 230,
       "trend": 31,
       "activity": {
-        "latestVersion": "v0.0.30",
-        "notes": "0 open issues, v0.0.30, 1471+ commits, active development"
+        "latestVersion": "v0.0.31",
+        "notes": "0 open issues, v0.0.30, 1471+ commits, active development",
+        "releasedOn": "2026-06-01"
       },
       "activityStatus": {
         "band": "stable",
@@ -1860,7 +1900,9 @@
       "stars": 36,
       "trend": 80,
       "activity": {
-        "notes": "minimal issues, no PRs, early stage"
+        "notes": "minimal issues, no PRs, early stage",
+        "latestVersion": "v0.18.0",
+        "releasedOn": "2026-06-15"
       },
       "activityStatus": {
         "band": "early",
@@ -1948,7 +1990,9 @@
       "trend": 38,
       "activity": {
         "releaseCount": 0,
-        "notes": "41 forks, 0 releases, 20 commits shown on direct fetch (stale) - confirmed 227 stars/41 forks via live GitHub issue pages (Jun 23 2026), good-first-issue labels suggest active community onboarding, company-backed (Autoloops)"
+        "notes": "41 forks, 0 releases, 20 commits shown on direct fetch (stale) - confirmed 227 stars/41 forks via live GitHub issue pages (Jun 23 2026), good-first-issue labels suggest active community onboarding, company-backed (Autoloops)",
+        "latestVersion": "v0.1.51",
+        "releasedOn": "2026-06-30"
       },
       "activityStatus": {
         "band": "stable",
@@ -1989,7 +2033,9 @@
       "trend": 0,
       "activity": {
         "corroboration": "GitHubVC live trending tracker",
-        "notes": "5.1k forks, 88.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (87k) and OpenGithubs weekly (88.1k) - now the single most-starred tool in this entire comparison"
+        "notes": "5.1k forks, 88.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (87k) and OpenGithubs weekly (88.1k) - now the single most-starred tool in this entire comparison",
+        "latestVersion": "v1.9.1",
+        "releasedOn": "2026-07-03"
       },
       "activityStatus": {
         "band": "active",
@@ -2073,7 +2119,9 @@
       "stars": 642,
       "trend": 39,
       "activity": {
-        "notes": "49 CI runs, solo dev, remote repo support added, TypeScript path alias support"
+        "notes": "49 CI runs, solo dev, remote repo support added, TypeScript path alias support",
+        "latestVersion": "v4.1.10",
+        "releasedOn": "2026-07-02"
       },
       "activityStatus": {
         "band": "stable",
@@ -2116,7 +2164,9 @@
       "stars": 2100,
       "trend": 24,
       "activity": {
-        "notes": "41+ open issues, 5 open PRs, 56 forks, active"
+        "notes": "41+ open issues, 5 open PRs, 56 forks, active",
+        "latestVersion": "v2.0.1",
+        "releasedOn": "2026-07-14"
       },
       "activityStatus": {
         "band": "stable",
@@ -2158,8 +2208,9 @@
       "trend": 12,
       "activity": {
         "releaseCount": 21,
-        "latestVersion": "v0.11.0",
-        "notes": "106 forks, 21 releases, v0.11.0 Mar 23 2026, 191 commits, 13 open issues, 14 open PRs, HN front page discussion Mar 29 2026"
+        "latestVersion": "v0.12.1",
+        "notes": "106 forks, 21 releases, v0.11.0 Mar 23 2026, 191 commits, 13 open issues, 14 open PRs, HN front page discussion Mar 29 2026",
+        "releasedOn": "2026-07-15"
       },
       "activityStatus": {
         "band": "dormant",
@@ -2201,7 +2252,9 @@
       "trend": 46,
       "activity": {
         "releaseCount": 40,
-        "notes": "12+ open issues (incl. FD leak #12: 240k+ FDs after 18min use), 40 releases, 794 commits, active"
+        "notes": "12+ open issues (incl. FD leak #12: 240k+ FDs after 18min use), 40 releases, 794 commits, active",
+        "latestVersion": "v0.12.3",
+        "releasedOn": "2026-07-11"
       },
       "activityStatus": {
         "band": "stable",
@@ -2238,7 +2291,9 @@
       "stars": 1600,
       "trend": 13,
       "activity": {
-        "notes": "1.4k stars (was ~1k), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED"
+        "notes": "1.4k stars (was ~1k), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED",
+        "latestVersion": "v5.11.50",
+        "releasedOn": "2026-07-16"
       },
       "activityStatus": {
         "band": "active",
@@ -2279,8 +2334,9 @@
       "trend": 350,
       "activity": {
         "releaseCount": 3,
-        "latestVersion": "v0.4.1",
-        "notes": "2 forks, 3 releases, v0.4.1 May 2026, 58 commits, solo dev - authored by RTK maintainer"
+        "latestVersion": "v0.4.6",
+        "notes": "2 forks, 3 releases, v0.4.1 May 2026, 58 commits, solo dev - authored by RTK maintainer",
+        "releasedOn": "2026-05-07"
       },
       "activityStatus": {
         "band": "stable",
@@ -2359,8 +2415,9 @@
       "stars": 465,
       "trend": 16,
       "activity": {
-        "latestVersion": "v0.1.0",
-        "notes": "14 open issues, 5 open PRs, v0.1.0 alpha, active development"
+        "latestVersion": "v0.1.1",
+        "notes": "14 open issues, 5 open PRs, v0.1.0 alpha, active development",
+        "releasedOn": "2026-05-23"
       },
       "activityStatus": {
         "band": "early",
@@ -2491,8 +2548,8 @@
       "trend": 6,
       "activity": {
         "releaseCount": 158,
-        "latestVersion": "v0.28.0",
-        "releasedOn": "2026-06-29",
+        "latestVersion": "v0.32.0",
+        "releasedOn": "2026-07-17",
         "notes": "4k forks, 169 watching, 158 releases, v0.28.0 (29 Jun 2026), 1,829 commits - repo transferred from chopratejas/headroom to headroomlabs-ai org (same repository_id, confirmed same project). New \"Headroom for teams\" managed offering announced (hello@headroomlabs.ai), core stays Apache-2.0."
       },
       "activityStatus": {
@@ -2783,7 +2840,9 @@
       "stars": 28000,
       "trend": 60,
       "activity": {
-        "notes": "17.5k stars (was 12k), graduated GitHub Secure Open Source Program, FalkorDB/KuzuDB/Neo4j backends"
+        "notes": "17.5k stars (was 12k), graduated GitHub Secure Open Source Program, FalkorDB/KuzuDB/Neo4j backends",
+        "latestVersion": "v1.4.0",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "active",
@@ -2865,7 +2924,9 @@
       "stars": 29000,
       "trend": 14,
       "activity": {
-        "notes": "20k+ stars, Apache-2.0, self-hostable but requires Neo4j. LongMemEval temporal: 63.8% vs mem0 49%"
+        "notes": "20k+ stars, Apache-2.0, self-hostable but requires Neo4j. LongMemEval temporal: 63.8% vs mem0 49%",
+        "latestVersion": "v0.29.2",
+        "releasedOn": "2026-06-08"
       },
       "activityStatus": {
         "band": "active",
@@ -2906,7 +2967,9 @@
       "stars": 3300,
       "trend": 230,
       "activity": {
-        "notes": "0 forks shown, 1000+ stars in 7 weeks, weekly releases, very active solo dev"
+        "notes": "0 forks shown, 1000+ stars in 7 weeks, weekly releases, very active solo dev",
+        "latestVersion": "v0.12.0",
+        "releasedOn": "2026-07-11"
       },
       "activityStatus": {
         "band": "stable",
@@ -2948,7 +3011,8 @@
       "stars": 33,
       "trend": null,
       "activity": {
-        "notes": "0 forks, 13 commits, alpha release, solo dev - Claude Code capture not yet shipped (in Next roadmap)"
+        "notes": "0 forks, 13 commits, alpha release, solo dev - Claude Code capture not yet shipped (in Next roadmap)",
+        "latestVersion": "v0.9.1-alpha"
       },
       "activityStatus": {
         "band": "early",
@@ -2992,8 +3056,9 @@
       "trend": 29550,
       "activity": {
         "releaseCount": 4,
-        "latestVersion": "v0.1.9",
-        "notes": "0 forks, 4 releases, v0.1.9 May 3 2026, 145 commits, 3 issues, solo dev - very active development"
+        "latestVersion": "v0.2.4",
+        "notes": "0 forks, 4 releases, v0.1.9 May 3 2026, 145 commits, 3 issues, solo dev - very active development",
+        "releasedOn": "2026-06-22"
       },
       "activityStatus": {
         "band": "early",
@@ -3035,7 +3100,9 @@
       "trend": 19,
       "activity": {
         "releaseCount": 4,
-        "notes": "99 forks, 12 open issues, 4 releases, 435 commits, active Discord (296 members) - active development"
+        "notes": "99 forks, 12 open issues, 4 releases, 435 commits, active Discord (296 members) - active development",
+        "latestVersion": "v1.0.3",
+        "releasedOn": "2026-02-28"
       },
       "activityStatus": {
         "band": "active",
@@ -3080,8 +3147,8 @@
       "trend": 0,
       "activity": {
         "releaseCount": 296,
-        "latestVersion": "v13.10.2",
-        "releasedOn": "2026-07-05",
+        "latestVersion": "v13.11.0",
+        "releasedOn": "2026-07-13",
         "corroboration": "direct live fetch - overrides conflicting third-party aggregator snapshots (star-history showed stale 70",
         "notes": "7.5k forks, 296 releases, v13.10.2 (5 Jul 2026), 2,136 commits, 86.9k confirmed via direct live fetch - overrides conflicting third-party aggregator snapshots (star-history showed stale 70.9k)"
       },
@@ -3128,7 +3195,7 @@
       "stars": 745,
       "trend": 3,
       "activity": {
-        "latestVersion": "v0.2.47",
+        "latestVersion": "v0.2.50",
         "notes": "83 forks, 45 tags, v0.2.47, 211 commits, Discord community, active releases - ReflexioAI company-backed"
       },
       "activityStatus": {
@@ -3358,7 +3425,9 @@
       "trend": 1,
       "activity": {
         "corroboration": "GitHubVC live trending tracker",
-        "notes": "4.4k forks, 81.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (~79-80k) and OpenGithubs weekly (80.7k) - massive continued growth since Jun 18 benchmark update"
+        "notes": "4.4k forks, 81.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (~79-80k) and OpenGithubs weekly (80.7k) - massive continued growth since Jun 18 benchmark update",
+        "latestVersion": "v4.8.4",
+        "releasedOn": "2026-06-29"
       },
       "activityStatus": {
         "band": "active",
@@ -3400,8 +3469,9 @@
       "stars": 7,
       "trend": null,
       "activity": {
-        "latestVersion": "v1.0.0",
-        "notes": "0 forks, 23 commits, v1.0.0 released 4 Jul 2026 (yesterday) - brand new, no third-party coverage yet"
+        "latestVersion": "v1.0.5",
+        "notes": "0 forks, 23 commits, v1.0.0 released 4 Jul 2026 (yesterday) - brand new, no third-party coverage yet",
+        "releasedOn": "2026-07-05"
       },
       "activityStatus": {
         "band": "early",
