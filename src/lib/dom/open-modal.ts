@@ -11,4 +11,6 @@ export const openModal = (title: string, html: string): void => {
   bodyEl.innerHTML = html;
   bodyEl.scrollTop = 0;
   d.showModal();
+  // Lock the page behind the overlay; ensureDialog's close handler restores it.
+  document.body.style.overflow = "hidden";
 };

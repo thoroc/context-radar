@@ -13,7 +13,7 @@
 }
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;background:var(--bg2);color:var(--text);min-height:100vh}
 header{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.hdr-left h1{font-size:16px;font-weight:500}
+.hdr-left h1{font-size:19px;font-weight:650;letter-spacing:-0.015em}
 .hdr-left p{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
 .hdr-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:2px}
 button{font-family:inherit;font-size:13px;padding:7px 14px;border:1px solid var(--border2);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;transition:background .12s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
