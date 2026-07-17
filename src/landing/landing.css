@@ -171,11 +171,6 @@ a {
   font-weight: 500;
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
 @media (max-width: 720px) {
   .cards,
   .legend ul {
