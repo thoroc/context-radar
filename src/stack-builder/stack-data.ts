@@ -203,7 +203,7 @@ export const RECOMMENDED: string[] = ["rtk","ctx-mode","sigmap","caveman","ponyt
 export const TOTAL_LAYERS = LAYERS.length;
 
 export const CONFLICTS: Conflict[] = [
-  {ids:["rtk","sqz","lean-ctx","omni","ctxlite"],min:2,msg:"HARD: Shell tools are either/or - install exactly one of RTK, sqz, lean-ctx, omni, or ctxlite."},
+  {ids:["rtk","sqz","lean-ctx","omni","ctxlite"],min:2,msg:"HARD: Shell tools are mutually exclusive; install exactly one of RTK, sqz, lean-ctx, omni, or ctxlite."},
   {ids:["lean-ctx","magic-ctx"],check:s=>s.has("lean-ctx")&&s.has("magic-ctx"),msg:"HARD: lean-ctx and magic-context both use ctx_* MCP tool names. Also magic-context is OpenCode-only."},
   {ids:["codegraph","cbm-mcp"],check:s=>s.has("codegraph")&&s.has("cbm-mcp"),msg:"HARD: codegraph and codebase-memory-mcp expose overlapping tool names. Install one, not both."},
   {ids:["codegraph","cgc"],check:s=>s.has("codegraph")&&s.has("cgc"),msg:"HARD: codegraph and CodeGraphContext near-identical MCP surfaces. Install one, not both."},
