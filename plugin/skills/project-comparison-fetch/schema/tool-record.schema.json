@@ -138,6 +138,7 @@
       "type": "object",
       "properties": {
         "languages": {
+          "minItems": 1,
           "type": "array",
           "items": {
             "type": "string",
@@ -154,8 +155,7 @@
               "gleam",
               "none"
             ]
-          },
-          "minItems": 1
+          }
         },
         "detail": {
           "type": "string"
@@ -303,7 +303,8 @@
       "anyOf": [
         {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 9007199254740991
         },
         {
           "type": "null"
@@ -311,9 +312,13 @@
       ]
     },
     "trend": {
-      "type": [
-        "number",
-        "null"
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "activity": {
@@ -321,14 +326,16 @@
       "properties": {
         "contributors": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 9007199254740991
         },
         "latestVersion": {
           "type": "string"
         },
         "releaseCount": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 9007199254740991
         },
         "releasedOn": {
           "type": "string",

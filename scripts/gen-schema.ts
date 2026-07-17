@@ -1,14 +1,16 @@
 import { writeFileSync } from "node:fs";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from "zod";
 import { toolSchema } from "../src/lib/schema";
 
 // Generates the JSON Schema published beside the skill from the Zod schema, so
 // the two never drift. Run via `mise run gen:schema` after changing the schema.
+// Zod 4 emits JSON Schema natively (`z.toJSONSchema`); `reused: "inline"` expands
+// shared sub-schemas in place rather than via `$ref`.
 const outPath = "plugin/skills/project-comparison-fetch/schema/tool-record.schema.json";
 
-const base = zodToJsonSchema(toolSchema, {
-  $refStrategy: "none",
-  target: "jsonSchema7",
+const base = z.toJSONSchema(toolSchema, {
+  target: "draft-7",
+  reused: "inline",
 }) as Record<string, unknown>;
 
 const { $schema, ...rest } = base;
