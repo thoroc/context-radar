@@ -72,7 +72,7 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   table linking to detail pages), `stack-builder.html` + `stack-builder/` (builder, with its own curated
   `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `styles/` (shared tokens/nav/modal CSS), `pages/`
   (markdown, shown as modal overlays with an HTML fallback), `public/llms.txt`
-- Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages.ts`, reusing `lib/present/`; the
+- Per-tool detail pages are generated at build from the JSON by `plugins/tool-pages/`, reusing `lib/present/`; the
   comparison links and the generated filenames share `toolSlug` (in `lib/present/tool-slug.ts`)
 - Build output (git-ignored): `docs/` — produced by `mise run build`, deployed to Pages
 - Fetch/assessment methodology: `plugin/skills/project-comparison-fetch/SKILL.md`
