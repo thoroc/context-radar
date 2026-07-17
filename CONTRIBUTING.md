@@ -101,19 +101,18 @@ Run the same checks locally:
 mise run lint       # prettier, markdownlint, yamllint, actionlint, Biome
 mise run typecheck  # TypeScript type-check
 mise run validate   # validate the canonical JSON against the Zod schema
-mise run security   # Plumber scan (needs a git remote; use the CI job otherwise)
 ```
 
-The Plumber CLI needs a git remote to resolve the owner and repository. Until this repo has a remote, run the scan
-through the CI workflow rather than locally.
+The Plumber security scan runs in CI only, through `.github/workflows/plumber.yml`. It is not wired as a local mise
+task, so there is nothing to run by hand.
 
 ### Dependency updates (Renovate)
 
 [Renovate](https://docs.renovatebot.com) keeps dependencies current, configured in `renovate.json`. Its `mise` manager
-bumps the pinned tools in `mise.toml` (including the `github:getplumber/plumber` CLI), and its `github-actions` manager
-updates the SHA-pinned actions in the workflows while preserving the `# vX` version comment. New releases wait out a
-7-day `minimumReleaseAge` before a pull request opens. Renovate runs once the repository is on GitHub and the app is
-enabled.
+bumps the pinned tools in `mise.toml`, and its `github-actions` manager updates the SHA-pinned actions in the workflows
+(including the `getplumber/plumber` action) while preserving the `# vX` version comment. New releases wait out a 7-day
+`minimumReleaseAge` before a pull request opens, matched to the `minimum_release_age` floor in `mise.toml`, and
+patch/minor bumps auto-merge once CI is green. Renovate runs once the repository is on GitHub and the app is enabled.
 
 ## Adding or re-assessing a tool
 

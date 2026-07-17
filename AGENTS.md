@@ -24,7 +24,6 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Regenerate `src/styles/icons.css` from the Tabler SVGs: `mise run gen:icons`
 - Detect version/activity drift into `freshness-report.json`: `mise run freshness`
 - Turn the freshness report into GitHub issues: `mise run freshness:sync`
-- Security/compliance scan: `mise run security`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
 
