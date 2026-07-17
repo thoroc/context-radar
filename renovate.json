@@ -4,7 +4,30 @@
   "semanticCommits": "enabled",
   "labels": ["dependencies"],
   "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "prCreation": "not-pending",
+  "dependencyDashboard": true,
+  "platformAutomerge": true,
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": null
+  },
   "packageRules": [
+    {
+      "description": "Auto-merge low-risk updates (patch, minor, and digest/version pins) once the 7-day delay has passed and CI is green; major bumps stay manual",
+      "matchUpdateTypes": ["patch", "minor", "pin", "digest", "pinDigest"],
+      "automerge": true
+    },
+    {
+      "description": "Group all GitHub Actions digest bumps into a single pull request",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Group non-major npm/bun bumps into a single pull request; majors stay separate",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "npm (non-major)"
+    },
     {
       "description": "Group mise toolchain bumps into a single pull request",
       "matchManagers": ["mise"],

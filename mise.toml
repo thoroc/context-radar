@@ -2,6 +2,14 @@
 # https://mise.jdx.dev  Install mise, then run `mise install` to get the pinned
 # toolchain, and `mise run lint` / `mise run fmt` to check or format the docs.
 
+[settings]
+# Only install tool versions released more than 7 days ago. This mirrors
+# Renovate's minimumReleaseAge (renovate.json) so the two agree on which
+# versions are eligible: Renovate never opens a bump for a version mise would
+# refuse to install. Keep the two values in step. Pinned here (not only in a
+# personal global config) so CI and fresh clones enforce the same floor.
+minimum_release_age = "7d"
+
 [tools]
 # Git hook runner and its config language.
 hk = "1.50.0"
@@ -18,9 +26,6 @@ bun = "1.3.14"
 "npm:@biomejs/biome" = "2.1.0"
 # GitHub Actions workflow linter.
 actionlint = "1.7.12"
-# CI/CD security and compliance scanner (Plumber). mise holds newer releases under
-# minimum_release_age; this is the latest version mise currently allows.
-"github:getplumber/plumber" = "0.3.92"
 # tessl CLI: manages the local skill plugin declared in tessl.json.
 "npm:@tessl/cli" = "0.90.0"
 # Headless-browser automation for visually verifying the site during development.
@@ -87,10 +92,6 @@ run = "bun run freshness"
 [tasks."freshness:sync"]
 description = "Turn freshness-report.json into one GitHub issue per drifting tool in this repo"
 run = "bun run freshness:sync"
-
-[tasks.security]
-description = "Scan CI/CD workflows for security and compliance issues (Plumber)"
-run = "plumber analyze"
 
 [tasks.skill]
 description = "Install the local tessl skill plugin declared in tessl.json"
