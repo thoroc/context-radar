@@ -1,0 +1,27 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "side-tab",
+      "single-font",
+      "design-system-font-size",
+      "design-system-radius",
+      "flat-type-hierarchy",
+      "tiny-text"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "rgba(10, 9, 12, 0.55)",
+        "reason": "Modal backdrop scrim",
+        "createdAt": "2026-07-17T10:45:14.010Z"
+      },
+      {
+        "rule": "overused-font",
+        "value": "roboto",
+        "reason": "Roboto is an OS fallback in the system font stack, not a loaded brand webfont",
+        "createdAt": "2026-07-17T10:46:53.904Z"
+      }
+    ]
+  }
+}

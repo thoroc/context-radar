@@ -19,8 +19,12 @@ coverage/
 .tokensave/
 .context/
 .aislop/
-# impeccable design-skill output (critique snapshots, per-run state); local only.
-.impeccable/
+# impeccable design-skill runtime dir. Ignore per-run and local state (critique
+# snapshots, live-mode config, local ignores), but track the shared design
+# artifacts the detector, CI, and the team rely on.
+.impeccable/*
+!.impeccable/config.json
+!.impeccable/design.json
 
 # tessl / coding-agent local install OUTPUTS (machine-specific, not committed).
 # tessl.json and .mcp.json ARE committed so `tessl install` reproduces the local
