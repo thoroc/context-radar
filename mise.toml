@@ -30,6 +30,11 @@ actionlint = "1.7.12"
 "npm:@tessl/cli" = "0.90.0"
 # Headless-browser automation for visually verifying the site during development.
 "npm:agent-browser" = "0.31.1"
+# impeccable: production-grade frontend design/refinement skill (critique, polish,
+# audit, adapt, ...). Invoked via /impeccable; writes snapshots to .impeccable/
+# (git-ignored). Pinned so the CI design gate (mise run design:check) stays
+# deterministic; bump deliberately and re-run the gate.
+"npm:impeccable" = "3.2.1"
 
 [hooks]
 # Install the git hooks after tools are installed. Runs on every `mise install`,
@@ -72,6 +77,13 @@ run = "hk check --all"
 [tasks.validate]
 description = "Validate the canonical JSON store against the Zod schema"
 run = "bun run validate"
+
+[tasks."design:check"]
+# Deterministic design-quality gate. Reads the root DESIGN.md and the committed
+# .impeccable/config.json (documented ignores), so it enforces token/colour
+# discipline and generic anti-pattern checks. Exit 2 on findings fails CI.
+description = "Scan the site source for UI anti-patterns with the impeccable detector"
+run = "impeccable detect src"
 
 [tasks."data:add"]
 description = "Validate a filled tool template (YAML) and upsert it into the JSON store"

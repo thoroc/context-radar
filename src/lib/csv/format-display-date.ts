@@ -1,7 +1,6 @@
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/** Formats an ISO date (YYYY-MM-DD) as a short display date, e.g. "15 Jul 2026". */
+/** Formats an ISO date (YYYY-MM-DD) as a display date in DD-MM-YYYY, e.g. "15-07-2026". */
 export const formatDisplayDate = (iso: string): string => {
   const [y, m, d] = iso.split("-").map((n) => Number.parseInt(n, 10));
-  return `${d} ${MONTHS[(m ?? 1) - 1] ?? ""} ${y}`;
+  const pad = (n: number): string => String(n).padStart(2, "0");
+  return `${pad(d ?? 1)}-${pad(m ?? 1)}-${y}`;
 };

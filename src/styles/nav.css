@@ -26,6 +26,9 @@
   align-items: baseline;
   gap: 9px;
   text-decoration: none;
+  /* Anchor its own colour so the wordmark never falls back to the UA link blue
+     on pages whose stylesheet has no global `a { color }` rule. */
+  color: var(--text);
 }
 .brand:hover {
   text-decoration: none;
@@ -68,4 +71,46 @@ nav a:hover {
 nav a.active {
   background: var(--accent-bg);
   color: var(--accent);
+}
+
+/* Theme toggle: activates the [data-theme] overrides. Sits at the far right of
+   the bar; shows the sun in dark mode and the moon in light. */
+.theme-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text2);
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+.theme-toggle .ico {
+  display: none;
+}
+.theme-toggle[data-mode="dark"] .ico-sun,
+.theme-toggle[data-mode="light"] .ico-moon {
+  display: block;
+}
+
+/* Touch: give nav links and the toggle a 44px hit area on small screens so a
+   thumb can land them reliably. */
+@media (max-width: 720px) {
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 5px 12px;
+  }
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
 }

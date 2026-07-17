@@ -5,6 +5,22 @@ TypeScript site on GitHub Pages. There is one canonical store, `data/context-red
 the site build; the record shape is defined once as a Zod schema (`src/lib/schema.ts`). The CSV download is generated
 from the JSON.
 
+## Design context
+
+The design system and product intent are captured for design tooling (impeccable) and for you:
+
+- `PRODUCT.md` (root): register (product), audience, purpose, voice, anti-references, and accessibility target (WCAG 2.1
+  AA).
+- `DESIGN.md` (root): the visual system, following the DESIGN.md spec. Frontmatter carries the token palette, type ramp,
+  radius scale, and components; the body documents the rules (one violet accent, no literal colours, flat by default).
+- `.impeccable/design.json`: generated sidecar for the detector and live panel. Do not hand-edit; refresh with
+  `/impeccable document`.
+- `.impeccable/config.json`: committed detector ignores (each with a reason). Local-only ignores go in
+  `config.local.json` (git-ignored).
+
+The impeccable detector reads `DESIGN.md` at the project root and runs in CI via `mise run design:check` (see CI below).
+When you touch UI, keep colours on `var(--token)` and follow the DESIGN.md Do's and Don'ts.
+
 ## Commands
 
 Toolchain and tasks are managed by [mise](https://mise.jdx.dev). Run `mise install` once to get the pinned toolchain and

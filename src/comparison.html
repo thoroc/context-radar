@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comparison — Context Radar</title>
+    <title>Comparison - Context Radar</title>
     <link rel="stylesheet" href="./comparison/comparison.css" />
   </head>
   <body>
@@ -19,11 +19,24 @@
         <a href="./methodology.html">Methodology</a>
         <a href="./glossary.html">Glossary</a>
       </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
     </div>
 
     <div class="titleband">
       <h1>Context Reduction Tools</h1>
       <p class="sub" id="summary"></p>
+      <details class="vkey">
+        <summary>Verdict key</summary>
+        <ul>
+          <li><span class="verdict v-best">Best in class</span> The pick for its layer.</li>
+          <li><span class="verdict v-add">Add</span> Worth adding to most stacks.</li>
+          <li><span class="verdict v-cond">Add if you use</span> Add only if you use that workflow.</li>
+          <li><span class="verdict v-either">Either/or</span> Pick one of a mutually exclusive set.</li>
+          <li><span class="verdict v-watch">Watch</span> Promising, but early or unproven.</li>
+          <li><span class="verdict v-watch">Reference only</span> Not installable; a discovery resource.</li>
+          <li><span class="verdict v-drop">Drop</span> Superseded or not worth the cost.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="toolbar">
@@ -83,11 +96,21 @@
             All activity
           </button>
           <div class="ms-panel" id="fa" role="group" aria-label="Filter by activity" hidden>
-            <label class="ms-opt"><input type="checkbox" value="active" />🟢 Active</label>
-            <label class="ms-opt"><input type="checkbox" value="stable" />🟡 Stable</label>
-            <label class="ms-opt"><input type="checkbox" value="slowing" />🟠 Slowing</label>
-            <label class="ms-opt"><input type="checkbox" value="early" />🔴 Early</label>
-            <label class="ms-opt"><input type="checkbox" value="dormant" />⚫ Dormant</label>
+            <label class="ms-opt"
+              ><input type="checkbox" value="active" /><span class="dot dot-active"></span>Active</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="stable" /><span class="dot dot-stable"></span>Stable</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="slowing" /><span class="dot dot-slowing"></span>Slowing</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="early" /><span class="dot dot-early"></span>Early</label
+            >
+            <label class="ms-opt"
+              ><input type="checkbox" value="dormant" /><span class="dot dot-dormant"></span>Dormant</label
+            >
           </div>
         </div>
       </div>
@@ -99,19 +122,27 @@
           <option value="warn">Model or infra</option>
         </select>
       </div>
-      <span class="count" id="cnt"></span>
+      <span class="count" id="cnt" aria-live="polite"></span>
     </div>
 
     <div class="wrap">
       <table>
         <thead>
           <tr>
-            <th data-col="tool" style="width: 20%">Tool</th>
-            <th data-col="whatItDoes" style="width: 24%">What it does</th>
-            <th data-col="conflict" style="width: 18%">Conflict / overlap</th>
-            <th data-col="activityStatus" style="width: 11%">Activity</th>
-            <th data-col="verdict" style="width: 9%">Verdict</th>
-            <th data-col="decisionRule" style="width: 18%">Decision rule</th>
+            <th data-col="tool" style="width: 20%"><button type="button" class="th-sort">Tool</button></th>
+            <th data-col="whatItDoes" style="width: 24%">
+              <button type="button" class="th-sort">What it does</button>
+            </th>
+            <th data-col="conflict" style="width: 18%">
+              <button type="button" class="th-sort">Conflict / overlap</button>
+            </th>
+            <th data-col="activityStatus" style="width: 11%">
+              <button type="button" class="th-sort">Activity</button>
+            </th>
+            <th data-col="verdict" style="width: 9%"><button type="button" class="th-sort">Verdict</button></th>
+            <th data-col="decisionRule" style="width: 18%">
+              <button type="button" class="th-sort">Decision rule</button>
+            </th>
           </tr>
         </thead>
         <tbody id="tb"></tbody>

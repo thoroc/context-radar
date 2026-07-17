@@ -11,6 +11,6 @@ export const totalStars = (): string => {
       }
     }
   }
-  if (n === 0) return "—";
+  if (n === 0) return "-";
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`;
 };

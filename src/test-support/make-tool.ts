@@ -11,6 +11,7 @@ export const makeTool = (overrides: Partial<Tool> = {}): Tool => ({
   conflict: { severity: "none", projects: [] },
   runtime: { languages: ["none"] },
   requirements: "none",
+  requiresExternal: false,
   licence: { spdx: "MIT" },
   stars: 1,
   trend: 0,

@@ -23,7 +23,7 @@ export const COLUMNS: ColumnDef[] = [
   { header: "Requirements", value: (t) => t.requirements },
   {
     header: "Licence",
-    value: (t) => (t.licence.warning ? `⚠ ${t.licence.warning}` : t.licence.spdx),
+    value: (t) => t.licence.warning ?? t.licence.spdx,
   },
   { header: "Stars", value: (t) => starsText(t.stars) },
   { header: "Trend (30d)", value: (t) => trendText(t.trend) },

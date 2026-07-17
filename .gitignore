@@ -11,6 +11,11 @@ freshness-report.json
 # Vitest coverage output (text reporters print to stdout; any file reporters land here).
 coverage/
 
+# Project-local scratch for temp scripts and artifacts. Everything transient
+# stays inside the repo here (never /tmp or a system temp dir); promote a script
+# to scripts/ once it is used more than twice.
+tmp/
+
 # OS and editor cruft
 .DS_Store
 *.swp
@@ -19,6 +24,12 @@ coverage/
 .tokensave/
 .context/
 .aislop/
+# impeccable design-skill runtime dir. Ignore per-run and local state (critique
+# snapshots, live-mode config, local ignores), but track the shared design
+# artifacts the detector, CI, and the team rely on.
+.impeccable/*
+!.impeccable/config.json
+!.impeccable/design.json
 
 # tessl / coding-agent local install OUTPUTS (machine-specific, not committed).
 # tessl.json and .mcp.json ARE committed so `tessl install` reproduces the local

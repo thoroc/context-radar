@@ -10,12 +10,12 @@ export const exportMd = (): void => {
   const conf = getConflicts();
   const warns = getWarnedTools();
   if (conf.length) {
-    lines.push("## ⛔ Conflicts to resolve\n");
+    lines.push("## Conflicts to resolve\n");
     for (const c of conf) lines.push(`- ${c.msg}`);
     lines.push("");
   }
   if (warns.length) {
-    lines.push("## ⚠ External dependencies needed\n");
+    lines.push("## External dependencies needed\n");
     for (const w of warns) lines.push(`- **${w.name}**: ${w.req}`);
     lines.push("");
   }
@@ -24,7 +24,7 @@ export const exportMd = (): void => {
     if (!s.length) continue;
     lines.push(`## ${l.name}`);
     for (const t of s)
-      lines.push(`- **${t.name}** (${t.stars}★, ${t.ll}) — ${t.url}\n  > ${t.req}`);
+      lines.push(`- **${t.name}** (${t.stars} stars, ${t.ll}) - ${t.url}\n  > ${t.req}`);
     lines.push("");
   }
   const a = document.createElement("a");

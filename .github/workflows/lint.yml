@@ -22,6 +22,9 @@ jobs:
       - run: mise run install
       # Formatting and lint checks (prettier, markdownlint, yamllint, actionlint, biome).
       - run: mise run lint
+      # Deterministic design-quality gate (impeccable detector): contrast, layout
+      # overflow, literal-colour drift vs DESIGN.md, and generic AI-design tells.
+      - run: mise run design:check
       # TypeScript type-checking for the site source.
       - run: mise run typecheck
       # Collocated unit tests (vitest) with whole-project coverage; fails if

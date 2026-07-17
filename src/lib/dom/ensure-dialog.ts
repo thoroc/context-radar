@@ -15,6 +15,10 @@ export const ensureDialog = (): HTMLDialogElement => {
   modalState.titleEl = d.querySelector("h2") as HTMLHeadingElement;
   modalState.bodyEl = bodyEl;
   d.querySelector(".modal-close")?.addEventListener("click", () => d.close());
+  // Restore body scroll on every close path (button, backdrop, Escape).
+  d.addEventListener("close", () => {
+    document.body.style.overflow = "";
+  });
   // Click on the backdrop (the dialog element itself, outside its content) closes.
   d.addEventListener("click", (e) => {
     if (e.target === d) d.close();

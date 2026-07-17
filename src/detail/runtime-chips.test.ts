@@ -9,7 +9,7 @@ describe("runtimeChips", () => {
   });
 
   test("falls back to an em rule when no named languages and no detail", () => {
-    expect(runtimeChips({ languages: ["none"] })).toBe('<span class="rt">—</span>');
+    expect(runtimeChips({ languages: ["none"] })).toBe('<span class="rt">-</span>');
   });
 
   test("renders a chip for each named language", () => {

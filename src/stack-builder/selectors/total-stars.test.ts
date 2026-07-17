@@ -8,7 +8,7 @@ afterEach(() => {
 
 describe("totalStars", () => {
   test("dashes an empty selection and sums the digits otherwise", () => {
-    expect(totalStars()).toBe("—");
+    expect(totalStars()).toBe("-");
     state.sel = new Set(["rtk"]);
     expect(totalStars()).toBe("704");
   });

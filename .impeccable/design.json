@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-17T00:00:00Z",
+  "title": "Design System: Context Radar",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#17161a",
+        "tonalRamp": ["#17161a", "#2a2830", "#3d3b45", "#56545e", "#67656f", "#8b8994", "#b6b4bd", "#e9e8ec"]
+      },
+      "ink-muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#56545e" },
+      "ink-subtle": { "role": "neutral", "displayName": "Subtle Ink", "canonical": "#67656f" },
+      "bg": { "role": "neutral", "displayName": "Paper", "canonical": "#ffffff" },
+      "surface": { "role": "neutral", "displayName": "Surface", "canonical": "#f6f5f3" },
+      "surface-deep": { "role": "neutral", "displayName": "Deep Surface", "canonical": "#edece8" },
+      "accent": {
+        "role": "primary",
+        "displayName": "Signal Violet",
+        "canonical": "#534ab7",
+        "tonalRamp": ["#1d1a44", "#2b2666", "#3a3389", "#4841a3", "#534ab7", "#7f77dd", "#a9a3ea", "#eeedfe"]
+      },
+      "accent-soft": { "role": "primary", "displayName": "Violet Wash", "canonical": "#eeedfe" },
+      "accent-border": { "role": "primary", "displayName": "Violet Line", "canonical": "#7f77dd" },
+      "green": { "role": "semantic", "displayName": "Add Green", "canonical": "#27500a" },
+      "amber": { "role": "semantic", "displayName": "Caution Amber", "canonical": "#7a4a06" },
+      "red": { "role": "semantic", "displayName": "Drop Red", "canonical": "#8a2020" },
+      "gray": { "role": "semantic", "displayName": "Watch Gray", "canonical": "#4a4844" },
+      "dot-active": { "role": "semantic", "displayName": "Active", "canonical": "#3f9142" },
+      "dot-stable": { "role": "semantic", "displayName": "Stable", "canonical": "#c88a1a" },
+      "dot-slowing": { "role": "semantic", "displayName": "Slowing", "canonical": "#d97706" },
+      "dot-early": { "role": "semantic", "displayName": "Early", "canonical": "#c04141" },
+      "dot-dormant": { "role": "semantic", "displayName": "Dormant", "canonical": "#9b99a2" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Landing hero headline only." },
+      "headline": { "displayName": "Headline", "purpose": "Section and card headings, modal titles." },
+      "title": { "displayName": "Title", "purpose": "Page titlebands and panel titles." },
+      "body": { "displayName": "Body", "purpose": "Descriptions and prose; 13px dense, 14px roomy." },
+      "label": { "displayName": "Label", "purpose": "Uppercase filter labels, column headers, kickers." },
+      "mono": { "displayName": "Mono", "purpose": "Inline code in Methodology and Glossary content." }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 6px 22px rgba(23, 22, 26, 0.1)",
+        "purpose": "Modal overlay and dropdown panel. Dark theme uses rgba(0,0,0,0.5). The only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ui-fast",
+        "value": "120ms ease",
+        "purpose": "Hover and small state transitions on buttons, chips, cards."
+      },
+      {
+        "name": "ui-standard",
+        "value": "300ms ease",
+        "purpose": "Score-bar fill; animated via transform: scaleX, never width."
+      }
+    ],
+    "breakpoints": [
+      { "name": "cards", "value": "720px" },
+      { "name": "toolbar", "value": "860px" },
+      { "name": "stack", "value": "680px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Verdict Pill",
+      "kind": "chip",
+      "refersTo": "verdict-pill",
+      "description": "The single loud signal in a comparison row; one fixed colour pair per decision.",
+      "html": "<span class=\"ds-verdict\">Best</span>",
+      "css": ".ds-verdict { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.01em; background: #eeedfe; color: #534ab7; box-shadow: inset 0 0 0 1px #7f77dd; }"
+    },
+    {
+      "name": "Status Dot",
+      "kind": "custom",
+      "refersTo": "status-dot",
+      "description": "8px activity dot, always immediately followed by its text label. Never an emoji.",
+      "html": "<span class=\"ds-act\"><span class=\"ds-dot\"></span>Active</span>",
+      "css": ".ds-act { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: #17161a; } .ds-dot { width: 8px; height: 8px; border-radius: 50%; background: #3f9142; flex: 0 0 auto; }"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "Primary action: Recommended stack, Export, Clear all filters.",
+      "html": "<button class=\"ds-btn-accent\">Recommended stack</button>",
+      "css": ".ds-btn-accent { font-size: 13px; padding: 7px 14px; border-radius: 8px; background: #eeedfe; color: #534ab7; border: 1px solid #7f77dd; cursor: pointer; transition: background 120ms ease; } .ds-btn-accent:hover { background: #534ab7; color: #fff; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Filter/search field with an AA-compliant placeholder.",
+      "html": "<input class=\"ds-input\" placeholder=\"Tool, layer, requirements, verdict...\" />",
+      "css": ".ds-input { width: 100%; font-size: 12.5px; padding: 8px 12px; border: 1px solid #17161a33; border-radius: 8px; background: #fff; color: #17161a; } .ds-input::placeholder { color: #67656f; opacity: 1; } .ds-input:focus-visible { outline: none; border-color: #7f77dd; box-shadow: 0 0 0 3px #eeedfe; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Stack-builder layer filter; selected state takes the violet wash.",
+      "html": "<button class=\"ds-chip ds-chip-on\">Shell output</button>",
+      "css": ".ds-chip { font-size: 12px; padding: 4px 10px; border-radius: 20px; border: 1px solid #17161a1a; background: #fff; color: #56545e; cursor: pointer; transition: all 120ms ease; } .ds-chip-on, .ds-chip:hover { background: #eeedfe; color: #534ab7; border-color: #7f77dd; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineering Reference",
+    "overview": "Context Radar looks like a well-kept internal reference, not a launch page. It is a dense, calm, decision-support surface where colour does real work: five status dots and six verdict pills each map to a fixed meaning, always paired with a text label. The system is deliberately flat, on hairline borders, with one violet accent reserved for primary signal.",
+    "keyCharacteristics": [
+      "Dense, scannable, low-noise; one loud element per row.",
+      "One violet accent, used only for selection, primary action, and state.",
+      "Status carried by a consistent dot and pill vocabulary, always with a text label.",
+      "Flat by default; a single shadow token for genuine elevation.",
+      "Fully themed light and dark from one token set, with an explicit toggle."
+    ],
+    "rules": [
+      {
+        "name": "The One Accent Rule",
+        "body": "Signal Violet is the only accent; conflict and warning use the semantic red/amber tokens and nothing else gets a decorative colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Literal Colour Rule",
+        "body": "Every colour in the code is a var(--token). A literal hex is a bug: add the value to the token set, do not inline it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed-Scale Rule",
+        "body": "Sizes are fixed px, not fluid clamp, everywhere except the single landing hero.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces are flat at rest; the Lift shadow appears only on elements that float above the page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do route every colour through a var(--token); add a token before reaching for a literal hex.",
+      "Do pair every status colour with a text label, so meaning survives greyscale and colour blindness.",
+      "Do keep body and header text at or above 4.5:1 in both themes; Subtle Ink is the floor.",
+      "Do animate with transform and opacity, keep transitions 120 to 250ms, and ship a prefers-reduced-motion fallback.",
+      "Do give controls a 44px hit area on small screens and reflow the comparison table into per-tool cards below 720px."
+    ],
+    "donts": [
+      "Don't inline a literal hex, rgb, or one-off colour in a component or stylesheet.",
+      "Don't use gradient text, glassmorphism, a big-number hero-metric template, or decorative gradients.",
+      "Don't add a tracked-uppercase eyebrow above every section, an identical icon-card grid, or 01/02/03 numbered scaffolding.",
+      "Don't convey status or meaning with an emoji where the status dot or verdict pill should carry it.",
+      "Don't use a colored border-left greater than 1px as a side stripe; carry severity on the coloured label instead.",
+      "Don't animate layout properties; use transform so the change stays off the layout path."
+    ]
+  }
+}
