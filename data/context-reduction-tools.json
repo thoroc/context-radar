@@ -2,7 +2,7 @@
   "meta": {
     "last_updated": "2026-07-17",
     "stars_verified": "2026-07-15",
-    "tool_count": 79
+    "tool_count": 81
   },
   "tools": [
     {
@@ -3715,6 +3715,126 @@
       },
       "decisionRule": "Only tool in this comparison making Claude Code a first-class local-model client - cf wrap claude lets you keep the Claude Code UX while routing to a fully local Ollama model, zero Anthropic API key needed. Benchmark is a single honest case study (66% fewer round-trips, 72.8% fewer input tokens vs passthrough), not yet a full suite - SWE-bench runs explicitly listed as in-development in the roadmap. Disclosed known issue: token savings can be over-reported on failed upstream requests (e.g. bad API key) since compression is logged regardless of whether the request succeeded. Claude Code fully supported; Codex/Gemini CLI experimental. Revisit once community adoption and the promised benchmark suite land.",
       "requiresExternal": false
+    },
+    {
+      "id": "osgrep",
+      "tool": "osgrep",
+      "githubUrl": "https://github.com/Ryandonofrio3/osgrep",
+      "layer": "Code navigation",
+      "whatItDoes": "Local semantic code-search CLI for coding agents. Chunks a repo with tree-sitter AST parsing into a LanceDB store, then answers a query by fusing full-text and vector search with Reciprocal Rank Fusion before a two-stage local ColBERT rerank, returning ranked snippets instead of raw grep or file dumps.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "socraticode",
+          "codebase-memory-mcp",
+          "greplica"
+        ],
+        "note": "Overlaps the semantic code-search family. The bundled MCP server is a non-functional stub, so integrate via the CLI or the Claude Code plugin hooks, not MCP."
+      },
+      "runtime": {
+        "languages": [
+          "typescript"
+        ],
+        "detail": "npm CLI; local ONNX models (IBM Granite embeddings plus ColBERT reranker); LanceDB store; web-tree-sitter"
+      },
+      "requirements": "Downloads local ONNX models (IBM Granite embeddings plus ColBERT) on first run; needs Node.js and an npm install, then runs offline with no API key.",
+      "requiresExternal": true,
+      "licence": {
+        "spdx": "Apache-2.0"
+      },
+      "stars": 1142,
+      "trend": null,
+      "activity": {
+        "contributors": 14,
+        "latestVersion": "v0.5.16",
+        "releaseCount": 48,
+        "releasedOn": "2025-12-09",
+        "notes": "1142 stars, 67 forks, 14 contributors, Apache-2.0. 48 releases across 83 tags; newest v0.5.16 (09-12-2025). Last push 17-01-2026, so there are unreleased commits after v0.5.16. A v1.0.11 tag exists but its commit predates the 0.5.x line, so it is a stray tag, not the latest version."
+      },
+      "activityStatus": {
+        "band": "slowing",
+        "label": "Slowing"
+      },
+      "verdict": {
+        "decision": "add-if",
+        "rationale": "Add if you want zero-service local semantic code search",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/Ryandonofrio3/osgrep/blob/9f2faf7e52783d622a583f5250f81ab24cee7864/src/lib/search/searcher.ts#L409-L419",
+              "quote": "// Reciprocal Rank Fusion (vector + FTS)",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/Ryandonofrio3/osgrep/blob/9f2faf7e52783d622a583f5250f81ab24cee7864/src/lib/index/chunker.ts#L7-L9",
+              "quote": "// web-tree-sitter ships a CommonJS build\nconst TreeSitter = require(\"web-tree-sitter\");\nconst Parser = TreeSitter.Parser;",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "decisionRule": "1142 stars, Apache-2.0, v0.5.16. Local ONNX models (Granite plus ColBERT); runs offline after the first download. The MCP server is a non-functional stub, so integrate via the CLI or the Claude Code plugin hooks, not MCP. Add if you want local semantic code search without an external service."
+    },
+    {
+      "id": "git-semantic-bun",
+      "tool": "git-semantic-bun",
+      "githubUrl": "https://github.com/danjdewhurst/git-semantic-bun",
+      "layer": "Code navigation",
+      "whatItDoes": "Local Bun and TypeScript CLI (gsb) that builds a vector index over a git repository's commit history and ranks commits by a hybrid of semantic embeddings, BM25 lexical scoring and recency, so you can search commit history by meaning rather than exact keywords. Runs offline after downloading a local embedding model; adds a warm daemon mode, incremental re-indexing and an optional HNSW backend for large repositories.",
+      "conflict": {
+        "severity": "none",
+        "projects": [],
+        "note": "No direct peer: semantic search over git commit history is unique in this catalogue. No MCP server, so a coding agent must wrap the gsb CLI."
+      },
+      "runtime": {
+        "languages": [
+          "typescript"
+        ],
+        "detail": "Bun/TypeScript CLI; local sentence-transformer via Transformers.js; optional usearch HNSW backend"
+      },
+      "requirements": "Downloads a local sentence-transformer (Xenova/all-MiniLM-L6-v2) on first index; needs the Bun runtime (1.3.9 or newer). No API key; runs offline after.",
+      "requiresExternal": true,
+      "licence": {
+        "spdx": "MIT"
+      },
+      "stars": 3,
+      "trend": null,
+      "activity": {
+        "contributors": 1,
+        "latestVersion": "v0.4.1",
+        "releaseCount": 5,
+        "releasedOn": "2026-02-25",
+        "notes": "5 releases (v0.1.0 to v0.4.1), all published 25-02-2026; latest v0.4.1. package.json declares an unreleased 0.5.0 with no matching tag. Single maintainer (84 commits). Last commit 26-02-2026. 3 stars, 0 forks, 0 open issues."
+      },
+      "activityStatus": {
+        "band": "early",
+        "label": "Early"
+      },
+      "verdict": {
+        "decision": "watch",
+        "rationale": "genuinely novel semantic search over git commit history, but pre-1.0 (v0.4.1), single maintainer, 3 stars, and no MCP server; follow it",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/danjdewhurst/git-semantic-bun/blob/1743d3e96140342ba3a2feb1adfecd2b7af23054/src/core/ranking.ts#L124-L131",
+              "quote": "export function combineScores(\n  semantic: number,\n  lexical: number,\n  recency: number,\n  weights: ScoreWeights,\n): number {\n  return semantic * weights.semantic + lexical * weights.lexical + recency * weights.recency;\n}",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/danjdewhurst/git-semantic-bun/blob/1743d3e96140342ba3a2feb1adfecd2b7af23054/src/core/constants.ts#L1",
+              "quote": "export const DEFAULT_MODEL = \"Xenova/all-MiniLM-L6-v2\";",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "decisionRule": "3 stars, MIT, v0.4.1 (Feb 2026), single maintainer. Niche: semantic search over git commit history, not the working tree; no MCP server, so wrap the gsb CLI. Watch for MCP support and adoption before relying on it."
     }
   ]
 }
