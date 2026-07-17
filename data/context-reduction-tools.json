@@ -545,7 +545,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "personal knowledge search"
+        "rationale": "personal knowledge search",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/tobi/qmd/blob/e428df76bc0274d9e93eb7ca3e95673315c42e90/src/store.ts#L4719",
+              "quote": "Hybrid search: BM25 + vector + query expansion + RRF + chunked reranking.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/tobi/qmd/blob/e428df76bc0274d9e93eb7ca3e95673315c42e90/src/store.ts#L4722-L4725",
+              "quote": "1. BM25 probe → skip expansion if strong signal\n2. expandQuery() → typed query variants (lex/vec/hyde)\n3. Type-routed search: original→vector, lex→FTS, vec/hyde→vector\n4. RRF fusion → slice to candidateLimit",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Indexes your own notes, docs, and transcripts. BM25 + vector + LLM reranking. Bun-native, MIT. Zero conflict with other tools here.",
       "requiresExternal": false
@@ -977,7 +994,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "MIT code nav, 155 languages"
+        "rationale": "MIT code nav, 155 languages",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/DeusData/codebase-memory-mcp/blob/e678b2b6acb02bc1ab84a854f2df0e1d092f2cc0/internal/cbm/sqlite_writer.c#L2193",
+              "quote": "\"CREATE TABLE nodes (\\n\\t\\tid INTEGER PRIMARY KEY AUTOINCREMENT,\\n\\t\\tproject TEXT NOT \"",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/DeusData/codebase-memory-mcp/blob/e678b2b6acb02bc1ab84a854f2df0e1d092f2cc0/src/mcp/mcp.c#L415-L416",
+              "quote": "\"Execute a Cypher query against the knowledge graph for complex multi-hop patterns, \"\n\"aggregations, and cross-service analysis. The response includes 'total' (returned \"",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "MIT, zero-config static binary, 155 languages, v0.6.0. Semantic search + structural graph queries. Use as primary MIT code nav or alongside GitNexus if PolyForm NC is a concern.",
       "requiresExternal": false
@@ -1019,7 +1053,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "MIT fallback for GitNexus detect_changes"
+        "rationale": "MIT fallback for GitNexus detect_changes",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/tirth8205/code-review-graph/blob/ac4b22b44c978dde0458ef0390d163575a1b3762/code_review_graph/graph.py#L658-L661",
+              "quote": "Impact radius via bounded best-score relaxation in SQLite.\n\n        Faster than NetworkX for large graphs because it avoids\n        materialising the full graph in Python.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/tirth8205/code-review-graph/blob/ac4b22b44c978dde0458ef0390d163575a1b3762/code_review_graph/communities.py#L417-L418",
+              "quote": "partition = g.community_leiden(\n        objective_function=\"modularity\",",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Keep if GitNexus NC licence is a blocker. Different trigger (pre-commit vs mid-session).",
       "requiresExternal": false
@@ -1255,7 +1306,24 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "best validated MIT code nav"
+        "rationale": "best validated MIT code nav",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/colbymchenry/codegraph/blob/44561b6aad535d7d7b2503228051b9834f19cbd6/src/db/schema.sql#L19-L20",
+              "quote": "-- Nodes: Code symbols (functions, classes, variables, etc.)\nCREATE TABLE IF NOT EXISTS nodes (",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/colbymchenry/codegraph/blob/44561b6aad535d7d7b2503228051b9834f19cbd6/src/db/schema.sql#L58-L61",
+              "quote": "-- Files: Tracked source files\nCREATE TABLE IF NOT EXISTS files (\n    path TEXT PRIMARY KEY,\n    content_hash TEXT NOT NULL,",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Now #1 by stars in code nav layer (surpassed GitNexus). | #1 fastest-growing AI repo this week. 21.8k+ stars (growing rapidly). 71% fewer tool calls, 57% fewer tokens (v0.9.4 benchmarks). MIT, npm install. Remote repo support, WAL mode SQLite, bundled Node runtime.",
       "requiresExternal": false
@@ -2060,7 +2128,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "most-starred tool in this table"
+        "rationale": "most-starred tool in this table",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/JuliusBrussee/caveman/blob/0d95a81d35a9f2d123a5e9430d1cfc43d55f1bb0/skills/caveman/SKILL.md#L21",
+              "quote": "Drop: articles (a/an/the), filler (just/really/basically/actually/simply), pleasantries (sure/certainly/of course/happy to), hedging. Fragments OK. Short synonyms (big not extensive, fix not \"implement a solution for\"). No tool-call narration, no decorative tables/emoji, no dumping long raw error logs unless asked — quote shortest decisive line. Standard well-known tech acronyms OK (DB/API/HTTP); never invent new abbreviations (cfg/impl/req/res/fn) — tokenizer split them same as full word: zero token saved, reader still decode. Full word cheaper AND clearer. No causal arrows (→) either — own token, save nothing. Technical terms exact. Code blocks unchanged. Errors quoted exact.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/JuliusBrussee/caveman/blob/0d95a81d35a9f2d123a5e9430d1cfc43d55f1bb0/skills/caveman/SKILL.md#L36-L38",
+              "quote": "| **lite** | No filler/hedging. Keep articles + full sentences. Professional but tight |\n| **full** | Drop articles, fragments OK, short synonyms. Classic caveman. No tool-call narration, no decorative tables/emoji, no long raw error-log dumps unless asked. Standard acronyms OK; no invented abbreviations |\n| **ultra** | Strip conjunctions when cause-then-effect stay unambiguous. One word when one word enough. State each fact once. NO prose abbreviations (cfg/impl/req/res/fn/auth), NO arrows (X → Y) — measured zero token saving under tokenizer, cost decode clarity. Code symbols, function names, API names, error strings: never touch |",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "64.2k stars, v1.8.2. MCP-shrink added. Do NOT combine with lean-ctx TDD or sqz terse. Run order: sigmap → caveman-compress → session start.",
       "requiresExternal": false
