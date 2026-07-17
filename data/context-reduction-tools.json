@@ -45,7 +45,8 @@
         "decision": "best",
         "rationale": "pick this"
       },
-      "decisionRule": "~53.6k stars, Apache-2.0, v0.42.0. Daily PRs. Do NOT run alongside sqz or lean-ctx."
+      "decisionRule": "~53.6k stars, Apache-2.0, v0.42.0. Daily PRs. Do NOT run alongside sqz or lean-ctx.",
+      "requiresExternal": false
     },
     {
       "id": "sqz",
@@ -86,7 +87,8 @@
         "decision": "either-or",
         "rationale": "pick if dedup cache is priority"
       },
-      "decisionRule": "v1.0.9, 173 stars. Now has MCP server (sqz-mcp), Homebrew, and npm install. Dedup cache is unique: repeat file reads cost 13 tokens vs 2000. PostToolUse hook limitation: cannot compress built-in Read tool output (same as RTK). sqz-mcp provides an alternative compressed Read tool."
+      "decisionRule": "v1.0.9, 173 stars. Now has MCP server (sqz-mcp), Homebrew, and npm install. Dedup cache is unique: repeat file reads cost 13 tokens vs 2000. PostToolUse hook limitation: cannot compress built-in Read tool output (same as RTK). sqz-mcp provides an alternative compressed Read tool.",
+      "requiresExternal": false
     },
     {
       "id": "lean-ctx",
@@ -101,7 +103,7 @@
           "RTK",
           "sqz"
         ],
-        "note": "⛔ HARD ctx_* namespace collision with magic-context (ctx_memory, ctx_search, ctx_note) if both loaded. Also either/or with RTK and sqz."
+        "note": "HARD ctx_* namespace collision with magic-context (ctx_memory, ctx_search, ctx_note) if both loaded. Also either/or with RTK and sqz."
       },
       "runtime": {
         "languages": [
@@ -126,7 +128,8 @@
         "decision": "best",
         "rationale": "pick this or RTK"
       },
-      "decisionRule": "2.2k stars, v3.2.8, 374+ CI runs. Bun-native, 59 tools, Property Graph + CCP. RTK safest default; lean-ctx best feature set."
+      "decisionRule": "2.2k stars, v3.2.8, 374+ CI runs. Bun-native, 59 tools, Property Graph + CCP. RTK safest default; lean-ctx best feature set.",
+      "requiresExternal": false
     },
     {
       "id": "omni",
@@ -173,7 +176,8 @@
         "decision": "add",
         "rationale": "sophisticated shell tool alternative, no model dependency"
       },
-      "decisionRule": "259 stars but real organic adoption (Indonesian dev community comparing directly to RTK). No LLM calls for core mechanism - same \"zero model dependency\" category as RTK/lean-ctx, unlike headroom or claude-mem. Unique: rule-based Engrams (free subtask memory), context pressure traffic light, goal-driven compression scaling. brew install fajarhide/tap/omni then omni init --claude. Author also maintains Heimsense (separate tool to run Claude Code on non-Anthropic models) - worth knowing exists."
+      "decisionRule": "259 stars but real organic adoption (Indonesian dev community comparing directly to RTK). No LLM calls for core mechanism - same \"zero model dependency\" category as RTK/lean-ctx, unlike headroom or claude-mem. Unique: rule-based Engrams (free subtask memory), context pressure traffic light, goal-driven compression scaling. brew install fajarhide/tap/omni then omni init --claude. Author also maintains Heimsense (separate tool to run Claude Code on non-Anthropic models) - worth knowing exists.",
+      "requiresExternal": false
     },
     {
       "id": "agent-context-economy",
@@ -219,7 +223,8 @@
         "decision": "watch",
         "rationale": "too early, Windows-first constraint, explicit-call model"
       },
-      "decisionRule": "2 stars, v0.1.1 released yesterday. Windows/PowerShell-first is a real constraint for macOS/Linux-primary environments. Explicit-call model (agent must be instructed to use scripts) vs automatic hooks (RTK/omni). Stackable rather than competing with shell hooks. Benchmarks (93% terminal reduction, 90% file read reduction) lack methodology detail - treat as illustrative. Note: kayba-ai/agentic-context-engine is also abbreviated ACE - different tool entirely."
+      "decisionRule": "2 stars, v0.1.1 released yesterday. Windows/PowerShell-first is a real constraint for macOS/Linux-primary environments. Explicit-call model (agent must be instructed to use scripts) vs automatic hooks (RTK/omni). Stackable rather than competing with shell hooks. Benchmarks (93% terminal reduction, 90% file read reduction) lack methodology detail - treat as illustrative. Note: kayba-ai/agentic-context-engine is also abbreviated ACE - different tool entirely.",
+      "requiresExternal": false
     },
     {
       "id": "ctxlite",
@@ -236,7 +241,7 @@
           "RTK",
           "sqz"
         ],
-        "note": "⛔ HARD (shell layer): same hook position as RTK/sqz/lean-ctx/omni - pick exactly one shell/output tool. get_stats/trim_context/smart_read soft-overlap tokentelemetry (observability) and code-nav BM25 retrieval tools conceptually, but no hard MCP tool name collision found."
+        "note": "HARD (shell layer): same hook position as RTK/sqz/lean-ctx/omni - pick exactly one shell/output tool. get_stats/trim_context/smart_read soft-overlap tokentelemetry (observability) and code-nav BM25 retrieval tools conceptually, but no hard MCP tool name collision found."
       },
       "runtime": {
         "languages": [
@@ -263,7 +268,8 @@
         "decision": "watch",
         "rationale": "too early, but unusually honest capability disclosure and clean architecture"
       },
-      "decisionRule": "Per-platform automatic-vs-on-demand matrix in the README is unusually candid - explicitly states where Cursor's own hook API prevents automatic output compression, rather than implying uniform behaviour across platforms. Legacy Go proxy left in the repo with an explicit \"superseded\" label rather than silently deleted - good transparency about architectural history. Licence: Commons Clause only restricts reselling/rebranding ctxlite itself as a competing product; commercial/internal company use is fully free. Pre-Commons-Clause versions (v0.1.0-v0.1.25) remain permanently plain MIT, not retroactively changed. Cross-platform breadth (4 tools in one project) is uncommon among shell-compression tools in this comparison, most of which target 1-2 platforms."
+      "decisionRule": "Per-platform automatic-vs-on-demand matrix in the README is unusually candid - explicitly states where Cursor's own hook API prevents automatic output compression, rather than implying uniform behaviour across platforms. Legacy Go proxy left in the repo with an explicit \"superseded\" label rather than silently deleted - good transparency about architectural history. Licence: Commons Clause only restricts reselling/rebranding ctxlite itself as a competing product; commercial/internal company use is fully free. Pre-Commons-Clause versions (v0.1.0-v0.1.25) remain permanently plain MIT, not retroactively changed. Cross-platform breadth (4 tools in one project) is uncommon among shell-compression tools in this comparison, most of which target 1-2 platforms.",
+      "requiresExternal": false
     },
     {
       "id": "context-mode",
@@ -302,7 +308,8 @@
         "decision": "add",
         "rationale": "covers all tool output + session continuity"
       },
-      "decisionRule": "Run alongside your chosen shell tool (RTK/sqz/lean-ctx). Handles web fetches, API dumps, Playwright + session continuity. 15 platforms, v0.9.23."
+      "decisionRule": "Run alongside your chosen shell tool (RTK/sqz/lean-ctx). Handles web fetches, API dumps, Playwright + session continuity. 15 platforms, v0.9.23.",
+      "requiresExternal": false
     },
     {
       "id": "token-optimizer-mcp",
@@ -317,7 +324,7 @@
           "Tool Search",
           "headroom"
         ],
-        "note": "⚠ 61 MCP tool definitions = significant schema overhead at session start - the problem this comparison is solving. Must run with Tool Search deferral to avoid defeating own purpose. smart_read/smart_grep conceptually overlap context-mode (all tool output) and headroom (universal compression) but different mechanism (file-level SQLite cache vs stream compression)."
+        "note": "61 MCP tool definitions = significant schema overhead at session start - the problem this comparison is solving. Must run with Tool Search deferral to avoid defeating own purpose. smart_read/smart_grep conceptually overlap context-mode (all tool output) and headroom (universal compression) but different mechanism (file-level SQLite cache vs stream compression)."
       },
       "runtime": {
         "languages": [
@@ -326,7 +333,7 @@
         ],
         "detail": "Node.js (TypeScript)"
       },
-      "requirements": "⚠ Node.js 18+. npm install -g @ooples/token-optimizer-mcp (post-install hook auto-installs hooks). HIGH severity unfixed npm vulnerability (picomatch, May 2026 scan). No external API calls - local SQLite cache only.",
+      "requirements": "Node.js 18+. npm install -g @ooples/token-optimizer-mcp (post-install hook auto-installs hooks). HIGH severity unfixed npm vulnerability (picomatch, May 2026 scan). No external API calls - local SQLite cache only.",
       "licence": {
         "spdx": "MIT"
       },
@@ -345,7 +352,8 @@
         "decision": "watch",
         "rationale": "dormant since Nov 2025; unpatched HIGH severity npm vulnerability; README deleted"
       },
-      "decisionRule": "Project appears abandoned since Nov 2025 (7+ months). README.md replaced with CI/CD workflow docs - actual product documentation is gone from the repo. SkillsLLM automated security scan (May 2026) flagged HIGH severity picomatch vulnerability unfixed. The persistent SQLite cross-session file cache is a genuinely unique capability not replicated elsewhere in this comparison - revisit if project resumes. Must use alongside Tool Search deferral to avoid 61-tool schema overhead problem."
+      "decisionRule": "Project appears abandoned since Nov 2025 (7+ months). README.md replaced with CI/CD workflow docs - actual product documentation is gone from the repo. SkillsLLM automated security scan (May 2026) flagged HIGH severity picomatch vulnerability unfixed. The persistent SQLite cross-session file cache is a genuinely unique capability not replicated elsewhere in this comparison - revisit if project resumes. Must use alongside Tool Search deferral to avoid 61-tool schema overhead problem.",
+      "requiresExternal": true
     },
     {
       "id": "sigmap",
@@ -384,7 +392,8 @@
         "decision": "add",
         "rationale": "validated, 426 stars, growing fast"
       },
-      "decisionRule": "Pre-writes to CLAUDE.md passively. No agent tool call required. Now at v6.x with graph-boosted retrieval and 31 languages. Run: sigmap --monorepo --adapter claude then caveman-compress as post-hook."
+      "decisionRule": "Pre-writes to CLAUDE.md passively. No agent tool call required. Now at v6.x with graph-boosted retrieval and 31 languages. Run: sigmap --monorepo --adapter claude then caveman-compress as post-hook.",
+      "requiresExternal": false
     },
     {
       "id": "virtual-context",
@@ -406,7 +415,7 @@
         ],
         "detail": "Python + Ollama"
       },
-      "requirements": "⚠ Requires Ollama running locally; Python 3.10+",
+      "requirements": "Requires Ollama running locally; Python 3.10+",
       "licence": {
         "spdx": "Apache-2"
       },
@@ -423,20 +432,21 @@
         "decision": "watch",
         "rationale": "very early"
       },
-      "decisionRule": "lean-ctx CCP covers cross-session memory. context-mode covers automatic session continuity."
+      "decisionRule": "lean-ctx CCP covers cross-session memory. context-mode covers automatic session continuity.",
+      "requiresExternal": true
     },
     {
       "id": "magic-context",
       "tool": "magic-context",
       "githubUrl": "https://github.com/cortexkit/magic-context",
       "layer": "Conversation history management",
-      "whatItDoes": "OpenCode plugin. Background historian compresses older conversation into compartments + facts while main agent keeps working. Cache-aware queued reductions (never busts prompt cache). Cross-session project memory (architecture decisions, preferences). Dreamer: overnight agent consolidates/verifies memories, maintains ARCHITECTURE.md. User memory: developer behavioural observations promoted across sessions. Key file pinning. 5 agent tools (ctx_reduce, ctx_expand, ctx_note, ctx_memory, ctx_search). TUI sidebar. Desktop app. v0.15.7. 72 releases. ⚠ OpenCode-only - does not work with Claude Code.",
+      "whatItDoes": "OpenCode plugin. Background historian compresses older conversation into compartments + facts while main agent keeps working. Cache-aware queued reductions (never busts prompt cache). Cross-session project memory (architecture decisions, preferences). Dreamer: overnight agent consolidates/verifies memories, maintains ARCHITECTURE.md. User memory: developer behavioural observations promoted across sessions. Key file pinning. 5 agent tools (ctx_reduce, ctx_expand, ctx_note, ctx_memory, ctx_search). TUI sidebar. Desktop app. v0.15.7. 72 releases. OpenCode-only - does not work with Claude Code.",
       "conflict": {
         "severity": "hard",
         "projects": [
           "lean-ctx"
         ],
-        "note": "⛔ HARD ctx_* namespace collision with lean-ctx (ctx_memory, ctx_search, ctx_note). OpenCode-only anyway - not applicable in Claude Code."
+        "note": "HARD ctx_* namespace collision with lean-ctx (ctx_memory, ctx_search, ctx_note). OpenCode-only anyway - not applicable in Claude Code."
       },
       "runtime": {
         "languages": [
@@ -445,7 +455,7 @@
         ],
         "detail": "TypeScript + Rust (Bun)"
       },
-      "requirements": "⚠ OpenCode only (not Claude Code); Bun runtime",
+      "requirements": "OpenCode only (not Claude Code); Bun runtime",
       "licence": {
         "spdx": "MIT"
       },
@@ -464,7 +474,8 @@
         "decision": "best",
         "rationale": "best-in-class conversation history management (OpenCode only)"
       },
-      "decisionRule": "⚠ OpenCode-only - does not work with Claude Code. If you use OpenCode: best-in-class for this layer by a wide margin. 72 releases in ~2 months. Disable OpenCode built-in compaction before installing. bunx --bun @cortexkit/opencode-magic-context@latest setup."
+      "decisionRule": "OpenCode-only - does not work with Claude Code. If you use OpenCode: best-in-class for this layer by a wide margin. 72 releases in ~2 months. Disable OpenCode built-in compaction before installing. bunx --bun @cortexkit/opencode-magic-context@latest setup.",
+      "requiresExternal": true
     },
     {
       "id": "qmd",
@@ -503,7 +514,8 @@
         "decision": "add",
         "rationale": "personal knowledge search"
       },
-      "decisionRule": "Indexes your own notes, docs, and transcripts. BM25 + vector + LLM reranking. Bun-native, MIT. Zero conflict with other tools here."
+      "decisionRule": "Indexes your own notes, docs, and transcripts. BM25 + vector + LLM reranking. Bun-native, MIT. Zero conflict with other tools here.",
+      "requiresExternal": false
     },
     {
       "id": "iwe",
@@ -544,7 +556,8 @@
         "decision": "add",
         "rationale": "complements qmd, different mechanism"
       },
-      "decisionRule": "Stack alongside qmd: iwe for structured graph traversal and note refactoring, qmd for hybrid search relevance. iwe gives AI agents parent-context and structural navigation; qmd gives AI agents ranked search across unstructured corpus. brew install iwe."
+      "decisionRule": "Stack alongside qmd: iwe for structured graph traversal and note refactoring, qmd for hybrid search relevance. iwe gives AI agents parent-context and structural navigation; qmd gives AI agents ranked search across unstructured corpus. brew install iwe.",
+      "requiresExternal": false
     },
     {
       "id": "graphthulhu",
@@ -561,7 +574,7 @@
           "qmd",
           "iwe"
         ],
-        "note": "⚠ get_references name clashes with pharos-mcp and codegraph find_references. search clashes semantically with qmd if both loaded - add CLAUDE.md routing rules. 39 tools = significant schema load (use Tool Search deferral). Complements qmd (different corpus: Logseq/Obsidian graph vs arbitrary files) and iwe (different integration depth)."
+        "note": "get_references name clashes with pharos-mcp and codegraph find_references. search clashes semantically with qmd if both loaded - add CLAUDE.md routing rules. 39 tools = significant schema load (use Tool Search deferral). Complements qmd (different corpus: Logseq/Obsidian graph vs arbitrary files) and iwe (different integration depth)."
       },
       "runtime": {
         "languages": [
@@ -588,7 +601,8 @@
         "decision": "add",
         "rationale": "unique deep Logseq/Obsidian integration"
       },
-      "decisionRule": "Only tool here giving agents deep Logseq/Obsidian integration. Stackable with qmd (different corpus) - add CLAUDE.md routing: \"for Logseq/Obsidian content use graphthulhu, for other notes use qmd\". ⚠ 39 MCP tools = high schema overhead - pair with token-optimizer or Tool Search deferral. Logseq requires HTTP API server enabled. Obsidian: no plugins needed, reads .md directly."
+      "decisionRule": "Only tool here giving agents deep Logseq/Obsidian integration. Stackable with qmd (different corpus) - add CLAUDE.md routing: \"for Logseq/Obsidian content use graphthulhu, for other notes use qmd\". 39 MCP tools = high schema overhead - pair with token-optimizer or Tool Search deferral. Logseq requires HTTP API server enabled. Obsidian: no plugins needed, reads .md directly.",
+      "requiresExternal": false
     },
     {
       "id": "mfs",
@@ -632,7 +646,8 @@
         "decision": "add",
         "rationale": "broadest-scope context unification tool here, genuinely local-first, but very early"
       },
-      "decisionRule": "Only tool in this comparison trying to unify code + memory + docs + chat + tickets + databases + cloud storage under one interface. Default stack is fully local and offline (ONNX + Milvus Lite + SQLite) - no forced cloud dependency unlike supermemory or githits-cli, though Zilliz Cloud is available to scale. Credential design is notably careful: TOML never holds raw secrets. 4 stars reflects genuine novelty/earliness, not a red flag - backed by the same team behind Milvus. No MCP server yet (skills/CLI/SDK only) - watch for that to land given every other new tool in this comparison ships one."
+      "decisionRule": "Only tool in this comparison trying to unify code + memory + docs + chat + tickets + databases + cloud storage under one interface. Default stack is fully local and offline (ONNX + Milvus Lite + SQLite) - no forced cloud dependency unlike supermemory or githits-cli, though Zilliz Cloud is available to scale. Credential design is notably careful: TOML never holds raw secrets. 4 stars reflects genuine novelty/earliness, not a red flag - backed by the same team behind Milvus. No MCP server yet (skills/CLI/SDK only) - watch for that to land given every other new tool in this comparison ships one.",
+      "requiresExternal": false
     },
     {
       "id": "context-neuledge",
@@ -667,7 +682,8 @@
         "decision": "add",
         "rationale": "unique layer"
       },
-      "decisionRule": "No other tool serves versioned upstream library docs. Check Bun/Drizzle/Hono registry coverage first."
+      "decisionRule": "No other tool serves versioned upstream library docs. Check Bun/Drizzle/Hono registry coverage first.",
+      "requiresExternal": false
     },
     {
       "id": "jdocmunch-mcp",
@@ -680,7 +696,7 @@
         "projects": [
           "jdatamunch-mcp"
         ],
-        "note": "⚠ index_local and list_datasets names clash with jdatamunch-mcp - agent cannot distinguish doc indexing from data indexing if both are loaded."
+        "note": "index_local and list_datasets names clash with jdatamunch-mcp - agent cannot distinguish doc indexing from data indexing if both are loaded."
       },
       "runtime": {
         "languages": [
@@ -706,7 +722,8 @@
         "decision": "add",
         "rationale": "unique on-demand doc indexing"
       },
-      "decisionRule": "Commercial use requires paid licence (same model as jCodemunch - same author). Free for personal/OSS use. Complements context (neuledge): use neuledge for registry-packaged libs (Next.js, Prisma, etc.), jDocMunch for any arbitrary repo or local doc set. uvx jdocmunch-mcp to install."
+      "decisionRule": "Commercial use requires paid licence (same model as jCodemunch - same author). Free for personal/OSS use. Complements context (neuledge): use neuledge for registry-packaged libs (Next.js, Prisma, etc.), jDocMunch for any arbitrary repo or local doc set. uvx jdocmunch-mcp to install.",
+      "requiresExternal": false
     },
     {
       "id": "githits-cli",
@@ -729,7 +746,7 @@
         ],
         "detail": "TypeScript (Node.js CLI + hosted backend)"
       },
-      "requirements": "⚠ SaaS-hosted - requires GitHits account + OAuth login; all indexing runs on GitHits infrastructure, CLI/MCP calls their API. Node.js ^20.12.0 or >=22.13.0. npx githits@latest init. Forever-free tier available; credit-based for indexed search beyond free tier.",
+      "requirements": "SaaS-hosted - requires GitHits account + OAuth login; all indexing runs on GitHits infrastructure, CLI/MCP calls their API. Node.js ^20.12.0 or >=22.13.0. npx githits@latest init. Forever-free tier available; credit-based for indexed search beyond free tier.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -748,14 +765,15 @@
         "decision": "add",
         "rationale": "unique ecosystem-wide OSS search, but SaaS-dependent"
       },
-      "decisionRule": "Only tool in this comparison indexing the entire public OSS ecosystem rather than your own repo or a pre-packaged library set. get_example cross-repository prior-art search has no equivalent elsewhere here. Founders: opencv-python creator (100M+ downloads) as CTO, ex-Smartly chief architect. Credentials stored in system keychain; GITHITS_API_TOKEN for CI/headless. Does not access private repos. Forever-free tier exists but core value requires an ongoing account relationship with GitHits - not a self-hosted or one-time-install tool like most others in this comparison."
+      "decisionRule": "Only tool in this comparison indexing the entire public OSS ecosystem rather than your own repo or a pre-packaged library set. get_example cross-repository prior-art search has no equivalent elsewhere here. Founders: opencv-python creator (100M+ downloads) as CTO, ex-Smartly chief architect. Credentials stored in system keychain; GITHITS_API_TOKEN for CI/headless. Does not access private repos. Forever-free tier exists but core value requires an ongoing account relationship with GitHits - not a self-hosted or one-time-install tool like most others in this comparison.",
+      "requiresExternal": true
     },
     {
       "id": "understand-anything",
       "tool": "Understand Anything",
       "githubUrl": "https://github.com/Lum1104/Understand-Anything",
       "layer": "Codebase understanding & onboarding",
-      "whatItDoes": "6-agent LLM pipeline → knowledge graph + interactive dashboard. Guided tours, domain/business logic view, diff impact, committable graph. v2.5.0. Claude Code (native plugin), Cursor, Copilot, Codex, OpenCode, Gemini CLI, Cline, Hermes, KIMI, and 5 more platforms (14 total). ⚠ Uses Claude Code plugin system as primary install on Claude Code but works on 14 platforms via install.sh.",
+      "whatItDoes": "6-agent LLM pipeline → knowledge graph + interactive dashboard. Guided tours, domain/business logic view, diff impact, committable graph. v2.5.0. Claude Code (native plugin), Cursor, Copilot, Codex, OpenCode, Gemini CLI, Cline, Hermes, KIMI, and 5 more platforms (14 total). Uses Claude Code plugin system as primary install on Claude Code but works on 14 platforms via install.sh.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -770,7 +788,7 @@
         ],
         "detail": "Node.js (pnpm)"
       },
-      "requirements": "⚠ Calls Anthropic API per /understand run (charges API tokens); Node.js 18+ / pnpm",
+      "requirements": "Calls Anthropic API per /understand run (charges API tokens); Node.js 18+ / pnpm",
       "licence": {
         "spdx": "MIT"
       },
@@ -789,7 +807,8 @@
         "decision": "add",
         "rationale": "unique layer (onboarding + human understanding)"
       },
-      "decisionRule": "Run periodically (onboarding, architecture reviews) not every session. Costs API tokens per /understand run."
+      "decisionRule": "Run periodically (onboarding, architecture reviews) not every session. Costs API tokens per /understand run.",
+      "requiresExternal": true
     },
     {
       "id": "codeboarding",
@@ -831,7 +850,8 @@
         "decision": "add",
         "rationale": "unique persistent diagram layer"
       },
-      "decisionRule": "Complementary to Understand Anything: run CodeBoarding for committed architecture docs updated in CI, run UA for session-level exploration. GitHub Action is unique in this comparison - auto-updates .codeboarding/ on every PR. Costs LLM API tokens per run. pip install codeboarding then codeboarding-setup then codeboarding --local /path/to/repo."
+      "decisionRule": "Complementary to Understand Anything: run CodeBoarding for committed architecture docs updated in CI, run UA for session-level exploration. GitHub Action is unique in this comparison - auto-updates .codeboarding/ on every PR. Costs LLM API tokens per run. pip install codeboarding then codeboarding-setup then codeboarding --local /path/to/repo.",
+      "requiresExternal": false
     },
     {
       "id": "gitnexus",
@@ -875,7 +895,8 @@
         "decision": "best",
         "rationale": "code nav"
       },
-      "decisionRule": "PolyForm NC licence now explicitly has enterprise commercial tier. | PolyForm NC: free for personal/OSS, commercial needs akonlabs licence. ⚠ Multiple Windows crash bugs (SEGFAULT, FTS5 unavailable via MCP, LadybugDB Access Violation). Serialize heavy MCP queries."
+      "decisionRule": "PolyForm NC licence now explicitly has enterprise commercial tier. | PolyForm NC: free for personal/OSS, commercial needs akonlabs licence. Multiple Windows crash bugs (SEGFAULT, FTS5 unavailable via MCP, LadybugDB Access Violation). Serialize heavy MCP queries.",
+      "requiresExternal": false
     },
     {
       "id": "codebase-memory-mcp",
@@ -890,7 +911,7 @@
           "pharos-mcp",
           "codegraph"
         ],
-        "note": "⛔ HARD tool name collision with codegraph (search_code, get_symbols, find_references, get_dependencies) and pharos-mcp and CodeGraphContext. Pick one MIT code nav tool."
+        "note": "HARD tool name collision with codegraph (search_code, get_symbols, find_references, get_dependencies) and pharos-mcp and CodeGraphContext. Pick one MIT code nav tool."
       },
       "runtime": {
         "languages": [
@@ -915,7 +936,8 @@
         "decision": "add",
         "rationale": "MIT code nav, 155 languages"
       },
-      "decisionRule": "MIT, zero-config static binary, 155 languages, v0.6.0. Semantic search + structural graph queries. Use as primary MIT code nav or alongside GitNexus if PolyForm NC is a concern."
+      "decisionRule": "MIT, zero-config static binary, 155 languages, v0.6.0. Semantic search + structural graph queries. Use as primary MIT code nav or alongside GitNexus if PolyForm NC is a concern.",
+      "requiresExternal": false
     },
     {
       "id": "code-review-graph",
@@ -929,7 +951,7 @@
           "contextplus",
           "GitNexus"
         ],
-        "note": "⛔ HARD blast radius collision with contextplus (analyze_changes vs get_blast_radius). Also overlaps GitNexus detect_changes."
+        "note": "HARD blast radius collision with contextplus (analyze_changes vs get_blast_radius). Also overlaps GitNexus detect_changes."
       },
       "runtime": {
         "languages": [
@@ -955,7 +977,8 @@
         "decision": "add",
         "rationale": "MIT fallback for GitNexus detect_changes"
       },
-      "decisionRule": "Keep if GitNexus NC licence is a blocker. Different trigger (pre-commit vs mid-session)."
+      "decisionRule": "Keep if GitNexus NC licence is a blocker. Different trigger (pre-commit vs mid-session).",
+      "requiresExternal": false
     },
     {
       "id": "reposcry",
@@ -973,7 +996,7 @@
           "codegraph",
           "Serena"
         ],
-        "note": "⚠ get_impact_radius name clashes with contextplus get_blast_radius (same concept, agent confusion risk). list_symbols overlaps pharos-mcp/Serena/codebase-memory-mcp get_symbols. Structural graph overlaps codegraph and codebase-memory-mcp. CRG compatibility layer overlaps code-review-graph directly."
+        "note": "get_impact_radius name clashes with contextplus get_blast_radius (same concept, agent confusion risk). list_symbols overlaps pharos-mcp/Serena/codebase-memory-mcp get_symbols. Structural graph overlaps codegraph and codebase-memory-mcp. CRG compatibility layer overlaps code-review-graph directly."
       },
       "runtime": {
         "languages": [
@@ -999,7 +1022,8 @@
         "decision": "watch",
         "rationale": "too early, exceptionally honest README"
       },
-      "decisionRule": "6 stars, released today. README explicitly states limitations: call resolution is heuristic, dynamic imports under-approximated, Go/Java/C# file-level only (not parser-backed yet). Widest platform coverage (19 platforms) of any tool here. Fast edit loop philosophy (semantic opt-in) is unique design choice. cargo install reposcry-cli. Revisit when parser-backed Go/Java/C# ships."
+      "decisionRule": "6 stars, released today. README explicitly states limitations: call resolution is heuristic, dynamic imports under-approximated, Go/Java/C# file-level only (not parser-backed yet). Widest platform coverage (19 platforms) of any tool here. Fast edit loop philosophy (semantic opt-in) is unique design choice. cargo install reposcry-cli. Revisit when parser-backed Go/Java/C# ships.",
+      "requiresExternal": false
     },
     {
       "id": "sourcebot",
@@ -1014,7 +1038,7 @@
           "pharos-mcp",
           "codegraph"
         ],
-        "note": "⚠ search_code and find_references MCP tools conflict with pharos-mcp, codegraph, codebase-memory-mcp if all loaded simultaneously. Unique: only self-hosted web platform in this comparison - serves humans via web UI AND agents via MCP from same deployment."
+        "note": "search_code and find_references MCP tools conflict with pharos-mcp, codegraph, codebase-memory-mcp if all loaded simultaneously. Unique: only self-hosted web platform in this comparison - serves humans via web UI AND agents via MCP from same deployment."
       },
       "runtime": {
         "languages": [
@@ -1022,7 +1046,7 @@
         ],
         "detail": "TypeScript (Docker)"
       },
-      "requirements": "⚠ Requires Docker Compose + PostgreSQL + Redis; no model calls for search (Ask Sourcebot NL feature calls LLM)",
+      "requirements": "Requires Docker Compose + PostgreSQL + Redis; no model calls for search (Ask Sourcebot NL feature calls LLM)",
       "licence": {
         "spdx": "Fair Source"
       },
@@ -1041,7 +1065,8 @@
         "decision": "best",
         "rationale": "best self-hosted code search platform"
       },
-      "decisionRule": "Fair Source: source-available, internal commercial use permitted, embedding/reselling needs commercial agreement. Requires Docker Compose + PostgreSQL + Redis - real infra commitment vs zero-config tools. Set SOURCEBOT_TELEMETRY_DISABLED=true on deploy. 469K Docker pulls = strongest adoption signal in this comparison. docker compose up is the entire install."
+      "decisionRule": "Fair Source: source-available, internal commercial use permitted, embedding/reselling needs commercial agreement. Requires Docker Compose + PostgreSQL + Redis - real infra commitment vs zero-config tools. Set SOURCEBOT_TELEMETRY_DISABLED=true on deploy. 469K Docker pulls = strongest adoption signal in this comparison. docker compose up is the entire install.",
+      "requiresExternal": true
     },
     {
       "id": "socraticode",
@@ -1063,7 +1088,7 @@
         ],
         "detail": "Node.js + Docker"
       },
-      "requirements": "⚠ Requires Docker (Qdrant container); Node.js 18+",
+      "requirements": "Requires Docker (Qdrant container); Node.js 18+",
       "licence": {
         "spdx": "AGPL-3"
       },
@@ -1080,7 +1105,8 @@
         "decision": "add-if",
         "rationale": "Add if you have structured non-code files"
       },
-      "decisionRule": "Route for schema/spec queries. Add CLAUDE.md routing."
+      "decisionRule": "Route for schema/spec queries. Add CLAUDE.md routing.",
+      "requiresExternal": true
     },
     {
       "id": "graphify",
@@ -1109,7 +1135,7 @@
       "stars": 86000,
       "trend": 4,
       "activity": {
-        "notes": "⚠ Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep."
+        "notes": "Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep."
       },
       "activityStatus": {
         "band": "active",
@@ -1119,7 +1145,8 @@
         "decision": "add-if",
         "rationale": "Add if you have unstructured docs"
       },
-      "decisionRule": "Unique for PDFs, diagrams, whiteboards, video, SQL schemas. Note: star count corrected from 52.1k to 48.2k after GitHub cleanup."
+      "decisionRule": "Unique for PDFs, diagrams, whiteboards, video, SQL schemas. Note: star count corrected from 52.1k to 48.2k after GitHub cleanup.",
+      "requiresExternal": false
     },
     {
       "id": "codegraph",
@@ -1134,7 +1161,7 @@
           "CodeGraphContext",
           "GitNexus"
         ],
-        "note": "⛔ HARD tool name collision with codebase-memory-mcp (search_code, get_symbols, find_references) and CodeGraphContext (near-identical surface). Pick one. Also overlaps GitNexus."
+        "note": "HARD tool name collision with codebase-memory-mcp (search_code, get_symbols, find_references) and CodeGraphContext (near-identical surface). Pick one. Also overlaps GitNexus."
       },
       "runtime": {
         "languages": [
@@ -1161,7 +1188,8 @@
         "decision": "best",
         "rationale": "best validated MIT code nav"
       },
-      "decisionRule": "Now #1 by stars in code nav layer (surpassed GitNexus). | #1 fastest-growing AI repo this week. 21.8k+ stars (growing rapidly). 71% fewer tool calls, 57% fewer tokens (v0.9.4 benchmarks). MIT, npm install. Remote repo support, WAL mode SQLite, bundled Node runtime."
+      "decisionRule": "Now #1 by stars in code nav layer (surpassed GitNexus). | #1 fastest-growing AI repo this week. 21.8k+ stars (growing rapidly). 71% fewer tool calls, 57% fewer tokens (v0.9.4 benchmarks). MIT, npm install. Remote repo support, WAL mode SQLite, bundled Node runtime.",
+      "requiresExternal": false
     },
     {
       "id": "tokensave",
@@ -1179,7 +1207,7 @@
           "GitNexus",
           "Serena"
         ],
-        "note": "⚠ SOFT: same role as codegraph, GitNexus, codebase-memory-mcp, CodeGraphContext, Serena, pharos-mcp in the pick-ONE-primary code nav slot - running two full code graph MCP servers doubles indexing and schema overhead. Tool names are tokensave_* prefixed so no hard name collision, but functionally redundant with any other code nav tool. Direct lineage: explicit Rust port of codegraph, already in this comparison.",
+        "note": "SOFT: same role as codegraph, GitNexus, codebase-memory-mcp, CodeGraphContext, Serena, pharos-mcp in the pick-ONE-primary code nav slot - running two full code graph MCP servers doubles indexing and schema overhead. Tool names are tokensave_* prefixed so no hard name collision, but functionally redundant with any other code nav tool. Direct lineage: explicit Rust port of codegraph, already in this comparison.",
         "evidence": {
           "status": "caveated",
           "sources": [
@@ -1243,7 +1271,8 @@
             ]
           }
         }
-      ]
+      ],
+      "requiresExternal": false
     },
     {
       "id": "codegraphcontext",
@@ -1257,7 +1286,7 @@
           "codebase-memory-mcp",
           "codegraph"
         ],
-        "note": "⛔ HARD tool name collision with codegraph (near-identical surface) and codebase-memory-mcp (search_code, get_symbols, query_graph). Pick one Python code nav tool."
+        "note": "HARD tool name collision with codegraph (near-identical surface) and codebase-memory-mcp (search_code, get_symbols, query_graph). Pick one Python code nav tool."
       },
       "runtime": {
         "languages": [
@@ -1283,7 +1312,8 @@
         "decision": "add",
         "rationale": "Python runtime or pre-indexed bundles"
       },
-      "decisionRule": "Best if Python runtime preferred or you need pre-indexed bundles for famous repos."
+      "decisionRule": "Best if Python runtime preferred or you need pre-indexed bundles for famous repos.",
+      "requiresExternal": false
     },
     {
       "id": "contextplus",
@@ -1297,7 +1327,7 @@
           "code-review-graph",
           "openwolf"
         ],
-        "note": "⛔ HARD blast radius collision with code-review-graph (get_blast_radius vs analyze_changes - same concept). Memory tools (create_memory_node) collide semantically with pharos memory_save and openwolf wolf_memory."
+        "note": "HARD blast radius collision with code-review-graph (get_blast_radius vs analyze_changes - same concept). Memory tools (create_memory_node) collide semantically with pharos memory_save and openwolf wolf_memory."
       },
       "runtime": {
         "languages": [
@@ -1305,7 +1335,7 @@
         ],
         "detail": "Node.js (Bun)"
       },
-      "requirements": "⚠ Requires Ollama running locally OR OpenAI API key for embeddings; Node.js 18+ / Bun",
+      "requirements": "Requires Ollama running locally OR OpenAI API key for embeddings; Node.js 18+ / Bun",
       "licence": {
         "spdx": "No licence (all rights reserved)"
       },
@@ -1323,7 +1353,8 @@
         "decision": "watch",
         "rationale": "growing fast, no licence"
       },
-      "decisionRule": "⚠ No licence file - all rights reserved by default. Stricter than paid-commercial tools. Do not use in commercial projects without author permission. Unique: spectral clustering, shadow restore points, wikilink feature hubs, memory graph. Requires Ollama or OpenAI API key. bunx contextplus to run."
+      "decisionRule": "No licence file - all rights reserved by default. Stricter than paid-commercial tools. Do not use in commercial projects without author permission. Unique: spectral clustering, shadow restore points, wikilink feature hubs, memory graph. Requires Ollama or OpenAI API key. bunx contextplus to run.",
+      "requiresExternal": true
     },
     {
       "id": "serena",
@@ -1336,7 +1367,7 @@
         "projects": [
           "pharos-mcp"
         ],
-        "note": "⛔ HARD tool name collision with pharos-mcp (find_symbol, find_references, goto_definition, get_symbols). Serena + any other code nav = agent confusion."
+        "note": "HARD tool name collision with pharos-mcp (find_symbol, find_references, goto_definition, get_symbols). Serena + any other code nav = agent confusion."
       },
       "runtime": {
         "languages": [
@@ -1361,7 +1392,8 @@
         "decision": "watch",
         "rationale": "only if LSP editing needed"
       },
-      "decisionRule": "Stars stable ~24k. Memory leak is a real issue. Keep only if insert_after_symbol is critical."
+      "decisionRule": "Stars stable ~24k. Memory leak is a real issue. Keep only if insert_after_symbol is critical.",
+      "requiresExternal": false
     },
     {
       "id": "pharos-mcp",
@@ -1376,7 +1408,7 @@
           "codegraph",
           "Serena"
         ],
-        "note": "⛔ HARD tool name collision with Serena (find_symbol, find_references, goto_definition, get_symbols), codebase-memory-mcp (search_code, find_references), and codegraph (find_definition, find_references). Pick one code nav tool."
+        "note": "HARD tool name collision with Serena (find_symbol, find_references, goto_definition, get_symbols), codebase-memory-mcp (search_code, find_references), and codegraph (find_definition, find_references). Pick one code nav tool."
       },
       "runtime": {
         "languages": [
@@ -1384,7 +1416,7 @@
         ],
         "detail": "Gleam/OTP (Erlang BEAM)"
       },
-      "requirements": "⚠ Language servers must be installed separately (rust-analyzer, gopls, tsserver, pyright etc.); Erlang/OTP 28 + Elixir 1.19 + Gleam 1.16 + Zig 0.15.2 to build from source; npm install -g pharos-mcp for pre-built binary; no external model calls",
+      "requirements": "Language servers must be installed separately (rust-analyzer, gopls, tsserver, pyright etc.); Erlang/OTP 28 + Elixir 1.19 + Gleam 1.16 + Zig 0.15.2 to build from source; npm install -g pharos-mcp for pre-built binary; no external model calls",
       "licence": {
         "spdx": "AGPL-3.0 + commercial dual licence"
       },
@@ -1403,7 +1435,8 @@
         "decision": "watch",
         "rationale": "early but exceptional benchmark"
       },
-      "decisionRule": "Released today (26 May 2026). Most rigorous benchmark in this comparison: 1986 cells, 8h wall, LSP-as-oracle ground truth, fully open methodology. AGPL-3.0 + commercial dual licence. npm install -g pharos-mcp. LSPs must be installed separately. Cold start 30-90s for heavy LSPs (jdtls, metals). Revisit in 2-4 weeks for community validation."
+      "decisionRule": "Released today (26 May 2026). Most rigorous benchmark in this comparison: 1986 cells, 8h wall, LSP-as-oracle ground truth, fully open methodology. AGPL-3.0 + commercial dual licence. npm install -g pharos-mcp. LSPs must be installed separately. Cold start 30-90s for heavy LSPs (jdtls, metals). Revisit in 2-4 weeks for community validation.",
+      "requiresExternal": true
     },
     {
       "id": "jcodemunch",
@@ -1417,7 +1450,7 @@
           "codebase-memory-mcp",
           "codegraph"
         ],
-        "note": "⛔ HARD: tool name collision with codegraph and codebase-memory-mcp on search_code, get_symbols. But has unique tools (find_importers, get_ranked_context, get_class_hierarchy) not present in free alternatives."
+        "note": "HARD: tool name collision with codegraph and codebase-memory-mcp on search_code, get_symbols. But has unique tools (find_importers, get_ranked_context, get_class_hierarchy) not present in free alternatives."
       },
       "runtime": {
         "languages": [
@@ -1443,7 +1476,8 @@
         "decision": "add-if",
         "rationale": "richest feature set in code nav layer"
       },
-      "decisionRule": "Free for personal/non-commercial use. Commercial use requires paid licence. 419K installs. Unique: find_importers, get_blast_radius, get_class_hierarchy, get_ranked_context. ⛔ Do not run alongside codegraph or codebase-memory-mcp - hard tool name collision."
+      "decisionRule": "Free for personal/non-commercial use. Commercial use requires paid licence. 419K installs. Unique: find_importers, get_blast_radius, get_class_hierarchy, get_ranked_context. Do not run alongside codegraph or codebase-memory-mcp - hard tool name collision.",
+      "requiresExternal": false
     },
     {
       "id": "n2-arachne",
@@ -1482,7 +1516,8 @@
         "decision": "watch",
         "rationale": "too early"
       },
-      "decisionRule": "sigmap covers the push model more maturely."
+      "decisionRule": "sigmap covers the push model more maturely.",
+      "requiresExternal": false
     },
     {
       "id": "depmesh",
@@ -1525,7 +1560,8 @@
         "decision": "watch",
         "rationale": "too early, but genuinely distinct deterministic approach"
       },
-      "decisionRule": "Zero benchmark claims in the README - notably modest relative to most new tools in this comparison. Only useful once depmesh.toml is meaningfully configured for the project; the starter config from depmesh init is just a template. Trades manual relation-definition effort for zero hallucination risk on \"what tests cover this file\"-style queries. Worth revisiting once community adoption signals appear."
+      "decisionRule": "Zero benchmark claims in the README - notably modest relative to most new tools in this comparison. Only useful once depmesh.toml is meaningfully configured for the project; the starter config from depmesh init is just a template. Trades manual relation-definition effort for zero hallucination risk on \"what tests cover this file\"-style queries. Worth revisiting once community adoption signals appear.",
+      "requiresExternal": false
     },
     {
       "id": "codemark",
@@ -1573,7 +1609,8 @@
         "decision": "watch",
         "rationale": "too early, but a genuinely novel mechanism not replicated elsewhere in this comparison"
       },
-      "decisionRule": "Self-healing structural bookmarks (tiered Exact → Relaxed → Hash Fallback resolution) solve pointer decay - a real problem for long-running agent sessions where code shifts between turns and a raw file:line reference silently breaks. Claude Code plugin is purpose-built for this: agent bookmarks a location, retrieves it later by semantic meaning rather than needing to remember exact coordinates. 0 stars despite 112 commits and 10 releases through v0.5.2 - technically mature, just undiscovered. Also has genuine human-facing value via Neovim and Television TUI integrations, not purely agent-oriented."
+      "decisionRule": "Self-healing structural bookmarks (tiered Exact → Relaxed → Hash Fallback resolution) solve pointer decay - a real problem for long-running agent sessions where code shifts between turns and a raw file:line reference silently breaks. Claude Code plugin is purpose-built for this: agent bookmarks a location, retrieves it later by semantic meaning rather than needing to remember exact coordinates. 0 stars despite 112 commits and 10 releases through v0.5.2 - technically mature, just undiscovered. Also has genuine human-facing value via Neovim and Television TUI integrations, not purely agent-oriented.",
+      "requiresExternal": false
     },
     {
       "id": "repo-graph",
@@ -1611,7 +1648,8 @@
         "decision": "watch",
         "rationale": "most sophisticated trust model here"
       },
-      "decisionRule": "No MCP and no releases. Follow closely; adopt if MCP ships."
+      "decisionRule": "No MCP and no releases. Follow closely; adopt if MCP ships.",
+      "requiresExternal": false
     },
     {
       "id": "truecourse",
@@ -1633,7 +1671,7 @@
         ],
         "detail": "Node.js"
       },
-      "requirements": "⚠ Calls LLM for semantic code review feature (L3 checks); Node.js 18+; npx truecourse",
+      "requirements": "Calls LLM for semantic code review feature (L3 checks); Node.js 18+; npx truecourse",
       "licence": {
         "spdx": "MIT"
       },
@@ -1650,7 +1688,8 @@
         "decision": "watch",
         "rationale": "early but unique angle"
       },
-      "decisionRule": "Complementary to GitNexus. Disable telemetry: npx truecourse telemetry disable."
+      "decisionRule": "Complementary to GitNexus. Disable telemetry: npx truecourse telemetry disable.",
+      "requiresExternal": true
     },
     {
       "id": "tool-search",
@@ -1685,7 +1724,8 @@
         "decision": "add",
         "rationale": "free built-in, zero setup"
       },
-      "decisionRule": "Built into Claude Code. Defers tool schema loading and auto-triggers above 10% context. Enable it and forget it - no configuration needed."
+      "decisionRule": "Built into Claude Code. Defers tool schema loading and auto-triggers above 10% context. Enable it and forget it - no configuration needed.",
+      "requiresExternal": false
     },
     {
       "id": "mcpick",
@@ -1723,7 +1763,8 @@
         "decision": "watch",
         "rationale": "only if Tool Search insufficient"
       },
-      "decisionRule": "Only needed if Tool Search doesn't provide enough control."
+      "decisionRule": "Only needed if Tool Search doesn't provide enough control.",
+      "requiresExternal": false
     },
     {
       "id": "bitloops",
@@ -1763,7 +1804,8 @@
         "decision": "watch",
         "rationale": "unique, growing"
       },
-      "decisionRule": "Apache-2.0, free. brew install bitloops/tap/bitloops. Telemetry is opt-in (asked at first init, not on by default). SQLite is default - no Postgres required. Team-shared memory + external knowledge (Jira/Confluence) unique. Revisit at v0.1+."
+      "decisionRule": "Apache-2.0, free. brew install bitloops/tap/bitloops. Telemetry is opt-in (asked at first init, not on by default). SQLite is default - no Postgres required. Team-shared memory + external knowledge (Jira/Confluence) unique. Revisit at v0.1+.",
+      "requiresExternal": false
     },
     {
       "id": "aura",
@@ -1801,7 +1843,8 @@
         "decision": "watch",
         "rationale": "unique but early"
       },
-      "decisionRule": "No conflicts if adopted. Addresses AI drift and cross-session handoff."
+      "decisionRule": "No conflicts if adopted. Addresses AI drift and cross-session handoff.",
+      "requiresExternal": false
     },
     {
       "id": "aictx",
@@ -1843,7 +1886,8 @@
         "decision": "watch",
         "rationale": "8 stars but 28 releases; unique failure memory; needs community validation"
       },
-      "decisionRule": "8 stars but 28 releases from v1 to v5.3.0 suggests sustained personal development before publicizing. README explicitly rules out productivity guarantees and lists what it is not - good epistemic hygiene. Failure Memory is unique in this comparison: structured tracking of commands/tests that failed, with dedupe and staleness metadata. No model calls - entirely offline capable. pip install aictx then aictx install then aictx init."
+      "decisionRule": "8 stars but 28 releases from v1 to v5.3.0 suggests sustained personal development before publicizing. README explicitly rules out productivity guarantees and lists what it is not - good epistemic hygiene. Failure Memory is unique in this comparison: structured tracking of commands/tests that failed, with dedupe and staleness metadata. No model calls - entirely offline capable. pip install aictx then aictx install then aictx init.",
+      "requiresExternal": false
     },
     {
       "id": "greplica",
@@ -1886,7 +1930,8 @@
         "decision": "add",
         "rationale": "rigorous benchmark methodology, local-first, but no licence file"
       },
-      "decisionRule": "⚠ Direct page fetch showed 1 star/alpha/mandatory OpenAI key - search cross-check revealed 227 stars/41 forks and a local-embedding option not visible in the fetched README. Use the higher, more recent figures. Benchmarked on SWE-chat (arXiv-linked public dataset), a genuinely more rigorous methodology than most tools at this stage: held-out planning tasks, baseline vs treatment. No LICENSE file in repo - verify licensing terms directly before commercial use despite \"open source and free\" marketing language. Self-described alpha: \"ready for small-team dogfooding,\" memory quality still needs human review for nuanced rationale."
+      "decisionRule": "Direct page fetch showed 1 star/alpha/mandatory OpenAI key - search cross-check revealed 227 stars/41 forks and a local-embedding option not visible in the fetched README. Use the higher, more recent figures. Benchmarked on SWE-chat (arXiv-linked public dataset), a genuinely more rigorous methodology than most tools at this stage: held-out planning tasks, baseline vs treatment. No LICENSE file in repo - verify licensing terms directly before commercial use despite \"open source and free\" marketing language. Self-described alpha: \"ready for small-team dogfooding,\" memory quality still needs human review for nuanced rationale.",
+      "requiresExternal": false
     },
     {
       "id": "caveman",
@@ -1926,7 +1971,8 @@
         "decision": "add",
         "rationale": "most-starred tool in this table"
       },
-      "decisionRule": "64.2k stars, v1.8.2. MCP-shrink added. Do NOT combine with lean-ctx TDD or sqz terse. Run order: sigmap → caveman-compress → session start."
+      "decisionRule": "64.2k stars, v1.8.2. MCP-shrink added. Do NOT combine with lean-ctx TDD or sqz terse. Run order: sigmap → caveman-compress → session start.",
+      "requiresExternal": false
     },
     {
       "id": "codesight",
@@ -1967,7 +2013,8 @@
         "decision": "watch",
         "rationale": "growing fast, reassess soon"
       },
-      "decisionRule": "Stack alongside sigmap: codesight for routes/schema/env, sigmap for function signatures. --wiki mode (v1.6.2) for 91x combined reduction."
+      "decisionRule": "Stack alongside sigmap: codesight for routes/schema/env, sigmap for function signatures. --wiki mode (v1.6.2) for 91x combined reduction.",
+      "requiresExternal": false
     },
     {
       "id": "codemap",
@@ -2008,7 +2055,8 @@
         "decision": "add",
         "rationale": "unique daemon + handoff model"
       },
-      "decisionRule": "Stack alongside sigmap/codesight: codemap for daemon-managed context + cross-agent handoff + budget config. brew install, no npm. Run codemap setup in project root. Unique for routing/subsystem config and drift detection."
+      "decisionRule": "Stack alongside sigmap/codesight: codemap for daemon-managed context + cross-agent handoff + budget config. brew install, no npm. Run codemap setup in project root. Unique for routing/subsystem config and drift detection.",
+      "requiresExternal": false
     },
     {
       "id": "openwolf",
@@ -2050,7 +2098,8 @@
         "decision": "add",
         "rationale": "unique behavioural memory layer"
       },
-      "decisionRule": "AGPL-3.0: free to use as dev tool; embedding in commercial product requires open-sourcing. Unique: Do-Not-Repeat list persists mistakes across sessions, buglog.json prevents re-discovering fixes. npm install -g openwolf then openwolf init in project root. Token tracking is estimate-based (~15% accuracy). v1.0.4 - things may break."
+      "decisionRule": "AGPL-3.0: free to use as dev tool; embedding in commercial product requires open-sourcing. Unique: Do-Not-Repeat list persists mistakes across sessions, buglog.json prevents re-discovering fixes. npm install -g openwolf then openwolf init in project root. Token tracking is estimate-based (~15% accuracy). v1.0.4 - things may break.",
+      "requiresExternal": false
     },
     {
       "id": "lat-md",
@@ -2092,7 +2141,8 @@
         "decision": "add",
         "rationale": "unique architecture documentation governance; dormant since Mar 2026"
       },
-      "decisionRule": "Only tool here addressing AGENTS.md scalability: replaces a single flat file with a linked graph of .md files. lat check enforces bidirectional links between docs and code, catching drift that ctxharness misses (ctxharness checks version facts; lat.md checks structural links). Author Yury Selivanov (Python asyncio/uvloop/EdgeDB) gives strong credibility. Dormant since March 25, 2026 - 3 months without commits. Semantic search requires OpenAI key; all other features work offline."
+      "decisionRule": "Only tool here addressing AGENTS.md scalability: replaces a single flat file with a linked graph of .md files. lat check enforces bidirectional links between docs and code, catching drift that ctxharness misses (ctxharness checks version facts; lat.md checks structural links). Author Yury Selivanov (Python asyncio/uvloop/EdgeDB) gives strong credibility. Dormant since March 25, 2026 - 3 months without commits. Semantic search requires OpenAI key; all other features work offline.",
+      "requiresExternal": false
     },
     {
       "id": "sdl-mcp",
@@ -2115,7 +2165,7 @@
         ],
         "detail": "Node.js + Rust"
       },
-      "requirements": "⚠ Node.js 24+ required; no external model calls; SCIP optional for compiler-grade edges",
+      "requirements": "Node.js 24+ required; no external model calls; SCIP optional for compiler-grade edges",
       "licence": {
         "spdx": "Source-available (commercial licence for distribution)"
       },
@@ -2133,7 +2183,8 @@
         "decision": "best",
         "rationale": "best-in-class controlled escalation"
       },
-      "decisionRule": "Source-available: free for personal/internal use. ⚠ Known file descriptor leak (issue #12) - 240k+ FDs after 18min use in Claude Code sessions. Iris Gate Ladder is most sophisticated token-minimisation mechanism in this table. Requires Node.js 24+."
+      "decisionRule": "Source-available: free for personal/internal use. Known file descriptor leak (issue #12) - 240k+ FDs after 18min use in Claude Code sessions. Iris Gate Ladder is most sophisticated token-minimisation mechanism in this table. Requires Node.js 24+.",
+      "requiresExternal": true
     },
     {
       "id": "token-optimizer",
@@ -2152,7 +2203,7 @@
         ],
         "detail": "Python + Claude Code skill"
       },
-      "requirements": "Python 3.10+ + Claude Code skill; ⚠ dispatches 6 Claude Code sub-agents (uses your Claude session); PolyForm NC",
+      "requirements": "Python 3.10+ + Claude Code skill; dispatches 6 Claude Code sub-agents (uses your Claude session); PolyForm NC",
       "licence": {
         "spdx": "PolyForm Noncommercial"
       },
@@ -2169,7 +2220,8 @@
         "decision": "add",
         "rationale": "unique diagnostic layer"
       },
-      "decisionRule": "SkillsLLM security audit PASSED (May 2026). Now supports OpenClaw, Hermes, Codex in addition to Claude Code. | Nothing else here audits the Claude Code config stack itself. PolyForm NC: free for personal use, commercial needs licence. Install via Claude Code plugin marketplace. Most valuable for power users with many MCP servers and skills."
+      "decisionRule": "SkillsLLM security audit PASSED (May 2026). Now supports OpenClaw, Hermes, Codex in addition to Claude Code. | Nothing else here audits the Claude Code config stack itself. PolyForm NC: free for personal use, commercial needs licence. Install via Claude Code plugin marketplace. Most valuable for power users with many MCP servers and skills.",
+      "requiresExternal": false
     },
     {
       "id": "ctxharness",
@@ -2210,7 +2262,8 @@
         "decision": "add",
         "rationale": "unique drift detection, complements token-optimizer"
       },
-      "decisionRule": "Stack alongside token-optimizer: token-optimizer audits what is loaded, ctxharness audits whether what is loaded is still true. npx ctxharness scan CLAUDE.md for zero-config discovery. npx ctxharness init + ctxharness doctor for full enforcement. Add to CI: ctxharness diff exits 1 on score regression. 4 stars but authored by RTK maintainer (11k stars) - highly credible."
+      "decisionRule": "Stack alongside token-optimizer: token-optimizer audits what is loaded, ctxharness audits whether what is loaded is still true. npx ctxharness scan CLAUDE.md for zero-config discovery. npx ctxharness init + ctxharness doctor for full enforcement. Add to CI: ctxharness diff exits 1 on score regression. 4 stars but authored by RTK maintainer (11k stars) - highly credible.",
+      "requiresExternal": false
     },
     {
       "id": "tokentelemetry",
@@ -2233,7 +2286,7 @@
         ],
         "detail": "TypeScript (66.3%) + Python (26.9%)"
       },
-      "requirements": "Node.js 18+, Python 3.9+, git. Zero-LLM - pure local log-file parsing, no API key needed. ⚠ Anonymous product-usage telemetry on by default (content-free: pages/features used, OS/CPU arch, approximate country, generated session id - never code/prompts/costs/paths). Opt out via Settings → Usage & privacy, or DO_NOT_TRACK=1 / TT_NO_TELEMETRY=1 env vars. curl -fsSL https://tokentelemetry.com/install.sh | bash.",
+      "requirements": "Node.js 18+, Python 3.9+, git. Zero-LLM - pure local log-file parsing, no API key needed. Anonymous product-usage telemetry on by default (content-free: pages/features used, OS/CPU arch, approximate country, generated session id - never code/prompts/costs/paths). Opt out via Settings → Usage & privacy, or DO_NOT_TRACK=1 / TT_NO_TELEMETRY=1 env vars. curl -fsSL https://tokentelemetry.com/install.sh | bash.",
       "licence": {
         "spdx": "MIT"
       },
@@ -2250,7 +2303,8 @@
         "decision": "add",
         "rationale": "unique cross-agent observability breadth, purely local"
       },
-      "decisionRule": "⚠ Direct page fetch showed a stale snapshot (20 stars, older README claiming \"no telemetry\"); live Issues page confirms 148 stars and the current shipped version explicitly discloses anonymous opt-out telemetry - the \"no telemetry\" claim in the fetched README is no longer accurate as a blanket statement (Code-Beats-Docs catch: verify against current shipped behaviour, not a cached README). Genuinely unique: only tool here unifying observability across 10 coding agents plus a non-coding autonomous agent (Hermes). Read-only - never modifies agent logs or config. RepoRadar automated scoring: Shipping Velocity 100/100, Activity Recency 100/100, but Production Readiness 26/100 and Project Maturity 32/100 - moving fast, still early."
+      "decisionRule": "Direct page fetch showed a stale snapshot (20 stars, older README claiming \"no telemetry\"); live Issues page confirms 148 stars and the current shipped version explicitly discloses anonymous opt-out telemetry - the \"no telemetry\" claim in the fetched README is no longer accurate as a blanket statement (Code-Beats-Docs catch: verify against current shipped behaviour, not a cached README). Genuinely unique: only tool here unifying observability across 10 coding agents plus a non-coding autonomous agent (Hermes). Read-only - never modifies agent logs or config. RepoRadar automated scoring: Shipping Velocity 100/100, Activity Recency 100/100, but Production Readiness 26/100 and Project Maturity 32/100 - moving fast, still early.",
+      "requiresExternal": false
     },
     {
       "id": "sponsio",
@@ -2288,7 +2342,8 @@
         "decision": "watch",
         "rationale": "out of scope but unique"
       },
-      "decisionRule": "Agent safety tool, not a context reduction tool. Belongs in a separate AI agent safety comparison (alongside Guardrails AI, Salus YC W26). Add if you need runtime enforcement of destructive-action gates (prod DB deletes, large transfers). Apache-2.0, pip install sponsio."
+      "decisionRule": "Agent safety tool, not a context reduction tool. Belongs in a separate AI agent safety comparison (alongside Guardrails AI, Salus YC W26). Add if you need runtime enforcement of destructive-action gates (prod DB deletes, large transfers). Apache-2.0, pip install sponsio.",
+      "requiresExternal": false
     },
     {
       "id": "jdatamunch-mcp",
@@ -2301,7 +2356,7 @@
         "projects": [
           "jdocmunch-mcp"
         ],
-        "note": "⚠ index_local and list_datasets names clash with jdocmunch-mcp - agent cannot distinguish doc indexing from data indexing if both are loaded."
+        "note": "index_local and list_datasets names clash with jdocmunch-mcp - agent cannot distinguish doc indexing from data indexing if both are loaded."
       },
       "runtime": {
         "languages": [
@@ -2328,7 +2383,8 @@
         "decision": "watch",
         "rationale": "too early, but genuinely unique layer"
       },
-      "decisionRule": "Only tool in this comparison addressing large CSV/Excel token bloat. 25,333x benchmark is reproducible (LAPD 1M-row dataset). Same dual-use licence as jCodemunch/jDocMunch - free for personal/OSS, commercial use requires paid licence. uvx jdatamunch-mcp to install. Revisit when community forks appear."
+      "decisionRule": "Only tool in this comparison addressing large CSV/Excel token bloat. 25,333x benchmark is reproducible (LAPD 1M-row dataset). Same dual-use licence as jCodemunch/jDocMunch - free for personal/OSS, commercial use requires paid licence. uvx jdatamunch-mcp to install. Revisit when community forks appear.",
+      "requiresExternal": false
     },
     {
       "id": "ark",
@@ -2369,7 +2425,8 @@
         "decision": "watch",
         "rationale": "new layer, not Claude Code-native yet"
       },
-      "decisionRule": "Not a Claude Code plugin today - standalone agent runtime requiring agent.yaml config. v0.8 roadmap adds MCP server connector enabling direct MCP stack integration. Most sophisticated tool scoring model in this comparison (6 signals including real dollar cost). Online learning unique. Revisit at v0.8 when MCP connector ships. go run ./cmd/ark demo-learn to see ranking in action."
+      "decisionRule": "Not a Claude Code plugin today - standalone agent runtime requiring agent.yaml config. v0.8 roadmap adds MCP server connector enabling direct MCP stack integration. Most sophisticated tool scoring model in this comparison (6 signals including real dollar cost). Online learning unique. Revisit at v0.8 when MCP connector ships. go run ./cmd/ark demo-learn to see ranking in action.",
+      "requiresExternal": false
     },
     {
       "id": "headroom",
@@ -2387,7 +2444,7 @@
           "caveman",
           "RTK"
         ],
-        "note": "⚠ Subsumes multiple layers: ships RTK internally (remove RTK from stack if using headroom wrap); headroom learn overlaps openwolf cerebrum.md; cross-agent memory overlaps lean-ctx CCP and Bitloops; headroom_compress overlaps caveman. Do not run headroom alongside RTK + caveman + context-mode - triple redundancy."
+        "note": "Subsumes multiple layers: ships RTK internally (remove RTK from stack if using headroom wrap); headroom learn overlaps openwolf cerebrum.md; cross-agent memory overlaps lean-ctx CCP and Bitloops; headroom_compress overlaps caveman. Do not run headroom alongside RTK + caveman + context-mode - triple redundancy."
       },
       "runtime": {
         "languages": [
@@ -2396,7 +2453,7 @@
         ],
         "detail": "Python + Rust"
       },
-      "requirements": "⚠ Python 3.10+; Kompress-base model downloaded on first use (HuggingFace, ~100MB); [ml] extra required for model compression; ships RTK binary internally; no external API calls in default mode",
+      "requirements": "Python 3.10+; Kompress-base model downloaded on first use (HuggingFace, ~100MB); [ml] extra required for model compression; ships RTK binary internally; no external API calls in default mode",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2416,7 +2473,8 @@
         "decision": "add",
         "rationale": "most comprehensive compression tool in this comparison"
       },
-      "decisionRule": "⚠ MAJOR: 42k stars (7.5x jump since last recording). Now #1 most-starred universal compression tool. | If using headroom wrap claude: remove RTK, caveman, context-mode from stack (headroom handles all three). If using headroom mcp install only: run alongside RTK for shell output, caveman for structured memory compression. pip install \"headroom-ai[all]\" then headroom wrap claude. CacheAligner uniquely stabilises KV cache prefixes - provider cost savings on top of token savings. 60B+ tokens saved community leaderboard at headroomlabs.ai/dashboard."
+      "decisionRule": "MAJOR: 42k stars (7.5x jump since last recording). Now #1 most-starred universal compression tool. | If using headroom wrap claude: remove RTK, caveman, context-mode from stack (headroom handles all three). If using headroom mcp install only: run alongside RTK for shell output, caveman for structured memory compression. pip install \"headroom-ai[all]\" then headroom wrap claude. CacheAligner uniquely stabilises KV cache prefixes - provider cost savings on top of token savings. 60B+ tokens saved community leaderboard at headroomlabs.ai/dashboard.",
+      "requiresExternal": true
     },
     {
       "id": "faramesh-core",
@@ -2458,7 +2516,8 @@
         "decision": "add",
         "rationale": "broader than Sponsio; complements context reduction indirectly"
       },
-      "decisionRule": "Deterministic runtime enforcement of safety rules means you can remove those rules from CLAUDE.md, reclaiming prompt tokens. faramesh mcp wrap governs every MCP tools/call - zero code changes required. arXiv 2601.17744 for technical architecture. Faramesh Horizon is paid tier for advanced features."
+      "decisionRule": "Deterministic runtime enforcement of safety rules means you can remove those rules from CLAUDE.md, reclaiming prompt tokens. faramesh mcp wrap governs every MCP tools/call - zero code changes required. arXiv 2601.17744 for technical architecture. Faramesh Horizon is paid tier for advanced features.",
+      "requiresExternal": false
     },
     {
       "id": "awesome-second-brain",
@@ -2496,7 +2555,8 @@
         "decision": "reference",
         "rationale": "not a tool"
       },
-      "decisionRule": "Not installable. Use as discovery resource for second-brain candidates. Maintained by aristoapp (Membase company) - cross-reference Membase recommendations against independent sources."
+      "decisionRule": "Not installable. Use as discovery resource for second-brain candidates. Maintained by aristoapp (Membase company) - cross-reference Membase recommendations against independent sources.",
+      "requiresExternal": false
     },
     {
       "id": "awesome-ai-memory",
@@ -2538,7 +2598,8 @@
         "decision": "reference",
         "rationale": "not a tool"
       },
-      "decisionRule": "Not installable. Broader and more institutionally credible than awesome-second-brain (real research institute maintainer vs disclosed-COI single company). ⚠ Note: the \"awesome AI memory\" niche is crowded - at least 4-5 competing curated lists exist (TeleAI-UAGI/Awesome-Agent-Memory, XiaomingX/awesome-ai-memory, danielrosehill/AI-Memory-Layers, topoteretes/awesome-ai-memory). This one appears among the more established and is cited by at least one other list as a source. Direct fetch did not surface the README body content itself (file tree/About only) - internal structure/rigor not independently verified beyond what the repo description states."
+      "decisionRule": "Not installable. Broader and more institutionally credible than awesome-second-brain (real research institute maintainer vs disclosed-COI single company). Note: the \"awesome AI memory\" niche is crowded - at least 4-5 competing curated lists exist (TeleAI-UAGI/Awesome-Agent-Memory, XiaomingX/awesome-ai-memory, danielrosehill/AI-Memory-Layers, topoteretes/awesome-ai-memory). This one appears among the more established and is cited by at least one other list as a source. Direct fetch did not surface the README body content itself (file tree/About only) - internal structure/rigor not independently verified beyond what the repo description states.",
+      "requiresExternal": false
     },
     {
       "id": "awesome-agent-vault",
@@ -2577,7 +2638,8 @@
         "decision": "reference",
         "rationale": "not a tool; adjacent layer (agent credential security, not context reduction)"
       },
-      "decisionRule": "Not installable. Notably strong conflict-of-interest handling: maintainer's own product (Authsome) is listed alongside direct competitors with an explicit stated policy - \"Direct competitors of the maintainer get accepted on equal terms.\" Stronger COI safeguard than most reference resources in this comparison. Use if evaluating how to hand credentials to Claude Code/Codex/Cursor safely - separate concern from token/context reduction."
+      "decisionRule": "Not installable. Notably strong conflict-of-interest handling: maintainer's own product (Authsome) is listed alongside direct competitors with an explicit stated policy - \"Direct competitors of the maintainer get accepted on equal terms.\" Stronger COI safeguard than most reference resources in this comparison. Use if evaluating how to hand credentials to Claude Code/Codex/Cursor safely - separate concern from token/context reduction.",
+      "requiresExternal": false
     },
     {
       "id": "awesome-harness-engineering",
@@ -2620,7 +2682,8 @@
         "decision": "reference",
         "rationale": "not a tool; broadest and most directly relevant reference resource in this comparison"
       },
-      "decisionRule": "Not installable. The most comprehensive and directly on-topic reference resource assessed for this comparison - spans context compaction, memory, tool/MCP design, and permissions rather than one narrow layer. Surfaces genuine candidate tools not yet in this comparison worth following up on individually: LLMLingua (Microsoft prompt compression, up to 20x), Token Savior (symbol-indexed navigation, 77% token cut), Trellis (progressive spec system replacing bloated CLAUDE.md), OpenViking (ByteDance filesystem-paradigm context DB), engram (Go+SQLite+FTS5 memory, 18 MCP tools), Zep (production memory store). Not acted on in this pass - flagged for future individual assessment."
+      "decisionRule": "Not installable. The most comprehensive and directly on-topic reference resource assessed for this comparison - spans context compaction, memory, tool/MCP design, and permissions rather than one narrow layer. Surfaces genuine candidate tools not yet in this comparison worth following up on individually: LLMLingua (Microsoft prompt compression, up to 20x), Token Savior (symbol-indexed navigation, 77% token cut), Trellis (progressive spec system replacing bloated CLAUDE.md), OpenViking (ByteDance filesystem-paradigm context DB), engram (Go+SQLite+FTS5 memory, 18 MCP tools), Zep (production memory store). Not acted on in this pass - flagged for future individual assessment.",
+      "requiresExternal": false
     },
     {
       "id": "mem0",
@@ -2643,7 +2706,7 @@
         ],
         "detail": "Python + TypeScript"
       },
-      "requirements": "⚠ Requires LLM API key to extract memories (OpenAI default; supports Claude, Gemini, Groq, Ollama). pip install mem0ai. OpenMemory self-hosted: Docker one-liner (free, no paid tier needed for basic use). Graph features (Mem0g) require $249/mo Pro tier.",
+      "requirements": "Requires LLM API key to extract memories (OpenAI default; supports Claude, Gemini, Groq, Ollama). pip install mem0ai. OpenMemory self-hosted: Docker one-liner (free, no paid tier needed for basic use). Graph features (Mem0g) require $249/mo Pro tier.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2660,7 +2723,8 @@
         "decision": "add",
         "rationale": "largest community of any memory tool; 90% token reduction vs full-context"
       },
-      "decisionRule": "Known limitation: 49% LongMemEval on temporal sub-tasks vs 63-91% for Zep/graphiti alternatives. | 51.4k stars, native Claude Code plugin. Benchmarks: +26% accuracy, 91% faster, 90% fewer tokens vs full-context (LOCOMO benchmark). Telemetry: set MEM0_TELEMETRY=false to disable. For self-host without paid tier: run OpenMemory with docker-compose up in the openmemory/ dir."
+      "decisionRule": "Known limitation: 49% LongMemEval on temporal sub-tasks vs 63-91% for Zep/graphiti alternatives. | 51.4k stars, native Claude Code plugin. Benchmarks: +26% accuracy, 91% faster, 90% fewer tokens vs full-context (LOCOMO benchmark). Telemetry: set MEM0_TELEMETRY=false to disable. For self-host without paid tier: run OpenMemory with docker-compose up in the openmemory/ dir.",
+      "requiresExternal": true
     },
     {
       "id": "cognee",
@@ -2682,7 +2746,7 @@
         ],
         "detail": "Python"
       },
-      "requirements": "⚠ Requires LLM API key for knowledge graph extraction (OpenAI default; supports Anthropic, Gemini, Groq, Ollama). pip install cognee. Docker for self-hosting. Telemetry on by default - disable via environment variable.",
+      "requirements": "Requires LLM API key for knowledge graph extraction (OpenAI default; supports Anthropic, Gemini, Groq, Ollama). pip install cognee. Docker for self-hosting. Telemetry on by default - disable via environment variable.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2699,7 +2763,8 @@
         "decision": "add",
         "rationale": "knowledge graph memory with Claude Code plugin + developer rules bootstrap"
       },
-      "decisionRule": "Graduated GitHub Secure Open Source Program. | Claude Code plugin: /plugin marketplace add topoteretes/cognee or git clone + install.sh. developer rules bootstrap indexes CLAUDE.md equivalents into queryable graph rather than loading wholesale at startup. More powerful than mem0 (graph reasoning) but heavier setup. For simple session memory mem0 is easier."
+      "decisionRule": "Graduated GitHub Secure Open Source Program. | Claude Code plugin: /plugin marketplace add topoteretes/cognee or git clone + install.sh. developer rules bootstrap indexes CLAUDE.md equivalents into queryable graph rather than loading wholesale at startup. More powerful than mem0 (graph reasoning) but heavier setup. For simple session memory mem0 is easier.",
+      "requiresExternal": true
     },
     {
       "id": "supermemory",
@@ -2722,7 +2787,7 @@
         ],
         "detail": "TypeScript + Python"
       },
-      "requirements": "⚠ SaaS-hosted - memory stored on Supermemory servers (not local). API key required (sm_...). Personal use free; Team Memory requires Pro (paid). npm install supermemory or /plugin marketplace add supermemoryai/claude-supermemory.",
+      "requirements": "SaaS-hosted - memory stored on Supermemory servers (not local). API key required (sm_...). Personal use free; Team Memory requires Pro (paid). npm install supermemory or /plugin marketplace add supermemoryai/claude-supermemory.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2739,7 +2804,8 @@
         "decision": "add",
         "rationale": "simplest path to Claude Code session memory; zero infra"
       },
-      "decisionRule": "Simplest of the three memory tools: SaaS, no local infra, one install. /plugin marketplace add supermemoryai/claude-supermemory. Tradeoff: data lives on Supermemory servers. For self-hosted memory use mem0 OpenMemory instead. Team Memory needs paid plan."
+      "decisionRule": "Simplest of the three memory tools: SaaS, no local infra, one install. /plugin marketplace add supermemoryai/claude-supermemory. Tradeoff: data lives on Supermemory servers. For self-hosted memory use mem0 OpenMemory instead. Team Memory needs paid plan.",
+      "requiresExternal": true
     },
     {
       "id": "graphiti",
@@ -2762,7 +2828,7 @@
         ],
         "detail": "Python"
       },
-      "requirements": "⚠ Requires graph database backend: Neo4j, FalkorDB (docker run -p 6379:6379 falkordb/falkordb:latest), KùzuDB, or Amazon Neptune. Requires LLM API key (OpenAI default; Anthropic/Gemini/Groq/Ollama supported). pip install graphiti-core. Telemetry opt-out: GRAPHITI_TELEMETRY_ENABLED=false.",
+      "requirements": "Requires graph database backend: Neo4j, FalkorDB (docker run -p 6379:6379 falkordb/falkordb:latest), KùzuDB, or Amazon Neptune. Requires LLM API key (OpenAI default; Anthropic/Gemini/Groq/Ollama supported). pip install graphiti-core. Telemetry opt-out: GRAPHITI_TELEMETRY_ENABLED=false.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2779,7 +2845,8 @@
         "decision": "best",
         "rationale": "powerful but infra-heavy; best for temporal reasoning about evolving facts"
       },
-      "decisionRule": "Not zero-config. Best for: architecture decisions that evolve over time, API contracts that change, \"what did we decide about auth and when did that change?\" FalkorDB is the lowest-friction backend (single Docker command). Works best with OpenAI/Gemini structured output; Anthropic supported but less reliable."
+      "decisionRule": "Not zero-config. Best for: architecture decisions that evolve over time, API contracts that change, \"what did we decide about auth and when did that change?\" FalkorDB is the lowest-friction backend (single Docker command). Works best with OpenAI/Gemini structured output; Anthropic supported but less reliable.",
+      "requiresExternal": true
     },
     {
       "id": "obsidian-second-brain",
@@ -2802,7 +2869,7 @@
         ],
         "detail": "Claude Code skill (no runtime)"
       },
-      "requirements": "⚠ No explicit licence (copyright retained by author - all rights reserved). Obsidian vault required. Research features (/obsidian-research) need Grok and/or Perplexity API keys. Vault management commands work without API keys. git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.claude/skills/obsidian-second-brain && bash install.sh",
+      "requirements": "No explicit licence (copyright retained by author - all rights reserved). Obsidian vault required. Research features (/obsidian-research) need Grok and/or Perplexity API keys. Vault management commands work without API keys. git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.claude/skills/obsidian-second-brain && bash install.sh",
       "licence": {
         "spdx": "No licence (all rights reserved)"
       },
@@ -2819,7 +2886,8 @@
         "decision": "add-if",
         "rationale": "add if you use Obsidian; no licence is commercial blocker"
       },
-      "decisionRule": "No explicit licence = all rights reserved. Fine for personal use; do not embed in commercial products without author permission. /obsidian-architect is the key context reduction feature: scanned architecture notes replace repeated codebase reads. Pairs with graphthulhu (different integration mechanism: skill vs MCP server)."
+      "decisionRule": "No explicit licence = all rights reserved. Fine for personal use; do not embed in commercial products without author permission. /obsidian-architect is the key context reduction feature: scanned architecture notes replace repeated codebase reads. Pairs with graphthulhu (different integration mechanism: skill vs MCP server).",
+      "requiresExternal": true
     },
     {
       "id": "gitmem",
@@ -2843,7 +2911,7 @@
         ],
         "detail": "Python"
       },
-      "requirements": "⚠ Dream pipeline requires LLM API key (cheap model for extraction, configurable). Core local-mode works offline. pip install git+https://github.com/dev-boz/gitmem.git. GitHub CLI (gh) required for remote/hybrid mode.",
+      "requirements": "Dream pipeline requires LLM API key (cheap model for extraction, configurable). Core local-mode works offline. pip install git+https://github.com/dev-boz/gitmem.git. GitHub CLI (gh) required for remote/hybrid mode.",
       "licence": {
         "spdx": "MIT"
       },
@@ -2860,7 +2928,8 @@
         "decision": "watch",
         "rationale": "too early; Claude Code capture not yet shipped"
       },
-      "decisionRule": "Claude Code capture is in the \"Next\" roadmap section - not yet implemented. Current capture: Codex and Copilot CLI only. Multi-tool shared memory concept is unique in this comparison. Spec is 250+ pages with 19 cognitive science references. Revisit when Claude Code capture ships. Note: gitmem-dev/gitmem is a different, more mature project worth separate evaluation."
+      "decisionRule": "Claude Code capture is in the \"Next\" roadmap section - not yet implemented. Current capture: Codex and Copilot CLI only. Multi-tool shared memory concept is unique in this comparison. Spec is 250+ pages with 19 cognitive science references. Revisit when Claude Code capture ships. Note: gitmem-dev/gitmem is a different, more mature project worth separate evaluation.",
+      "requiresExternal": true
     },
     {
       "id": "memoir",
@@ -2885,7 +2954,7 @@
         ],
         "detail": "Python + TypeScript"
       },
-      "requirements": "⚠ Defaults to claude-haiku-4-5 for LLM ops (requires ANTHROPIC_API_KEY; or set MEMOIR_LLM_MODEL for OpenAI/other). pip install memoir-ai or /plugin marketplace add zhangfengcdt/memoir. uv required for zero-config plugin install.",
+      "requirements": "Defaults to claude-haiku-4-5 for LLM ops (requires ANTHROPIC_API_KEY; or set MEMOIR_LLM_MODEL for OpenAI/other). pip install memoir-ai or /plugin marketplace add zhangfengcdt/memoir. uv required for zero-config plugin install.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2904,7 +2973,8 @@
         "decision": "watch",
         "rationale": "branch-aware memory and cache-preserving injection are novel; needs community validation"
       },
-      "decisionRule": "Branch-aware memory is unique in this comparison: git checkout changes which memories are injected. Token rent insight: CLAUDE.md as global store invalidates prefix cache on every update - memoir injects only relevant memories. 2 stars but 145 commits and working Claude Code plugin. /plugin marketplace add zhangfengcdt/memoir for zero-config install."
+      "decisionRule": "Branch-aware memory is unique in this comparison: git checkout changes which memories are injected. Token rent insight: CLAUDE.md as global store invalidates prefix cache on every update - memoir injects only relevant memories. 2 stars but 145 commits and working Claude Code plugin. /plugin marketplace add zhangfengcdt/memoir for zero-config install.",
+      "requiresExternal": true
     },
     {
       "id": "graperoot-codex-cli-compact",
@@ -2918,7 +2988,7 @@
           "codebase-memory-mcp",
           "codegraph"
         ],
-        "note": "⚠ graph_read/graph_retrieve overlap conceptually with codegraph/codebase-memory-mcp but different MCP tool names - low hard-conflict risk. Running GrapeRoot alongside another code nav MCP is redundant (both pre-load codebase context). Pick one code nav approach."
+        "note": "graph_read/graph_retrieve overlap conceptually with codegraph/codebase-memory-mcp but different MCP tool names - low hard-conflict risk. Running GrapeRoot alongside another code nav MCP is redundant (both pre-load codebase context). Pick one code nav approach."
       },
       "runtime": {
         "languages": [
@@ -2927,7 +2997,7 @@
         ],
         "detail": "Python + Shell (launcher)"
       },
-      "requirements": "⚠ Core graph engine (graperoot PyPI package) is PROPRIETARY - launcher is Apache 2.0 but the intelligence that does the actual work is closed-source. Python 3.10+, Node.js 18+, Claude Code or Codex CLI. curl one-liner install. No self-host of full stack possible.",
+      "requirements": "Core graph engine (graperoot PyPI package) is PROPRIETARY - launcher is Apache 2.0 but the intelligence that does the actual work is closed-source. Python 3.10+, Node.js 18+, Claude Code or Codex CLI. curl one-liner install. No self-host of full stack possible.",
       "licence": {
         "spdx": "Apache-2.0 (launcher) + Proprietary (graperoot PyPI)"
       },
@@ -2945,7 +3015,8 @@
         "decision": "add",
         "rationale": "compelling benchmarks; proprietary core is main caveat"
       },
-      "decisionRule": "41% cheaper, 39% fewer turns in benchmarks (80+ prompts). Use dgc instead of claude. Proprietary graperoot engine: no source access, no self-host, commercial features planned (graperoot.dev/graperoot-pro). All project data stays local. Pro tier available. Launcher Apache 2.0 is misleading - the core is not open source."
+      "decisionRule": "41% cheaper, 39% fewer turns in benchmarks (80+ prompts). Use dgc instead of claude. Proprietary graperoot engine: no source access, no self-host, commercial features planned (graperoot.dev/graperoot-pro). All project data stays local. Pro tier available. Launcher Apache 2.0 is misleading - the core is not open source.",
+      "requiresExternal": true
     },
     {
       "id": "claude-mem",
@@ -2971,7 +3042,7 @@
         ],
         "detail": "TypeScript (Bun + Node.js)"
       },
-      "requirements": "⚠ Compression step uses Claude agent SDK (calls Claude API/session). Auto-installs Bun and uv (Python, for vector search) if missing. Node.js 18+. npx claude-mem install or /plugin marketplace add thedotmack/claude-mem - npm install -g alone does NOT register hooks.",
+      "requirements": "Compression step uses Claude agent SDK (calls Claude API/session). Auto-installs Bun and uv (Python, for vector search) if missing. Node.js 18+. npx claude-mem install or /plugin marketplace add thedotmack/claude-mem - npm install -g alone does NOT register hooks.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -2992,7 +3063,8 @@
         "decision": "add",
         "rationale": "most popular and most Claude Code-native memory tool"
       },
-      "decisionRule": "77k stars - largest memory tool in this comparison, 2nd largest tool overall after caveman. Trendshift-validated, Awesome Claude Code listed. 3-layer search→timeline→get_observations workflow is the most deliberate token-efficiency design among memory tools here. Web viewer at localhost:37777. Note: README discloses a third-party $CMEM Solana token embraced by the author - unrelated to tool function but worth knowing. Install via npx claude-mem install, not npm install -g."
+      "decisionRule": "77k stars - largest memory tool in this comparison, 2nd largest tool overall after caveman. Trendshift-validated, Awesome Claude Code listed. 3-layer search→timeline→get_observations workflow is the most deliberate token-efficiency design among memory tools here. Web viewer at localhost:37777. Note: README discloses a third-party $CMEM Solana token embraced by the author - unrelated to tool function but worth knowing. Install via npx claude-mem install, not npm install -g.",
+      "requiresExternal": true
     },
     {
       "id": "claude-smart",
@@ -3010,7 +3082,7 @@
           "memoir",
           "mem0"
         ],
-        "note": "⛔ Direct competitor to claude-mem - README benchmarks explicitly against it, do not run both. Overlaps mem0/cognee/TrueMemory/gitmem/memoir (all agent memory persistence - pick one fact-memory tool). ACE (agentic-context-engine) is stackable (ACE = strategy memory, claude-smart = skill/rule memory - different abstractions)."
+        "note": "Direct competitor to claude-mem - README benchmarks explicitly against it, do not run both. Overlaps mem0/cognee/TrueMemory/gitmem/memoir (all agent memory persistence - pick one fact-memory tool). ACE (agentic-context-engine) is stackable (ACE = strategy memory, claude-smart = skill/rule memory - different abstractions)."
       },
       "runtime": {
         "languages": [
@@ -3037,7 +3109,8 @@
         "decision": "add",
         "rationale": "724 stars, self-tuning skill library, no external API; pick over claude-mem if you want rule-following not just fact storage"
       },
-      "decisionRule": "724 stars, 83 forks - real organic growth (217 April → 724 July). Direct benchmark vs claude-mem: ~2.7x higher quality (EXPERIMENT.md - review methodology). Key advantage: skills self-tune continuously (merge, archive, supersede) rather than just accumulating. No LLM API for embeddings unlike most memory tools. Reflexio engine also has standalone uses beyond claude-smart. CONFLICT: do not run alongside claude-mem - direct competitors."
+      "decisionRule": "724 stars, 83 forks - real organic growth (217 April → 724 July). Direct benchmark vs claude-mem: ~2.7x higher quality (EXPERIMENT.md - review methodology). Key advantage: skills self-tune continuously (merge, archive, supersede) rather than just accumulating. No LLM API for embeddings unlike most memory tools. Reflexio engine also has standalone uses beyond claude-smart. CONFLICT: do not run alongside claude-mem - direct competitors.",
+      "requiresExternal": false
     },
     {
       "id": "truememory",
@@ -3063,7 +3136,7 @@
         ],
         "detail": "Python"
       },
-      "requirements": "Edge/Base tiers: zero external calls, no API keys, runs on 512MB RAM. ⚠ Pro tier requires LLM API key (Anthropic, OpenRouter, or OpenAI) for HyDE query expansion, 4GB+ RAM, ~1.5-2.5GB one-time model download. curl install.sh (auto-installs uv + managed Python 3.12, never touches system Python) or pip install truememory.",
+      "requirements": "Edge/Base tiers: zero external calls, no API keys, runs on 512MB RAM. Pro tier requires LLM API key (Anthropic, OpenRouter, or OpenAI) for HyDE query expansion, 4GB+ RAM, ~1.5-2.5GB one-time model download. curl install.sh (auto-installs uv + managed Python 3.12, never touches system Python) or pip install truememory.",
       "licence": {
         "spdx": "AGPL-3.0 + commercial"
       },
@@ -3080,7 +3153,8 @@
         "decision": "best",
         "rationale": "best zero-cost, zero-cloud option in this layer"
       },
-      "decisionRule": "⚠ CRITICAL: Licence changed from Apache-2.0 to AGPL-3.0. Commercial use now requires a separate paid licence (was \"free for personal and commercial use\"). New paper: arXiv:2605.04897 \"Storage Is Not Memory\". | Only memory tool in this comparison with a genuinely zero-cost, zero-cloud, zero-API-key tier (Edge/Base) at this benchmark quality. Novel BEAM-1M/10M benchmark tests memory beyond any model's context window - no other memory tool here is tested at that scale. Directives feature is a per-memory alternative to global CLAUDE.md instructions. curl -LsSf https://raw.githubusercontent.com/buildingjoshbetter/TrueMemory/main/install.sh | sh. ⚠ Stale-fetch warning: GitHub page render showed 29 stars/v0.3.0 - live search confirmed 311 stars/v0.7.1.2+, a substantially evolved feature set."
+      "decisionRule": "CRITICAL: Licence changed from Apache-2.0 to AGPL-3.0. Commercial use now requires a separate paid licence (was \"free for personal and commercial use\"). New paper: arXiv:2605.04897 \"Storage Is Not Memory\". | Only memory tool in this comparison with a genuinely zero-cost, zero-cloud, zero-API-key tier (Edge/Base) at this benchmark quality. Novel BEAM-1M/10M benchmark tests memory beyond any model's context window - no other memory tool here is tested at that scale. Directives feature is a per-memory alternative to global CLAUDE.md instructions. curl -LsSf https://raw.githubusercontent.com/buildingjoshbetter/TrueMemory/main/install.sh | sh. Stale-fetch warning: GitHub page render showed 29 stars/v0.3.0 - live search confirmed 311 stars/v0.7.1.2+, a substantially evolved feature set.",
+      "requiresExternal": false
     },
     {
       "id": "agentic-context-engine-ace",
@@ -3107,7 +3181,7 @@
         ],
         "detail": "Python"
       },
-      "requirements": "⚠ Requires LLM API key for every learning step (Reflector + SkillManager), no offline tier - 100+ providers via LiteLLM. Recursive Reflector executes Python code in a sandboxed environment. uv add ace-framework, then ace setup for interactive config.",
+      "requirements": "Requires LLM API key for every learning step (Reflector + SkillManager), no offline tier - 100+ providers via LiteLLM. Recursive Reflector executes Python code in a sandboxed environment. uv add ace-framework, then ace setup for interactive config.",
       "licence": {
         "spdx": "MIT"
       },
@@ -3116,7 +3190,7 @@
       "activity": {
         "releaseCount": 32,
         "latestVersion": "v0.12.0",
-        "notes": "275 forks, 32 releases, v0.12.0 May 7 2026, 931 commits, 77 issues, 22 PRs - very active, real organic growth (282★ Dec 2025 → 2.2k★ now)"
+        "notes": "275 forks, 32 releases, v0.12.0 May 7 2026, 931 commits, 77 issues, 22 PRs - very active, real organic growth (282Dec 2025 → 2.2know)"
       },
       "activityStatus": {
         "band": "active",
@@ -3126,7 +3200,8 @@
         "decision": "add",
         "rationale": "different sub-category (strategy memory vs fact memory), well-validated mechanism"
       },
-      "decisionRule": "Benchmarked: 49% token reduction on browser automation (10-run learning curve), 2x consistency on Tau2 airline benchmark with only 15 learned strategies, real-world Claude Code demo translated 14k lines Python→TypeScript autonomously for ~$1.50 learning cost with zero build errors. Based on a real arXiv paper (2510.04618). Has a dedicated ClaudeCode runner class for direct Claude Code integration. Optional hosted dashboard at kayba.ai is freemium, not required."
+      "decisionRule": "Benchmarked: 49% token reduction on browser automation (10-run learning curve), 2x consistency on Tau2 airline benchmark with only 15 learned strategies, real-world Claude Code demo translated 14k lines Python→TypeScript autonomously for ~$1.50 learning cost with zero build errors. Based on a real arXiv paper (2510.04618). Has a dedicated ClaudeCode runner class for direct Claude Code integration. Optional hosted dashboard at kayba.ai is freemium, not required.",
+      "requiresExternal": true
     },
     {
       "id": "mem",
@@ -3173,7 +3248,8 @@
         "decision": "watch",
         "rationale": "too early, but a clean minimalist counterpoint to increasingly complex memory tools"
       },
-      "decisionRule": "Zero LLM calls, zero infrastructure, zero cost - the most minimal design in the entire Agent memory persistence layer, useful as a baseline to compare against heavier tools like cognee or graphiti. Cross-project single journal (not per-repo) is a genuine differentiator most other memory tools in this comparison lack. Honest self-caveat in the README about auto-commit: \"a backup you must remember isn't a backup.\" Worth revisiting once any community signal appears - currently zero adoption evidence."
+      "decisionRule": "Zero LLM calls, zero infrastructure, zero cost - the most minimal design in the entire Agent memory persistence layer, useful as a baseline to compare against heavier tools like cognee or graphiti. Cross-project single journal (not per-repo) is a genuine differentiator most other memory tools in this comparison lack. Honest self-caveat in the README about auto-commit: \"a backup you must remember isn't a backup.\" Worth revisiting once any community signal appears - currently zero adoption evidence.",
+      "requiresExternal": false
     },
     {
       "id": "curion",
@@ -3202,7 +3278,7 @@
         ],
         "detail": "TypeScript (99.8%)"
       },
-      "requirements": "⚠ Extraction-only: requires LLM API key (OpenAI-compatible default, or Anthropic) for controller-normalization step - CURION_PRIMARY_API_KEY/BASE_URL/MODEL. Node.js >= 22. npm install -g @geanatz/curion, then claude mcp add --scope project --transport stdio curion -- curion.",
+      "requirements": "Extraction-only: requires LLM API key (OpenAI-compatible default, or Anthropic) for controller-normalization step - CURION_PRIMARY_API_KEY/BASE_URL/MODEL. Node.js >= 22. npm install -g @geanatz/curion, then claude mcp add --scope project --transport stdio curion -- curion.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -3221,7 +3297,8 @@
         "decision": "watch",
         "rationale": "too early, but disciplined design (frozen minimal API, safety-filtered writes)"
       },
-      "decisionRule": "Explicit API-freeze commitment at v0.3.6 is unusual - most memory tools in this comparison are still expanding their tool surface. Raw-input-never-persisted design (normalize + safety-filter before write, reject silently drops the call) is a distinctive privacy mechanism not described by any other memory tool here. Cross-project semantic search with a per-project private opt-out is a genuinely useful default for anyone running curion across multiple repos on one machine. Contrast with mem (karmugilen/mem): both minimal, but mem is zero-LLM/zero-cost while curion needs an API key for its normalization layer in exchange for safety filtering and semantic recall."
+      "decisionRule": "Explicit API-freeze commitment at v0.3.6 is unusual - most memory tools in this comparison are still expanding their tool surface. Raw-input-never-persisted design (normalize + safety-filter before write, reject silently drops the call) is a distinctive privacy mechanism not described by any other memory tool here. Cross-project semantic search with a per-project private opt-out is a genuinely useful default for anyone running curion across multiple repos on one machine. Contrast with mem (karmugilen/mem): both minimal, but mem is zero-LLM/zero-cost while curion needs an API key for its normalization layer in exchange for safety filtering and semantic recall.",
+      "requiresExternal": true
     },
     {
       "id": "ponytail",
@@ -3261,7 +3338,8 @@
         "decision": "add",
         "rationale": "distinctive mechanism, exceptional velocity, very young"
       },
-      "decisionRule": "⚠ Only 8 days old at time of assessment - by far the youngest tool at this star count in the comparison. Multiple independent sources confirm organic growth (YouTube Dev Tools Weekly, EveryDev.ai, OpenAgentSkill audit: 96/100 security, 100/100 maintenance) - not a star-farm pattern. Notable intellectual honesty: README explicitly corrects an earlier inflated 80-94% single-shot benchmark after a GitHub issue (#126) pointed out it compared against a padded conversational baseline; current agentic benchmark is the defensible number. /plugin marketplace add DietrichGebert/ponytail then /plugin install ponytail@ponytail."
+      "decisionRule": "Only 8 days old at time of assessment - by far the youngest tool at this star count in the comparison. Multiple independent sources confirm organic growth (YouTube Dev Tools Weekly, EveryDev.ai, OpenAgentSkill audit: 96/100 security, 100/100 maintenance) - not a star-farm pattern. Notable intellectual honesty: README explicitly corrects an earlier inflated 80-94% single-shot benchmark after a GitHub issue (#126) pointed out it compared against a padded conversational baseline; current agentic benchmark is the defensible number. /plugin marketplace add DietrichGebert/ponytail then /plugin install ponytail@ponytail.",
+      "requiresExternal": false
     },
     {
       "id": "contextforge",
@@ -3303,7 +3381,8 @@
         "decision": "watch",
         "rationale": "released yesterday, 0 stars, but local-model-first design is genuinely differentiated"
       },
-      "decisionRule": "Only tool in this comparison making Claude Code a first-class local-model client - cf wrap claude lets you keep the Claude Code UX while routing to a fully local Ollama model, zero Anthropic API key needed. Benchmark is a single honest case study (66% fewer round-trips, 72.8% fewer input tokens vs passthrough), not yet a full suite - SWE-bench runs explicitly listed as in-development in the roadmap. Disclosed known issue: token savings can be over-reported on failed upstream requests (e.g. bad API key) since compression is logged regardless of whether the request succeeded. Claude Code fully supported; Codex/Gemini CLI experimental. Revisit once community adoption and the promised benchmark suite land."
+      "decisionRule": "Only tool in this comparison making Claude Code a first-class local-model client - cf wrap claude lets you keep the Claude Code UX while routing to a fully local Ollama model, zero Anthropic API key needed. Benchmark is a single honest case study (66% fewer round-trips, 72.8% fewer input tokens vs passthrough), not yet a full suite - SWE-bench runs explicitly listed as in-development in the roadmap. Disclosed known issue: token savings can be over-reported on failed upstream requests (e.g. bad API key) since compression is logged regardless of whether the request succeeded. Claude Code fully supported; Codex/Gemini CLI experimental. Revisit once community adoption and the promised benchmark suite land.",
+      "requiresExternal": false
     }
   ]
 }

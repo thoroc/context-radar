@@ -129,6 +129,14 @@
   opacity: 1;
 }
 
+/* One shared keyboard focus ring for every page and control, so focus is never
+   left on the browser default. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Reduced-motion is not optional: collapse every transition/animation to a
    near-instant crossfade for viewers who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {

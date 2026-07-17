@@ -12,6 +12,6 @@ export const toolCell = (t: Tool): string => {
   html += `<span class="${licClass}">${escapeHtml(t.licence.spdx)}</span>`;
   html += `<span class="stars">★ ${fmtStars(t.stars)}</span>`;
   html += `<a class="gh" href="${t.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
-  if (needsExternal(t)) html += `<div class="reqwarn">⚠ needs model or infra</div>`;
+  if (needsExternal(t)) html += `<div class="reqwarn">needs model or infra</div>`;
   return html;
 };

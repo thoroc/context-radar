@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MCP Stack Builder - Context Reduction for Claude Code</title>
+    <title>Stack builder - Context Radar</title>
     <link rel="stylesheet" href="./stack-builder/stack-builder.css" />
   </head>
   <body>
@@ -23,11 +23,12 @@
     </div>
     <header>
       <div class="hdr-left">
-        <h1>MCP Stack Builder - Claude Code Context Reduction</h1>
+        <h1>Stack builder</h1>
         <p>
-          62 tools · 18 layers · 29-06-2026 · Build a conflict-free stack from scratch.<br />
-          <strong>⚠ orange</strong> = model/API calls or infra required &nbsp;·&nbsp; <strong>★ rec</strong> =
-          recommended starting point
+          A curated builder set of 62 tools across 18 layers. Add tools to assemble a conflict-free stack and watch
+          layer coverage, conflicts and community stars update.<br />
+          A tinted requirements line flags tools needing model or API calls or infra; the <strong>rec</strong> badge
+          marks a recommended starting point.
         </p>
       </div>
       <div class="hdr-actions">
@@ -72,10 +73,10 @@
           </div>
         </div>
         <div class="legend">
-          <strong>★ rec</strong> - recommended for most users<br />
+          <strong>rec</strong> - recommended for most users<br />
           <strong>built-in</strong> - already in Claude Code<br />
-          <span style="color: var(--red-mid)">⛔ red</span> - MCP tool name collision (hard conflict)<br />
-          <span style="color: var(--dot-slowing)">⚠ orange req</span> - model API calls or infra required
+          <span style="color: var(--red-mid)">Red disabled card</span> - MCP tool name collision (hard conflict)<br />
+          <span style="color: var(--dot-slowing)">Tinted req line</span> - model or API calls or infra required
         </div>
         <div class="stack-footer">
           <button class="accent" id="btn-export"><i class="ti ti-download"></i> Export stack as Markdown</button>

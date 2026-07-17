@@ -11,6 +11,11 @@ freshness-report.json
 # Vitest coverage output (text reporters print to stdout; any file reporters land here).
 coverage/
 
+# Project-local scratch for temp scripts and artifacts. Everything transient
+# stays inside the repo here (never /tmp or a system temp dir); promote a script
+# to scripts/ once it is used more than twice.
+tmp/
+
 # OS and editor cruft
 .DS_Store
 *.swp

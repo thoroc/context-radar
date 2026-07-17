@@ -4,15 +4,6 @@ import type { ActivityBand, ConflictSeverity, RuntimeLanguage, VerdictDecision }
 // the "dedicated const/type modules" convention, so the function modules stay
 // pure single-purpose units.
 
-export const BAND_EMOJI: Record<ActivityBand, string> = {
-  active: "🟢",
-  stable: "🟡",
-  slowing: "🟠",
-  early: "🔴",
-  dormant: "⚫",
-  none: "-",
-};
-
 export const BAND_CLASS: Record<ActivityBand, string> = {
   active: "a-hyper",
   stable: "a-stable",
@@ -43,8 +34,8 @@ export const DECISION_CLASS: Record<VerdictDecision, string> = {
 };
 
 export const SEVERITY_LABEL: Record<ConflictSeverity, string> = {
-  hard: "⛔ HARD",
-  soft: "⚠ SOFT",
+  hard: "HARD",
+  soft: "SOFT",
   "either-or": "Either/or",
   stackable: "Stackable",
   none: "-",

@@ -14,7 +14,7 @@ describe("toolCell", () => {
   });
 
   test("flags tools that need external infra", () => {
-    expect(toolCell(makeTool({ requirements: "⚠ needs model" }))).toContain("needs model or infra");
-    expect(toolCell(makeTool({ requirements: "none" }))).not.toContain("needs model or infra");
+    expect(toolCell(makeTool({ requiresExternal: true }))).toContain("needs model or infra");
+    expect(toolCell(makeTool({ requiresExternal: false }))).not.toContain("needs model or infra");
   });
 });

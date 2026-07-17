@@ -1,8 +1,6 @@
 import { esc } from "./esc";
 
-export const requirementsBlock = (requirements: string): string => {
-  const warn = requirements.trimStart().startsWith("⚠");
-  const cls = warn ? "req-warn" : "req-ok";
-  const mark = warn ? "⚠" : "✓";
-  return `<div class="${cls}">${mark} ${esc(requirements)}</div>`;
+export const requirementsBlock = (requirements: string, requiresExternal: boolean): string => {
+  const cls = requiresExternal ? "req-warn" : "req-ok";
+  return `<div class="${cls}">${esc(requirements)}</div>`;
 };

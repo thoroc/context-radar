@@ -22,7 +22,7 @@ export const renderPanels = (conf: typeof CONFLICTS, warns: StackTool[], covered
   el("sCov").textContent = `${covered} / ${TOTAL_LAYERS}`;
   el("bCov").style.transform = `scaleX(${covered / TOTAL_LAYERS})`;
   el("sConf").textContent =
-    conf.length === 0 ? "none ✓" : `${conf.length} conflict${conf.length > 1 ? "s" : ""}`;
+    conf.length === 0 ? "none" : `${conf.length} conflict${conf.length > 1 ? "s" : ""}`;
   el("sConf").style.color = conf.length > 0 ? "var(--red-mid)" : "var(--teal)";
   el("bConf").style.transform = `scaleX(${Math.min(conf.length * 0.34, 1)})`;
   el("sStars").textContent = totalStars();

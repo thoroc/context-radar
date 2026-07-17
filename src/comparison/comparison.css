@@ -110,8 +110,10 @@ select {
   background-repeat: no-repeat;
 }
 select:focus {
-  outline: none;
   border-color: var(--accent-border);
+}
+select:focus:not(:focus-visible) {
+  outline: none;
 }
 .ms {
   position: relative;

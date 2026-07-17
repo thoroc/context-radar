@@ -15,11 +15,11 @@ export const buildCard = (t: StackTool, isSel: boolean, isConf: boolean): HTMLDi
       toggle(t.id);
     }
   };
-  const reqCls = t.req.startsWith("⚠") ? "treq treq-warn" : "treq treq-ok";
+  const reqCls = t.warn ? "treq treq-warn" : "treq treq-ok";
   const badge = t.free
     ? '<span class="tc-badge tb-free">built-in</span>'
     : t.rec
-      ? '<span class="tc-badge tb-rec">★ rec</span>'
+      ? '<span class="tc-badge tb-rec">rec</span>'
       : "";
   const check = isSel
     ? '<i class="ti ti-check" style="color:var(--purple);font-size:13px;margin-left:4px"></i>'

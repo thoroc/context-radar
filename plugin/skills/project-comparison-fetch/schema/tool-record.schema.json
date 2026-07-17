@@ -226,6 +226,10 @@
     "requirements": {
       "type": "string"
     },
+    "requiresExternal": {
+      "default": false,
+      "type": "boolean"
+    },
     "licence": {
       "type": "object",
       "properties": {
@@ -566,6 +570,7 @@
     "conflict",
     "runtime",
     "requirements",
+    "requiresExternal",
     "licence",
     "stars",
     "trend",
