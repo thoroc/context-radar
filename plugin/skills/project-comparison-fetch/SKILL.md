@@ -47,6 +47,16 @@ Gives number of releases, latest version, release cadence, and changelog highlig
 
 If stars or version suggest significant growth since last assessment, fetch `blob/main/CHANGELOG.md` and look for new features, licence changes, breaking changes, and new integrations.
 
+### Step 5 — Open the source for any claim you will mark `confirmed`
+
+The repo page proves a tool exists; only the source proves what it does. For every claim destined for `status: "confirmed"` (a benchmark, a headline capability, a conflict assertion), open the actual file and cite it at a pinned commit SHA and line range:
+
+```
+web_fetch(url: "https://github.com/<owner>/<repo>/blob/<sha>/<path>#L<start>-L<end>")
+```
+
+Copy the cited text verbatim into the evidence `quote`. Use the commit SHA on the blob page (press `y` on GitHub to pin the permalink), never `main`. A CI gate re-fetches every `source-code` citation at its SHA and fails if the quote is not there, so a citation written from memory or lifted from a second-hand analysis will not pass. See [Source verification](references/source-verification.md).
+
 ---
 
 ## Code-Beats-Docs Rule
@@ -69,20 +79,24 @@ Verdict-bearing claims carry cited sources in the record itself, so the factual 
 
 **Where evidence lives**:
 
-- On the sub-object it backs: `conflict.evidence`, `activity.evidence`, `licence.evidence`, `runtime.evidence`.
+- On the sub-object it backs: `verdict.evidence`, `conflict.evidence`, `activity.evidence`, `licence.evidence`, `runtime.evidence`.
 - Standalone benchmark / feature claims that map to no field go in `extraClaims[]` (`{ kind: benchmark|feature, label, statement, evidence, proofLedger? }`).
 
 Each `evidence` block is `{ status, sources: [{ url, quote, checkedOn, evidenceType }] }`:
 
 - `status`: `confirmed | caveated | refuted | unverified`.
 - `evidenceType` per source: `source-code | official-docs | readme | release | search | third-party`.
-- `url` must be a **commit-SHA permalink** (e.g. `.../blob/<sha>/path#Lnn`), never a moving branch — line references into `main` rot on any refactor. `quote` holds the cited text verbatim. `checkedOn` is ISO `YYYY-MM-DD`.
+- `url` must be a **commit-SHA permalink**, never a moving branch — line references into `main` rot on any refactor. A `source-code` source must additionally pin a **line range** (`.../blob/<sha>/path#L42` or `#L42-L60`) and is host-aware (GitHub `/blob/`, GitLab `/-/blob/`, Codeberg `/src/commit/`); a whole-file or licence claim has no single line and belongs under `official-docs`/`release`. `quote` holds the cited text verbatim. `checkedOn` is ISO `YYYY-MM-DD`. See [Source verification](references/source-verification.md).
 
 **Enforced rules** (validation fails otherwise):
 
 - A `confirmed` claim needs at least one `source-code`, `official-docs`, or `release` source; a README-only claim tops out at `caveated`.
 - A claim that is not `unverified` must cite at least one source.
+- A `source-code` source must be a commit-SHA blob permalink with a line anchor; a whole-file or licence claim is `official-docs`/`release`, not `source-code`.
+- A `best`/`either-or` verdict may not carry `refuted` or `unverified` evidence, so an honest evidence downgrade fails validation rather than silently backing a recommendation.
 - An `extraClaims` entry with `kind: benchmark` must carry a `proofLedger` (`PROVEN | SUPPORTED | OPEN | REJECTED`) — see [Benchmark verification and claim pressure-test](references/benchmark-verification.md).
+
+Cross-field rules above are enforced at `mise run validate`, not in the published JSON Schema (`z.toJSONSchema` drops them). A separate network gate, `mise run evidence:verify` (CI: `evidence.yml`), re-fetches every `source-code` citation at its SHA and fails if the quote is not there.
 
 Evidence is **not** required across every tool. It is required for verdict-bearing claims on new and re-assessed tools, and backfilled opportunistically. Never present an unsourced verdict claim as sourced. The MCP Stack Builder dataset (`src/stack-builder/stack-data.ts`) is separate and carries no evidence.
 
@@ -168,6 +182,7 @@ Both the comparison HTML and the MCP Stack Builder SPA assume **no prior install
 | [Fetch conflict resolution](references/fetch-conflict-resolution.md) | A fetch and a search disagree on stars, a repo may have moved owner, or batched searches return noise |
 | [LLM dependency classification](references/llm-dependency-classification.md) | A tool mentions AI/LLM calls and you must set its dependency tier |
 | [Benchmark verification and claim pressure-test](references/benchmark-verification.md) | A tool claims a benchmark score or any headline percentage |
+| [Source verification](references/source-verification.md) | Marking a claim `confirmed` from source: building the SHA permalink, the line-anchor rule, and the verbatim-match gate |
 | [Data shape contract and file locations](references/data-shape-contract.md) | Writing to the store, adding or renaming a field, or you need the file map |
 | [Layer assignment guide](references/layer-guide.md) | Choosing the `layer` value |
 | [Verdict guide](references/verdict-guide.md) | Choosing the `verdict.decision` value |
