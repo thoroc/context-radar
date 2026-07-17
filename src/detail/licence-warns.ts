@@ -1,4 +1,4 @@
-import type { Tool } from "../../src/lib";
+import type { Tool } from "../lib";
 
 // Non-permissive licence identifiers that get a warning treatment, matching the
 // comparison table.

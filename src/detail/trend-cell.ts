@@ -1,4 +1,4 @@
-import { trendText } from "../../src/lib";
+import { trendText } from "../lib";
 import { esc } from "./esc";
 
 export const trendCell = (trend: number | null): string => {

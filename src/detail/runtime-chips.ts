@@ -1,4 +1,4 @@
-import { LANG_BADGE, type Tool } from "../../src/lib";
+import { LANG_BADGE, type Tool } from "../lib";
 import { esc } from "./esc";
 
 export const runtimeChips = (runtime: Tool["runtime"]): string => {

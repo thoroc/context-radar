@@ -1,4 +1,4 @@
-import type { Evidence, Tool } from "../../src/lib";
+import type { Evidence, Tool } from "../lib";
 import { esc } from "./esc";
 import { evidenceRows } from "./evidence-rows";
 
