@@ -40,6 +40,30 @@ a {
   color: var(--text);
   font-weight: 600;
 }
+/* On-page verdict key: the pills are defined here too, not only on the landing. */
+.vkey {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.vkey > summary {
+  cursor: pointer;
+  width: fit-content;
+  color: var(--text2);
+  font-weight: 600;
+}
+.vkey ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 10px;
+}
+.vkey li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--text2);
+}
 
 /* Toolbar */
 .toolbar {
@@ -250,6 +274,21 @@ thead th.sort-asc::after {
 thead th.sort-desc::after {
   content: "\2193";
   color: var(--accent);
+}
+/* Sortable headers are <button>s for keyboard operability; strip the button
+   chrome so they read as the header label they replace. */
+.th-sort {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
 }
 .lh td {
   background: var(--accent-bg);

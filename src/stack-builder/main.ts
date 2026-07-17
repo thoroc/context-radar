@@ -4,6 +4,11 @@ import { clearAll, exportMd, loadRec, setFilter } from "./actions";
 import { FILTERS } from "./constants";
 import { el } from "./dom";
 import { render } from "./render";
+import { LAYERS, TOTAL_LAYERS } from "./stack-data";
+
+// Derive the header counts from the data so they can never drift from the catalogue.
+el("sb-tools").textContent = String(LAYERS.reduce((n, l) => n + l.tools.length, 0));
+el("sb-layers").textContent = String(TOTAL_LAYERS);
 
 // Entry point: build the filter chips, wire the controls, and do the first paint.
 for (const f of FILTERS) {

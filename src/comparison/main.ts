@@ -17,16 +17,22 @@ el("tb").addEventListener("click", (e) => {
 });
 setupMultiselect("fv", "All verdicts");
 setupMultiselect("fa", "All activity");
+// Sortable headers are real <button>s so they are keyboard-operable; the parent
+// <th> carries aria-sort so assistive tech announces the current sort.
 for (const th of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")) {
-  th.addEventListener("click", () => {
+  th.querySelector("button")?.addEventListener("click", () => {
     const c = th.dataset.col ?? "";
     if (sortState.col === c) sortState.dir *= -1;
     else {
       sortState.col = c;
       sortState.dir = 1;
     }
-    for (const t of document.querySelectorAll("th")) t.classList.remove("sort-asc", "sort-desc");
+    for (const t of document.querySelectorAll<HTMLTableCellElement>("th[data-col]")) {
+      t.classList.remove("sort-asc", "sort-desc");
+      t.removeAttribute("aria-sort");
+    }
     th.classList.add(sortState.dir === 1 ? "sort-asc" : "sort-desc");
+    th.setAttribute("aria-sort", sortState.dir === 1 ? "ascending" : "descending");
     render();
   });
 }

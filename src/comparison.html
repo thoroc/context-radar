@@ -25,6 +25,18 @@
     <div class="titleband">
       <h1>Context Reduction Tools</h1>
       <p class="sub" id="summary"></p>
+      <details class="vkey">
+        <summary>Verdict key</summary>
+        <ul>
+          <li><span class="verdict v-best">Best in class</span> Top pick for its layer.</li>
+          <li><span class="verdict v-add">Add</span> Worth adding to most stacks.</li>
+          <li><span class="verdict v-cond">Add if you use</span> Add only if you use that workflow.</li>
+          <li><span class="verdict v-either">Either/or</span> Pick one of a mutually exclusive set.</li>
+          <li><span class="verdict v-watch">Watch</span> Promising, but early or unproven.</li>
+          <li><span class="verdict v-watch">Reference only</span> Not installable; a discovery resource.</li>
+          <li><span class="verdict v-drop">Drop</span> Superseded or not worth the cost.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="toolbar">
@@ -117,12 +129,20 @@
       <table>
         <thead>
           <tr>
-            <th data-col="tool" style="width: 20%">Tool</th>
-            <th data-col="whatItDoes" style="width: 24%">What it does</th>
-            <th data-col="conflict" style="width: 18%">Conflict / overlap</th>
-            <th data-col="activityStatus" style="width: 11%">Activity</th>
-            <th data-col="verdict" style="width: 9%">Verdict</th>
-            <th data-col="decisionRule" style="width: 18%">Decision rule</th>
+            <th data-col="tool" style="width: 20%"><button type="button" class="th-sort">Tool</button></th>
+            <th data-col="whatItDoes" style="width: 24%">
+              <button type="button" class="th-sort">What it does</button>
+            </th>
+            <th data-col="conflict" style="width: 18%">
+              <button type="button" class="th-sort">Conflict / overlap</button>
+            </th>
+            <th data-col="activityStatus" style="width: 11%">
+              <button type="button" class="th-sort">Activity</button>
+            </th>
+            <th data-col="verdict" style="width: 9%"><button type="button" class="th-sort">Verdict</button></th>
+            <th data-col="decisionRule" style="width: 18%">
+              <button type="button" class="th-sort">Decision rule</button>
+            </th>
           </tr>
         </thead>
         <tbody id="tb"></tbody>
