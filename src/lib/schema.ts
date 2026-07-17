@@ -259,8 +259,28 @@ export const verdictSchema = z
     decision: verdictDecisionSchema,
     /** The reasoning that followed the decision, preserved verbatim. */
     rationale: z.string(),
+    /**
+     * Source-verified backing for the decision. Optional so the 79 legacy records
+     * stay valid; Phase 2 backfills it for the tools behind published recommendations.
+     */
+    evidence: evidenceSchema.optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((v, ctx) => {
+    // A recommendation-grade verdict cannot stand on evidence we have refuted or
+    // never verified. This routes an honest evidence downgrade back to failing here,
+    // rather than silently keeping a "best" call behind a weak citation.
+    if (
+      (v.decision === "best" || v.decision === "either-or") &&
+      (v.evidence?.status === "refuted" || v.evidence?.status === "unverified")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "a 'best'/'either-or' verdict may not carry 'refuted' or 'unverified' evidence",
+        path: ["evidence", "status"],
+      });
+    }
+  });
 
 export const toolSchema = z
   .object({

@@ -453,6 +453,63 @@
         },
         "rationale": {
           "type": "string"
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "confirmed",
+                "caveated",
+                "refuted",
+                "unverified"
+              ]
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "quote": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "checkedOn": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "evidenceType": {
+                    "type": "string",
+                    "enum": [
+                      "source-code",
+                      "official-docs",
+                      "readme",
+                      "release",
+                      "search",
+                      "third-party"
+                    ]
+                  }
+                },
+                "required": [
+                  "url",
+                  "quote",
+                  "checkedOn",
+                  "evidenceType"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "status",
+            "sources"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
