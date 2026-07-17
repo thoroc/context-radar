@@ -332,7 +332,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "covers all tool output + session continuity"
+        "rationale": "covers all tool output + session continuity",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/mksglu/context-mode/blob/c13d6be3c59706834ecd19d48f21c49b32cbb466/src/executor.ts#L284-L287",
+              "quote": "    const tmpDir = mkdtempSync(join(OS_TMPDIR, \".ctx-mode-\"));\n\n    try {\n      const filePath = this.#writeScript(tmpDir, code, language);",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/mksglu/context-mode/blob/c13d6be3c59706834ecd19d48f21c49b32cbb466/src/store.ts#L475",
+              "quote": "      CREATE VIRTUAL TABLE IF NOT EXISTS chunks USING fts5(",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Run alongside your chosen shell tool (RTK/sqz/lean-ctx). Handles web fetches, API dumps, Playwright plus session continuity. 17 platforms, v1.0.169.",
       "requiresExternal": false
@@ -774,7 +791,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "unique on-demand doc indexing"
+        "rationale": "unique on-demand doc indexing",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/jgravelle/jdocmunch-mcp/blob/d3fd633a60c76ac67a5acf86410f9dc2f88b02a2/src/jdocmunch_mcp/storage/doc_store.py#L1121-L1123",
+              "quote": "        with open(file_path, \"rb\") as f:\n            f.seek(byte_start)\n            raw = f.read(byte_end - byte_start)",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/jgravelle/jdocmunch-mcp/blob/d3fd633a60c76ac67a5acf86410f9dc2f88b02a2/src/jdocmunch_mcp/parser/markdown_parser.py#L287-L288",
+              "quote": "            byte_start=current_byte_start,\n            byte_end=byte_end,",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Commercial use requires paid licence (same model as jCodemunch - same author). Free for personal/OSS use. Complements context (neuledge): use neuledge for registry-packaged libs (Next.js, Prisma, etc.), jDocMunch for any arbitrary repo or local doc set. uvx jdocmunch-mcp to install.",
       "requiresExternal": false
@@ -860,7 +894,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "unique layer (onboarding + human understanding)"
+        "rationale": "unique layer (onboarding + human understanding)",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/Lum1104/Understand-Anything/blob/b9ac6be178b2fbc68ae45456cd9a902bdcac6dac/understand-anything-plugin/packages/core/src/types.ts#L107-L110",
+              "quote": "export interface KnowledgeGraph {\n  version: string;\n  kind?: \"codebase\" | \"knowledge\" | \"design\";\n  project: ProjectMeta;",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/Lum1104/Understand-Anything/blob/b9ac6be178b2fbc68ae45456cd9a902bdcac6dac/understand-anything-plugin/skills/understand/merge-batch-graphs.py#L5-L6",
+              "quote": "Combines batch-*.json files from the intermediate directory into a single\nassembled graph with normalized IDs, complexity values, and cleaned edges.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Run periodically (onboarding, architecture reviews) not every session. Costs API tokens per /understand run.",
       "requiresExternal": true
@@ -1219,7 +1270,24 @@
       },
       "verdict": {
         "decision": "add-if",
-        "rationale": "Add if you have structured non-code files"
+        "rationale": "Add if you have structured non-code files",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/giancarloerra/SocratiCode/blob/1d80c601e04538a4d71216ac0c9b5cf8b2daa825/src/services/qdrant.ts#L380-L383",
+              "quote": "      { query: queryVector, using: \"dense\", limit: prefetchLimit, filter: activeFilter },\n      {\n        query: { text: query, model: \"qdrant/bm25\" },\n        using: \"bm25\",",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/giancarloerra/SocratiCode/blob/1d80c601e04538a4d71216ac0c9b5cf8b2daa825/src/services/qdrant.ts#L388",
+              "quote": "    query: { fusion: \"rrf\" },",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Route for schema/spec queries. Add CLAUDE.md routing.",
       "requiresExternal": true
@@ -1261,7 +1329,24 @@
       },
       "verdict": {
         "decision": "add-if",
-        "rationale": "Add if you have unstructured docs"
+        "rationale": "Add if you have unstructured docs",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/safishamsi/graphify/blob/8cee776cee7d5dc3279085797bde2d2dcce21e36/graphify/extractors/engine.py#L2181-L2184",
+              "quote": "        parser = Parser(language)\n        source = path.read_bytes() if source_override is None else source_override\n        tree = parser.parse(source)\n        root = tree.root_node",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/safishamsi/graphify/blob/8cee776cee7d5dc3279085797bde2d2dcce21e36/graphify/cluster.py#L62-L63",
+              "quote": "            with _suppress_output():\n                result = leiden(stable, **kwargs)",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Unique for PDFs, diagrams, whiteboards, video, SQL schemas. Note: star count corrected from 52.1k to 48.2k after GitHub cleanup.",
       "requiresExternal": false
@@ -1532,7 +1617,18 @@
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "only if LSP editing needed"
+        "rationale": "only if LSP editing needed",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/oraios/serena/blob/7c34662996f2d2e3db38001785e1f279dced2f50/src/serena/tools/tools_base.py#L305-L308",
+              "quote": "                for make_shorter in shortened_result_factories:\n                    shortened = make_shorter()\n                    candidate = f\"{too_long_msg}\\n{shortened}\"\n                    if len(candidate) <= max_answer_chars:",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Stars stable ~24k. Memory leak is a real issue. Keep only if insert_after_symbol is critical.",
       "requiresExternal": false
@@ -1618,7 +1714,24 @@
       },
       "verdict": {
         "decision": "add-if",
-        "rationale": "richest feature set in code nav layer"
+        "rationale": "richest feature set in code nav layer",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/jgravelle/jcodemunch-mcp/blob/c9bbae6ff07edffb50b94937d0114bc971279f7b/src/jcodemunch_mcp/tools/get_ranked_context.py#L160-L162",
+              "quote": "    Ranks all symbols by relevance (BM25) and/or centrality (PageRank),\n    loads source for the top candidates, and packs greedily until\n    ``token_budget`` is exhausted.",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/jgravelle/jcodemunch-mcp/blob/c9bbae6ff07edffb50b94937d0114bc971279f7b/src/jcodemunch_mcp/storage/sqlite_store.py#L56-L57",
+              "quote": "    byte_offset       INTEGER,\n    byte_length       INTEGER,",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Free for personal/non-commercial use. Commercial use requires paid licence. 419K installs. Unique: find_importers, get_blast_radius, get_class_hierarchy, get_ranked_context. Do not run alongside codegraph or codebase-memory-mcp - hard tool name collision.",
       "requiresExternal": false
@@ -1658,7 +1771,24 @@
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "too early"
+        "rationale": "too early",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/choihyunsus/n2-arachne/blob/e0f1b6bc9ce9b8699275bb39331d9e4e7a0c3e37/config.default.js#L23-L26",
+              "quote": "            fixed: 0.10,\n            shortTerm: 0.30,\n            associative: 0.40,\n            spare: 0.20,",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/choihyunsus/n2-arachne/blob/e0f1b6bc9ce9b8699275bb39331d9e4e7a0c3e37/src/lib/assembler.ts#L24-L26",
+              "quote": "export function estimateTokens(text: string): number {\n  if (!text) return 0;\n  return Math.ceil(text.length / 3.5);",
+              "checkedOn": "2026-07-17",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "sigmap covers the push model more maturely.",
       "requiresExternal": false
