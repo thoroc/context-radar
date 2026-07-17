@@ -1,6 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { makeTool } from "../test-support/make-tool";
-import { datasetSchema, evidenceSourceSchema, toolSchema, verdictSchema } from "./schema";
+import {
+  datasetSchema,
+  evidenceSourceSchema,
+  recommendationSchema,
+  toolSchema,
+  verdictSchema,
+} from "./schema";
 
 describe("toolSchema", () => {
   test("accepts a well-formed record", () => {
@@ -89,6 +95,56 @@ describe("verdictSchema — evidence coherence", () => {
   test("allows non-recommendation verdicts to carry weak evidence", () => {
     expect(verdict("add", refuted)).toBe(true);
     expect(verdict("watch", unverified)).toBe(true);
+  });
+});
+
+describe("recommendationSchema — intra-record shape", () => {
+  const rec = (over: Record<string, unknown> = {}) =>
+    recommendationSchema.safeParse({
+      id: "shell",
+      layer: "Shell output",
+      members: ["rtk", "sqz"],
+      pick: "rtk",
+      alternatives: [{ id: "sqz", when: "you want a pure-Rust binary" }],
+      rationale: "prefer rtk",
+      ...over,
+    }).success;
+
+  test("accepts a well-formed recommendation", () => {
+    expect(rec()).toBe(true);
+  });
+
+  test("rejects an unknown layer", () => {
+    expect(rec({ layer: "Not a layer" })).toBe(false);
+  });
+
+  test("rejects a pick absent from members, or also listed as an alternative", () => {
+    expect(rec({ pick: "ghost" })).toBe(false);
+    expect(
+      rec({ pick: "rtk", alternatives: [{ id: "rtk", when: "x" }], members: ["rtk", "sqz"] }),
+    ).toBe(false);
+  });
+
+  test("requires members to equal exactly the pick plus alternatives", () => {
+    // 'extra' is a member never mentioned as pick or alternative.
+    expect(rec({ members: ["rtk", "sqz", "extra"] })).toBe(false);
+    // alternative 'ghost' is not in members.
+    expect(rec({ members: ["rtk", "sqz"], alternatives: [{ id: "ghost", when: "x" }] })).toBe(
+      false,
+    );
+  });
+
+  test("rejects duplicate alternatives and fewer than two members", () => {
+    expect(
+      rec({
+        members: ["rtk", "sqz"],
+        alternatives: [
+          { id: "sqz", when: "x" },
+          { id: "sqz", when: "y" },
+        ],
+      }),
+    ).toBe(false);
+    expect(rec({ members: ["rtk"], alternatives: [] })).toBe(false);
   });
 });
 

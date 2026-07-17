@@ -370,6 +370,74 @@ export const datasetSchema = z
     path: ["tools"],
   });
 
+/** One alternative to a recommendation's pick, with the condition it wins under. */
+export const recommendationAlternativeSchema = z
+  .object({
+    id: z.string().min(1),
+    /** The condition under which this alternative is preferable, e.g. "a zero-dep bundle is required". */
+    when: z.string().min(1),
+  })
+  .strict();
+
+/**
+ * A cross-tool "use this, not that" recommendation, keyed to an existing `layer`
+ * (optionally a named sub-group within a broad layer). Intra-record shape is
+ * checked here; the cross-store invariants (ids exist, belong to the layer, the
+ * pick is a `best`/`either-or` verdict backed by source-verified evidence, and
+ * member sets are disjoint per layer) live in scripts/validate, which can see the
+ * tool store this schema cannot.
+ */
+export const recommendationSchema = z
+  .object({
+    id: z.string().min(1),
+    layer: layerSchema,
+    /** Optional label when splitting a broad layer into sub-groups (e.g. "AST knowledge-graph"). */
+    group: z.string().min(1).optional(),
+    /** Tool ids in this recommendation; exactly the pick plus the alternatives. */
+    members: z.array(z.string().min(1)).min(2),
+    /** The default recommendation: a member id (must hold a best/either-or verdict, checked in validate). */
+    pick: z.string().min(1),
+    alternatives: z.array(recommendationAlternativeSchema),
+    rationale: z.string().min(1),
+    evidence: evidenceSchema.optional(),
+  })
+  .strict()
+  .superRefine((r, ctx) => {
+    const altIds = r.alternatives.map((a) => a.id);
+    if (altIds.includes(r.pick)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "pick must not also be an alternative",
+        path: ["pick"],
+      });
+    }
+    if (new Set(altIds).size !== altIds.length) {
+      ctx.addIssue({ code: "custom", message: "duplicate alternative id", path: ["alternatives"] });
+    }
+    // members must equal {pick} ∪ alternatives exactly: no member the head-to-head
+    // ignores, and no pick/alternative missing from the member list.
+    const mentioned = new Set([r.pick, ...altIds]);
+    const memberSet = new Set(r.members);
+    if (r.members.some((m) => !mentioned.has(m))) {
+      ctx.addIssue({
+        code: "custom",
+        message: "every member must be the pick or an alternative",
+        path: ["members"],
+      });
+    }
+    if ([...mentioned].some((m) => !memberSet.has(m))) {
+      ctx.addIssue({
+        code: "custom",
+        message: "pick and every alternative must be listed in members",
+        path: ["members"],
+      });
+    }
+  });
+
+export const recommendationsFileSchema = z
+  .object({ recommendations: z.array(recommendationSchema) })
+  .strict();
+
 export type Layer = z.infer<typeof layerSchema>;
 export type RuntimeLanguage = z.infer<typeof runtimeLanguageSchema>;
 export type ActivityBand = z.infer<typeof activityBandSchema>;
@@ -390,3 +458,6 @@ export type ExtraClaim = z.infer<typeof extraClaimSchema>;
 export type Tool = z.infer<typeof toolSchema>;
 export type Meta = z.infer<typeof metaSchema>;
 export type Dataset = z.infer<typeof datasetSchema>;
+export type RecommendationAlternative = z.infer<typeof recommendationAlternativeSchema>;
+export type Recommendation = z.infer<typeof recommendationSchema>;
+export type RecommendationsFile = z.infer<typeof recommendationsFileSchema>;
