@@ -9,4 +9,5 @@ export { listFreshnessIssues } from "./list-freshness-issues";
 export { parseToolMarker } from "./parse-tool-marker";
 export { repoSlug } from "./repo-slug";
 export { run } from "./run";
+export { syncEntry } from "./sync-entry";
 export type { Entry, Issue, Marker, Report } from "./types";

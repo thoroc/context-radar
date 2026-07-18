@@ -12,3 +12,10 @@ rules:
   # schema-validated catalogue JSON and the curated stack-builder data. Revisit if
   # the site ever renders untrusted input.
   security/innerhtml: "off"
+
+exclude:
+  # A hand-curated, flat literal dataset (one record per catalogued tool), lifted
+  # verbatim from the original stack-builder. Its records share a shape by nature,
+  # which trips the duplicate-block detector; there is no logic here to extract.
+  # aislop is for code slop, so this data file is out of scope.
+  - src/stack-builder/stack-data.ts

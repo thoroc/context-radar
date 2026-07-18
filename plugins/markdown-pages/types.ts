@@ -10,8 +10,3 @@ export interface MarkdownPage {
 export interface MarkdownPagesOptions {
   pages: MarkdownPage[];
 }
-
-export interface PageFragment {
-  title: string;
-  html: string;
-}
