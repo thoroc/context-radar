@@ -102,6 +102,16 @@ Evidence is **not** required across every tool. It is required for verdict-beari
 
 ---
 
+## Cross-layer placement (recommendations)
+
+A layer can carry a "use this, not that" recommendation: one default **pick** plus **alternatives**, each gated by the condition under which it wins. These live in `data/tool-recommendations.json` (separate from the tool store) and render on the tool detail and the stack-builder, so nothing is hand-duplicated.
+
+A recommendation is placement, not marketing: it is gated on evidence. The pick must hold a `best`/`either-or` verdict, and **every** member (pick and alternatives) must carry confirmed source-code verdict evidence, so backfill any missing evidence before authoring. If the honest pick's verdict is not `best`/`either-or`, correct the verdict on its own merits first rather than forcing the recommendation. Member sets are disjoint per layer. All of this is enforced at `mise run validate`.
+
+For the record shape, the full rule list, the render surfaces, and the authoring steps, see [Cross-tool recommendation placement](references/recommendation-placement.md).
+
+---
+
 ## Assessment Checklist
 
 Before writing any assessment, confirm you have answers to all of these:
@@ -183,6 +193,7 @@ Both the comparison HTML and the MCP Stack Builder SPA assume **no prior install
 | [LLM dependency classification](references/llm-dependency-classification.md) | A tool mentions AI/LLM calls and you must set its dependency tier |
 | [Benchmark verification and claim pressure-test](references/benchmark-verification.md) | A tool claims a benchmark score or any headline percentage |
 | [Source verification](references/source-verification.md) | Marking a claim `confirmed` from source: building the SHA permalink, the line-anchor rule, and the verbatim-match gate |
+| [Cross-tool recommendation placement](references/recommendation-placement.md) | Authoring or changing a layer's pick / alternatives recommendation |
 | [Data shape contract and file locations](references/data-shape-contract.md) | Writing to the store, adding or renaming a field, or you need the file map |
 | [Layer assignment guide](references/layer-guide.md) | Choosing the `layer` value |
 | [Verdict guide](references/verdict-guide.md) | Choosing the `verdict.decision` value |
