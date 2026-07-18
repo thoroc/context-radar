@@ -1,5 +1,6 @@
 import rawData from "../../../data/context-reduction-tools.json";
-import type { Dataset, Meta, Tool } from "../schema";
+import rawRecs from "../../../data/tool-recommendations.json";
+import type { Dataset, Meta, Recommendation, RecommendationsFile, Tool } from "../schema";
 
 // Data domain: the typed, guarded view of the canonical JSON store. The JSON is
 // validated against the Zod schema at build/CI time (`mise run validate`), so the
@@ -21,3 +22,13 @@ export const META: Meta = dataset.meta;
 
 /** All tools, in catalogue order. */
 export const TOOLS: Tool[] = dataset.tools;
+
+/** Tools keyed by their stable `id`, for resolving recommendation members to their detail page. */
+export const TOOLS_BY_ID: Map<string, Tool> = new Map(dataset.tools.map((t) => [t.id, t]));
+
+/**
+ * Cross-tool "use this, not that" recommendations, validated against the schema
+ * and cross-checked against the tool store at build/CI time (`mise run validate`),
+ * so the site imports only the inferred type. Empty until a layer is authored.
+ */
+export const RECOMMENDATIONS: Recommendation[] = (rawRecs as RecommendationsFile).recommendations;
