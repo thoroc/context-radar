@@ -50,7 +50,9 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 
 The pre-commit hook (hk) blocks on `ctxharness check` (doc drift) and `aislop ci --changes` (new code slop in the staged
 TypeScript). CI (`ai-hygiene.yml`) runs both as a warn-only report with a PR comment; the blocking enforcement is local.
-aislop is pinned via mise; ctxharness runs via a pinned `npx` (see the note in `mise.toml`).
+aislop is pinned via mise; ctxharness runs via a pinned `npx` (see the note in `mise.toml`). aislop's committed config
+is `.aislop/config.yml` (rule decisions with reasons; `.aislop/` runtime state stays git-ignored). ctxharness assertions
+live in `.ctxharness.yml`.
 
 ## Conventions
 
