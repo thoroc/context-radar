@@ -15,6 +15,11 @@ permissions:
   contents: read
   pull-requests: write
 
+env:
+  # Ask mise and the tools to emit plain text, so the captured report has no ANSI
+  # colour codes when it lands in the PR comment.
+  NO_COLOR: "1"
+
 concurrency:
   group: ai-hygiene-${{ github.ref }}
   cancel-in-progress: true
@@ -79,7 +84,7 @@ jobs:
             echo "<details><summary>aislop output</summary>"
             echo ""
             echo '```'
-            head -c 40000 aislop.txt
+            sed -E 's/\x1b\[[0-9;]*[a-zA-Z]//g' aislop.txt | head -c 40000
             echo ""
             echo '```'
             echo "</details>"
@@ -87,7 +92,7 @@ jobs:
             echo "<details><summary>ctxharness output</summary>"
             echo ""
             echo '```'
-            head -c 40000 ctxharness.txt
+            sed -E 's/\x1b\[[0-9;]*[a-zA-Z]//g' ctxharness.txt | head -c 40000
             echo ""
             echo '```'
             echo "</details>"
