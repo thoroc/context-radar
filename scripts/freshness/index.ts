@@ -4,6 +4,8 @@
 
 export { classify } from "./classify";
 export { compareVersions } from "./compare-versions";
+export type { EvidenceGapEntry } from "./evidence-gap";
+export { evidenceGap } from "./evidence-gap";
 export { maxParseableTag } from "./max-parseable-tag";
 export { observeUpstream } from "./observe-upstream";
 export { parseGithubRepo } from "./parse-github-repo";

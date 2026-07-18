@@ -4,6 +4,7 @@
 
 export * from "./conflict-class";
 export * from "./conflict-text";
+export * from "./has-confirmed-source-evidence";
 export * from "./labels";
 export * from "./licence-text";
 export * from "./runtime-text";

@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { datasetSchema, type Tool } from "../../src/lib/schema";
 import { sleep } from "../lib/sleep";
 import { classify } from "./classify";
+import { evidenceGap } from "./evidence-gap";
 import { observeUpstream, REQUEST_SPACING_MS, TOKEN } from "./observe-upstream";
 import { parseGithubRepo } from "./parse-github-repo";
 import type { Bucket } from "./types";
@@ -60,6 +61,7 @@ export const run = async (outPath: string): Promise<void> => {
   }
 
   const by = (b: Bucket) => entries.filter((e) => e.bucket === b);
+  const gap = evidenceGap(dataset.tools as Tool[]);
   const report = {
     generatedOn: new Date().toISOString().slice(0, 10),
     counts: {
@@ -70,17 +72,21 @@ export const run = async (outPath: string): Promise<void> => {
       structuralSkip: by("structural-skip").length,
       unparseable: by("unparseable").length,
       transientError: by("transient-error").length,
+      evidenceGap: gap.length,
     },
     verdictMoving: by("verdict-moving"),
     observedOnly: by("observed-only"),
     unparseable: by("unparseable"),
     structuralSkip: by("structural-skip"),
     transientError: by("transient-error"),
+    // Verdicts with no confirmed source-code evidence (Phase 2 source-verification
+    // gap). Reported, never gated: visible without blocking tool additions.
+    evidenceGap: gap,
   };
   writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`);
   console.log(
     `Freshness: ${report.counts.verdictMoving} verdict-moving, ${report.counts.observedOnly} observed-only, ` +
       `${report.counts.unparseable} unparseable, ${report.counts.structuralSkip} skipped, ` +
-      `${report.counts.transientError} errors. Wrote ${outPath}`,
+      `${report.counts.transientError} errors, ${report.counts.evidenceGap} evidence-gap. Wrote ${outPath}`,
   );
 };
