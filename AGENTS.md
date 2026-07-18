@@ -42,8 +42,15 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Turn the freshness report into GitHub issues: `mise run freshness:sync`
 - Re-verify source-code citations against upstream (fetch at pinned SHA, assert the quote): `mise run evidence:verify`
 - Run the impeccable design detector against `DESIGN.md`: `mise run design:check`
+- Check the agent docs (CLAUDE.md / AGENTS.md) for drift against the repo (ctxharness): `mise run docs:check`
+- Run the aislop code-slop gate over the whole repo: `mise run slop:check`
+- Run the aislop gate over changed files (`AISLOP_BASE`, default HEAD): `mise run slop:changes`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
+
+The pre-commit hook (hk) blocks on `ctxharness check` (doc drift) and `aislop ci --changes` (new code slop in the staged
+TypeScript). CI (`ai-hygiene.yml`) runs both as a warn-only report with a PR comment; the blocking enforcement is local.
+aislop is pinned via mise; ctxharness runs via a pinned `npx` (see the note in `mise.toml`).
 
 ## Conventions
 
@@ -121,6 +128,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
   tool
 - `.github/workflows/evidence.yml` — re-verifies source-code citations against upstream (fetch at pinned SHA, assert the
   quote) on data/schema changes and weekly; hard-fails on a mismatch, soft-warns on an unreachable source
+- `.github/workflows/ai-hygiene.yml` — warn-only aislop (code slop) + ctxharness (doc drift) report; posts a sticky PR
+  comment and a job summary. Never fails the build; blocking enforcement lives in the pre-commit hook (`hk.pkl`)
 
 ## How to add or re-assess a tool
 

@@ -1,0 +1,113 @@
+name: ai-hygiene
+
+# Warn-only AI-hygiene report. Runs aislop (code slop) and ctxharness (agent-doc
+# drift) and surfaces the results as a sticky PR comment and a job summary. It
+# never fails the build: the blocking enforcement lives in the pre-commit hooks
+# (hk.pkl). On a pull request it gates only the files the PR changed; on a push
+# to main it reads the whole repo.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ai-hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ai-hygiene:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          # Full history so aislop's --changes diff against the base branch works.
+          fetch-depth: 0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ctxharness: agent-doc drift. Never fails the step (report only).
+      - name: Check agent docs (ctxharness)
+        run: |
+          if mise run docs:check > ctxharness.txt 2>&1; then
+            echo "CTX_OK=true" >> "$GITHUB_ENV"
+          else
+            echo "CTX_OK=false" >> "$GITHUB_ENV"
+          fi
+          cat ctxharness.txt
+
+      # aislop: code slop. Changed files on a PR, whole repo on main. Report only.
+      - name: Check code slop (aislop)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags origin "$BASE_REF"
+            if AISLOP_BASE="origin/$BASE_REF" mise run slop:changes > aislop.txt 2>&1; then
+              echo "SLOP_OK=true" >> "$GITHUB_ENV"
+            else
+              echo "SLOP_OK=false" >> "$GITHUB_ENV"
+            fi
+          else
+            if mise run slop:check > aislop.txt 2>&1; then
+              echo "SLOP_OK=true" >> "$GITHUB_ENV"
+            else
+              echo "SLOP_OK=false" >> "$GITHUB_ENV"
+            fi
+          fi
+          cat aislop.txt
+
+      # Build the shared report body (job summary + PR comment).
+      - name: Compose report
+        run: |
+          {
+            echo "<!-- ai-hygiene-report -->"
+            echo "## AI hygiene report"
+            echo ""
+            slop_icon=$([ "$SLOP_OK" = "true" ] && echo "✅" || echo "⚠️")
+            ctx_icon=$([ "$CTX_OK" = "true" ] && echo "✅" || echo "⚠️")
+            echo "- $slop_icon **aislop** (code slop)"
+            echo "- $ctx_icon **ctxharness** (agent-doc drift)"
+            echo ""
+            echo "This report is advisory. The blocking gates run in the pre-commit hooks."
+            echo ""
+            echo "<details><summary>aislop output</summary>"
+            echo ""
+            echo '```'
+            head -c 40000 aislop.txt
+            echo ""
+            echo '```'
+            echo "</details>"
+            echo ""
+            echo "<details><summary>ctxharness output</summary>"
+            echo ""
+            echo '```'
+            head -c 40000 ctxharness.txt
+            echo ""
+            echo '```'
+            echo "</details>"
+          } > report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Sticky PR comment: update the existing report comment or create one.
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          existing=$(gh api "repos/$REPO/issues/$PR/comments" \
+            --jq 'map(select(.body | startswith("<!-- ai-hygiene-report -->"))) | .[0].id // empty')
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$existing" -F body=@report.md > /dev/null
+            echo "Updated comment $existing"
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@report.md > /dev/null
+            echo "Created a new comment"
+          fi
