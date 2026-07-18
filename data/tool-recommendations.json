@@ -1,3 +1,21 @@
 {
-  "recommendations": []
+  "recommendations": [
+    {
+      "id": "shell-output",
+      "layer": "Shell output",
+      "members": ["rtk", "sqz", "omni"],
+      "pick": "rtk",
+      "alternatives": [
+        {
+          "id": "sqz",
+          "when": "repeat file reads dominate a session and its SHA-256 dedup cache is worth the extra moving parts (an identical re-read collapses to a roughly 13-token reference)"
+        },
+        {
+          "id": "omni",
+          "when": "you want rule-based, no-LLM distillation of command output with the raw text still retrievable on demand, plus a native MCP server"
+        }
+      ],
+      "rationale": "For cutting the token cost of shell command output, rtk is the default: it is the most established of the three, holds a best verdict, and runs as a transparent proxy over common dev commands. sqz is effectively an rtk superset when repeat reads dominate, since its dedup cache turns an identical re-read into a short reference token. omni fits agents that prefer rule-based distillers with retrievable raw output and a native MCP server. All three keep their core mechanism free of any model dependency, so none adds an LLM call to the hot path."
+    }
+  ]
 }

@@ -104,7 +104,24 @@
       },
       "verdict": {
         "decision": "either-or",
-        "rationale": "pick if dedup cache is priority"
+        "rationale": "pick if dedup cache is priority",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/ojuschugh1/sqz/blob/7fc171872ba24871d16a14133ec13f2840c5abb9/sqz_engine/src/cache_manager.rs#L16-L19",
+              "quote": "**Dedup**: exact match, returns a tiny `§ref:HASH§` token (~13 tokens)",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/ojuschugh1/sqz/blob/7fc171872ba24871d16a14133ec13f2840c5abb9/sqz_engine/src/cache_manager.rs#L5",
+              "quote": "use sha2::{Digest, Sha256};",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "v1.0.9, 173 stars. Now has MCP server (sqz-mcp), Homebrew, and npm install. Dedup cache is unique: repeat file reads cost 13 tokens vs 2000. PostToolUse hook limitation: cannot compress built-in Read tool output (same as RTK). sqz-mcp provides an alternative compressed Read tool.",
       "requiresExternal": false
@@ -196,7 +213,24 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "sophisticated shell tool alternative, no model dependency"
+        "rationale": "sophisticated shell tool alternative, no model dependency",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/fajarhide/omni/blob/34bc173ef4c64143916b990ca458b1e522672dfa/src/distillers/mod.rs#L16",
+              "quote": "pub trait Distiller: Send + Sync",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/fajarhide/omni/blob/34bc173ef4c64143916b990ca458b1e522672dfa/src/mcp/server.rs#L16",
+              "quote": "pub struct OmniServer",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "259 stars but real organic adoption (Indonesian dev community comparing directly to RTK). No LLM calls for core mechanism - same \"zero model dependency\" category as RTK/lean-ctx, unlike headroom or claude-mem. Unique: rule-based Engrams (free subtask memory), context pressure traffic light, goal-driven compression scaling. brew install fajarhide/tap/omni then omni init --claude. Author also maintains Heimsense (separate tool to run Claude Code on non-Anthropic models) - worth knowing exists.",
       "requiresExternal": false
