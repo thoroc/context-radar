@@ -1,8 +1,10 @@
 import {
   DECISION_LABEL,
   formatDisplayDate,
+  RECOMMENDATIONS,
   starsText,
   statusText,
+  TOOLS_BY_ID,
   type Tool,
   verdictClass,
 } from "../lib";
@@ -11,6 +13,7 @@ import { conflictBlock } from "./conflict-block";
 import { esc } from "./esc";
 import { evidenceSection } from "./evidence-section";
 import { licenceWarns } from "./licence-warns";
+import { recommendationBlock } from "./recommendation-block";
 import { requirementsBlock } from "./requirements-block";
 import { runtimeChips } from "./runtime-chips";
 import { trendCell } from "./trend-cell";
@@ -35,6 +38,7 @@ export const renderDetailBody = (tool: Tool, ctx: DetailContext): string => {
     <div class="main">
       <section><h2>What it does</h2><p class="lede">${esc(tool.whatItDoes)}</p></section>
       <section><h2>Verdict</h2><div class="callout"><span class="verdict ${verdictClass(tool.verdict.decision)}">${esc(DECISION_LABEL[tool.verdict.decision])}</span>${tool.verdict.rationale ? `<p class="rationale">${esc(tool.verdict.rationale)}</p>` : ""}</div></section>
+      ${recommendationBlock(tool, RECOMMENDATIONS, TOOLS_BY_ID, base)}
       <section><h2>Decision rule</h2><div class="rule-box">${esc(tool.decisionRule)}</div></section>
       <section><h2>Conflicts &amp; overlap</h2>${conflictBlock(tool, slugByName, base)}</section>
       <section><h2>Requirements</h2>${requirementsBlock(tool.requirements, tool.requiresExternal)}</section>

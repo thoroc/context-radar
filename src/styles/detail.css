@@ -112,6 +112,42 @@
   padding: 15px 17px;
   color: var(--text2);
 }
+.tool-detail .rec .rec-lead {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 9px;
+}
+.tool-detail .rec-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+.tool-detail .rec-alts {
+  margin-top: 13px;
+}
+.tool-detail .rec-alts-head {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text3);
+}
+.tool-detail .rec-alts ul {
+  list-style: none;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tool-detail .rec-alts li {
+  font-size: 13px;
+  color: var(--text);
+}
+.tool-detail .rec-when {
+  color: var(--text2);
+}
 .tool-detail .conf {
   border-radius: 12px;
   padding: 15px 17px;
