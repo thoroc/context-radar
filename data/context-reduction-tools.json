@@ -1002,7 +1002,24 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "code nav"
+        "rationale": "zero-server, client-side code intelligence with a stdio MCP server and a global multi-repo registry; strong for in-browser and CLI code navigation. Windows stability bugs and a non-free commercial tier (PolyForm NC) temper it.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/abhigyanpatwari/GitNexus/blob/249f5c7aab29e0238b5c6eff6de89ee4ac111e97/gitnexus/src/mcp/server.ts#L4-L8",
+              "quote": "Model Context Protocol server that runs on stdio. External AI tools (Cursor, Claude) spawn this process and communicate via stdin/stdout using the MCP protocol. Supports multiple indexed repositories via the global registry.",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/abhigyanpatwari/GitNexus/blob/249f5c7aab29e0238b5c6eff6de89ee4ac111e97/gitnexus/src/mcp/tools.ts#L4-L5",
+              "quote": "Defines the tools that GitNexus exposes to external AI agents. All tools support an optional `repo` parameter for multi-repo setups.",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "PolyForm NC licence now explicitly has enterprise commercial tier. | PolyForm NC: free for personal/OSS, commercial needs akonlabs licence. Multiple Windows crash bugs (SEGFAULT, FTS5 unavailable via MCP, LadybugDB Access Violation). Serialize heavy MCP queries.",
       "requiresExternal": false
@@ -1467,7 +1484,30 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "direct successor to codegraph with much broader scope; strong candidate for best-in-class pending community growth"
+        "rationale": "direct successor to codegraph with much broader scope; strong candidate for best-in-class pending community growth",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/aovestdipaperino/tokensave/blob/69e2bab572998410112df84950e1543bca943b8c/src/agents/mod.rs#L2",
+              "quote": "Agent integration layer for CLI tools (Claude Code, `OpenCode`, Codex, etc.).",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/aovestdipaperino/tokensave/blob/69e2bab572998410112df84950e1543bca943b8c/src/mcp/tools/definitions.rs#L3-L5",
+              "quote": "Each `def_*` function returns a `ToolDefinition` with the tool name, description, JSON Schema for its input parameters",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/aovestdipaperino/tokensave/blob/69e2bab572998410112df84950e1543bca943b8c/docs/plans/2026-02-26-codegraph-rust-port-design.md#L4",
+              "quote": "Replace the TypeScript CodeGraph implementation with a Rust-native version",
+              "checkedOn": "2026-07-18",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
       "decisionRule": "Self-disclosed as a ground-up Rust port of codegraph, with a README comparison table showing it ahead on nearly every dimension: 80+ tools vs 9, 50+ languages vs 19+, 16 agent integrations vs 1, multi-branch indexing (unique), 26x faster indexing (1.2s vs 31.2s on the same 1,782-file benchmark), smaller binary (25MB vs 80MB) despite far more features. Fully open source MIT - explicitly contrasted in its own README against GrapeRoot/Dual-Graph proprietary core and OpenWolf AGPL-3.0. Reproducible benchmark methodology (fixed query set + pinned-ref criterion benches against real repos) is more rigorous than most tools in this comparison. Only 253 stars vs codegraph 57.1k - much newer and less battle-tested despite the technical case being strong. cargo install tokensave --features medium for a smaller binary if 50+ languages is not needed.",
       "extraClaims": [
