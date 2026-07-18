@@ -50,6 +50,16 @@ This category moves faster than a single refresh date communicates. Real example
 - **Stable/mature** (large, established, low week-over-week change per star-history-style trackers): safe to leave for longer between refreshes.
 - **Dormant** (no commits/releases in 2+ months): star count and version rarely need re-checking, but re-verify the *activity status* — a dormant tool can still be receiving stars from discovery even with no development.
 
+## Evidence-gap signal
+
+The freshness report also carries an `evidenceGap` array (and `counts.evidenceGap`): every
+verdict not yet backed by confirmed source-code evidence, `best`/`either-or` verdicts first. It is
+a **signal, not a gate** — it never blocks a tool addition, it just keeps the source-verification
+backlog visible each run. Treat a `best` or `either-or` entry in that list as a priority for the
+next source-verification backfill (see [Cross-tool recommendation placement](recommendation-placement.md)
+and [Source verification](source-verification.md)); a recommendation cannot use a tool until this
+gap is closed for it.
+
 ## Refresh coverage disclosure
 
 When asked to refresh "all tools" or run a full sweep, state explicitly which subset was actually re-verified versus which retained prior data — by name or count, not just in aggregate. Never let a partial-coverage refresh read as if every entry was checked. If time/call budget only allows a partial sweep, prioritize high-velocity and highest-star tools first, and say plainly what remains unverified and roughly how old that data is.

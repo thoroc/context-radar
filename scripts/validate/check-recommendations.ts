@@ -1,3 +1,4 @@
+import { hasConfirmedSourceEvidence } from "../../src/lib";
 import type { Recommendation, Tool } from "../../src/lib/schema";
 
 /**
@@ -12,9 +13,6 @@ import type { Recommendation, Tool } from "../../src/lib/schema";
 export const checkRecommendations = (tools: Tool[], recs: Recommendation[]): string[] => {
   const errors: string[] = [];
   const byId = new Map(tools.map((t) => [t.id, t]));
-  const sourceVerified = (t: Tool): boolean =>
-    t.verdict.evidence?.status === "confirmed" &&
-    t.verdict.evidence.sources.some((s) => s.evidenceType === "source-code");
 
   const claimedByLayer = new Map<string, Map<string, string>>();
 
@@ -32,7 +30,7 @@ export const checkRecommendations = (tools: Tool[], recs: Recommendation[]): str
           `${where}: member '${memberId}' is in layer '${tool.layer}', not '${rec.layer}'`,
         );
       }
-      if (!sourceVerified(tool)) {
+      if (!hasConfirmedSourceEvidence(tool)) {
         errors.push(
           `${where}: member '${memberId}' lacks confirmed source-code verdict evidence (Phase 2 gate)`,
         );
