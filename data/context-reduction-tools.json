@@ -1035,8 +1035,8 @@
         "label": "Very active"
       },
       "verdict": {
-        "decision": "best",
-        "rationale": "zero-server, client-side code intelligence with a stdio MCP server and a global multi-repo registry; strong for in-browser and CLI code navigation. Windows stability bugs and a non-free commercial tier (PolyForm NC) temper it.",
+        "decision": "either-or",
+        "rationale": "zero-server, client-side code intelligence with a stdio MCP server and a global multi-repo registry; strong for in-browser and CLI code navigation. Stepped down from best because its decisionRule records Windows stability bugs and a non-free commercial tier (PolyForm NC).",
         "evidence": {
           "status": "confirmed",
           "sources": [

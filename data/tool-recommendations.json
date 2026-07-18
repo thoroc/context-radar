@@ -16,6 +16,28 @@
         }
       ],
       "rationale": "For cutting the token cost of shell command output, rtk is the default: it is the most established of the three, holds a best verdict, and runs as a transparent proxy over common dev commands. sqz is effectively an rtk superset when repeat reads dominate, since its dedup cache turns an identical re-read into a short reference token. omni fits agents that prefer rule-based distillers with retrievable raw output and a native MCP server. All three keep their core mechanism free of any model dependency, so none adds an LLM call to the hot path."
+    },
+    {
+      "id": "code-nav-ast-graph",
+      "layer": "Code navigation",
+      "group": "AST knowledge-graph",
+      "members": ["codegraph", "tokensave", "gitnexus", "codebase-memory-mcp"],
+      "pick": "codegraph",
+      "alternatives": [
+        {
+          "id": "tokensave",
+          "when": "you want codegraph's actively developed Rust successor with much broader scope (80+ MCP tools, 50+ languages, multi-branch indexing) and can accept a far smaller community"
+        },
+        {
+          "id": "gitnexus",
+          "when": "you need zero-server, in-browser code intelligence or a global multi-repo registry, run on macOS or Linux (Windows has stability bugs), and can accept the PolyForm NC licence for commercial use"
+        },
+        {
+          "id": "codebase-memory-mcp",
+          "when": "you want a single native binary with Cypher queries over a SQLite graph and the widest language coverage"
+        }
+      ],
+      "rationale": "For an AST knowledge-graph over the codebase, codegraph is the default: it is MIT-licensed, the most battle-tested by a wide margin, and the reference implementation the others measure themselves against. tokensave is its actively developed Rust successor with much broader scope, worth choosing when its extra tooling matters and a small community is acceptable. gitnexus suits zero-server, in-browser use and multi-repo registries, tempered by Windows stability bugs and a non-free commercial tier. codebase-memory-mcp is a single native binary with Cypher queries and the widest language coverage. All four carry confirmed source-code evidence."
     }
   ]
 }
