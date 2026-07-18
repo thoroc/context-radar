@@ -41,6 +41,7 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Detect version/activity drift into `freshness-report.json`: `mise run freshness`
 - Turn the freshness report into GitHub issues: `mise run freshness:sync`
 - Re-verify source-code citations against upstream (fetch at pinned SHA, assert the quote): `mise run evidence:verify`
+- Run the impeccable design detector against `DESIGN.md`: `mise run design:check`
 - Install local tessl skill plugin: `mise run skill`
 - Install git hooks: `mise run hooks`
 
@@ -81,6 +82,11 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 ## Key paths
 
 - Canonical store: `data/context-reduction-tools.json` (`{meta, tools:[]}`, stable-key records)
+- Cross-tool recommendations: `data/tool-recommendations.json` (`{recommendations:[]}`, per-layer pick + alternatives).
+  Cross-store checks in `scripts/validate/check-recommendations.ts` (pick holds `best`/`either-or`; every member carries
+  confirmed source-code verdict evidence; per-layer disjoint). Rendered by `src/detail/recommendation-block.ts` (tool
+  detail) and `src/stack-builder/selectors/layer-recommendation.ts` (stack-builder per-layer note). Authoring guide:
+  `plugin/skills/project-comparison-fetch/references/recommendation-placement.md`
 - Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: immutable `id`,
   enums, numbers, structured objects for runtime/licence/conflict/activity/activityStatus/verdict/extraClaims, plus an
   `evidence` block on verdict-carrying claims)

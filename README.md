@@ -8,7 +8,7 @@ window, and how does it interact with everything else in the stack?** Tools are 
 output, code navigation, agent memory, MCP definition tokens, and so on), rated with a verdict, and checked for
 conflicts, above all the MCP tool-name collisions that break an agent's ability to route between two servers.
 
-The catalogue currently tracks **79 tools**, last refreshed **15-07-2026**.
+The catalogue currently tracks **81 tools**, last updated **17-07-2026** (star snapshot **15-07-2026**).
 
 ## Audience and outputs
 
@@ -26,16 +26,18 @@ context-radar/
   CONTRIBUTING.md                        How to add or re-assess a tool
   data/
     context-reduction-tools.json         Canonical store ({meta, tools:[...]}), imported by the build
+    tool-recommendations.json            Cross-tool "use this, not that" recommendations per layer
     star-history.csv                     Append-only star history (date,tool,repo,stars)
   templates/
     tool.yaml                            Authoring scaffold; fill and ingest with `mise run data:add`
-  scripts/
-    validate-data.ts                     Zod validator for the canonical store
+  scripts/                               Thin entry files over domain folders (validate/, freshness/, freshness-issue/, evidence-verify/)
+    validate-data.ts                     Zod validator for the store + cross-store recommendation checks
     gen-schema.ts                        Regenerates the skill's JSON Schema from the Zod schema
     gen-icons.ts                         Regenerates src/styles/icons.css from the Tabler SVGs
     data-add.ts                          Ingests a filled template into the store
-    check-freshness.ts                   Detects drift (upstream version vs recorded) into freshness-report.json
+    check-freshness.ts                   Detects drift (upstream version vs recorded) + the evidence gap into freshness-report.json
     sync-freshness-issue.ts              Opens/updates one GitHub issue per drifting tool
+    verify-evidence.ts                   Re-fetches each source-code citation at its SHA and asserts the quote matches
   src/                                   Site source (Vite + TypeScript)
     index.html                           Landing page (intro, tool cards, verdict legend)
     comparison.html                      Comparison table page (tool links open detail as a modal overlay)
@@ -66,6 +68,7 @@ context-radar/
     static.yml                           CI: build the site with Vite and deploy to GitHub Pages
     lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
+    evidence.yml                         CI: re-verify source-code citations against upstream at pinned SHAs
     freshness.yml                        Scheduled: detect version/activity drift and open per-tool issues
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
   vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
@@ -100,11 +103,13 @@ mise run typecheck  # TypeScript type-check only
 mise run test       # collocated unit tests (vitest)
 mise run test:coverage  # tests + whole-project coverage; enforces the ratcheted floor
 mise run fmt        # format everything in place (incl. TypeScript via Biome)
-mise run validate   # validate the canonical JSON store against the Zod schema
+mise run validate   # validate the JSON store + the recommendations file against the Zod schema
 mise run data:add   # ingest a filled templates/*.yaml into the store (-- <file>.yaml)
+mise run evidence:verify  # re-fetch each source-code citation at its SHA and assert the quote matches
+mise run design:check     # run the impeccable design detector against DESIGN.md
 mise run gen:schema # regenerate the skill's JSON Schema from the Zod schema
 mise run gen:icons  # regenerate src/styles/icons.css from the Tabler SVGs
-mise run freshness  # detect version/activity drift into freshness-report.json (git-ignored)
+mise run freshness  # detect version/activity drift + the evidence gap into freshness-report.json (git-ignored)
 ```
 
 `mise run build` writes the static site to `docs/`, which is git-ignored: CI rebuilds it and uploads it to GitHub Pages
@@ -132,6 +137,23 @@ To add or change a tool, fill [`templates/tool.yaml`](templates/tool.yaml) and r
 it validates the record and upserts it into the store. The comparison table, the per-tool detail pages, and the CSV
 download are all generated from the JSON at build time.
 
+### Evidence and source verification
+
+Verdict-bearing claims carry cited `sources` in the record. A `source-code` citation must be a commit-SHA blob permalink
+with a line anchor and a verbatim `quote`; `mise run evidence:verify` (CI: `evidence.yml`) re-fetches each one at its
+SHA and fails if the quote is not there, so "verified against source" cannot be faked. `mise run freshness` also reports
+the **evidence gap**: verdicts not yet backed by confirmed source-code evidence. The methodology is documented in the
+skill's [`references/source-verification.md`](plugin/skills/project-comparison-fetch/references/source-verification.md).
+
+### Cross-tool recommendations
+
+[`data/tool-recommendations.json`](data/tool-recommendations.json) holds per-layer "use this, not that" recommendations:
+one default **pick** plus **alternatives**, each gated by the condition under which it wins. A recommendation only
+validates once its pick holds a `best`/`either-or` verdict and every member carries confirmed source-code evidence
+(`scripts/validate/check-recommendations.ts`). They render on each tool's detail and as a per-layer "catalogue pick"
+line in the stack builder; nothing is hand-duplicated. See the skill's
+[`references/recommendation-placement.md`](plugin/skills/project-comparison-fetch/references/recommendation-placement.md).
+
 ### Verdicts
 
 Best in class, Add, Add if you use [X], Either/or pick one, Watch (too early or unique but early), Reference only (not a
@@ -146,9 +168,11 @@ tool), and Drop. Full definitions are in [`src/pages/methodology.md`](src/pages/
 
 ## Status and roadmap
 
-The catalogue, the Vite + TypeScript site, the stack builder, and the fetch methodology are all in the repository. CI
-builds the site and deploys it to GitHub Pages on every push to `main`. A weekly `freshness.yml` workflow checks each
-tool's recorded version and activity against upstream and opens one GitHub issue per drifting tool.
+The catalogue, the Vite + TypeScript site, the stack builder, the source-verified evidence layer, the cross-tool
+recommendations, and the fetch methodology are all in the repository. CI builds the site and deploys it to GitHub Pages
+on every push to `main`, and re-verifies every source-code citation against upstream (`evidence.yml`). A weekly
+`freshness.yml` workflow checks each tool's recorded version and activity against upstream, reports the evidence gap,
+and opens one GitHub issue per drifting tool.
 
 1. **Now.** The comparison table renders from the JSON at build time, so a CSV/JSON update reshapes the site
    automatically on the next deploy. The freshness check flags drift weekly for human re-assessment.
