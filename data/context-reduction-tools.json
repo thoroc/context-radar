@@ -164,7 +164,18 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "pick this or RTK"
+        "rationale": "pick this or RTK",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/yvgude/lean-ctx/blob/46f91e3d502759f38803cbaf69f97786a694976a/rust/src/lib.rs#L15",
+              "quote": "context compression, MCP tools, agent hooks, local UX",
+              "checkedOn": "2026-07-19",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "2.2k stars, v3.2.8, 374+ CI runs. Bun-native, 59 tools, Property Graph + CCP. RTK safest default; lean-ctx best feature set.",
       "requiresExternal": false
@@ -554,7 +565,18 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "best-in-class conversation history management (OpenCode only)"
+        "rationale": "best-in-class conversation history management (OpenCode only)",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/cortexkit/magic-context/blob/dc605cf68bc821ff95df7a63a869569f52efe56a/crates/mc-module/src/historian.rs#L1-L2",
+              "quote": "Historian writer orchestration: the durable firing state machine",
+              "checkedOn": "2026-07-19",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "OpenCode-only - does not work with Claude Code. If you use OpenCode: best-in-class for this layer by a wide margin. 72 releases in ~2 months. Disable OpenCode built-in compaction before installing. bunx --bun @cortexkit/opencode-magic-context@latest setup.",
       "requiresExternal": true
@@ -2568,7 +2590,18 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "best-in-class controlled escalation"
+        "rationale": "best-in-class controlled escalation",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/GlitterKill/sdl-mcp/blob/921c73d9d4d963c2c329f6f55d60eccd4028425d/src/code-mode/ladder-validator.ts#L4-L8",
+              "quote": "export function validateLadder(",
+              "checkedOn": "2026-07-19",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Source-available: free for personal/internal use. Known file descriptor leak (issue #12) - 240k+ FDs after 18min use in Claude Code sessions. Iris Gate Ladder is most sophisticated token-minimisation mechanism in this table. Requires Node.js 24+.",
       "requiresExternal": true
@@ -3240,7 +3273,18 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "powerful but infra-heavy; best for temporal reasoning about evolving facts"
+        "rationale": "powerful but infra-heavy; best for temporal reasoning about evolving facts",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/getzep/graphiti/blob/0b4bcf1284ee5fba56b77ed9961568a541e0d418/graphiti_core/edges.py#L274-L278",
+              "quote": "datetime of when the fact became true",
+              "checkedOn": "2026-07-19",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "Not zero-config. Best for: architecture decisions that evolve over time, API contracts that change, \"what did we decide about auth and when did that change?\" FalkorDB is the lowest-friction backend (single Docker command). Works best with OpenAI/Gemini structured output; Anthropic supported but less reliable.",
       "requiresExternal": true
@@ -3554,7 +3598,18 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "best zero-cost, zero-cloud option in this layer"
+        "rationale": "best zero-cost, zero-cloud option in this layer",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/buildingjoshbetter/TrueMemory/blob/e7f1fd79e4188637f9b168337c5a219af890a613/truememory/engine.py#L5-L6",
+              "quote": "Ties together all retrieval layers into a single ingest/search pipeline",
+              "checkedOn": "2026-07-19",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
       },
       "decisionRule": "CRITICAL: Licence changed from Apache-2.0 to AGPL-3.0. Commercial use now requires a separate paid licence (was \"free for personal and commercial use\"). New paper: arXiv:2605.04897 \"Storage Is Not Memory\". | Only memory tool in this comparison with a genuinely zero-cost, zero-cloud, zero-API-key tier (Edge/Base) at this benchmark quality. Novel BEAM-1M/10M benchmark tests memory beyond any model's context window - no other memory tool here is tested at that scale. Directives feature is a per-memory alternative to global CLAUDE.md instructions. curl -LsSf https://raw.githubusercontent.com/buildingjoshbetter/TrueMemory/main/install.sh | sh. Stale-fetch warning: GitHub page render showed 29 stars/v0.3.0 - live search confirmed 311 stars/v0.7.1.2+, a substantially evolved feature set.",
       "requiresExternal": false
