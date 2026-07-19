@@ -2,16 +2,13 @@ import { readFileSync } from "node:fs";
 import { sleep } from "../lib/sleep";
 import { api } from "./api";
 import { composeIssue } from "./compose-issue";
+import { DIGEST_MARKER, MUTATION_SPACING_MS } from "./constants";
 import { driftEntries } from "./drift-entries";
-import { LABEL, listFreshnessIssues } from "./list-freshness-issues";
+import { listFreshnessIssues } from "./list-freshness-issues";
 import { parseToolMarker } from "./parse-tool-marker";
 import { repoSlug } from "./repo-slug";
+import { syncEntry } from "./sync-entry";
 import type { Issue, Report } from "./types";
-
-const DIGEST_MARKER = "<!-- freshness-state:"; // legacy consolidated digest, to be closed
-// GitHub's secondary rate limit rejects bursts of content creation (~>80/min).
-// Keep writes to roughly one per 1.5s so a full backfill does not trip it.
-const MUTATION_SPACING_MS = 1500;
 
 export const run = async (reportPath: string, dryRun: boolean): Promise<void> => {
   const report = JSON.parse(readFileSync(reportPath, "utf8")) as Report;
@@ -48,34 +45,11 @@ export const run = async (reportPath: string, dryRun: boolean): Promise<void> =>
   let unchanged = 0;
   const failed: string[] = [];
   for (const e of drift) {
-    const { title, body } = composeIssue(e);
-    const existing = byId.get(e.id);
-    if (existing) {
-      const prior = parseToolMarker(existing.body);
-      if (prior && prior.upstream === e.upstream) {
-        unchanged++;
-        continue; // open or closed, same upstream: leave it (respects a human's close)
-      }
-      if (existing.state === "open") {
-        await sleep(MUTATION_SPACING_MS);
-        const res = await api("PATCH", `/repos/${owner}/${repo}/issues/${existing.number}`, {
-          title,
-          body,
-        });
-        if (res.status === 200) updated++;
-        else failed.push(`${e.id} (update HTTP ${res.status})`);
-        continue;
-      }
-      // Closed but upstream moved again: do not reopen; open a fresh issue below.
-    }
-    await sleep(MUTATION_SPACING_MS);
-    const res = await api("POST", `/repos/${owner}/${repo}/issues`, {
-      title,
-      body,
-      labels: [LABEL],
-    });
-    if (res.status === 201) opened++;
-    else failed.push(`${e.id} (create HTTP ${res.status})`);
+    const outcome = await syncEntry(owner, repo, e, byId.get(e.id));
+    if (outcome === "opened") opened++;
+    else if (outcome === "updated") updated++;
+    else if (outcome === "unchanged") unchanged++;
+    else failed.push(outcome.failed);
   }
 
   // Retire any legacy consolidated digest in favour of the per-tool issues.

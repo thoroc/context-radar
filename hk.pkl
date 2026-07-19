@@ -59,6 +59,35 @@ hooks {
         )
         check = "bun run validate"
       }
+      // Docs-drift guard (ctxharness): when the agent docs or any file/version
+      // they assert change, the claims in CLAUDE.md / AGENTS.md must still hold.
+      // Blocking; enforces the assertions in .ctxharness.yml.
+      ["ctxharness"] {
+        glob = List(
+          "CLAUDE.md",
+          "AGENTS.md",
+          ".ctxharness.yml",
+          "package.json",
+          "mise.toml",
+          "src/**",
+          "scripts/**",
+          "plugins/**"
+        )
+        check = "npx --yes ctxharness@0.4.6 check"
+      }
+      // AI-slop guard (aislop): gate the staged TypeScript against new slop
+      // (dead code, duplication, unsafe casts, swallowed errors, risky
+      // constructs). Scoped to changed files vs HEAD so pre-existing findings in
+      // untouched files never block a commit. Blocking.
+      ["aislop"] {
+        glob = List(
+          "src/**/*.ts",
+          "plugins/**/*.ts",
+          "scripts/**/*.ts",
+          "vite.config.ts"
+        )
+        check = "aislop ci --changes --base HEAD"
+      }
     }
   }
   ["fix"] {

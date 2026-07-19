@@ -1,0 +1,21 @@
+# aislop configuration for context-radar.
+rules:
+  # security/innerhtml is off, not because innerHTML is unimportant, but because
+  # it is a systematic false positive for this codebase. context-radar is a
+  # static-site generator whose render layer builds HTML strings and assigns them
+  # via innerHTML. Every one of those sites is safe:
+  #   - data-bearing interpolations are escaped (src/detail/esc.ts,
+  #     src/comparison/dom/escape-html.ts; e.g. render.ts uses escapeHtml());
+  #   - the rest are static templates, inline SVG icons (theme-toggle), the modal
+  #     body fragment (already escaped upstream), or `innerHTML = ""` clears.
+  # No user-supplied input reaches innerHTML: the only inputs are the committed,
+  # schema-validated catalogue JSON and the curated stack-builder data. Revisit if
+  # the site ever renders untrusted input.
+  security/innerhtml: "off"
+
+exclude:
+  # A hand-curated, flat literal dataset (one record per catalogued tool), lifted
+  # verbatim from the original stack-builder. Its records share a shape by nature,
+  # which trips the duplicate-block detector; there is no logic here to extract.
+  # aislop is for code slop, so this data file is out of scope.
+  - src/stack-builder/stack-data.ts

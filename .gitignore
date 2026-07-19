@@ -23,7 +23,13 @@ tmp/
 # Local tooling indexes and caches
 .tokensave/
 .context/
-.aislop/
+# aislop runtime state is ignored (baseline, session log) at any depth, but the
+# committed root config that documents rule decisions is tracked.
+**/.aislop/*
+!/.aislop/config.yml
+# ctxharness runtime dir (snapshots, trend history). The .ctxharness.yml config
+# itself is tracked; only this per-run state is ignored.
+.ctxharness/
 # impeccable design-skill runtime dir. Ignore per-run and local state (critique
 # snapshots, live-mode config, local ignores), but track the shared design
 # artifacts the detector, CI, and the team rely on.

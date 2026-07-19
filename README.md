@@ -69,6 +69,7 @@ context-radar/
     lint.yml                             CI: lint, type-check, format check, data validation
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
     evidence.yml                         CI: re-verify source-code citations against upstream at pinned SHAs
+    ai-hygiene.yml                       CI: warn-only aislop (code slop) + ctxharness (doc drift) report + PR comment
     freshness.yml                        Scheduled: detect version/activity drift and open per-tool issues
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
   vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
@@ -76,7 +77,8 @@ context-radar/
   biome.json                             Biome (TypeScript lint + format) config
   package.json                           Dependencies and scripts (Bun)
   mise.toml                              Toolchain and tasks (mise-en-place)
-  hk.pkl                                 Git pre-commit hooks (hk)
+  hk.pkl                                 Git pre-commit hooks (hk): lint, validate, ctxharness, aislop
+  .ctxharness.yml                        ctxharness assertions (agent-doc claims checked against the repo)
   .plumber.yaml                          Plumber scan configuration
   .markdownlint.jsonc                    Markdown lint rules
   .yamllint                              YAML lint rules
@@ -110,10 +112,25 @@ mise run design:check     # run the impeccable design detector against DESIGN.md
 mise run gen:schema # regenerate the skill's JSON Schema from the Zod schema
 mise run gen:icons  # regenerate src/styles/icons.css from the Tabler SVGs
 mise run freshness  # detect version/activity drift + the evidence gap into freshness-report.json (git-ignored)
+mise run docs:check # check the agent docs (CLAUDE.md/AGENTS.md) for drift against the repo (ctxharness)
+mise run slop:check # aislop code-slop gate over the whole repo (slop:changes for changed files only)
 ```
 
 `mise run build` writes the static site to `docs/`, which is git-ignored: CI rebuilds it and uploads it to GitHub Pages
 on every push to `main` (`.github/workflows/static.yml`).
+
+### Code-hygiene gates
+
+Two agent-hygiene tools guard the repo:
+
+- **aislop** flags code slop AI agents tend to leave behind (dead code, duplication, unsafe casts, swallowed errors,
+  risky constructs). Pinned via mise.
+- **ctxharness** detects drift between the agent docs (`CLAUDE.md` / `AGENTS.md`) and the repo (missing paths, stale
+  versions, renamed scripts) using the assertions in `.ctxharness.yml`. Run via a pinned `npx`.
+
+The pre-commit hook (`hk.pkl`) **blocks** on `ctxharness check` (doc drift) and `aislop ci --changes` (new slop in the
+staged TypeScript). The `ai-hygiene.yml` workflow runs both as a **warn-only** report and posts a sticky PR comment, so
+CI surfaces findings without failing the build; enforcement is local.
 
 ## The data model
 

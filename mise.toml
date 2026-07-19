@@ -35,6 +35,14 @@ actionlint = "1.7.12"
 # (git-ignored). Pinned so the CI design gate (mise run design:check) stays
 # deterministic; bump deliberately and re-run the gate.
 "npm:impeccable" = "3.2.1"
+# aislop: catches AI-agent code slop (dead code, duplication, unsafe casts,
+# swallowed errors, risky constructs). Drives the pre-commit gate (mise run
+# slop:changes) and the warn-only CI report. Also runs as a Claude Code hook.
+"npm:aislop" = "0.13.1"
+# ctxharness (agent-doc drift, mise run docs:check) is run via a pinned `npx`
+# rather than an `npm:` tool here: some machines resolve `npm:` installs through a
+# backend (aube) that fails on this package. npx keeps it version-pinned and
+# portable (node comes from the pin above). Move it to a tool line if that changes.
 
 [hooks]
 # Install the git hooks after tools are installed. Runs on every `mise install`,
@@ -84,6 +92,26 @@ run = "bun run validate"
 # discipline and generic anti-pattern checks. Exit 2 on findings fails CI.
 description = "Scan the site source for UI anti-patterns with the impeccable detector"
 run = "impeccable detect src"
+
+[tasks."docs:check"]
+# Detects drift between the agent docs (CLAUDE.md / AGENTS.md) and the repo:
+# missing paths, stale versions, renamed scripts. Enforces the assertions in
+# .ctxharness.yml; exits non-zero on drift. Pinned via npx (see the tools note).
+description = "Check the agent docs against the repo for drift (ctxharness)"
+run = "npx --yes ctxharness@0.4.6 check"
+
+[tasks."slop:check"]
+# aislop quality gate over the whole repo. Used for the warn-only CI report on
+# main; locally, a full read of the current score.
+description = "Run the aislop quality gate over the whole repo"
+run = "aislop ci"
+
+[tasks."slop:changes"]
+# aislop quality gate scoped to files changed vs AISLOP_BASE (default HEAD, i.e.
+# the staged commit). Pre-commit uses the default; PR CI sets AISLOP_BASE to the
+# target branch so only the PR's files are gated.
+description = "Run the aislop quality gate over changed files (AISLOP_BASE, default HEAD)"
+run = "aislop ci --changes --base ${AISLOP_BASE:-HEAD}"
 
 [tasks."data:add"]
 description = "Validate a filled tool template (YAML) and upsert it into the JSON store"
