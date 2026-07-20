@@ -8,6 +8,7 @@ export { driftEntries } from "./drift-entries";
 export { listFreshnessIssues } from "./list-freshness-issues";
 export { parseToolMarker } from "./parse-tool-marker";
 export { repoSlug } from "./repo-slug";
+export { resolvedIssueNumbers } from "./resolved-issue-numbers";
 export { run } from "./run";
 export { syncEntry } from "./sync-entry";
 export type { Entry, Issue, Marker, Report } from "./types";

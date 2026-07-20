@@ -36,7 +36,7 @@ context-radar/
     gen-icons.ts                         Regenerates src/styles/icons.css from the Tabler SVGs
     data-add.ts                          Ingests a filled template into the store
     check-freshness.ts                   Detects drift (upstream version vs recorded) + the evidence gap into freshness-report.json
-    sync-freshness-issue.ts              Opens/updates one GitHub issue per drifting tool
+    sync-freshness-issue.ts              Opens/updates one issue per drifting tool; closes an issue once its tool is current
     verify-evidence.ts                   Re-fetches each source-code citation at its SHA and asserts the quote matches
   src/                                   Site source (Vite + TypeScript)
     index.html                           Landing page (intro, tool cards, verdict legend)
@@ -70,7 +70,7 @@ context-radar/
     plumber.yml                          CI: Plumber CI/CD security and compliance scan
     evidence.yml                         CI: re-verify source-code citations against upstream at pinned SHAs
     ai-hygiene.yml                       CI: warn-only aislop (code slop) + ctxharness (doc drift) report + PR comment
-    freshness.yml                        Scheduled: detect version/activity drift and open per-tool issues
+    freshness.yml                        Weekly + on data-file push: detect drift, open per-tool issues, close resolved ones
   vite.config.ts                         Vite config (MPA, base './', outputs to docs/)
   vitest.config.ts                       Vitest config (whole-project coverage + ratchet floor)
   tsconfig.json                          TypeScript config

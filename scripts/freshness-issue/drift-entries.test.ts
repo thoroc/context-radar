@@ -15,6 +15,7 @@ const report = (verdictMoving: Entry[], observedOnly: Entry[]): Report => ({
   counts: {},
   verdictMoving,
   observedOnly,
+  noDrift: [],
   unparseable: [],
   structuralSkip: [],
   transientError: [],

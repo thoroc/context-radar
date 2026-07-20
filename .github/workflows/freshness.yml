@@ -6,6 +6,12 @@ on:
     # only runs from the default branch, and auto-disables after 60 days idle.
     - cron: "0 18 * * 0"
   workflow_dispatch:
+  push:
+    # A merged refresh (recorded versions bumped) re-runs the sweep so the now
+    # up-to-date tools' issues close within minutes, not on the next Sunday cron.
+    branches: [main]
+    paths:
+      - data/context-reduction-tools.json
 
 permissions:
   contents: read

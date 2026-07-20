@@ -76,6 +76,10 @@ export const run = async (outPath: string): Promise<void> => {
     },
     verdictMoving: by("verdict-moving"),
     observedOnly: by("observed-only"),
+    // Tools confirmed current with upstream this run. Serialised so the issue sync
+    // can positively close a resolved tool's issue, never on mere absence (a
+    // transient error must not read as "resolved").
+    noDrift: by("no-drift"),
     unparseable: by("unparseable"),
     structuralSkip: by("structural-skip"),
     transientError: by("transient-error"),
