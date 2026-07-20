@@ -41,14 +41,14 @@ export const LAYERS: LayerDef[] = [
   {
     label: "Architecture violation detection",
     note: "",
-    match: ["Architecture violation detection (trust-first)", "Architecture violation detection"],
+    match: ["Architecture violation detection"],
   },
   { label: "MCP definition tokens", note: "", match: ["MCP definition tokens"] },
   { label: "Agent memory persistence", note: "", match: ["Agent memory persistence"] },
   {
-    label: "Cross-session governance & reasoning capture",
+    label: "Cross-session governance",
     note: "",
-    match: ["Cross-session governance & reasoning capture", "Cross-session governance"],
+    match: ["Cross-session governance"],
   },
   {
     label: "Response verbosity & memory compression",
@@ -56,9 +56,9 @@ export const LAYERS: LayerDef[] = [
     match: ["Response verbosity & memory compression", "Response verbosity + memory compression"],
   },
   {
-    label: "Config stack audit & optimisation",
+    label: "Config stack audit",
     note: "",
-    match: ["Config stack audit & optimisation", "Config stack audit"],
+    match: ["Config stack audit"],
   },
   { label: "Agent safety enforcement", note: "", match: ["Agent safety enforcement"] },
   {

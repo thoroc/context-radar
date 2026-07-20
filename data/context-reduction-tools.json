@@ -4,6 +4,137 @@
     "stars_verified": "2026-07-15",
     "tool_count": 81
   },
+  "layers": [
+    {
+      "name": "Shell output",
+      "order": 1,
+      "cardinality": "pick-one",
+      "note": "Pick exactly one. Running two shell hooks simultaneously causes duplicate compression.",
+      "curatedPick": "rtk"
+    },
+    {
+      "name": "All tool output",
+      "order": 2,
+      "cardinality": "stackable",
+      "note": "Covers what shell hooks miss: web fetches, API responses, Playwright output.",
+      "curatedPick": "context-mode"
+    },
+    {
+      "name": "Static context injection (push model)",
+      "order": 3,
+      "cardinality": "stackable",
+      "note": "Pre-write context before sessions start. Run order: codesight then sigmap then caveman-compress.",
+      "curatedPick": "sigmap"
+    },
+    {
+      "name": "Conversation history management",
+      "order": 4,
+      "cardinality": "stackable",
+      "note": "magic-context is OpenCode-only, not compatible with Claude Code."
+    },
+    {
+      "name": "Personal knowledge retrieval",
+      "order": 5,
+      "cardinality": "stackable",
+      "note": "Add CLAUDE.md routing rules when using multiple knowledge tools to avoid agent confusion.",
+      "curatedPick": "qmd"
+    },
+    {
+      "name": "Library documentation retrieval",
+      "order": 6,
+      "cardinality": "stackable",
+      "note": "Solves Claude using stale API knowledge for your dependencies.",
+      "curatedPick": "context-neuledge"
+    },
+    {
+      "name": "Tabular data retrieval",
+      "order": 7,
+      "cardinality": "stackable",
+      "note": "Install if you work with CSV or Excel data."
+    },
+    {
+      "name": "Codebase understanding & onboarding",
+      "order": 8,
+      "cardinality": "stackable",
+      "note": "Costs API tokens per run, not every session. Best for onboarding and architecture reviews."
+    },
+    {
+      "name": "Code navigation",
+      "order": 9,
+      "cardinality": "pick-one",
+      "note": "Install one code nav tool. Multiple code nav MCPs expose overlapping tool names, so the agent cannot route between them reliably.",
+      "curatedPick": "codegraph"
+    },
+    {
+      "name": "Architecture violation detection",
+      "order": 10,
+      "cardinality": "stackable"
+    },
+    {
+      "name": "MCP definition tokens",
+      "order": 11,
+      "cardinality": "install-both",
+      "note": "Tool Search is built into Claude Code, just enable it. Zero setup.",
+      "curatedPick": "tool-search"
+    },
+    {
+      "name": "Cross-session governance",
+      "order": 12,
+      "cardinality": "stackable"
+    },
+    {
+      "name": "Response verbosity + memory compression",
+      "order": 13,
+      "cardinality": "stackable",
+      "note": "Run caveman-compress on CLAUDE.md after sigmap or codesight write to it.",
+      "curatedPick": "caveman"
+    },
+    {
+      "name": "Code generation minimalism (YAGNI enforcement)",
+      "order": 14,
+      "cardinality": "stackable",
+      "note": "Prevents over-engineered code from being written, rather than compressing afterwards. Stackable with caveman.",
+      "curatedPick": "ponytail"
+    },
+    {
+      "name": "Config stack audit",
+      "order": 15,
+      "cardinality": "stackable",
+      "note": "Run after assembling your stack. token-optimizer uses your Claude session; ctxharness is pure CLI.",
+      "curatedPick": "token-optimizer"
+    },
+    {
+      "name": "Agent memory persistence",
+      "order": 16,
+      "cardinality": "pick-one",
+      "note": "These persist what Claude learns across sessions. Pick one, they overlap significantly. ACE (strategy memory) is stackable with any of the others.",
+      "curatedPick": "claude-mem"
+    },
+    {
+      "name": "Universal context compression middleware",
+      "order": 17,
+      "cardinality": "stackable",
+      "note": "If you use headroom wrap claude, remove RTK, caveman and context-mode from your stack; headroom handles all three."
+    },
+    {
+      "name": "Agent safety enforcement",
+      "order": 18,
+      "cardinality": "stackable",
+      "note": "These address runtime safety, a different problem from context reduction. Useful complementary layer."
+    },
+    {
+      "name": "Agent runtime & context orchestration",
+      "order": 19,
+      "cardinality": "stackable",
+      "note": "ARK is not yet a Claude Code plugin; the MCP connector ships in v0.8."
+    },
+    {
+      "name": "Reference resource (curated list)",
+      "order": 20,
+      "cardinality": "reference",
+      "note": "Curated further-reading lists, not installable stack components."
+    }
+  ],
   "tools": [
     {
       "id": "rtk",
@@ -2186,7 +2317,7 @@
       "id": "repo-graph",
       "tool": "repo-graph",
       "githubUrl": "https://github.com/andreirx/repo-graph",
-      "layer": "Architecture violation detection (trust-first)",
+      "layer": "Architecture violation detection",
       "whatItDoes": "Deterministic graph with trust model: classifies unresolved edges, reliability surface, obligation/CI gate, trend analysis. CLI only. No releases.",
       "conflict": {
         "severity": "soft",
@@ -2378,7 +2509,7 @@
       "id": "bitloops",
       "tool": "Bitloops",
       "githubUrl": "https://github.com/bitloops/bitloops",
-      "layer": "Cross-session governance & reasoning capture",
+      "layer": "Cross-session governance",
       "whatItDoes": "Rust daemon: captures developer-agent reasoning linked to git commits. Shared repo-scoped memory across agents. DevQL typed GraphQL interface. External knowledge (GitHub issues/PRs, Jira, Confluence). Local dashboard. SQLite+DuckDB default backends. Semantic embeddings (local or OpenAI). Supports Claude Code, Codex, Cursor, Gemini, Copilot, OpenCode. brew install available. v0.0.17. Telemetry opt-in at first init.",
       "conflict": {
         "severity": "soft",
@@ -2929,7 +3060,7 @@
       "id": "token-optimizer",
       "tool": "token-optimizer",
       "githubUrl": "https://github.com/alexgreensh/token-optimizer",
-      "layer": "Config stack audit & optimisation",
+      "layer": "Config stack audit",
       "whatItDoes": "Claude Code skill that dispatches 6 parallel audit agents across your full config stack: CLAUDE.md, MEMORY.md, skills, MCP servers, commands, rules, .claudeignore. Measures per-message overhead, identifies what is eating context, implements fixes with backup + diff approval. Skill usage analytics (tracks which of your 59 installed skills you actually use). Session health monitoring. Interactive HTML dashboard. Python measurement script with before/after comparison. Local SQLite trend tracking. No releases yet.",
       "conflict": {
         "severity": "none",
@@ -2979,7 +3110,7 @@
       "id": "ctxharness",
       "tool": "ctxharness",
       "githubUrl": "https://github.com/FlorianBruniaux/ctxharness",
-      "layer": "Config stack audit & optimisation",
+      "layer": "Config stack audit",
       "whatItDoes": "CLI/CI tool that validates AI instruction files (CLAUDE.md, AGENTS.md, .cursorrules) for drift and quality. L1 fact drift: version numbers in docs vs actual package.json/Cargo.toml/go.mod/Prisma schema (20 extractors). L2 instruction quality: vague language detection, positive/negative ratio, token budget with @file.md chain resolution. L3 context assembly: hook validation, skill frontmatter checks, rule glob validity, coverage ratio. ctxharness fix --apply auto-patches stale versions. ctxharness score gives 0-100 health score. ctxharness diff blocks CI on regression. GitHub Action available. Stack presets for T3, Next.js, Python, Go, Rust. v0.4.1. MIT. Made by RTK author.",
       "conflict": {
         "severity": "stackable",
@@ -3679,7 +3810,7 @@
       "id": "graphiti",
       "tool": "graphiti",
       "githubUrl": "https://github.com/getzep/graphiti",
-      "layer": "Cross-session governance & reasoning capture",
+      "layer": "Cross-session governance",
       "whatItDoes": "Temporal context graph engine. Every fact has a validity window - when it became true and when superseded. Agents can query \"what was true on Tuesday\" not just \"what is true now\". Incremental graph construction (no batch recomputation). Hybrid retrieval: semantic + BM25 + graph traversal. mcp_server/ directory for Claude Code and Cursor integration. 194 releases, v0.29.0 Apr 2026. arXiv:2501.13956. Backends: Neo4j, FalkorDB (Docker), KùzuDB, Amazon Neptune.",
       "conflict": {
         "severity": "stackable",
