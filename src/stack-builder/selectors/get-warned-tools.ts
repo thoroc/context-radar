@@ -1,11 +1,13 @@
-import { LAYERS, type StackTool } from "../stack-data";
+import type { Tool } from "../../lib";
+import { LAYERS } from "../constants";
 import { state } from "../state";
 
-export const getWarnedTools = (): StackTool[] => {
-  const out: StackTool[] = [];
-  for (const l of LAYERS) {
-    for (const t of l.tools) {
-      if (state.sel.has(t.id) && t.warn) out.push(t);
+/** Selected tools that need a model API or external infrastructure to run. */
+export const getWarnedTools = (): Tool[] => {
+  const out: Tool[] = [];
+  for (const layer of LAYERS) {
+    for (const t of layer.tools) {
+      if (state.sel.has(t.id) && t.requiresExternal) out.push(t);
     }
   }
   return out;
