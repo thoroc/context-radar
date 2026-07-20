@@ -286,8 +286,8 @@
       "trend": 14,
       "activity": {
         "notes": "confirmed 2.8k stars, 76 MCP tools (was 59), 30+ agents, active website at leanctx.com",
-        "latestVersion": "v3.9.11",
-        "releasedOn": "2026-07-16"
+        "latestVersion": "v3.9.12",
+        "releasedOn": "2026-07-17"
       },
       "activityStatus": {
         "band": "active",
@@ -612,7 +612,7 @@
       "tool": "sigmap",
       "githubUrl": "https://github.com/manojmallick/sigmap",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "Extracts fn/class signatures into CLAUDE.md passively. Zero deps. 33 languages. Graph-boosted retrieval (86.7% hit@5). 96.9% token reduction across 21 repos. 20 MCP tools. Now also a deterministic grounding layer: sigmap verify flags fabricated files/imports/symbols/tests against the real repo. v8.18.0.",
+      "whatItDoes": "Extracts fn/class signatures into CLAUDE.md passively. Zero deps. 33 languages. Graph-boosted retrieval (86.4% hit@5 / MRR .780, measured against a grep-agent baseline at 42.7% since v8.19 'Honest Numbers'). 96.9% token reduction across 21 repos. 20 MCP tools. Doc-comment hints now span Python, JS/TS, Go, Rust and Java (v8.20-8.21). Now also a deterministic grounding layer: sigmap verify flags fabricated files/imports/symbols/tests against the real repo. v8.21.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -633,10 +633,10 @@
       "stars": 598,
       "trend": 40,
       "activity": {
-        "latestVersion": "v8.18.0",
-        "releaseCount": 147,
-        "releasedOn": "2026-07-12",
-        "notes": "598 stars, 39 forks, 147 releases, v8.18.0 (12 Jul 2026), 33 languages, 20 MCP tools, zero deps. Scope broadened to deterministic grounding/verification (Hallucination Guard). Effectively solo dev."
+        "latestVersion": "v8.21.0",
+        "releaseCount": 150,
+        "releasedOn": "2026-07-19",
+        "notes": "598 stars, 39 forks, 150 releases, v8.21.0 (19 Jul 2026), 33 languages, 20 MCP tools, zero deps. Scope broadened to deterministic grounding/verification (Hallucination Guard). v8.19 'Honest Numbers' re-benched retrieval against a grep-agent baseline; v8.20-8.21 extended doc-comment hints to JS/TS/Go/Rust/Java. Effectively solo dev."
       },
       "activityStatus": {
         "band": "active",
@@ -741,9 +741,9 @@
       "trend": 84,
       "activity": {
         "releaseCount": 72,
-        "latestVersion": "v0.32.1",
+        "latestVersion": "v0.32.3",
         "notes": "84+ open issues, 34 forks, 72 releases, v0.15.7 Apr 2026, 483 commits, very active",
-        "releasedOn": "2026-07-15"
+        "releasedOn": "2026-07-18"
       },
       "activityStatus": {
         "band": "active",
@@ -1044,7 +1044,7 @@
       "tool": "jdocmunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdocmunch-mcp",
       "layer": "Library documentation retrieval",
-      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. Roughly 62 MCP tools (index_local, index_repo, get_toc, search_sections, get_section and more). SHA-256 drift detection. Claude Code hooks (PreToolUse, PostToolUse, PreCompact) plus a watch daemon that reindexes on any on-disk change. Security filtering. _meta envelope reports tokens saved per call. Python/pip or uvx. v1.98.0.",
+      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. Roughly 63 MCP tools (index_local, index_repo, get_toc, search_sections, get_section, doc_resolve_repo and more). SHA-256 drift detection. Claude Code hooks (PreToolUse, PostToolUse, PreCompact) plus a watch daemon that reindexes on any on-disk change. Security filtering. _meta envelope reports tokens saved per call. Optional pip install jdocmunch-mcp[office] adds local PDF/Word/PowerPoint/EPUB ingestion (converted on-machine to Markdown via markitdown, no network). Python/pip or uvx. v1.105.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1066,10 +1066,10 @@
       "stars": 191,
       "trend": 15,
       "activity": {
-        "latestVersion": "v1.98.0",
-        "releaseCount": 132,
-        "releasedOn": "2026-07-16",
-        "notes": "191 stars, 41 forks, 132 releases, v1.98.0 (16 Jul 2026), roughly 62 MCP tools, Claude Code hooks (PreToolUse/PostToolUse/PreCompact) plus a watch daemon, local-first. The 1.x line is disciplined backward-compatible minor releases, not version inflation."
+        "latestVersion": "v1.105.0",
+        "releaseCount": 139,
+        "releasedOn": "2026-07-19",
+        "notes": "191 stars, 41 forks, 139 releases, v1.105.0 (19 Jul 2026), roughly 63 MCP tools, Claude Code hooks (PreToolUse/PostToolUse/PreCompact) plus a watch daemon, local-first. The 1.x line is disciplined backward-compatible minor releases, not version inflation. Recent work: corpus-identity resolution (doc_resolve_repo, worktree-aware) and an optional [office] extra for local PDF/Word/PowerPoint/EPUB ingestion."
       },
       "activityStatus": {
         "band": "active",
@@ -1419,9 +1419,9 @@
       "stars": 20000,
       "trend": 28,
       "activity": {
-        "latestVersion": "v2.3.6",
+        "latestVersion": "v2.3.7",
         "notes": "141 commits since v2.3.2, 6 community PRs merged, v2.3.3 recent",
-        "releasedOn": "2026-06-10"
+        "releasedOn": "2026-07-18"
       },
       "activityStatus": {
         "band": "active",
@@ -1667,8 +1667,8 @@
       "trend": 4,
       "activity": {
         "notes": "Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep.",
-        "latestVersion": "v0.9.18",
-        "releasedOn": "2026-07-17"
+        "latestVersion": "v0.9.20",
+        "releasedOn": "2026-07-18"
       },
       "activityStatus": {
         "band": "active",
@@ -1804,9 +1804,9 @@
       "stars": 433,
       "trend": 71,
       "activity": {
-        "latestVersion": "v7.4.0",
+        "latestVersion": "v7.4.2",
         "notes": "21 forks, 133+ releases, v7.0.2 Jun 24 2026, 728+ commits, SkillsLLM security scan PASSED (30 May 2026, no high-severity issues), author actively engaging upstream (filed feature request on headroom repo proposing embedding tokensave, fully self-disclosed)",
-        "releasedOn": "2026-07-16"
+        "releasedOn": "2026-07-19"
       },
       "activityStatus": {
         "band": "active",
@@ -2107,9 +2107,9 @@
       "stars": 2000,
       "trend": 5,
       "activity": {
-        "latestVersion": "v1.108.136",
+        "latestVersion": "v1.108.146",
         "notes": "292 forks, 1.9k stars, 419K installs, v1.108.25 released 26 May 2026, hyper-active daily releases",
-        "releasedOn": "2026-07-17"
+        "releasedOn": "2026-07-19"
       },
       "activityStatus": {
         "band": "active",
@@ -2287,9 +2287,9 @@
       "trend": null,
       "activity": {
         "releaseCount": 10,
-        "latestVersion": "0.7.22",
+        "latestVersion": "0.7.23",
         "notes": "0 forks, 10 releases, v0.5.2 Apr 20 2026, 112 commits, published on crates.io, author has 65 GitHub repos - technically mature but genuinely undiscovered, no third-party coverage found",
-        "releasedOn": "2026-07-15"
+        "releasedOn": "2026-07-18"
       },
       "activityStatus": {
         "band": "early",
@@ -2340,8 +2340,8 @@
       "trend": 267,
       "activity": {
         "notes": "no issues, no PRs, no releases yet",
-        "latestVersion": "v0.7.0",
-        "releasedOn": "2026-07-17"
+        "latestVersion": "v0.7.1",
+        "releasedOn": "2026-07-19"
       },
       "activityStatus": {
         "band": "early",
@@ -3081,8 +3081,8 @@
       "trend": 13,
       "activity": {
         "notes": "1.4k stars (was ~1k), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED",
-        "latestVersion": "v5.11.50",
-        "releasedOn": "2026-07-16"
+        "latestVersion": "v5.11.51",
+        "releasedOn": "2026-07-19"
       },
       "activityStatus": {
         "band": "active",
@@ -3268,7 +3268,7 @@
       "tool": "jdatamunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdatamunch-mcp",
       "layer": "Tabular data retrieval",
-      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools (index_local, describe_dataset, describe_column, search_data, get_rows, aggregate, sample_rows, list_datasets and more). Token savings telemetry per call. 25,333x reduction benchmark on a 1M-row CSV (measured). Incremental re-index on unchanged files (hash check). Local-first, no cloud. v1.19.1.",
+      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools (index_local, describe_dataset, describe_column, search_data, get_rows, aggregate, sample_rows, list_datasets and more). Token savings telemetry per call. 25,333x reduction benchmark on a 1M-row CSV (measured). Incremental re-index on unchanged files (hash check). Absent/degraded verdicts disclose what the ingest excluded (coverage contract, v1.20); optional advisory session token budget via JDATAMUNCH_SESSION_TOKEN_BUDGET (v1.21). Local-first, no cloud. v1.21.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3290,10 +3290,10 @@
       "stars": 73,
       "trend": 1650,
       "activity": {
-        "releaseCount": 36,
-        "latestVersion": "v1.19.1",
-        "releasedOn": "2026-07-16",
-        "notes": "73 stars, 19 forks, 1 contributor, 36 releases, v1.19.1 (16 Jul 2026), roughly 36 MCP tools, local-first (SQLite). Feature-mature but single-maintainer and low adoption; recent releases are parity/docs polish."
+        "releaseCount": 38,
+        "latestVersion": "v1.21.0",
+        "releasedOn": "2026-07-19",
+        "notes": "73 stars, 19 forks, 1 contributor, 38 releases, v1.21.0 (19 Jul 2026), roughly 36 MCP tools, local-first (SQLite). Feature-mature but single-maintainer and low adoption; recent releases add a coverage contract on absence claims and an advisory session token budget."
       },
       "activityStatus": {
         "band": "active",
@@ -3865,7 +3865,7 @@
       "tool": "obsidian-second-brain",
       "githubUrl": "https://github.com/eugeniughelbur/obsidian-second-brain",
       "layer": "Personal knowledge retrieval",
-      "whatItDoes": "Claude Code skill (installed to ~/.claude/skills/) that turns your Obsidian vault into a persistent second brain. 43 commands. /obsidian-architect (v0.10, May 2026): scans your codebase and writes maintained architecture notes into your vault - refreshable, never overwrites your edits. /obsidian-save, /obsidian-research, /obsidian-recall, /sunday weekly review, /log capture. AI-first vault design: machine-readable frontmatter, mandatory wikilinks, recency markers optimised for Claude retrieval. Google Calendar integration. Anti-hallucination guards. 1,000+ stars in 7 weeks.",
+      "whatItDoes": "Claude Code skill (installed to ~/.claude/skills/) that turns your Obsidian vault into a persistent second brain. 45 commands, and as of v0.13 one spec-compliant Agent Skills build also serves Codex CLI, OpenCode, Google Antigravity and GitHub Copilot CLI (not just Claude Code). /obsidian-architect (v0.10, May 2026): scans your codebase and writes maintained architecture notes into your vault - refreshable, never overwrites your edits. /obsidian-save, /obsidian-research, /obsidian-recall, /sunday weekly review, /log capture, /obsidian-brainstorm (a stateful multi-turn Socratic design interview, v0.14). AI-first vault design: machine-readable frontmatter, mandatory wikilinks, recency markers optimised for Claude retrieval. Google Calendar integration. Anti-hallucination guards. 1,000+ stars in 7 weeks.",
       "conflict": {
         "severity": "stackable",
         "projects": [
@@ -3888,9 +3888,9 @@
       "stars": 3300,
       "trend": 230,
       "activity": {
-        "notes": "0 forks shown, 1000+ stars in 7 weeks, weekly releases, very active solo dev",
-        "latestVersion": "v0.12.0",
-        "releasedOn": "2026-07-11"
+        "notes": "408 forks (round-2 fork sweep, Jul 2026), 1000+ stars in 7 weeks, weekly releases, very active solo dev. v0.13 shipped a unified Agent Skills build (Codex CLI, OpenCode, Antigravity, Copilot CLI); v0.14 added /obsidian-brainstorm as the 45th command.",
+        "latestVersion": "v0.14.0",
+        "releasedOn": "2026-07-18"
       },
       "activityStatus": {
         "band": "stable",
