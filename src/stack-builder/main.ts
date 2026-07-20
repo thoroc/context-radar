@@ -1,14 +1,13 @@
 import pages from "virtual:context-radar-pages";
 import { initThemeToggle, wirePageModals } from "../lib";
-import { clearAll, exportMd, loadRec, setFilter } from "./actions";
-import { FILTERS } from "./constants";
+import { clearAll, exportMd, loadSuggested, setFilter } from "./actions";
+import { FILTERS, LAYERS } from "./constants";
 import { el } from "./dom";
 import { render } from "./render";
-import { LAYERS, TOTAL_LAYERS } from "./stack-data";
 
-// Derive the header counts from the data so they can never drift from the catalogue.
+// Derive the header counts from the canonical data so they can never drift.
 el("sb-tools").textContent = String(LAYERS.reduce((n, l) => n + l.tools.length, 0));
-el("sb-layers").textContent = String(TOTAL_LAYERS);
+el("sb-layers").textContent = String(LAYERS.length);
 
 // Entry point: build the filter chips, wire the controls, and do the first paint.
 for (const f of FILTERS) {
@@ -20,7 +19,7 @@ for (const f of FILTERS) {
   el("fbar").appendChild(c);
 }
 
-el("btn-rec").addEventListener("click", loadRec);
+el("btn-rec").addEventListener("click", loadSuggested);
 el("btn-clear").addEventListener("click", clearAll);
 el("btn-export").addEventListener("click", exportMd);
 el("q").addEventListener("input", render);

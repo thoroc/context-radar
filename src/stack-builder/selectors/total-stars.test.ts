@@ -11,9 +11,9 @@ describe("totalStars", () => {
     expect(totalStars()).toBe("-");
   });
 
-  test("scales k-suffixed counts into the running total", () => {
-    // rtk is 71k stars; the total must read 71.0k, not 71.
+  test("compacts the running total of numeric star counts", () => {
+    // rtk is 71,000 stars; the total must read 71k, not 71.
     state.sel = new Set(["rtk"]);
-    expect(totalStars()).toBe("71.0k");
+    expect(totalStars()).toBe("71k");
   });
 });

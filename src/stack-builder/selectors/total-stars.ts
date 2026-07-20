@@ -1,14 +1,14 @@
-import { LAYERS } from "../stack-data";
+import { compactCount } from "../../lib";
+import { LAYERS } from "../constants";
 import { state } from "../state";
-import { parseStars } from "./parse-stars";
 
+/** Combined community-star count of the selected tools, formatted compactly. */
 export const totalStars = (): string => {
   let n = 0;
-  for (const l of LAYERS) {
-    for (const t of l.tools) {
-      if (state.sel.has(t.id)) n += parseStars(t.stars);
+  for (const layer of LAYERS) {
+    for (const t of layer.tools) {
+      if (state.sel.has(t.id)) n += t.stars ?? 0;
     }
   }
-  if (n === 0) return "-";
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${Math.round(n)}`;
+  return n === 0 ? "-" : compactCount(n);
 };

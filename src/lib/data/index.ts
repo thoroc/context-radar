@@ -1,6 +1,13 @@
 import rawData from "../../../data/context-reduction-tools.json";
 import rawRecs from "../../../data/tool-recommendations.json";
-import type { Dataset, Meta, Recommendation, RecommendationsFile, Tool } from "../schema";
+import type {
+  Dataset,
+  LayerMeta,
+  Meta,
+  Recommendation,
+  RecommendationsFile,
+  Tool,
+} from "../schema";
 
 // Data domain: the typed, guarded view of the canonical JSON store. The JSON is
 // validated against the Zod schema at build/CI time (`mise run validate`), so the
@@ -22,6 +29,9 @@ export const META: Meta = dataset.meta;
 
 /** All tools, in catalogue order. */
 export const TOOLS: Tool[] = dataset.tools;
+
+/** Per-layer metadata (order, cardinality, note, curated pick), one entry per layer. */
+export const LAYERS_META: LayerMeta[] = dataset.layers;
 
 /** Tools keyed by their stable `id`, for resolving recommendation members to their detail page. */
 export const TOOLS_BY_ID: Map<string, Tool> = new Map(dataset.tools.map((t) => [t.id, t]));

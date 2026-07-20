@@ -3,6 +3,6 @@
 
 export * from "./clear-all";
 export * from "./export-md";
-export * from "./load-rec";
+export * from "./load-suggested";
 export * from "./set-filter";
 export * from "./toggle";
