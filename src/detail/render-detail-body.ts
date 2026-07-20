@@ -1,6 +1,7 @@
 import {
   DECISION_LABEL,
   formatDisplayDate,
+  licenceWarns,
   RECOMMENDATIONS,
   starsText,
   statusText,
@@ -12,7 +13,6 @@ import { activityParagraph } from "./activity-paragraph";
 import { conflictBlock } from "./conflict-block";
 import { esc } from "./esc";
 import { evidenceSection } from "./evidence-section";
-import { licenceWarns } from "./licence-warns";
 import { recommendationBlock } from "./recommendation-block";
 import { requirementsBlock } from "./requirements-block";
 import { runtimeChips } from "./runtime-chips";

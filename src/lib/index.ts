@@ -9,6 +9,7 @@
 // imported from elsewhere. Page folders (landing/, comparison/, stack-builder/)
 // are Vite entry points that nothing imports, so their barrels are internal.
 
+export * from "./conflicts";
 export * from "./csv";
 export * from "./data";
 export * from "./dom";

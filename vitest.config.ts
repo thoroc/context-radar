@@ -33,10 +33,10 @@ export default defineConfig({
       // Target: 85-90%.
       thresholds: {
         autoUpdate: true,
-        lines: 49.47,
-        functions: 65.78,
-        branches: 51,
-        statements: 50.07,
+        lines: 51.02,
+        functions: 66.78,
+        branches: 52.58,
+        statements: 51.66,
       },
     },
   },

@@ -2,15 +2,15 @@ import { describe, expect, test } from "vitest";
 import { licenceWarns } from "./licence-warns";
 
 describe("licenceWarns", () => {
-  test("flags a known non-permissive SPDX identifier", () => {
+  test("flags a non-permissive spdx", () => {
     expect(licenceWarns({ spdx: "AGPL-3.0" })).toBe(true);
   });
 
-  test("flags an explicit warning note", () => {
+  test("flags any licence carrying a warning", () => {
     expect(licenceWarns({ spdx: "MIT", warning: "no LICENSE file" })).toBe(true);
   });
 
-  test("passes a permissive licence without warning", () => {
+  test("passes a plain permissive licence", () => {
     expect(licenceWarns({ spdx: "MIT" })).toBe(false);
   });
 });
