@@ -55,6 +55,12 @@ export const buildCard = (
           <span class="lic l-${licenceClass(t.licence)}">${licenceText(t.licence)}</span>
           <a href="${t.githubUrl}" target="_blank" rel="noopener" style="font-size:13px;color:var(--text3);text-decoration:none"><i class="ti ti-external-link"></i></a>
         </div>`;
+  // The description and requirements are clamped to keep cards scannable; expose
+  // the full text on hover. Set as DOM properties so quotes in the copy are safe.
+  const desc = card.querySelector<HTMLElement>(".tdesc");
+  if (desc) desc.title = t.whatItDoes;
+  const req = card.querySelector<HTMLElement>(".treq");
+  if (req) req.title = t.requirements;
   // The link must not toggle the card when clicked.
   card.querySelector("a")?.addEventListener("click", (e) => e.stopPropagation());
   return card;
