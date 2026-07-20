@@ -150,14 +150,16 @@ describe("recommendationSchema — intra-record shape", () => {
 
 describe("datasetSchema", () => {
   const meta = { last_updated: "2026-07-15", stars_verified: "2026-07-15", tool_count: 1 };
+  const layers = [{ name: "Shell output", order: 1, cardinality: "pick-one" }];
 
   test("accepts a consistent dataset", () => {
-    expect(datasetSchema.safeParse({ meta, tools: [makeTool()] }).success).toBe(true);
+    expect(datasetSchema.safeParse({ meta, layers, tools: [makeTool()] }).success).toBe(true);
   });
 
   test("requires meta.tool_count to equal tools.length", () => {
     expect(
-      datasetSchema.safeParse({ meta: { ...meta, tool_count: 2 }, tools: [makeTool()] }).success,
+      datasetSchema.safeParse({ meta: { ...meta, tool_count: 2 }, layers, tools: [makeTool()] })
+        .success,
     ).toBe(false);
   });
 
@@ -165,13 +167,41 @@ describe("datasetSchema", () => {
     const count = { ...meta, tool_count: 2 };
     const dupName = {
       meta: count,
+      layers,
       tools: [makeTool({ id: "a", tool: "A" }), makeTool({ id: "b", tool: "A" })],
     };
     const dupId = {
       meta: count,
+      layers,
       tools: [makeTool({ id: "a", tool: "A" }), makeTool({ id: "a", tool: "B" })],
     };
     expect(datasetSchema.safeParse(dupName).success).toBe(false);
     expect(datasetSchema.safeParse(dupId).success).toBe(false);
+  });
+
+  test("requires every tool's layer to have a layers[] entry", () => {
+    const orphan = { meta, layers, tools: [makeTool({ layer: "Code navigation" })] };
+    expect(datasetSchema.safeParse(orphan).success).toBe(false);
+  });
+
+  test("rejects duplicate layer names and duplicate orders", () => {
+    const dupName = {
+      meta,
+      layers: [
+        { name: "Shell output", order: 1, cardinality: "pick-one" },
+        { name: "Shell output", order: 2, cardinality: "stackable" },
+      ],
+      tools: [makeTool()],
+    };
+    const dupOrder = {
+      meta,
+      layers: [
+        { name: "Shell output", order: 1, cardinality: "pick-one" },
+        { name: "Code navigation", order: 1, cardinality: "pick-one" },
+      ],
+      tools: [makeTool()],
+    };
+    expect(datasetSchema.safeParse(dupName).success).toBe(false);
+    expect(datasetSchema.safeParse(dupOrder).success).toBe(false);
   });
 });

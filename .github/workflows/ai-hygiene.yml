@@ -100,19 +100,35 @@ jobs:
           cat report.md >> "$GITHUB_STEP_SUMMARY"
 
       # Sticky PR comment: update the existing report comment or create one.
+      # This report is advisory, so a transient GitHub API error (e.g. HTTP 503)
+      # or a fork PR without comment permission must never fail the check. The
+      # step is best-effort (continue-on-error) with a short retry; the full
+      # report is always in the job summary regardless.
       - name: Comment on PR
         if: github.event_name == 'pull_request'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
         run: |
-          existing=$(gh api "repos/$REPO/issues/$PR/comments" \
-            --jq 'map(select(.body | startswith("<!-- ai-hygiene-report -->"))) | .[0].id // empty')
+          retry() {
+            for attempt in 1 2 3; do
+              if "$@"; then
+                return 0
+              fi
+              echo "gh call failed (attempt $attempt of 3); retrying in 5s" >&2
+              sleep 5
+            done
+            echo "gh call still failing after 3 attempts; skipping PR comment" >&2
+            return 1
+          }
+          existing=$(retry gh api "repos/$REPO/issues/$PR/comments" \
+            --jq 'map(select(.body | startswith("<!-- ai-hygiene-report -->"))) | .[0].id // empty') || exit 0
           if [ -n "$existing" ]; then
-            gh api -X PATCH "repos/$REPO/issues/comments/$existing" -F body=@report.md > /dev/null
-            echo "Updated comment $existing"
+            retry gh api -X PATCH "repos/$REPO/issues/comments/$existing" -F body=@report.md > /dev/null \
+              && echo "Updated comment $existing"
           else
-            gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@report.md > /dev/null
-            echo "Created a new comment"
+            retry gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@report.md > /dev/null \
+              && echo "Created a new comment"
           fi

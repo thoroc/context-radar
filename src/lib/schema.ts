@@ -28,13 +28,10 @@ export const layerSchema = z.enum([
   "Library documentation retrieval",
   "Codebase understanding & onboarding",
   "Code navigation",
-  "Architecture violation detection (trust-first)",
   "Architecture violation detection",
   "MCP definition tokens",
-  "Cross-session governance & reasoning capture",
   "Cross-session governance",
   "Response verbosity + memory compression",
-  "Config stack audit & optimisation",
   "Config stack audit",
   "Agent safety enforcement",
   "Tabular data retrieval",
@@ -44,6 +41,37 @@ export const layerSchema = z.enum([
   "Agent memory persistence",
   "Code generation minimalism (YAGNI enforcement)",
 ]);
+
+/**
+ * How many tools a layer expects in a stack. `pick-one` = mutually exclusive
+ * (choose exactly one); `stackable` = add as many as apply; `install-both` = the
+ * members are complementary and meant to run together; `reference` = not an
+ * installable stack layer (curated further-reading lists). Migrated from the
+ * stack-builder's per-layer `badge`.
+ */
+export const layerCardinalitySchema = z.enum([
+  "pick-one",
+  "stackable",
+  "install-both",
+  "reference",
+]);
+
+/**
+ * Per-layer curation the flat tool list cannot carry: display order, selection
+ * cardinality, an optional guidance note, and an optional curated starting pick
+ * (a tool id, cross-checked against the store in scripts/validate). This is the
+ * home for the knowledge that used to live in the hand-maintained stack-data.ts.
+ */
+export const layerMetaSchema = z
+  .object({
+    name: layerSchema,
+    order: z.number().int().nonnegative(),
+    cardinality: layerCardinalitySchema,
+    note: z.string().optional(),
+    /** Tool id of the curated starting pick for this layer, if one is designated. */
+    curatedPick: z.string().min(1).optional(),
+  })
+  .strict();
 
 /** Normalised implementation language. `none` for built-ins / skill files / curated lists. */
 export const runtimeLanguageSchema = z.enum([
@@ -354,6 +382,7 @@ export const metaSchema = z
 export const datasetSchema = z
   .object({
     meta: metaSchema,
+    layers: z.array(layerMetaSchema),
     tools: z.array(toolSchema),
   })
   .strict()
@@ -368,7 +397,22 @@ export const datasetSchema = z
   .refine((d) => new Set(d.tools.map((t) => t.id)).size === d.tools.length, {
     message: "tool ids must be unique",
     path: ["tools"],
-  });
+  })
+  .refine((d) => new Set(d.layers.map((l) => l.name)).size === d.layers.length, {
+    message: "layer names must be unique",
+    path: ["layers"],
+  })
+  .refine((d) => new Set(d.layers.map((l) => l.order)).size === d.layers.length, {
+    message: "layer orders must be unique",
+    path: ["layers"],
+  })
+  .refine(
+    (d) => {
+      const declared = new Set(d.layers.map((l) => l.name));
+      return d.tools.every((t) => declared.has(t.layer));
+    },
+    { message: "every tool's layer must have a layers[] entry", path: ["layers"] },
+  );
 
 /** One alternative to a recommendation's pick, with the condition it wins under. */
 export const recommendationAlternativeSchema = z
@@ -439,6 +483,8 @@ export const recommendationsFileSchema = z
   .strict();
 
 export type Layer = z.infer<typeof layerSchema>;
+export type LayerCardinality = z.infer<typeof layerCardinalitySchema>;
+export type LayerMeta = z.infer<typeof layerMetaSchema>;
 export type RuntimeLanguage = z.infer<typeof runtimeLanguageSchema>;
 export type ActivityBand = z.infer<typeof activityBandSchema>;
 export type ConflictSeverity = z.infer<typeof conflictSeveritySchema>;
