@@ -6,17 +6,26 @@ import { totalStars } from "../selectors";
 
 const nameOf = (id: string): string => TOOLS_BY_ID.get(id)?.tool ?? id;
 
+const pairLine = (p: { a: string; b: string; severity: string }): string =>
+  `<div class="conf-line">${SEVERITY_LABEL[p.severity as keyof typeof SEVERITY_LABEL]}: ${nameOf(p.a)} and ${nameOf(p.b)}</div>`;
+
 export const renderPanels = (report: ConflictReport, warns: Tool[], covered: number): void => {
-  const pairs = [...report.blocking, ...report.warnings];
+  const { blocking, warnings } = report;
   const confBox = el("confBox");
-  if (pairs.length) {
+  if (blocking.length || warnings.length) {
     confBox.style.display = "block";
-    el("confList").innerHTML = pairs
-      .map(
-        (p) =>
-          `<div class="conf-line">${SEVERITY_LABEL[p.severity]}: ${nameOf(p.a)} and ${nameOf(p.b)}</div>`,
-      )
-      .join("");
+    const sections: string[] = [];
+    if (blocking.length) {
+      sections.push(
+        `<div class="conf-sub">To resolve (remove one of each pair):</div>${blocking.map(pairLine).join("")}`,
+      );
+    }
+    if (warnings.length) {
+      sections.push(
+        `<div class="conf-sub">Overlaps to review (allowed):</div>${warnings.map(pairLine).join("")}`,
+      );
+    }
+    el("confList").innerHTML = sections.join("");
   } else {
     confBox.style.display = "none";
   }
@@ -34,9 +43,13 @@ export const renderPanels = (report: ConflictReport, warns: Tool[], covered: num
   el("sCov").textContent = `${covered} / ${TOTAL_LAYERS}`;
   el("bCov").style.transform = `scaleX(${TOTAL_LAYERS ? covered / TOTAL_LAYERS : 0})`;
 
-  const n = pairs.length;
-  el("sConf").textContent = n === 0 ? "none" : `${n} conflict${n > 1 ? "s" : ""}`;
-  el("sConf").style.color = n > 0 ? "var(--red-mid)" : "var(--teal)";
-  el("bConf").style.transform = `scaleX(${Math.min(n * 0.34, 1)})`;
+  // The scoreboard headline is blocking conflicts only (the ones that must be
+  // resolved); soft overlaps are advisory and reported in the box above.
+  const nBlock = blocking.length;
+  const soft = warnings.length ? `, ${warnings.length} to review` : "";
+  el("sConf").textContent =
+    nBlock === 0 ? (warnings.length ? `0${soft}` : "none") : `${nBlock} to resolve${soft}`;
+  el("sConf").style.color = nBlock > 0 ? "var(--red-mid)" : "var(--teal)";
+  el("bConf").style.transform = `scaleX(${Math.min(nBlock * 0.34, 1)})`;
   el("sStars").textContent = totalStars();
 };

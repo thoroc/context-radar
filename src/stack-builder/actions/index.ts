@@ -4,5 +4,6 @@
 export * from "./clear-all";
 export * from "./export-md";
 export * from "./load-suggested";
+export * from "./select-in-layer";
 export * from "./set-filter";
 export * from "./toggle";

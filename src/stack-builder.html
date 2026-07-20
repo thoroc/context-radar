@@ -25,15 +25,15 @@
       <div class="hdr-left">
         <h1>Stack builder</h1>
         <p>
-          A curated builder set of <strong id="sb-tools">-</strong> tools across
-          <strong id="sb-layers">-</strong> layers. Add tools to assemble a conflict-free stack and watch layer
-          coverage, conflicts and community stars update.<br />
+          The full catalogue of <strong id="sb-tools">-</strong> tools across <strong id="sb-layers">-</strong> layers.
+          Load the suggested starting stack, or pick tools per layer; pick-one layers swap in place, and coverage and
+          conflicts update as you go.<br />
           A tinted requirements line flags tools needing model or API calls or infra; the <strong>rec</strong> badge
-          marks a recommended starting point.
+          marks a curated catalogue pick.
         </p>
       </div>
       <div class="hdr-actions">
-        <button class="accent" id="btn-rec"><i class="ti ti-star"></i> Recommended stack</button>
+        <button class="accent" id="btn-rec"><i class="ti ti-star"></i> Suggested starting stack</button>
         <button class="ghost" id="btn-clear"><i class="ti ti-x"></i> Clear all</button>
       </div>
     </header>
@@ -55,7 +55,7 @@
           <div class="stack-empty"><i class="ti ti-stack-2"></i>Nothing selected yet.</div>
         </div>
         <div class="conf-box" id="confBox" aria-live="polite">
-          <div class="conf-title"><i class="ti ti-alert-triangle"></i> Conflicts detected</div>
+          <div class="conf-title"><i class="ti ti-alert-triangle"></i> Conflicts &amp; overlaps</div>
           <div id="confList"></div>
         </div>
         <div class="req-warn-box" id="reqBox" aria-live="polite">
@@ -70,7 +70,8 @@
           <div class="sc-row"><span class="sc-label">Conflicts</span><span class="sc-val" id="sConf">-</span></div>
           <div class="sc-bar"><div class="sc-fill sc-fill-conf" id="bConf"></div></div>
           <div class="sc-row">
-            <span class="sc-label">Community stars</span><span class="sc-val" id="sStars">-</span>
+            <span class="sc-label">Combined stars <span class="sc-hint">popularity, not a quality signal</span></span
+            ><span class="sc-val" id="sStars">-</span>
           </div>
         </div>
         <div class="legend">

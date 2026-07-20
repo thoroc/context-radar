@@ -191,13 +191,13 @@ assertions:
     scanner: literalInMd
     scannerArgs:
       literal: "src/detail/recommendation-block.ts"
-  - id: path-src-stack-builder-selectors-layer-recommendation-ts
+  - id: path-src-stack-builder-model
     extractor: fileExists
     extractorArgs:
-      path: "src/stack-builder/selectors/layer-recommendation.ts"
+      path: "src/stack-builder/model"
     scanner: literalInMd
     scannerArgs:
-      literal: "src/stack-builder/selectors/layer-recommendation.ts"
+      literal: "src/stack-builder/model/"
   - id: path-plugin-skills-project-comparison-fetch-references-recommendation-placement-md
     extractor: fileExists
     extractorArgs:
@@ -254,13 +254,6 @@ assertions:
     scanner: literalInMd
     scannerArgs:
       literal: "scripts/verify-evidence.ts"
-  - id: path-stack-data-ts
-    extractor: fileExists
-    extractorArgs:
-      path: "stack-data.ts"
-    scanner: literalInMd
-    scannerArgs:
-      literal: "stack-data.ts"
   - id: path-tool-detail
     extractor: fileExists
     extractorArgs:
