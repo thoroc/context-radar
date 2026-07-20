@@ -90,12 +90,13 @@ live in `.ctxharness.yml`.
 
 ## Key paths
 
-- Canonical store: `data/context-reduction-tools.json` (`{meta, tools:[]}`, stable-key records)
+- Canonical store: `data/context-reduction-tools.json` (`{meta, layers, tools}`; stable-key tool records plus a
+  `layers[]` section carrying per-layer order/cardinality/note/curatedPick)
 - Cross-tool recommendations: `data/tool-recommendations.json` (`{recommendations:[]}`, per-layer pick + alternatives).
   Cross-store checks in `scripts/validate/check-recommendations.ts` (pick holds `best`/`either-or`; every member carries
   confirmed source-code verdict evidence; per-layer disjoint). Rendered by `src/detail/recommendation-block.ts` (tool
-  detail) and `src/stack-builder/selectors/layer-recommendation.ts` (stack-builder per-layer note). Authoring guide:
-  `plugin/skills/project-comparison-fetch/references/recommendation-placement.md`
+  detail); the stack-builder derives each layer's pick from the store via `src/stack-builder/model/` (`ideal-pick`,
+  `suggested-stack`). Authoring guide: `plugin/skills/project-comparison-fetch/references/recommendation-placement.md`
 - Data contract (Zod): `src/lib/schema.ts` — the single source of truth for the record shape (typed: immutable `id`,
   enums, numbers, structured objects for runtime/licence/conflict/activity/activityStatus/verdict/extraClaims, plus an
   `evidence` block on verdict-carrying claims)
@@ -106,10 +107,10 @@ live in `.ctxharness.yml`.
   `scripts/check-freshness.ts`, `scripts/sync-freshness-issue.ts`, `scripts/verify-evidence.ts` (thin entry over the
   `scripts/evidence-verify/` domain)
 - Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
-  table whose tool links open the detail as a modal overlay), `stack-builder.html` + `stack-builder/` (builder, with its
-  own curated `stack-data.ts`), `lib/` (schema + present/csv/data/dom domains), `detail/` (shared tool-detail renderer),
-  `styles/` (shared tokens/nav/modal/detail CSS), `pages/` (markdown, shown as modal overlays with an HTML fallback),
-  `public/llms.txt`
+  table whose tool links open the detail as a modal overlay), `stack-builder.html` + `stack-builder/` (builder driven
+  from the canonical store: a pure `model/` domain over `lib`, with `constants.ts` deriving the layers), `lib/`
+  (schema + conflicts/present/csv/data/dom domains), `detail/` (shared tool-detail renderer), `styles/` (shared
+  tokens/nav/modal/detail CSS), `pages/` (markdown, shown as modal overlays with an HTML fallback), `public/llms.txt`
 - Tool detail is rendered once, in `src/detail/` (`renderDetailBody`): the `plugins/tool-pages/` build plugin wraps it
   in page chrome to emit the standalone `/tools/<slug>.html` pages, and the comparison page renders it into the shared
   modal overlay (`toolFragments`) so a tool opens in place like Methodology/Glossary; the standalone pages remain as the

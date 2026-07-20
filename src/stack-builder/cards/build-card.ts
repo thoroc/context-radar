@@ -1,5 +1,4 @@
 import { compactCount, licenceClass, licenceText, type Tool } from "../../lib";
-import { toggle } from "../actions";
 import { CURATED_PICK_IDS } from "../constants";
 
 // A tool with no star count and no external dependency is a Claude Code built-in
@@ -10,24 +9,40 @@ const badgeHtml = (t: Tool): string => {
   return "";
 };
 
-export const buildCard = (t: Tool, isSel: boolean, isConf: boolean): HTMLDivElement => {
-  const cls = ["tc", isConf ? "tc-conflict" : isSel ? "tc-sel" : ""].filter(Boolean).join(" ");
+/**
+ * A tool card. When `onActivate` is given the card is a selectable checkbox
+ * (click / Space / Enter fire it); without it the card is static, for a
+ * non-selectable layer such as the curated reference lists.
+ */
+export const buildCard = (
+  t: Tool,
+  isSel: boolean,
+  isConf: boolean,
+  onActivate?: () => void,
+): HTMLDivElement => {
+  const interactive = onActivate !== undefined;
+  const cls = ["tc", isConf ? "tc-conflict" : isSel ? "tc-sel" : "", interactive ? "" : "tc-static"]
+    .filter(Boolean)
+    .join(" ");
   const card = document.createElement("div");
   card.className = cls;
-  card.setAttribute("role", "checkbox");
-  card.setAttribute("aria-checked", String(isSel));
-  card.setAttribute("tabindex", "0");
-  card.onclick = () => toggle(t.id);
-  card.onkeydown = (e) => {
-    if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
-      toggle(t.id);
-    }
-  };
+  if (interactive) {
+    card.setAttribute("role", "checkbox");
+    card.setAttribute("aria-checked", String(isSel));
+    card.setAttribute("tabindex", "0");
+    card.onclick = onActivate;
+    card.onkeydown = (e) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        onActivate();
+      }
+    };
+  }
   const reqCls = t.requiresExternal ? "treq treq-warn" : "treq treq-ok";
-  const check = isSel
-    ? '<i class="ti ti-check" style="color:var(--purple);font-size:13px;margin-left:4px"></i>'
-    : "";
+  const check =
+    interactive && isSel
+      ? '<i class="ti ti-check" style="color:var(--purple);font-size:13px;margin-left:4px"></i>'
+      : "";
   card.innerHTML = `
         ${badgeHtml(t)}
         <div class="tc-top">

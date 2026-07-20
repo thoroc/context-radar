@@ -45,10 +45,11 @@ button.ghost{border-color:var(--border);color:var(--text2)}
 .layer-rec a:hover{text-decoration:underline}
 .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;align-items:start}
 .tc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .12s,background .12s;user-select:none;position:relative}
-.tc:hover:not(.tc-conflict){border-color:var(--border2);background:var(--bg2)}
+.tc:hover:not(.tc-conflict):not(.tc-static){border-color:var(--border2);background:var(--bg2)}
 .tc.tc-sel{border-color:var(--purple-border);background:var(--purple-bg)}
 .tc.tc-sel .tname{color:var(--purple)}
 .tc.tc-conflict{border-color:var(--dot-early);background:var(--red-bg);opacity:.75;cursor:not-allowed}
+.tc.tc-static{cursor:default;user-select:auto}
 .tc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:2px}
 .tname{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
 .tstars{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0}
@@ -85,12 +86,15 @@ button.ghost{border-color:var(--border);color:var(--text2)}
 .conf-box{margin:10px 16px;padding:10px 12px;background:var(--red-bg);border:1px solid var(--dot-early);border-radius:8px;display:none}
 .conf-title{font-size:12px;font-weight:500;color:var(--red-mid);margin-bottom:6px}
 .conf-line{font-size:11px;color:var(--red);line-height:1.65;padding:2px 0}
+.conf-sub{font-size:11px;font-weight:600;color:var(--red-mid);margin-top:6px}
+.conf-sub:first-child{margin-top:0}
 .req-warn-box{margin:10px 16px;padding:10px 12px;background:var(--orange-bg);border:1px solid var(--dot-slowing);border-radius:8px;display:none}
 .req-warn-title{font-size:12px;font-weight:500;color:var(--orange);margin-bottom:6px}
 .req-warn-line{font-size:11px;color:var(--orange);line-height:1.65;padding:2px 0}
 .score-box{margin:0 16px 10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg2)}
 .sc-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px}
 .sc-label{color:var(--text2)}
+.sc-hint{display:block;font-size:10px;color:var(--text3);font-weight:400}
 .sc-val{font-weight:500}
 .sc-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:8px;overflow:hidden}
 /* Animate transform, not width: scaleX stays off the layout path (no reflow). */

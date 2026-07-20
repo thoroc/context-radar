@@ -6,6 +6,7 @@
 export * from "./activity-rank";
 export * from "./conflicts-for";
 export * from "./ideal-pick";
+export * from "./next-selection";
 export * from "./suggested-stack";
 export * from "./types";
 export * from "./verdict-rank";
