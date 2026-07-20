@@ -37,10 +37,10 @@ export default defineConfig({
       // these back toward target needs a DOM test env for the render layer.
       thresholds: {
         autoUpdate: true,
-        lines: 52.94,
-        functions: 65.68,
-        branches: 55.5,
-        statements: 53.77,
+        lines: 56.16,
+        functions: 67.03,
+        branches: 57.42,
+        statements: 56.81,
       },
     },
   },

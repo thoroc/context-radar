@@ -91,9 +91,12 @@ schedule. Third-party actions are pinned by commit SHA.
 - `.github/workflows/plumber.yml` runs [Plumber](https://getplumber.io), which scans the CI/CD workflows for security
   and compliance issues (exposed secrets, unpinned actions, over-broad permissions, dangerous triggers) and grades them.
   `score-push` is off, so nothing about this repository is made public.
-- `.github/workflows/freshness.yml` runs every Sunday (and on demand via `workflow_dispatch`): `mise run freshness`
-  detects tools whose recorded version or activity is behind upstream, then `mise run freshness:sync` opens or updates
-  one GitHub issue per drifting tool for human re-assessment.
+- `.github/workflows/freshness.yml` runs every Sunday, on demand via `workflow_dispatch`, and on any push to `main` that
+  touches `data/context-reduction-tools.json`: `mise run freshness` detects tools whose recorded version or activity is
+  behind upstream, then `mise run freshness:sync` opens or updates one GitHub issue per drifting tool for human
+  re-assessment and closes an issue once its tool is confirmed current with upstream again. So merging a refresh (which
+  bumps the recorded versions) closes the resolved tools' issues automatically, rather than leaving them to the next
+  weekly run.
 
 Run the same checks locally:
 

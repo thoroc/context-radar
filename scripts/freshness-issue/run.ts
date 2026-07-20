@@ -7,6 +7,7 @@ import { driftEntries } from "./drift-entries";
 import { listFreshnessIssues } from "./list-freshness-issues";
 import { parseToolMarker } from "./parse-tool-marker";
 import { repoSlug } from "./repo-slug";
+import { resolvedIssueNumbers } from "./resolved-issue-numbers";
 import { syncEntry } from "./sync-entry";
 import type { Issue, Report } from "./types";
 
@@ -52,6 +53,23 @@ export const run = async (reportPath: string, dryRun: boolean): Promise<void> =>
     else failed.push(outcome.failed);
   }
 
+  // Close the issue for any tool now confirmed current with upstream. Driven by
+  // the report's no-drift set (positive resolution), so a transient error never
+  // reads as "resolved"; only open issues are touched, leaving a human's close
+  // alone. Re-closing is a no-op since a closed issue drops out of the set.
+  let resolved = 0;
+  for (const number of resolvedIssueNumbers(
+    byId,
+    report.noDrift.map((e) => e.id),
+  )) {
+    await sleep(MUTATION_SPACING_MS);
+    await api("PATCH", `/repos/${owner}/${repo}/issues/${number}`, {
+      state: "closed",
+      state_reason: "completed",
+    });
+    resolved++;
+  }
+
   // Retire any legacy consolidated digest in favour of the per-tool issues.
   let closed = 0;
   for (const d of digests) {
@@ -67,6 +85,7 @@ export const run = async (reportPath: string, dryRun: boolean): Promise<void> =>
 
   console.log(
     `Per-tool freshness: ${opened} opened, ${updated} updated, ${unchanged} unchanged` +
+      (resolved ? `, ${resolved} resolved (closed)` : "") +
       (closed ? `, ${closed} legacy digest(s) closed` : "") +
       `. (${report.counts.unparseable} unparseable, ${report.counts.structuralSkip} skipped, ${report.counts.transientError} errors not issued.)`,
   );

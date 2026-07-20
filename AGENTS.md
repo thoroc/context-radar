@@ -39,7 +39,8 @@ tasks; prefer them over calling `bun`/`vite`/`biome` directly.
 - Regenerate the skill's JSON Schema from Zod: `mise run gen:schema`
 - Regenerate `src/styles/icons.css` from the Tabler SVGs: `mise run gen:icons`
 - Detect version/activity drift into `freshness-report.json`: `mise run freshness`
-- Turn the freshness report into GitHub issues: `mise run freshness:sync`
+- Turn the freshness report into GitHub issues (opens/updates drifting tools, closes resolved ones):
+  `mise run freshness:sync`
 - Re-verify source-code citations against upstream (fetch at pinned SHA, assert the quote): `mise run evidence:verify`
 - Run the impeccable design detector against `DESIGN.md`: `mise run design:check`
 - Check the agent docs (CLAUDE.md / AGENTS.md) for drift against the repo (ctxharness): `mise run docs:check`
@@ -127,8 +128,9 @@ live in `.ctxharness.yml`.
 - `.github/workflows/static.yml` — build with Vite and deploy to GitHub Pages
 - `.github/workflows/lint.yml` — lint, type-check, format check, data validation
 - `.github/workflows/plumber.yml` — Plumber security/compliance scan
-- `.github/workflows/freshness.yml` — weekly (and on-demand) version/activity drift check; opens one issue per drifting
-  tool
+- `.github/workflows/freshness.yml` — version/activity drift check; runs weekly, on-demand, and on any push to `main`
+  that touches the canonical data file. Opens one issue per drifting tool and closes an issue once its tool is confirmed
+  current with upstream again (so a merged refresh clears its issues within minutes)
 - `.github/workflows/evidence.yml` — re-verifies source-code citations against upstream (fetch at pinned SHA, assert the
   quote) on data/schema changes and weekly; hard-fails on a mismatch, soft-warns on an unreachable source
 - `.github/workflows/ai-hygiene.yml` — warn-only aislop (code slop) + ctxharness (doc drift) report; posts a sticky PR

@@ -12,6 +12,8 @@ export interface Report {
   counts: Record<string, number>;
   verdictMoving: Entry[];
   observedOnly: Entry[];
+  /** Tools confirmed current with upstream this run; drives resolved-issue closing. */
+  noDrift: Entry[];
   unparseable: Entry[];
   structuralSkip: Entry[];
   transientError: Entry[];
