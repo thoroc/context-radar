@@ -1,10 +1,13 @@
+import { bucketLabel } from "./bucket-label";
+import { LABEL } from "./list-freshness-issues";
 import { TOOL_MARKER } from "./parse-tool-marker";
 import type { Entry } from "./types";
 
-export const composeIssue = (e: Entry): { title: string; body: string } => {
+export const composeIssue = (e: Entry): { title: string; body: string; labels: string[] } => {
   const recorded = e.recorded ?? "unrecorded";
   const upstream = e.upstream ?? "unknown";
   const title = `Freshness: ${e.tool} ${recorded} -> ${upstream}`;
+  const labels = [LABEL, bucketLabel(e.bucket)];
   const body = [
     `Recorded version \`${recorded}\` is behind upstream \`${upstream}\`.`,
     "",
@@ -18,5 +21,5 @@ export const composeIssue = (e: Entry): { title: string; body: string } => {
     "",
     `${TOOL_MARKER} ${JSON.stringify({ id: e.id, upstream: e.upstream })} -->`,
   ].join("\n");
-  return { title, body };
+  return { title, body, labels };
 };

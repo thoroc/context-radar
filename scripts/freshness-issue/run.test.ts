@@ -26,6 +26,7 @@ const report = {
       recorded: "v1.0.0",
       upstream: "v2.0.0",
       reason: "minor/patch drift v1.0.0 -> v2.0.0",
+      bucket: "observed-only",
     },
   ],
   noDrift: [
@@ -36,6 +37,7 @@ const report = {
       recorded: "v3.0.0",
       upstream: "v3.0.0",
       reason: "recorded v3.0.0 is current with v3.0.0",
+      bucket: "no-drift",
     },
   ],
   unparseable: [],

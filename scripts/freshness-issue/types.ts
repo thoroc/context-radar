@@ -1,3 +1,5 @@
+import type { Bucket } from "../freshness/types";
+
 export interface Entry {
   id: string;
   tool: string;
@@ -5,6 +7,7 @@ export interface Entry {
   recorded?: string;
   upstream: string | null;
   reason: string;
+  bucket: Bucket;
 }
 
 export interface Report {
@@ -28,4 +31,5 @@ export interface Issue {
   number: number;
   state: string;
   body: string;
+  labels?: Array<{ name: string }>;
 }

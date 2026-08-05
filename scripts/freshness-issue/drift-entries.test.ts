@@ -8,6 +8,7 @@ const entry = (id: string): Entry => ({
   githubUrl: `https://github.com/x/${id}`,
   upstream: "v2.0.0",
   reason: "drift",
+  bucket: "observed-only",
 });
 
 const report = (verdictMoving: Entry[], observedOnly: Entry[]): Report => ({

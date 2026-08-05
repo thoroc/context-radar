@@ -9,6 +9,7 @@ const entry = (over: Partial<Entry> = {}): Entry => ({
   recorded: "v1.0.0",
   upstream: "v2.0.0",
   reason: "major jump v1.0.0 -> v2.0.0",
+  bucket: "verdict-moving",
   ...over,
 });
 
@@ -27,5 +28,19 @@ describe("composeIssue", () => {
     expect(composeIssue(entry()).body).toContain(
       '<!-- freshness-tool: {"id":"t1","upstream":"v2.0.0"} -->',
     );
+  });
+
+  test("labels a major jump as verdict-moving, alongside the base label", () => {
+    expect(composeIssue(entry({ bucket: "verdict-moving" })).labels).toEqual([
+      "freshness",
+      "freshness:verdict-moving",
+    ]);
+  });
+
+  test("labels minor/patch drift as observed-only", () => {
+    expect(composeIssue(entry({ bucket: "observed-only" })).labels).toEqual([
+      "freshness",
+      "freshness:observed-only",
+    ]);
   });
 });
