@@ -17,6 +17,7 @@ const entry: Entry = {
   recorded: "v1.0.0",
   upstream: "v2.0.0",
   reason: "major jump",
+  bucket: "verdict-moving",
 };
 
 /** An existing issue carrying the marker for `entry` at the given upstream. */
@@ -38,6 +39,30 @@ describe("syncEntry", () => {
     apiMock.mockResolvedValue({ status: 200 } as Awaited<ReturnType<typeof api>>);
     expect(await syncEntry("o", "r", entry, issueFor("v1.5.0"))).toBe("updated");
     expect(apiMock).toHaveBeenCalledWith("PATCH", "/repos/o/r/issues/7", expect.any(Object));
+  });
+
+  test("relabels an open issue whose upstream is unchanged but lacks the bucket label", async () => {
+    apiMock.mockResolvedValue({ status: 200 } as Awaited<ReturnType<typeof api>>);
+    expect(await syncEntry("o", "r", entry, issueFor("v2.0.0"))).toBe("relabeled");
+    expect(apiMock).toHaveBeenCalledWith("PATCH", "/repos/o/r/issues/7", {
+      labels: ["freshness", "freshness:verdict-moving"],
+    });
+  });
+
+  test("reports a failed relabel", async () => {
+    apiMock.mockResolvedValue({ status: 500 } as Awaited<ReturnType<typeof api>>);
+    expect(await syncEntry("o", "r", entry, issueFor("v2.0.0"))).toEqual({
+      failed: "t1 (relabel HTTP 500)",
+    });
+  });
+
+  test("stays unchanged when an open issue already carries the bucket label", async () => {
+    const issue = {
+      ...issueFor("v2.0.0"),
+      labels: [{ name: "freshness" }, { name: "freshness:verdict-moving" }],
+    };
+    expect(await syncEntry("o", "r", entry, issue)).toBe("unchanged");
+    expect(apiMock).not.toHaveBeenCalled();
   });
 
   test("reports a failed update", async () => {

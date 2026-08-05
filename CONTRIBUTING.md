@@ -96,7 +96,10 @@ schedule. Third-party actions are pinned by commit SHA.
   behind upstream, then `mise run freshness:sync` opens or updates one GitHub issue per drifting tool for human
   re-assessment and closes an issue once its tool is confirmed current with upstream again. So merging a refresh (which
   bumps the recorded versions) closes the resolved tools' issues automatically, rather than leaving them to the next
-  weekly run.
+  weekly run. Every issue carries the base `freshness` label plus a severity label so the open list is triageable at a
+  glance: `freshness:verdict-moving` for a major-version jump (the recorded verdict may no longer hold, re-assess
+  sooner) or `freshness:observed-only` for minor/patch drift (lower priority). The severity label is kept in sync on
+  every run, even for an issue whose recorded upstream hasn't moved.
 
 Run the same checks locally:
 

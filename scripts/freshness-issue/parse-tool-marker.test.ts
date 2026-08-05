@@ -12,6 +12,7 @@ describe("parseToolMarker", () => {
       recorded: "v1.0.0",
       upstream: "v2.0.0",
       reason: "major jump",
+      bucket: "verdict-moving",
     };
     expect(parseToolMarker(composeIssue(e).body)).toEqual({ id: "t1", upstream: "v2.0.0" });
   });
