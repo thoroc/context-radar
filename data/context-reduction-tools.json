@@ -3134,7 +3134,7 @@
       "tool": "sdl-mcp",
       "githubUrl": "https://github.com/GlitterKill/sdl-mcp",
       "layer": "Code navigation",
-      "whatItDoes": "Symbol Card graph (LadybugDB) with 4-rung Iris Gate Ladder: escalate from 100-token Symbol Card → Skeleton IR → Hot-Path Excerpt → policy-gated raw source. Live indexing (unsaved edits). Graph slicing with weighted BFS. SCIP compiler-grade cross-refs. Cross-session development memories. Tool gateway (38→6 tools). Sandboxed runtime execution (outputMode: minimal). Observability dashboard. v0.11.3.",
+      "whatItDoes": "Symbol Card graph (LadybugDB) with 4-rung Iris Gate Ladder: escalate from 100-token Symbol Card → Skeleton IR → Hot-Path Excerpt → policy-gated raw source. Live indexing (unsaved edits). Graph slicing with weighted BFS. SCIP compiler-grade cross-refs. Cross-session development memories. Tool gateway (38→6 tools). Sandboxed runtime execution (outputMode: minimal). Observability dashboard. v0.13.7.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3154,13 +3154,13 @@
       "licence": {
         "spdx": "Source-available (commercial licence for distribution)"
       },
-      "stars": 440,
+      "stars": 473,
       "trend": 46,
       "activity": {
-        "releaseCount": 40,
-        "notes": "12+ open issues (incl. FD leak #12: 240k+ FDs after 18min use), 40 releases, 794 commits, active",
-        "latestVersion": "v0.12.3",
-        "releasedOn": "2026-07-11"
+        "releaseCount": 62,
+        "notes": "30 forks, 0 open issues (the previously-noted FD leak #12 issue no longer appears open), 62 releases, active",
+        "latestVersion": "v0.13.7",
+        "releasedOn": "2026-09-07"
       },
       "activityStatus": {
         "band": "stable",
