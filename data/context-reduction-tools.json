@@ -4896,13 +4896,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 476,
+      "stars": 478,
       "trend": null,
       "activity": {
         "contributors": 1,
-        "releaseCount": 3,
+        "releaseCount": 5,
         "corroboration": "github-api",
-        "notes": "Repository created 05-09-2026 (3 days old at time of writing), 19 commits, single contributor, GitHub organisation created 28-08-2026."
+        "notes": "Repository created 05-09-2026, 19 commits, single contributor, GitHub organisation created 28-08-2026. Five releases (v0.1.0-v0.1.4) in the three days since, an unusually fast tag cadence for a single-maintainer project.",
+        "latestVersion": "v0.1.4",
+        "releasedOn": "2026-09-08"
       },
       "activityStatus": {
         "band": "early",
@@ -4910,7 +4912,7 @@
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "Zero-dependency, git-native structured memory implementing a real, independently confirmed spec (Google's OKF v0.2, published under GoogleCloudPlatform/knowledge-catalog), with a genuinely thoughtful provenance/trust-tier design. But the repository is three days old with 19 commits from one previously unknown maintainer, and its 476 stars / 25 forks are disproportionate to that history in a way this pass could not fully explain (the GitHub stargazers API returned 404 in this environment even against a control repo). Revisit once it has an established track record.",
+        "rationale": "Zero-dependency, git-native structured memory implementing a real, independently confirmed spec (Google's OKF v0.2, published under GoogleCloudPlatform/knowledge-catalog), with a genuinely thoughtful provenance/trust-tier design. But the repository is three days old with 19 commits and five releases (v0.1.0-v0.1.4) from one previously unknown maintainer, and its 478 stars / 25 forks are disproportionate to that history in a way this pass could not fully explain (the GitHub stargazers API returned 404 in this environment even against a control repo). Revisit once it has an established track record.",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -4923,7 +4925,7 @@
           ]
         }
       },
-      "decisionRule": "Do not adopt yet. 476 stars, 25 forks, MIT, v0.1.2, single-maintainer repository 3 days old. Revisit for a longer maintenance history before any real trial.",
+      "decisionRule": "Do not adopt yet. 478 stars, 25 forks, MIT, v0.1.4 (5 releases in 3 days), single-maintainer repository. Revisit for a longer maintenance history before any real trial.",
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
