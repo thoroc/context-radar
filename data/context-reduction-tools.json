@@ -2035,7 +2035,7 @@
       "tool": "Serena",
       "githubUrl": "https://github.com/oraios/serena",
       "layer": "Code navigation",
-      "whatItDoes": "LSP-backed symbol retrieval and symbol-level editing. v1.3.0. Known memory leak (~30GB reported).",
+      "whatItDoes": "LSP-backed symbol retrieval and symbol-level editing. v1.7.0. Known memory leak (~30GB reported).",
       "conflict": {
         "severity": "hard",
         "projects": [
@@ -2053,12 +2053,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 26000,
+      "stars": 29030,
       "trend": 3,
       "activity": {
-        "notes": "25.2k confirmed stable via independent third-party research (Ry Walker Code Intelligence Tools comparison) - exact match to prior recording, no change",
-        "latestVersion": "v1.6.0",
-        "releasedOn": "2026-07-16"
+        "contributors": 211,
+        "releaseCount": 16,
+        "corroboration": "github-api",
+        "notes": "29.0k stars / 1,972 forks / 211 contributors per GitHub API, 16 releases, v1.7.0 (9 Aug 2026), 155 open issues.",
+        "latestVersion": "v1.7.0",
+        "releasedOn": "2026-08-09"
       },
       "activityStatus": {
         "band": "active",
@@ -2079,7 +2082,7 @@
           ]
         }
       },
-      "decisionRule": "Stars stable ~24k. Memory leak is a real issue. Keep only if insert_after_symbol is critical.",
+      "decisionRule": "~29.0k stars, growing steadily. Memory leak is a real issue. Keep only if insert_after_symbol is critical.",
       "requiresExternal": false
     },
     {
