@@ -2966,7 +2966,7 @@
       "tool": "codemap",
       "githubUrl": "https://github.com/JordanCoin/codemap",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "Go binary daemon. Budget-aware context at session start/edit/stop via Claude Code hooks. Cross-agent handoff artifacts (layered prefix/delta JSON with cache reuse metrics). Diff mode with hub impact warnings. Dependency flow via ast-grep. Remote repo analysis. Routing/subsystem config. Drift detection. Skyline visualisation. v4.0.7. 43 releases.",
+      "whatItDoes": "Go binary daemon. Budget-aware context at session start/edit/stop via Claude Code hooks. Cross-agent handoff artifacts (layered prefix/delta JSON with cache reuse metrics). Diff mode with hub impact warnings. Dependency flow via ast-grep. Remote repo analysis. Routing/subsystem config. Drift detection. Skyline visualisation. v4.5.1. 63 releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -2987,12 +2987,13 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 642,
+      "stars": 689,
       "trend": 39,
       "activity": {
-        "notes": "49 CI runs, solo dev, remote repo support added, TypeScript path alias support",
-        "latestVersion": "v4.1.10",
-        "releasedOn": "2026-07-02"
+        "releaseCount": 63,
+        "notes": "60 forks, 30 open issues, 63 releases, solo dev, remote repo support added, TypeScript path alias support",
+        "latestVersion": "v4.5.1",
+        "releasedOn": "2026-09-05"
       },
       "activityStatus": {
         "band": "stable",
