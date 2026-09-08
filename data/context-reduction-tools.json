@@ -3146,7 +3146,7 @@
       "tool": "token-optimizer",
       "githubUrl": "https://github.com/alexgreensh/token-optimizer",
       "layer": "Config stack audit",
-      "whatItDoes": "Claude Code skill that dispatches 6 parallel audit agents across your full config stack: CLAUDE.md, MEMORY.md, skills, MCP servers, commands, rules, .claudeignore. Measures per-message overhead, identifies what is eating context, implements fixes with backup + diff approval. Skill usage analytics (tracks which of your 59 installed skills you actually use). Session health monitoring. Interactive HTML dashboard. Python measurement script with before/after comparison. Local SQLite trend tracking. No releases yet.",
+      "whatItDoes": "Claude Code skill that dispatches 6 parallel audit agents across your full config stack: CLAUDE.md, MEMORY.md, skills, MCP servers, commands, rules, .claudeignore. Measures per-message overhead, identifies what is eating context, implements fixes with backup + diff approval. Skill usage analytics (tracks which of your 59 installed skills you actually use). Session health monitoring. Interactive HTML dashboard. Python measurement script with before/after comparison. Local SQLite trend tracking. v5.13.9, 249 releases.",
       "conflict": {
         "severity": "none",
         "projects": [],
@@ -3162,12 +3162,13 @@
       "licence": {
         "spdx": "PolyForm Noncommercial"
       },
-      "stars": 1600,
+      "stars": 2199,
       "trend": 13,
       "activity": {
-        "notes": "1.4k stars (was ~1k), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED",
-        "latestVersion": "v5.11.51",
-        "releasedOn": "2026-07-19"
+        "releaseCount": 249,
+        "notes": "2.2k stars, 169 forks, 5 open issues, 249 releases, v5.13.9 (8 Sep 2026), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED",
+        "latestVersion": "v5.13.9",
+        "releasedOn": "2026-09-08"
       },
       "activityStatus": {
         "band": "active",
