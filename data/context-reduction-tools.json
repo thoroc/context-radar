@@ -2431,7 +2431,7 @@
       "tool": "TrueCourse",
       "githubUrl": "https://github.com/truecourse-ai/truecourse",
       "layer": "Architecture violation detection",
-      "whatItDoes": "Circular deps, layer violations, race conditions, Prisma/Drizzle ER diagrams, LLM semantic code review, git diff mode. v0.2.4.",
+      "whatItDoes": "Circular deps, layer violations, race conditions, Prisma/Drizzle ER diagrams, LLM semantic code review, git diff mode. v0.8.1-next.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -2450,12 +2450,13 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 496,
-      "trend": 2262,
+      "stars": 528,
+      "trend": 4,
       "activity": {
-        "notes": "minimal issues/PRs, solo dev, early stage",
-        "latestVersion": "v0.7.3-next.9",
-        "releasedOn": "2026-07-17"
+        "releaseCount": 100,
+        "notes": "42 forks, 59 open issues, 100 releases, v0.8.1-next.0 (5 Aug 2026), solo dev, still early stage by absolute size despite the high release cadence. Corrected an evidently corrupted trend value (was 2262%) to an estimate from the stars delta over this check interval.",
+        "latestVersion": "v0.8.1-next.0",
+        "releasedOn": "2026-08-05"
       },
       "activityStatus": {
         "band": "early",
