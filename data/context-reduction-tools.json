@@ -3797,14 +3797,14 @@
       "tool": "supermemory",
       "githubUrl": "https://github.com/supermemoryai/supermemory",
       "layer": "Agent memory persistence",
-      "whatItDoes": "SaaS-hosted memory API for AI agents. Dedicated Claude Code plugin: injects user profile (preferences, recent activity) at session start; auto-captures conversation turns for future recall. MCP server at mcp.supermemory.ai. Scoped by project container tags. Team Memory across repos. Browser extension. Also plugins for OpenCode, OpenClaw, Hermes. npm install supermemory or pip install supermemory. Personal use free.",
+      "whatItDoes": "Memory API for AI agents, available as a hosted SaaS platform or a free, open-source self-hosted binary (`npx supermemory local`) running the same engine. Dedicated Claude Code plugin: injects user profile (preferences, recent activity) at session start; auto-captures conversation turns for future recall. MCP server at mcp.supermemory.ai (hosted) or your own local server. Scoped by project container tags. Team Memory across repos. Browser extension. Also plugins for OpenCode, OpenClaw, Hermes. npm install supermemory or pip install supermemory. Personal use and self-hosting are free.",
       "conflict": {
         "severity": "soft",
         "projects": [
           "cognee",
           "mem0"
         ],
-        "note": "No MCP tool name conflicts. Overlaps mem0 and cognee (all agent memory persistence). Supermemory is the simplest path (zero infra, SaaS) but data stored on Supermemory servers. mem0 OpenMemory is the self-hosted alternative."
+        "note": "No MCP tool name conflicts. Overlaps mem0 and cognee (all agent memory persistence). Like mem0, supermemory offers both a hosted platform and a free, open-source self-hosted binary running the same engine (`npx supermemory local`) - not SaaS-only, correcting an earlier pass on this record (see #169)."
       },
       "runtime": {
         "languages": [
@@ -3813,7 +3813,7 @@
         ],
         "detail": "TypeScript + Python"
       },
-      "requirements": "SaaS-hosted - memory stored on Supermemory servers (not local). API key required (sm_...). Personal use free; Team Memory requires Pro (paid). npm install supermemory or /plugin marketplace add supermemoryai/claude-supermemory.",
+      "requirements": "Hosted platform: API key required (sm_...), personal use free, Team Memory needs Pro (paid). Self-hosted (`npx supermemory local` or `curl -fsSL https://supermemory.ai/install | bash`): single binary, no Docker, no database to provision, boots in seconds, can run fully offline against a local model (e.g. Ollama). npm install supermemory or /plugin marketplace add supermemoryai/claude-supermemory.",
       "licence": {
         "spdx": "Apache-2.0"
       },
@@ -3828,7 +3828,7 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "simplest path to Claude Code session memory; zero infra",
+        "rationale": "Simplest of the three memory tools to start with; runs either as a hosted SaaS platform or a free, open-source self-hosted binary (`npx supermemory local`) running the same engine - not SaaS-only, correcting this record's earlier assumption (see #169).",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -3841,7 +3841,7 @@
           ]
         }
       },
-      "decisionRule": "Simplest of the three memory tools: SaaS, no local infra, one install. /plugin marketplace add supermemoryai/claude-supermemory. Tradeoff: data lives on Supermemory servers. For self-hosted memory use mem0 OpenMemory instead. Team Memory needs paid plan.",
+      "decisionRule": "Simplest of the three memory tools: one install, either hosted (SaaS, Team Memory needs a paid plan) or self-hosted (`npx supermemory local`, free, open source, can run fully offline). /plugin marketplace add supermemoryai/claude-supermemory.",
       "requiresExternal": true,
       "adoptionSignals": {
         "vendorEntity": "Supermemory",
@@ -3849,15 +3849,21 @@
         "telemetryDefault": "unknown",
         "dataResidency": "hosted-optional",
         "selfHostable": true,
-        "notes": "As of this check, the README documents 'npx supermemory local' self-hosting (embedded graph engine, local embeddings, prints a local API key) alongside the hosted platform. This appears to contradict this record's existing requirements/verdict text ('SaaS-hosted... not local'), which may predate the self-host feature - worth a freshness re-check independent of this pilot.",
+        "notes": "Confirmed via the official self-hosting docs (not just the README): the self-hosted binary runs the same engine as the hosted platform and can operate fully offline against a local model; it is explicitly positioned as free/open-source for individual and air-gapped use, versus Enterprise's managed multi-tenant offering. The record's whatItDoes/conflict/requirements/verdict text was corrected to match in the same change (#169).",
         "evidence": {
-          "status": "caveated",
+          "status": "confirmed",
           "sources": [
             {
-              "url": "https://github.com/supermemoryai/supermemory/blob/5258cb74c895c5297fbfff594935741aeb14a915/README.md#L313-L342",
-              "quote": "Supermemory local — run it yourself",
+              "url": "https://supermemory.ai/docs/self-hosting/overview",
+              "quote": "Supermemory runs on your own hardware. It's the same memory engine behind the hosted platform",
               "checkedOn": "2026-09-08",
-              "evidenceType": "readme"
+              "evidenceType": "official-docs"
+            },
+            {
+              "url": "https://supermemory.ai/docs/self-hosting/local-vs-enterprise",
+              "quote": "Supermemory local - the self-hosted binary - is free, open source, and built for individual developers",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
             }
           ]
         }
