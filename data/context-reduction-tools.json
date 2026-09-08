@@ -3507,7 +3507,7 @@
       "tool": "headroom",
       "githubUrl": "https://github.com/headroomlabs-ai/headroom",
       "layer": "Universal context compression middleware",
-      "whatItDoes": "Compresses everything before it reaches the LLM: tool outputs, logs, RAG chunks, files, conversation history. 7 algorithms: SmartCrusher (JSON), CodeCompressor (AST), Kompress-base (custom HuggingFace model), image compression, CacheAligner (stabilises KV cache prefixes), IntelligentContext, CCR (reversible - originals stored locally, LLM retrieves on demand). 4 deployment modes: headroom wrap claude, proxy (port 8787, zero code changes), library, MCP server (headroom_compress, headroom_retrieve, headroom_stats). Cross-agent memory. headroom learn: mines failed sessions, writes to CLAUDE.md. 60B+ community tokens saved. v0.22.4. 152 releases. Ships RTK internally.",
+      "whatItDoes": "Compresses everything before it reaches the LLM: tool outputs, logs, RAG chunks, files, conversation history. 7 algorithms: SmartCrusher (JSON), CodeCompressor (AST), Kompress-base (custom HuggingFace model), image compression, CacheAligner (stabilises KV cache prefixes), IntelligentContext, CCR (reversible - originals stored locally, LLM retrieves on demand). 4 deployment modes: headroom wrap claude, proxy (port 8787, zero code changes), library, MCP server (headroom_compress, headroom_retrieve, headroom_stats). Cross-agent memory. headroom learn: mines failed sessions, writes to CLAUDE.md. 60B+ community tokens saved. v0.37.0. 169 releases. Ships RTK internally.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3532,13 +3532,14 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 59000,
+      "stars": 70761,
       "trend": 6,
       "activity": {
-        "latestVersion": "v0.32.0",
-        "releaseCount": 158,
-        "releasedOn": "2026-07-17",
-        "notes": "4k forks, 169 watching, 158 releases, v0.28.0 (29 Jun 2026), 1,829 commits - repo transferred from chopratejas/headroom to headroomlabs-ai org (same repository_id, confirmed same project). New \"Headroom for teams\" managed offering announced (hello@headroomlabs.ai), core stays Apache-2.0."
+        "releaseCount": 169,
+        "latestVersion": "v0.37.0",
+        "releasedOn": "2026-08-27",
+        "contributors": 252,
+        "notes": "5.4k forks, 679 open issues, 169 releases, v0.37.0 (27 Aug 2026), still pushing commits daily - repo transferred from chopratejas/headroom to headroomlabs-ai org (same repository_id, confirmed same project). \"Headroom for teams\" managed offering remains available (hello@headroomlabs.ai), core stays Apache-2.0 (re-verified)."
       },
       "activityStatus": {
         "band": "active",
@@ -3559,7 +3560,7 @@
           ]
         }
       },
-      "decisionRule": "MAJOR: 42k stars (7.5x jump since last recording). Now #1 most-starred universal compression tool. | If using headroom wrap claude: remove RTK, caveman, context-mode from stack (headroom handles all three). If using headroom mcp install only: run alongside RTK for shell output, caveman for structured memory compression. pip install \"headroom-ai[all]\" then headroom wrap claude. CacheAligner uniquely stabilises KV cache prefixes - provider cost savings on top of token savings. 60B+ tokens saved community leaderboard at headroomlabs.ai/dashboard."
+      "decisionRule": "Still #1 most-starred universal compression tool (70.8k stars, up ~20% since last check - under the 50% escalation threshold). | If using headroom wrap claude: remove RTK, caveman, context-mode from stack (headroom handles all three). If using headroom mcp install only: run alongside RTK for shell output, caveman for structured memory compression. pip install \"headroom-ai[all]\" then headroom wrap claude. CacheAligner uniquely stabilises KV cache prefixes - provider cost savings on top of token savings. 60B+ tokens saved community leaderboard at headroomlabs.ai/dashboard."
     },
     {
       "id": "faramesh-core",
