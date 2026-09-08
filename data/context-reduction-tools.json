@@ -1551,13 +1551,13 @@
           ]
         }
       },
-      "stars": 3592,
+      "stars": 3932,
       "trend": 6,
       "activity": {
-        "releaseCount": 154,
-        "latestVersion": "v5.1.2",
-        "releasedOn": "2026-07-16",
-        "notes": "3,592 stars, 322 forks, roughly 54 contributors, 154 releases, v5.1.2 (16 Jul 2026). v5.0.0 moved Ask Sourcebot and the MCP server into the paid Enterprise (ee) tier and made external Postgres and Redis mandatory. Very active team."
+        "releaseCount": 162,
+        "latestVersion": "v5.1.10",
+        "releasedOn": "2026-08-27",
+        "notes": "3,932 stars, 364 forks, roughly 59 contributors, 162 releases, v5.1.10 (27 Aug 2026). v5.0.0 moved Ask Sourcebot and the MCP server into the paid Enterprise (ee) tier and made external Postgres and Redis mandatory. Very active team."
       },
       "activityStatus": {
         "band": "active",
