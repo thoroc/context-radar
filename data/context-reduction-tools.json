@@ -2784,32 +2784,49 @@
       "tool": "caveman",
       "githubUrl": "https://github.com/JuliusBrussee/caveman",
       "layer": "Response verbosity + memory compression",
-      "whatItDoes": "Skill strips output filler; companion compresses CLAUDE.md (~45% savings). 30+ agents. QLoRA fine-tune. Run after sigmap.",
+      "whatItDoes": "Grew from a skill-only tool into two pieces (v2.0, Aug 2026). Skill: terse writing-style rule file, ~65% avg output-token savings across 10 benchmarked prompts, works in 30+ agents. Proxy: a local process between agent and provider that shrinks what the agent reads (JSON/logs/code/diffs/search results/text via per-type compressors), -33.2% input tokens on a pinned 54-run benchmark; originals kept recoverable in a local SQLite store. 5 MCP tools (caveman_compress/retrieve/stats/toon_encode/toon_decode). caveman learn ranks a user's own agent-history token sinks; caveman browse serves a compressed accessibility tree (129.8x smaller than a raw Playwright baseline). Natively wraps 10 agents (Claude Code, Codex, Gemini CLI, Aider, Kilo Code, Qwen Code, opencode, Hermes, OpenClaw, Pi); any provider-SDK agent via a baseURL swap. v2.6.0, 33 releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
           "lean-ctx",
           "sqz"
         ],
-        "note": "Terse mode overlaps sqz and lean-ctx TDD - pick one response compression. caveman-compress for CLAUDE.md always useful."
+        "note": "Terse mode overlaps sqz and lean-ctx TDD - pick one response compression. caveman-compress for CLAUDE.md always useful. The v2 proxy's read-side compression (JSON/log/diff/search-result shrinking before the provider sees it) is a new overlap with universal-compression tools (context-mode, headroom) not yet reflected elsewhere in this comparison - different mechanism (detect-and-compress by payload type vs stream-level compression), but the same slot if more than one is run."
       },
       "runtime": {
         "languages": [
-          "none"
+          "go",
+          "javascript",
+          "typescript",
+          "python"
         ],
-        "detail": "Skill file"
+        "detail": "Go (engine/proxy/MCP core) + Node.js/TypeScript (CLI) + Python (skill tooling); the skill alone needs none of this"
       },
-      "requirements": "Skill file; no runtime; no model calls; copy .claude/skills/caveman.md",
+      "requirements": "Skill only: no runtime, no model calls, npx skills add JuliusBrussee/caveman. Proxy: npm install -g @caveman-ai/cli, Node.js 22.13+ for the full installer, local-only (no account), anonymous usage telemetry on by default (opt out: caveman telemetry off or DO_NOT_TRACK=1) - never sends prompts, code, or file paths.",
       "licence": {
-        "spdx": "MIT"
+        "spdx": "MIT + BSL-1.1",
+        "warning": "Split licence as of v2.0 (11-08-2026): the skill, CLI, and both client SDKs stay MIT. The Engine, Proxy, Cache Engine, rewriter, Browse, and - notably for this comparison - the MCP server are BSL-1.1 (source-available, not OSI Open Source until each version's Change Date, the earlier of 2030-06-21 or four years after it ships). Self-hosting for your own first-party traffic, production included, is free under BSL-1.1; hosting it for third parties needs a commercial licence. No practical impact on the single-user adoption path this comparison assumes.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/JuliusBrussee/caveman/blob/367fdb7f0f8f8e7994b5aab632c7ce5014802b32/README.md#L374",
+              "quote": "**BSL-1.1:** Engine, Proxy, Cache Engine, rewriter, Browse, MCP server, `shrink`, cavemem Go core, and shared Go platform. New Engine-linked runtime modules default to BSL-1.1. Read it, fork it, self-host it for your own first-party traffic free, production included. Each version converts to **Apache-2.0** on the earlier of `2030-06-21` or four years after it ships. Hosting it for third parties needs a commercial license.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 89000,
-      "trend": 0,
+      "stars": 104275,
+      "trend": 10,
       "activity": {
-        "corroboration": "GitHubVC live trending tracker",
-        "notes": "5.1k forks, 88.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (87k) and OpenGithubs weekly (88.1k) - now the single most-starred tool in this entire comparison",
-        "latestVersion": "v1.9.1",
-        "releasedOn": "2026-07-03"
+        "contributors": 44,
+        "releaseCount": 33,
+        "corroboration": "github-api",
+        "notes": "104.3k stars / 6,053 forks / 109 open issues per GitHub API (was 89k on 2026-07-17; trend approximated from that 53-day interval, roughly +9.7%/30d). 44 contributors. Major-version jump v1.9.1 -> v2.6.0 (11 Aug 2026 shipped the proxy/engine/SDKs/unified CLI; 2.4.0-2.6.0 since have been near-daily). Repo pushed as recently as 8 Sep 2026.",
+        "latestVersion": "v2.6.0",
+        "releasedOn": "2026-09-04"
       },
       "activityStatus": {
         "band": "active",
@@ -2817,7 +2834,7 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "most-starred tool in this table",
+        "rationale": "still the most-starred tool in this table, and v2 adds a genuinely measured proxy (not just the skill's terse writing style) - benchmarked input-token savings, recoverable-by-design compression, and a real MCP surface. Decision support: the MCP server and proxy are BSL-1.1, not MIT - fine for self-hosted single-user use (this comparison's assumed path), a consideration only if hosting caveman as a service for others.",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -2832,11 +2849,17 @@
               "quote": "| **lite** | No filler/hedging. Keep articles + full sentences. Professional but tight |\n| **full** | Drop articles, fragments OK, short synonyms. Classic caveman. No tool-call narration, no decorative tables/emoji, no long raw error-log dumps unless asked. Standard acronyms OK; no invented abbreviations |\n| **ultra** | Strip conjunctions when cause-then-effect stay unambiguous. One word when one word enough. State each fact once. NO prose abbreviations (cfg/impl/req/res/fn/auth), NO arrows (X → Y) — measured zero token saving under tokenizer, cost decode clarity. Code symbols, function names, API names, error strings: never touch |",
               "checkedOn": "2026-07-17",
               "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/JuliusBrussee/caveman/blob/82864c8f4c9a5eb5551ab0cdd6da52014832e3c5/mcp/engine_tools.go#L28-L32",
+              "quote": "ToolCompress   = \"caveman_compress\"\n\tToolRetrieve   = \"caveman_retrieve\"\n\tToolStats      = \"caveman_stats\"\n\tToolToonEncode = \"caveman_toon_encode\"\n\tToolToonDecode = \"caveman_toon_decode\"",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
             }
           ]
         }
       },
-      "decisionRule": "64.2k stars, v1.8.2. MCP-shrink added. Do NOT combine with lean-ctx TDD or sqz terse. Run order: sigmap → caveman-compress → session start.",
+      "decisionRule": "104.3k stars, v2.6.0. Shipped a real proxy in v2.0 (11-08-2026) alongside the original skill: MIT CLI/skill, BSL-1.1 engine/proxy/MCP server (self-host free including production; commercial licence only to host it for third parties - no practical effect on solo/team adoption). Do NOT combine the skill's terse mode with lean-ctx TDD or sqz terse-mode - pick one response-compression tool. The proxy's read-side compression is a newer overlap with universal-compression tools (context-mode, headroom) worth knowing about if running more than one. Run order unchanged: sigmap -> caveman-compress -> session start.",
       "requiresExternal": false
     },
     {
