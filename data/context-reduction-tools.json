@@ -4003,7 +4003,7 @@
       "tool": "graphiti",
       "githubUrl": "https://github.com/getzep/graphiti",
       "layer": "Cross-session governance",
-      "whatItDoes": "Temporal context graph engine. Every fact has a validity window - when it became true and when superseded. Agents can query \"what was true on Tuesday\" not just \"what is true now\". Incremental graph construction (no batch recomputation). Hybrid retrieval: semantic + BM25 + graph traversal. mcp_server/ directory for Claude Code and Cursor integration. 194 releases, v0.29.0 Apr 2026. arXiv:2501.13956. Backends: Neo4j, FalkorDB (Docker), KùzuDB, Amazon Neptune.",
+      "whatItDoes": "Temporal context graph engine. Every fact has a validity window - when it became true and when superseded. Agents can query \"what was true on Tuesday\" not just \"what is true now\". Incremental graph construction (no batch recomputation). Hybrid retrieval: semantic + BM25 + graph traversal. mcp_server/ directory for Claude Code and Cursor integration. 200 releases, v0.30.2 Sep 2026. arXiv:2501.13956. Backends: Neo4j, FalkorDB (Docker), KùzuDB, Amazon Neptune.",
       "conflict": {
         "severity": "stackable",
         "projects": [
@@ -4024,12 +4024,14 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 29000,
+      "stars": 30700,
       "trend": 14,
       "activity": {
-        "latestVersion": "v0.29.2",
-        "releasedOn": "2026-06-08",
-        "notes": "20k+ stars, Apache-2.0, self-hostable but requires Neo4j. LongMemEval temporal: 63.8% vs mem0 49%"
+        "contributors": 62,
+        "latestVersion": "v0.30.2",
+        "releaseCount": 200,
+        "releasedOn": "2026-09-08",
+        "notes": "30k+ stars, Apache-2.0, self-hostable but requires Neo4j. LongMemEval temporal: 63.8% vs mem0 49%. v0.30.x is a minor line (no breaking major bump from v0.29.2); repo pushed to same day as this check, still very active."
       },
       "activityStatus": {
         "band": "active",
