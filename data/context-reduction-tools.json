@@ -2318,7 +2318,7 @@
       "tool": "codemark",
       "githubUrl": "https://github.com/DanielCardonaRojas/codemark",
       "layer": "Code navigation",
-      "whatItDoes": "Structural code bookmarking system using tree-sitter to capture semantic structure rather than fragile file:line coordinates. Bookmarks self-heal across renames, refactors, and formatting changes via tiered matching (Exact → Relaxed → Hash Fallback). codemark add --file src/auth.rs --range 42 --tag auth --note \"JWT entry point\" bookmarks the AST node, not the line number. codemark resolve <id> finds it even after the code moved. Semantic search via local vector embeddings (sqlite-vec, no API key): codemark reindex then codemark search --semantic \"how are tokens validated?\". Collections group bookmarks into task-specific sets. Git-integrated: tracks bookmarks across commits/branches. Integrations: Television (TUI fuzzy-finder), Neovim (gutter signs, visual-selection bookmarking, Telescope), Claude Code (dedicated plugin, badged \"agent-ready\"). 8 languages via tree-sitter: Rust, Swift, TypeScript/TSX, Python, Go, Java, Dart, C#. SQLite bundled. 112 commits, 10 releases, v0.5.2 (Apr 20 2026), published on crates.io.",
+      "whatItDoes": "Structural code bookmarking system using tree-sitter to capture semantic structure rather than fragile file:line coordinates. Bookmarks self-heal across renames, refactors, and formatting changes via tiered matching (Exact → Relaxed → Hash Fallback). codemark add --file src/auth.rs --range 42 --tag auth --note \"JWT entry point\" bookmarks the AST node, not the line number. codemark resolve <id> finds it even after the code moved. Semantic search via local vector embeddings (sqlite-vec, no API key): codemark reindex then codemark search --semantic \"how are tokens validated?\". Collections group bookmarks into task-specific sets. Git-integrated: tracks bookmarks across commits/branches. Integrations: Television (TUI fuzzy-finder), Neovim (gutter signs, visual-selection bookmarking, Telescope), Claude Code (dedicated plugin, badged \"agent-ready\"). 8 languages via tree-sitter: Rust, Swift, TypeScript/TSX, Python, Go, Java, Dart, C#. SQLite bundled. 44 releases, v0.7.30 (31 Aug 2026), published on crates.io.",
       "conflict": {
         "severity": "stackable",
         "projects": [
@@ -2344,21 +2344,22 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 14,
+      "stars": 123,
       "trend": null,
       "activity": {
-        "releaseCount": 10,
-        "latestVersion": "0.7.23",
-        "notes": "0 forks, 10 releases, v0.5.2 Apr 20 2026, 112 commits, published on crates.io, author has 65 GitHub repos - technically mature but genuinely undiscovered, no third-party coverage found",
-        "releasedOn": "2026-07-18"
+        "contributors": 2,
+        "releaseCount": 44,
+        "corroboration": "github-api",
+        "notes": "1 fork, 44 releases, v0.7.30 (31 Aug 2026), 7 open issues, 2 contributors, published on crates.io, author has 65 GitHub repos. Star count moved 14 -> 123 (+778%) since 2026-07-19 - a real swing crossing this catalogue's 50% escalation threshold, though still tiny in absolute terms; some organic discovery is happening but this is not yet a broadly-adopted tool.",
+        "releasedOn": "2026-08-31"
       },
       "activityStatus": {
         "band": "early",
-        "label": "Undiscovered"
+        "label": "Early"
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "too early, but a genuinely novel mechanism not replicated elsewhere in this comparison",
+        "rationale": "too early, but a genuinely novel mechanism not replicated elsewhere in this comparison; star count is climbing but still small",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -2371,7 +2372,7 @@
           ]
         }
       },
-      "decisionRule": "Self-healing structural bookmarks (tiered Exact → Relaxed → Hash Fallback resolution) solve pointer decay - a real problem for long-running agent sessions where code shifts between turns and a raw file:line reference silently breaks. Claude Code plugin is purpose-built for this: agent bookmarks a location, retrieves it later by semantic meaning rather than needing to remember exact coordinates. 0 stars despite 112 commits and 10 releases through v0.5.2 - technically mature, just undiscovered. Also has genuine human-facing value via Neovim and Television TUI integrations, not purely agent-oriented.",
+      "decisionRule": "Self-healing structural bookmarks (tiered Exact → Relaxed → Hash Fallback resolution) solve pointer decay - a real problem for long-running agent sessions where code shifts between turns and a raw file:line reference silently breaks. Claude Code plugin is purpose-built for this: agent bookmarks a location, retrieves it later by semantic meaning rather than needing to remember exact coordinates. 123 stars (up from 14) and 44 releases through v0.7.30 - moving from undiscovered toward early traction, still small. Also has genuine human-facing value via Neovim and Television TUI integrations, not purely agent-oriented.",
       "requiresExternal": false
     },
     {
