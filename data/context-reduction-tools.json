@@ -2145,7 +2145,7 @@
       "tool": "jCodemunch",
       "githubUrl": "https://github.com/jgravelle/jcodemunch-mcp",
       "layer": "Code navigation",
-      "whatItDoes": "tree-sitter AST index + BM25 symbol search + fuzzy matching + optional semantic/hybrid search. find_importers, get_blast_radius, get_class_hierarchy, find_dead_code, get_ranked_context (token-budgeted context assembly). Secret-file detection. 25+ languages. 419K MCP installs globally (#145 on PulseMCP). v1.108.25, hyper-active (108+ major revisions). Telemetry: anonymous token savings counter, disable with JCODEMUNCH_SHARE_SAVINGS=0.",
+      "whatItDoes": "tree-sitter AST index + BM25 symbol search + fuzzy matching + optional semantic/hybrid search. find_importers, get_blast_radius, get_class_hierarchy, find_dead_code, get_ranked_context (token-budgeted context assembly). Secret-file detection. 25+ languages. 419K MCP installs globally (#145 on PulseMCP, as of this tool's last count verification). v1.108.317, hyper-active (642+ releases). Telemetry: anonymous token savings counter, disable with JCODEMUNCH_SHARE_SAVINGS=0.",
       "conflict": {
         "severity": "hard",
         "projects": [
@@ -2164,12 +2164,13 @@
       "licence": {
         "spdx": "Dual-use (free non-commercial; paid commercial)"
       },
-      "stars": 2000,
+      "stars": 2672,
       "trend": 5,
       "activity": {
-        "latestVersion": "v1.108.146",
-        "notes": "292 forks, 1.9k stars, 419K installs, v1.108.25 released 26 May 2026, hyper-active daily releases",
-        "releasedOn": "2026-07-19"
+        "releaseCount": 642,
+        "notes": "367 forks, 2,672 stars per GitHub API, 642 releases, v1.108.317 (4 Sep 2026), 2 open issues, hyper-active daily releases",
+        "latestVersion": "v1.108.317",
+        "releasedOn": "2026-09-04"
       },
       "activityStatus": {
         "band": "active",
