@@ -3370,7 +3370,7 @@
       "tool": "jdatamunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdatamunch-mcp",
       "layer": "Tabular data retrieval",
-      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools (index_local, describe_dataset, describe_column, search_data, get_rows, aggregate, sample_rows, list_datasets and more). Token savings telemetry per call. 25,333x reduction benchmark on a 1M-row CSV (measured). Incremental re-index on unchanged files (hash check). Absent/degraded verdicts disclose what the ingest excluded (coverage contract, v1.20); optional advisory session token budget via JDATAMUNCH_SESSION_TOKEN_BUDGET (v1.21). Local-first, no cloud. v1.21.0.",
+      "whatItDoes": "Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools (index_local, describe_dataset, describe_column, search_data, get_rows, aggregate, sample_rows, list_datasets and more). Token savings telemetry per call. 25,333x reduction benchmark on a 1M-row CSV (measured). Incremental re-index on unchanged files (hash check). Absent/degraded verdicts disclose what the ingest excluded (coverage contract, v1.20); optional advisory session token budget via JDATAMUNCH_SESSION_TOKEN_BUDGET (v1.21). Local-first, no cloud. v1.31.13.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3389,13 +3389,14 @@
         "spdx": "Dual-use (free non-commercial; paid commercial)",
         "warning": "Custom jDataMunch-MCP Dual-Use License (not OSI-approved); for-profit or commercial use requires a paid licence."
       },
-      "stars": 73,
-      "trend": 1650,
+      "stars": 81,
+      "trend": 11,
       "activity": {
-        "releaseCount": 38,
-        "latestVersion": "v1.21.0",
-        "releasedOn": "2026-07-19",
-        "notes": "73 stars, 19 forks, 1 contributor, 38 releases, v1.21.0 (19 Jul 2026), roughly 36 MCP tools, local-first (SQLite). Feature-mature but single-maintainer and low adoption; recent releases add a coverage contract on absence claims and an advisory session token budget."
+        "contributors": 2,
+        "releaseCount": 62,
+        "latestVersion": "v1.31.13",
+        "releasedOn": "2026-08-31",
+        "notes": "81 stars, 20 forks, 2 contributors, 62 releases, v1.31.13 (31 Aug 2026), 0 open issues, roughly 36 MCP tools, local-first (SQLite). Feature-mature but low adoption; recent releases add a coverage contract on absence claims and an advisory session token budget. Corrected an evidently corrupted trend value (was 1650%) to an estimate from the stars delta."
       },
       "activityStatus": {
         "band": "active",

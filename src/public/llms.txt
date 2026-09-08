@@ -153,7 +153,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 
 ### Tabular data retrieval
 
-- [jdatamunch-mcp](https://github.com/jgravelle/jdatamunch-mcp) (Watch; 73 stars): Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools: index_local, describe_dataset, describe_column, search_data, get_rows (10 filter operators), aggregate (GROUP BY in SQLite), sample_rows, list_datasets and more. Token savings telemetry per call. 25,333x reduction benchmark on 1M-row CSV (111M to 3,849 tokens, measured). Incremental re-index on unchanged files (hash check). Local-first, no cloud. v1.19.1.
+- [jdatamunch-mcp](https://github.com/jgravelle/jdatamunch-mcp) (Watch; 81 stars): Indexes CSV/Excel files once into SQLite; agents query column profiles, filtered rows, and server-side aggregations instead of loading entire files. Roughly 36 MCP tools: index_local, describe_dataset, describe_column, search_data, get_rows (10 filter operators), aggregate (GROUP BY in SQLite), sample_rows, list_datasets and more. Token savings telemetry per call. 25,333x reduction benchmark on 1M-row CSV (111M to 3,849 tokens, measured). Incremental re-index on unchanged files (hash check). Local-first, no cloud. v1.31.13.
 
 ### Reference resource (curated list)
 
