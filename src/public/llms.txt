@@ -96,7 +96,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 ### Architecture violation detection
 
 - [repo-graph](https://github.com/andreirx/repo-graph) (Watch; 11 stars): Deterministic graph with trust model: classifies unresolved edges, reliability surface, obligation/CI gate, trend analysis. CLI only. No releases.
-- [TrueCourse](https://github.com/truecourse-ai/truecourse) (Watch; 496 stars): Circular deps, layer violations, race conditions, Prisma/Drizzle ER diagrams, LLM semantic code review, git diff mode. v0.7.3-next.9.
+- [TrueCourse](https://github.com/truecourse-ai/truecourse) (Watch; 528 stars): Circular deps, layer violations, race conditions, Prisma/Drizzle ER diagrams, LLM semantic code review, git diff mode. v0.8.1-next.0.
 
 ### MCP definition tokens
 
