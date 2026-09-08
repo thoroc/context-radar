@@ -2751,16 +2751,28 @@
       },
       "requirements": "Node.js + npm. Native npm packages (better-sqlite3) need local build tools. Local embedding mode: no API key required. OpenAI embedding mode: OPENAI_API_KEY needed for graph context search and proposal application. npm install -g greplica then greplica install --platform <claude|codex|opencode> --embedding local.",
       "licence": {
-        "spdx": "Unknown",
-        "warning": "No LICENSE file visible in repo despite marketing site claiming \"open source and free to use\""
+        "spdx": "MIT",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/Autoloops/greplica/blob/dda4152e43cac156c56a1cacecf7de878abe7ad8/LICENSE",
+              "quote": "MIT License",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 313,
+      "stars": 433,
       "trend": 38,
       "activity": {
-        "releaseCount": 0,
-        "notes": "41 forks, 0 releases, 20 commits shown on direct fetch (stale) - confirmed 227 stars/41 forks via live GitHub issue pages (Jun 23 2026), good-first-issue labels suggest active community onboarding, company-backed (Autoloops)",
-        "latestVersion": "v0.1.51",
-        "releasedOn": "2026-06-30"
+        "contributors": 17,
+        "releaseCount": 45,
+        "corroboration": "github-api",
+        "notes": "433 stars / 73 forks / 50 open issues / 17 contributors per GitHub API, 45 releases, v0.2.1 (22 Jul 2026). A LICENSE file (MIT) was added 04-07-2026 (PR #99), resolving the prior 'no LICENSE file' caveat that this record still carried from a check that pre-dated it.",
+        "latestVersion": "v0.2.1",
+        "releasedOn": "2026-07-22"
       },
       "activityStatus": {
         "band": "stable",
@@ -2768,7 +2780,7 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "rigorous benchmark methodology, local-first, but no licence file",
+        "rationale": "rigorous benchmark methodology, local-first, now confirmed MIT",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -2781,7 +2793,7 @@
           ]
         }
       },
-      "decisionRule": "Direct page fetch showed 1 star/alpha/mandatory OpenAI key - search cross-check revealed 227 stars/41 forks and a local-embedding option not visible in the fetched README. Use the higher, more recent figures. Benchmarked on SWE-chat (arXiv-linked public dataset), a genuinely more rigorous methodology than most tools at this stage: held-out planning tasks, baseline vs treatment. No LICENSE file in repo - verify licensing terms directly before commercial use despite \"open source and free\" marketing language. Self-described alpha: \"ready for small-team dogfooding,\" memory quality still needs human review for nuanced rationale.",
+      "decisionRule": "433 stars, MIT (LICENSE added 04-07-2026, resolving the earlier missing-licence caveat). Benchmarked on SWE-chat (arXiv-linked public dataset), a genuinely more rigorous methodology than most tools at this stage: held-out planning tasks, baseline vs treatment. Self-described alpha: \"ready for small-team dogfooding,\" memory quality still needs human review for nuanced rationale.",
       "requiresExternal": false
     },
     {
