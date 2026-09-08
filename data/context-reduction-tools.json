@@ -1282,7 +1282,7 @@
       "tool": "CodeBoarding",
       "githubUrl": "https://github.com/CodeBoarding/CodeBoarding",
       "layer": "Codebase understanding & onboarding",
-      "whatItDoes": "Static analysis + LLM pipeline generating interactive architecture diagrams and component docs committed to .codeboarding/. CLI, VS Code extension, Open VSX extension, GitHub Action. Incremental updates (--incremental, --partial-component-id). Mermaid output for docs and PRs. 800+ public repos visualised (codeboarding.org/diagrams). Supports Python, TS, JS, Java, Go, PHP. All major LLM providers. v0.9.5.",
+      "whatItDoes": "Static analysis + LLM pipeline generating interactive architecture diagrams and component docs committed to .codeboarding/. CLI, VS Code extension, Open VSX extension, GitHub Action. Incremental updates (--incremental, --partial-component-id). Mermaid output for docs and PRs. 800+ public repos visualised (codeboarding.org/diagrams). Supports Python, TS, JS, Java, Go, PHP. All major LLM providers. v0.14.0.",
       "conflict": {
         "severity": "stackable",
         "projects": [
@@ -1302,12 +1302,14 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 2300,
+      "stars": 2414,
       "trend": 109,
       "activity": {
-        "releaseCount": 16,
-        "latestVersion": "v0.13.0",
-        "notes": "90 forks, 16 releases, v0.9.5, 323 commits, 4 open issues, 4 open PRs, active",
+        "contributors": 25,
+        "releaseCount": 29,
+        "latestVersion": "v0.14.0",
+        "releasedOn": "2026-09-06",
+        "notes": "202 forks, 29 releases, v0.14.0 (6 Sep 2026), 38 open issues, 25 contributors, active",
         "releasedOn": "2026-07-13"
       },
       "activityStatus": {
