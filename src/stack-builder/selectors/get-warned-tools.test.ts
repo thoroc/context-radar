@@ -8,9 +8,9 @@ afterEach(() => {
 
 describe("getWarnedTools", () => {
   test("returns only selected tools that need external infra", () => {
-    state.sel = new Set(["token-optimizer-mcp", "rtk"]);
+    state.sel = new Set(["sourcebot", "rtk"]);
     const warned = getWarnedTools().map((t) => t.id);
-    expect(warned).toContain("token-optimizer-mcp");
+    expect(warned).toContain("sourcebot");
     expect(warned).not.toContain("rtk");
   });
 });
