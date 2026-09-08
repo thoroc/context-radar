@@ -317,7 +317,7 @@
       "tool": "omni",
       "githubUrl": "https://github.com/fajarhide/omni",
       "layer": "Shell output",
-      "whatItDoes": "Rust \"Context Operating System\". Intercepts terminal commands, streams output through declarative TOML rule-based distillers (no LLM calls). Adaptive compression self-tunes based on omni_retrieve frequency. Smart bypass skips distillation under 2000-token outputs. RewindStore: zero info loss, raw output retrievable via omni_retrieve. Native MCP server (omni mcp, stdio, no subprocess latency). Engrams: automatic rule-based subtask digests (no LLM cost) preventing context amnesia. Context pressure traffic light (omni_insight, warns at 65%/82% thresholds). Goal-driven constraint scaling (debug retains errors, refactor compresses code). Multi-agent collaboration via OMNI_AGENT_ID - Cursor/Claude/Hermes share filtered memory streams. Session handoffs (omni_handoff). Lightweight dependency graph at hook time. v0.6.0, 42 releases, migrated from Node/Zig to Rust.",
+      "whatItDoes": "Rust \"Context Operating System\". Intercepts terminal commands, streams output through declarative TOML rule-based distillers (no LLM calls). Adaptive compression self-tunes based on omni_retrieve frequency. Smart bypass skips distillation under 2000-token outputs. RewindStore: zero info loss, raw output retrievable via omni_retrieve. Native MCP server (omni mcp, stdio, no subprocess latency). Engrams: automatic rule-based subtask digests (no LLM cost) preventing context amnesia. Context pressure traffic light (omni_insight, warns at 65%/82% thresholds). Goal-driven constraint scaling (debug retains errors, refactor compresses code). Multi-agent collaboration via OMNI_AGENT_ID - Cursor/Claude/Hermes share filtered memory streams. Session handoffs (omni_handoff). Lightweight dependency graph at hook time. v0.7.9, 67 releases, migrated from Node/Zig to Rust.",
       "conflict": {
         "severity": "either-or",
         "projects": [
@@ -340,15 +340,27 @@
       },
       "requirements": "Rust binary; no model calls (rule-based TOML distillers, not AI compression); brew install fajarhide/tap/omni or curl installer",
       "licence": {
-        "spdx": "MIT"
+        "spdx": "Apache-2.0",
+        "warning": "Relicensed from MIT to Apache-2.0 on 12-08-2026 (adds a patent grant and a change-notice requirement; does not restrict copying).",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/fajarhide/omni/blob/553be1356d8315ad1df043df5d9568c618d6274b/LICENSE",
+              "quote": "Apache License\n                           Version 2.0, January 2004",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 300,
+      "stars": 367,
       "trend": 16,
       "activity": {
-        "releaseCount": 42,
-        "latestVersion": "v0.6.2",
-        "notes": "26 forks, 42 releases, v0.6.0 Jun 14 2026, 638 commits, active - organic community discussion comparing directly to RTK",
-        "releasedOn": "2026-07-17"
+        "releaseCount": 67,
+        "latestVersion": "v0.7.9",
+        "notes": "34 forks, 67 releases, v0.7.9 (4 Sep 2026), relicensed MIT -> Apache-2.0 on 12-08-2026 (#470), active - organic community discussion comparing directly to RTK",
+        "releasedOn": "2026-09-04"
       },
       "activityStatus": {
         "band": "active",
@@ -375,7 +387,7 @@
           ]
         }
       },
-      "decisionRule": "259 stars but real organic adoption (Indonesian dev community comparing directly to RTK). No LLM calls for core mechanism - same \"zero model dependency\" category as RTK/lean-ctx, unlike headroom or claude-mem. Unique: rule-based Engrams (free subtask memory), context pressure traffic light, goal-driven compression scaling. brew install fajarhide/tap/omni then omni init --claude. Author also maintains Heimsense (separate tool to run Claude Code on non-Anthropic models) - worth knowing exists.",
+      "decisionRule": "367 stars but real organic adoption (Indonesian dev community comparing directly to RTK). No LLM calls for core mechanism - same \"zero model dependency\" category as RTK/lean-ctx, unlike headroom or claude-mem. Unique: rule-based Engrams (free subtask memory), context pressure traffic light, goal-driven compression scaling. brew install fajarhide/tap/omni then omni init --claude. Author also maintains Heimsense (separate tool to run Claude Code on non-Anthropic models) - worth knowing exists. Relicensed MIT -> Apache-2.0 on 12-08-2026; no functional or adoption impact.",
       "requiresExternal": false
     },
     {
