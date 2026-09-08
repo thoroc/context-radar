@@ -1912,7 +1912,7 @@
       "tool": "CodeGraphContext",
       "githubUrl": "https://github.com/CodeGraphContext/CodeGraphContext",
       "layer": "Code navigation",
-      "whatItDoes": "Python MCP + CLI. 14 languages, KùzuDB/FalkorDB/Neo4j. Pre-indexed bundles. 78 contributors. v0.3.1.",
+      "whatItDoes": "Python MCP + CLI. 14 languages, KùzuDB/FalkorDB/Neo4j. Pre-indexed bundles. 208 contributors. v0.5.7.",
       "conflict": {
         "severity": "hard",
         "projects": [
@@ -1931,13 +1931,14 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 3900,
+      "stars": 4175,
       "trend": 86,
       "activity": {
-        "contributors": 78,
-        "notes": "78 contributors, community PRs, active issues",
-        "latestVersion": "v0.4.7",
-        "releasedOn": "2026-05-07"
+        "contributors": 208,
+        "releaseCount": 21,
+        "notes": "208 contributors, 824 forks, 96 open issues, community PRs, active issues",
+        "latestVersion": "v0.5.7",
+        "releasedOn": "2026-08-08"
       },
       "activityStatus": {
         "band": "stable",
