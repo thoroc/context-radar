@@ -1,8 +1,8 @@
 {
   "meta": {
-    "last_updated": "2026-07-17",
+    "last_updated": "2026-09-08",
     "stars_verified": "2026-07-15",
-    "tool_count": 81
+    "tool_count": 82
   },
   "layers": [
     {
@@ -3699,7 +3699,26 @@
         }
       },
       "decisionRule": "Known limitation: 49% LongMemEval on temporal sub-tasks vs 63-91% for Zep/graphiti alternatives. | 51.4k stars, native Claude Code plugin. Benchmarks: +26% accuracy, 91% faster, 90% fewer tokens vs full-context (LOCOMO benchmark). Telemetry: set MEM0_TELEMETRY=false to disable. For self-host without paid tier: run OpenMemory with docker-compose up in the openmemory/ dir.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": "Mem0",
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "hosted-optional",
+        "selfHostable": true,
+        "notes": "Core library and OpenMemory self-host (Docker) run without an account. Managed platform (app.mem0.ai) and Graph Memory (Mem0g, paid tier) are optional hosted extras, not required for core use.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/mem0ai/mem0/blob/dae67f74f5cc7bf138c7d7d6f9cec5ce4b4373b3/mem0/memory/telemetry.py#L14",
+              "quote": "MEM0_TELEMETRY = os.environ.get(\"MEM0_TELEMETRY\", \"True\")",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "cognee",
@@ -3752,7 +3771,26 @@
         }
       },
       "decisionRule": "Graduated GitHub Secure Open Source Program. | Claude Code plugin: /plugin marketplace add topoteretes/cognee or git clone + install.sh. developer rules bootstrap indexes CLAUDE.md equivalents into queryable graph rather than loading wholesale at startup. More powerful than mem0 (graph reasoning) but heavier setup. For simple session memory mem0 is easier.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": "Cognee",
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Self-hosted (Docker) with your own LLM API key; no vendor-hosted cognee service was found in this pass. GitHub org is 'topoteretes'; formal incorporation of 'Cognee' was not independently confirmed.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/topoteretes/cognee/blob/e93a4f0c76e6af27142c25189f14c200e1749d51/cognee/shared/utils.py#L362",
+              "quote": "if os.getenv(\"TELEMETRY_DISABLED\"):",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "supermemory",
@@ -3804,7 +3842,26 @@
         }
       },
       "decisionRule": "Simplest of the three memory tools: SaaS, no local infra, one install. /plugin marketplace add supermemoryai/claude-supermemory. Tradeoff: data lives on Supermemory servers. For self-hosted memory use mem0 OpenMemory instead. Team Memory needs paid plan.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": "Supermemory",
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "hosted-optional",
+        "selfHostable": true,
+        "notes": "As of this check, the README documents 'npx supermemory local' self-hosting (embedded graph engine, local embeddings, prints a local API key) alongside the hosted platform. This appears to contradict this record's existing requirements/verdict text ('SaaS-hosted... not local'), which may predate the self-host feature - worth a freshness re-check independent of this pilot.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/supermemoryai/supermemory/blob/5258cb74c895c5297fbfff594935741aeb14a915/README.md#L313-L342",
+              "quote": "Supermemory local — run it yourself",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "readme"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "graphiti",
@@ -3966,7 +4023,15 @@
         }
       },
       "decisionRule": "Claude Code capture is in the \"Next\" roadmap section - not yet implemented. Current capture: Codex and Copilot CLI only. Multi-tool shared memory concept is unique in this comparison. Spec is 250+ pages with 19 cognitive science references. Revisit when Claude Code capture ships. Note: gitmem-dev/gitmem is a different, more mature project worth separate evaluation.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Git-native; remote/hybrid mode syncs via the user's own GitHub remote through the gh CLI, not a vendor-hosted service of its own."
+      }
     },
     {
       "id": "memoir",
@@ -4023,7 +4088,15 @@
         }
       },
       "decisionRule": "Branch-aware memory is unique in this comparison: git checkout changes which memories are injected. Token rent insight: CLAUDE.md as global store invalidates prefix cache on every update - memoir injects only relevant memories. 2 stars but 145 commits and working Claude Code plugin. /plugin marketplace add zhangfengcdt/memoir for zero-config install.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Solo-maintainer plugin; memory lives in the user's own git-backed working tree."
+      }
     },
     {
       "id": "graperoot-codex-cli-compact",
@@ -4126,7 +4199,26 @@
         }
       },
       "decisionRule": "77k stars - largest memory tool in this comparison, 2nd largest tool overall after caveman. Trendshift-validated, Awesome Claude Code listed. 3-layer search→timeline→get_observations workflow is the most deliberate token-efficiency design among memory tools here. Web viewer at localhost:37777. Note: README discloses a third-party $CMEM Solana token embraced by the author - unrelated to tool function but worth knowing. Install via npx claude-mem install, not npm install -g.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Anonymous PostHog analytics on by default (whitelisted fields only, no PII); DO_NOT_TRACK is honoured and the installer asks once at setup. The local log always runs at full fidelity and never leaves the machine, separately from the telemetry channel. Vendor entity not confirmed as a registered company beyond the author's own handle; the existing record's $CMEM Solana token disclosure is unrelated to this field.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/thedotmack/claude-mem/blob/fd0ecf023336ce631c8a5cd7b70cdeca8f0e82e0/docs/public/telemetry.mdx",
+              "quote": "It is on by default (opt-out).",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "claude-smart",
@@ -4183,7 +4275,15 @@
         }
       },
       "decisionRule": "724 stars, 83 forks - real organic growth (217 April → 724 July). Direct benchmark vs claude-mem: ~2.7x higher quality (EXPERIMENT.md - review methodology). Key advantage: skills self-tune continuously (merge, archive, supersede) rather than just accumulating. No LLM API for embeddings unlike most memory tools. Reflexio engine also has standalone uses beyond claude-smart. CONFLICT: do not run alongside claude-mem - direct competitors.",
-      "requiresExternal": false
+      "requiresExternal": false,
+      "adoptionSignals": {
+        "vendorEntity": "Reflexio AI",
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "No external API for core embeddings; ONNX model downloaded once, runs in-process."
+      }
     },
     {
       "id": "truememory",
@@ -4238,7 +4338,15 @@
         }
       },
       "decisionRule": "CRITICAL: Licence changed from Apache-2.0 to AGPL-3.0. Commercial use now requires a separate paid licence (was \"free for personal and commercial use\"). New paper: arXiv:2605.04897 \"Storage Is Not Memory\". | Only memory tool in this comparison with a genuinely zero-cost, zero-cloud, zero-API-key tier (Edge/Base) at this benchmark quality. Novel BEAM-1M/10M benchmark tests memory beyond any model's context window - no other memory tool here is tested at that scale. Directives feature is a per-memory alternative to global CLAUDE.md instructions. curl -LsSf https://raw.githubusercontent.com/buildingjoshbetter/TrueMemory/main/install.sh | sh. Stale-fetch warning: GitHub page render showed 29 stars/v0.3.0 - live search confirmed 311 stars/v0.7.1.2+, a substantially evolved feature set.",
-      "requiresExternal": false
+      "requiresExternal": false,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Edge/Base (default, free) tier makes zero external calls per the existing curated record. Pro tier adds an optional third-party LLM API key for HyDE query expansion, not a TrueMemory-hosted service. See licence.warning for the AGPL-3.0 commercial-use change."
+      }
     },
     {
       "id": "agentic-context-engine-ace",
@@ -4296,7 +4404,15 @@
         }
       },
       "decisionRule": "Benchmarked: 49% token reduction on browser automation (10-run learning curve), 2x consistency on Tau2 airline benchmark with only 15 learned strategies, real-world Claude Code demo translated 14k lines Python→TypeScript autonomously for ~$1.50 learning cost with zero build errors. Based on a real arXiv paper (2510.04618). Has a dedicated ClaudeCode runner class for direct Claude Code integration. Optional hosted dashboard at kayba.ai is freemium, not required.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": "Kayba",
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "hosted-optional",
+        "selfHostable": true,
+        "notes": "Core framework is a library run against your own LLM API key; kayba.ai is an optional freemium hosted dashboard, not required for core use."
+      }
     },
     {
       "id": "mem",
@@ -4355,7 +4471,15 @@
         }
       },
       "decisionRule": "Zero LLM calls, zero infrastructure, zero cost - the most minimal design in the entire Agent memory persistence layer, useful as a baseline to compare against heavier tools like cognee or graphiti. Cross-project single journal (not per-repo) is a genuine differentiator most other memory tools in this comparison lack. Honest self-caveat in the README about auto-commit: \"a backup you must remember isn't a backup.\" Worth revisiting once any community signal appears - currently zero adoption evidence.",
-      "requiresExternal": false
+      "requiresExternal": false,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Solo/community project; plain structured markdown read/write, no server component."
+      }
     },
     {
       "id": "curion",
@@ -4415,7 +4539,15 @@
         }
       },
       "decisionRule": "Explicit API-freeze commitment at v0.3.6 is unusual - most memory tools in this comparison are still expanding their tool surface. Raw-input-never-persisted design (normalize + safety-filter before write, reject silently drops the call) is a distinctive privacy mechanism not described by any other memory tool here. Cross-project semantic search with a per-project private opt-out is a genuinely useful default for anyone running curion across multiple repos on one machine. Contrast with mem (karmugilen/mem): both minimal, but mem is zero-LLM/zero-cost while curion needs an API key for its normalization layer in exchange for safety filtering and semantic recall.",
-      "requiresExternal": true
+      "requiresExternal": true,
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "unknown",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "Project-local memory layer; the only external call is to the configured third-party LLM API (CURION_PRIMARY_API_KEY) for the normalisation step, not a curion-hosted service."
+      }
     },
     {
       "id": "ponytail",
@@ -4645,6 +4777,89 @@
         }
       },
       "decisionRule": "3 stars, MIT, v0.4.1 (Feb 2026), single maintainer. Niche: semantic search over git commit history, not the working tree; no MCP server, so wrap the gsb CLI. Watch for MCP support and adoption before relying on it."
+    },
+    {
+      "id": "okf-agent-memory",
+      "tool": "OKF Agent Memory",
+      "githubUrl": "https://github.com/okf-memory/okf-agent-memory",
+      "layer": "Agent memory persistence",
+      "whatItDoes": "Go CLI and embedded MCP server implementing Google's OKF v0.2 spec: persistent agent memory as git-tracked Markdown 'concepts' with YAML frontmatter, indexed by an in-memory BM25 search.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "gitmem"
+        ],
+        "note": "Closest existing sibling in this layer: both persist memory as plain git-tracked files rather than an embedding/vector store. This layer's own cardinality note treats it as pick-one against the whole layer, but OKF's structured-concept shape overlaps most specifically with gitmem, not with the LLM-embedding-backed tools (mem0, cognee, claude-mem, etc.)."
+      },
+      "runtime": {
+        "languages": [
+          "go"
+        ],
+        "detail": "Single static Go binary; zero third-party Go dependencies (go.mod has no require block).",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/okf-memory/okf-agent-memory/blob/8a61bb325713e261459b7a827878c93f84ba7bb0/go.mod",
+              "quote": "module github.com/okf-memory/okf-agent-memory\n\ngo 1.22.0",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      },
+      "requirements": "Single Go binary; no model calls, no external infra, no account.",
+      "requiresExternal": false,
+      "licence": {
+        "spdx": "MIT"
+      },
+      "stars": 476,
+      "trend": null,
+      "activity": {
+        "contributors": 1,
+        "releaseCount": 3,
+        "corroboration": "github-api",
+        "notes": "Repository created 05-09-2026 (3 days old at time of writing), 19 commits, single contributor, GitHub organisation created 28-08-2026."
+      },
+      "activityStatus": {
+        "band": "early",
+        "label": "New (single maintainer)"
+      },
+      "verdict": {
+        "decision": "watch",
+        "rationale": "Zero-dependency, git-native structured memory implementing a real, independently confirmed spec (Google's OKF v0.2, published under GoogleCloudPlatform/knowledge-catalog), with a genuinely thoughtful provenance/trust-tier design. But the repository is three days old with 19 commits from one previously unknown maintainer, and its 476 stars / 25 forks are disproportionate to that history in a way this pass could not fully explain (the GitHub stargazers API returned 404 in this environment even against a control repo). Revisit once it has an established track record.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/okf-memory/okf-agent-memory/blob/8a61bb325713e261459b7a827878c93f84ba7bb0/go.mod",
+              "quote": "module github.com/okf-memory/okf-agent-memory\n\ngo 1.22.0",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      },
+      "decisionRule": "Do not adopt yet. 476 stars, 25 forks, MIT, v0.1.2, single-maintainer repository 3 days old. Revisit for a longer maintenance history before any real trial.",
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "none",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "No hosted account, no telemetry, no third-party Go dependencies found in the core CLI/MCP-server code paths; every hit for 'telemetry' in the repository is inside sample/benchmark fixture content, not instrumentation code.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/okf-memory/okf-agent-memory/blob/8a61bb325713e261459b7a827878c93f84ba7bb0/go.mod",
+              "quote": "module github.com/okf-memory/okf-agent-memory\n\ngo 1.22.0",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      }
     }
   ]
 }
