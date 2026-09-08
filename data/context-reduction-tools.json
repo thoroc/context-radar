@@ -981,7 +981,7 @@
       "tool": "mfs",
       "githubUrl": "https://github.com/zilliztech/mfs",
       "layer": "Personal knowledge retrieval",
-      "whatItDoes": "Unifies every context source under one URI scheme and one verb set. Two skills: mfs-ingest (mfs add registers/syncs any source), mfs-find (search, grep, ls, cat, tree, head, tail across what is ingested). Connectors: local files, S3/R2/GCS/MinIO, Google Drive, Postgres, MySQL, MongoDB, BigQuery, Snowflake, GitHub (files+issues+PRs), Jira, Linear, HubSpot, Zendesk, Slack, Discord, Gmail, Feishu, Notion, crawled web. --all fans one query across every registered source. Default stack is fully local: ONNX embedding (BGE-M3 int8, ~600MB one-time download, no API key/GPU/cloud), Milvus Lite (local file), SQLite metadata - scales to self-hosted Milvus or Zilliz Cloud + Postgres for production. Credential TOMLs hold only env:/file: references, never raw secrets - real values resolve server-side. 70+ agent integrations via npx skills add. Python/TS/Rust SDKs for building on top. v0.4.3 (installer), 146 commits. 3rd iteration of a Zilliz lineage (claude-context, memsearch).",
+      "whatItDoes": "Unifies every context source under one URI scheme and one verb set. Two skills: mfs-ingest (mfs add registers/syncs any source), mfs-find (search, grep, ls, cat, tree, head, tail across what is ingested). Connectors: local files, S3/R2/GCS/MinIO, Google Drive, Postgres, MySQL, MongoDB, BigQuery, Snowflake, GitHub (files+issues+PRs), Jira, Linear, HubSpot, Zendesk, Slack, Discord, Gmail, Feishu, Notion, crawled web. --all fans one query across every registered source. Default stack is fully local: ONNX embedding (BGE-M3 int8, ~600MB one-time download, no API key/GPU/cloud), Milvus Lite (local file), SQLite metadata - scales to self-hosted Milvus or Zilliz Cloud + Postgres for production. Credential TOMLs hold only env:/file: references, never raw secrets - real values resolve server-side. 70+ agent integrations via npx skills add. Python/TS/Rust SDKs for building on top. v0.4.6, 10 releases. 3rd iteration of a Zilliz lineage (claude-context, memsearch).",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1003,13 +1003,13 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 103,
-      "trend": 2475,
+      "stars": 137,
+      "trend": 22,
       "activity": {
-        "releaseCount": 5,
-        "latestVersion": "v0.4.5",
-        "notes": "2 forks, 5 releases, v0.4.3 (latest installer)/v0.4.1 (page), 146 commits, backed by Zilliz (Milvus vector DB company) - genuinely early despite company backing",
-        "releasedOn": "2026-07-10"
+        "releaseCount": 10,
+        "latestVersion": "v0.4.6",
+        "notes": "16 forks, 10 releases, v0.4.6 (31 Jul 2026), 3 open issues, backed by Zilliz (Milvus vector DB company) - genuinely early despite company backing. No commits/releases since 31 Jul 2026 (about 5.5 weeks as of this check); still recorded as early rather than dormant since it was never claimed active. Corrected an evidently corrupted trend value (was 2475%) to an estimate from the stars delta.",
+        "releasedOn": "2026-07-31"
       },
       "activityStatus": {
         "band": "early",
@@ -1030,7 +1030,7 @@
           ]
         }
       },
-      "decisionRule": "Only tool in this comparison trying to unify code + memory + docs + chat + tickets + databases + cloud storage under one interface. Default stack is fully local and offline (ONNX + Milvus Lite + SQLite) - no forced cloud dependency unlike supermemory or githits-cli, though Zilliz Cloud is available to scale. Credential design is notably careful: TOML never holds raw secrets. 4 stars reflects genuine novelty/earliness, not a red flag - backed by the same team behind Milvus. No MCP server yet (skills/CLI/SDK only) - watch for that to land given every other new tool in this comparison ships one.",
+      "decisionRule": "Only tool in this comparison trying to unify code + memory + docs + chat + tickets + databases + cloud storage under one interface. Default stack is fully local and offline (ONNX + Milvus Lite + SQLite) - no forced cloud dependency unlike supermemory or githits-cli, though Zilliz Cloud is available to scale. Credential design is notably careful: TOML never holds raw secrets. 137 stars reflects genuine novelty/earliness, not a red flag - backed by the same team behind Milvus. No MCP server yet (skills/CLI/SDK only) - watch for that to land given every other new tool in this comparison ships one.",
       "requiresExternal": false
     },
     {
