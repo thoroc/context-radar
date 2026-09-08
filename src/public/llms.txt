@@ -129,7 +129,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 
 ### Response verbosity & memory compression
 
-- [caveman](https://github.com/JuliusBrussee/caveman) (Add; 89,000 stars): Skill strips output filler; companion compresses CLAUDE.md (~45% savings). 30+ agents. QLoRA fine-tune. Run after sigmap.
+- [caveman](https://github.com/JuliusBrussee/caveman) (Add; 104,275 stars): Grew from a skill-only tool into two pieces (v2.0, Aug 2026). Skill: terse writing-style rule file, ~65% avg output-token savings, works in 30+ agents. Proxy: a local process that shrinks what the agent reads (JSON/logs/code/diffs/search results/text), -33.2% input tokens on a pinned benchmark; originals kept recoverable. 5 MCP tools. MIT skill/CLI, BSL-1.1 engine/proxy/MCP server (free to self-host, commercial licence only to host for third parties). v2.6.0.
 
 ### Config stack audit
 
