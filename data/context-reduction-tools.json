@@ -2568,11 +2568,14 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 91,
+      "stars": 94,
       "trend": null,
       "activity": {
-        "latestVersion": "v0.0.26",
-        "notes": "low churn, stable"
+        "contributors": 5,
+        "latestVersion": "v0.2.0",
+        "releaseCount": 2,
+        "releasedOn": "2026-08-10",
+        "notes": "94 stars / 15 forks / 5 contributors per GitHub API, 2 releases, v0.2.0 (10 Aug 2026), 13 open issues, still low churn (recent commits are mostly renovate dependency bumps, pushed 6 Sep 2026)."
       },
       "activityStatus": {
         "band": "stable",
