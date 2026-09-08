@@ -1045,7 +1045,7 @@
       "tool": "jdocmunch-mcp",
       "githubUrl": "https://github.com/jgravelle/jdocmunch-mcp",
       "layer": "Library documentation retrieval",
-      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. Roughly 63 MCP tools (index_local, index_repo, get_toc, search_sections, get_section, doc_resolve_repo and more). SHA-256 drift detection. Claude Code hooks (PreToolUse, PostToolUse, PreCompact) plus a watch daemon that reindexes on any on-disk change. Security filtering. _meta envelope reports tokens saved per call. Optional pip install jdocmunch-mcp[office] adds local PDF/Word/PowerPoint/EPUB ingestion (converted on-machine to Markdown via markitdown, no network). Python/pip or uvx. v1.105.0.",
+      "whatItDoes": "Indexes any documentation set once by heading hierarchy; agents retrieve exact sections via stable byte-offset IDs rather than reading entire files. Roughly 63 MCP tools (index_local, index_repo, get_toc, search_sections, get_section, doc_resolve_repo and more). SHA-256 drift detection. Claude Code hooks (PreToolUse, PostToolUse, PreCompact) plus a watch daemon that reindexes on any on-disk change. Security filtering. _meta envelope reports tokens saved per call. Optional pip install jdocmunch-mcp[office] adds local PDF/Word/PowerPoint/EPUB ingestion (converted on-machine to Markdown via markitdown, no network). Python/pip or uvx. v1.139.1.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1064,13 +1064,13 @@
         "spdx": "Dual-use (free non-commercial; paid commercial)",
         "warning": "Custom jDocMunch-MCP Dual-Use License (not OSI-approved); commercial use requires a paid licence."
       },
-      "stars": 191,
+      "stars": 203,
       "trend": 15,
       "activity": {
-        "latestVersion": "v1.105.0",
-        "releaseCount": 139,
-        "releasedOn": "2026-07-19",
-        "notes": "191 stars, 41 forks, 139 releases, v1.105.0 (19 Jul 2026), roughly 63 MCP tools, Claude Code hooks (PreToolUse/PostToolUse/PreCompact) plus a watch daemon, local-first. The 1.x line is disciplined backward-compatible minor releases, not version inflation. Recent work: corpus-identity resolution (doc_resolve_repo, worktree-aware) and an optional [office] extra for local PDF/Word/PowerPoint/EPUB ingestion."
+        "latestVersion": "v1.139.1",
+        "releaseCount": 188,
+        "releasedOn": "2026-09-01",
+        "notes": "203 stars, 44 forks, 188 releases, v1.139.1 (1 Sep 2026), roughly 63 MCP tools, Claude Code hooks (PreToolUse/PostToolUse/PreCompact) plus a watch daemon, local-first. The 1.x line is disciplined backward-compatible minor releases, not version inflation. Recent work: corpus-identity resolution (doc_resolve_repo, worktree-aware) and an optional [office] extra for local PDF/Word/PowerPoint/EPUB ingestion."
       },
       "activityStatus": {
         "band": "active",
