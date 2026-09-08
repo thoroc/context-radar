@@ -102,7 +102,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 ### MCP definition tokens
 
 - [Tool Search](https://docs.anthropic.com/en/docs/claude-code) (Add; - stars): Defers tool schema loading until needed; auto-triggers above 10% context threshold
-- [mcpick](https://github.com/spences10/mcpick) (Watch; 91 stars): Manual CLI toggle of MCP servers per session / profile
+- [mcpick](https://github.com/spences10/mcpick) (Watch; 94 stars): Manual CLI toggle of MCP servers per session / profile
 
 ### Agent memory persistence
 
