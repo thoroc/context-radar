@@ -1700,14 +1700,29 @@
       },
       "requirements": "Python 3.10+; no model calls; pip install",
       "licence": {
-        "spdx": "MIT"
+        "spdx": "Apache-2.0",
+        "warning": "Relicensed from MIT to Apache-2.0 on 22-07-2026.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/safishamsi/graphify/blob/ba7f9ea9d8c2c7c7807957010bec34543c20e20a/LICENSE",
+              "quote": "Apache License\n                           Version 2.0, January 2004",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 86000,
+      "stars": 115915,
       "trend": 4,
       "activity": {
-        "notes": "Single-source figure (OpenGithubs weekly tracker, 82.3k) - large jump from 51.8k, not yet independently corroborated by a second source. Flagged for dedicated verification next sweep.",
-        "latestVersion": "v0.9.20",
-        "releasedOn": "2026-07-18"
+        "contributors": 241,
+        "releaseCount": 202,
+        "corroboration": "github-api",
+        "notes": "115.9k stars / 11,244 forks / 202 releases confirmed directly via the GitHub API, resolving the prior single-source (OpenGithubs) uncertainty flagged for this sweep. 241 contributors, 1,274 open issues.",
+        "latestVersion": "v0.9.56",
+        "releasedOn": "2026-09-07"
       },
       "activityStatus": {
         "band": "active",
