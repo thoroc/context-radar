@@ -3073,7 +3073,7 @@
       "tool": "lat.md",
       "githubUrl": "https://github.com/1st1/lat.md",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "Markdown knowledge graph for codebases stored in a lat.md/ directory. Interconnected .md files document architecture, business logic, design decisions, and test specs - linked via [[wiki links]] to each other and to source code symbols (// @lat: [[section-id]] in code). Agents navigate via lat search (semantic), lat section, lat locate, lat refs, lat expand (expands [[refs]] inline without loading full graph). lat check enforces referential integrity between docs and code. Test spec enforcement: require-code-mention: true flags specs without code backlinks. lat mcp starts MCP server. lat init scaffolds directory and installs hooks in Claude Code / Codex / OpenCode. Agents maintain the graph; humans review semantic diffs in lat.md/ before code diffs. 21 releases, v0.11.0 Mar 2026. Author: Yury Selivanov (Python asyncio, uvloop, EdgeDB).",
+      "whatItDoes": "Markdown knowledge graph for codebases stored in a lat.md/ directory. Interconnected .md files document architecture, business logic, design decisions, and test specs - linked via [[wiki links]] to each other and to source code symbols (// @lat: [[section-id]] in code). Agents navigate via lat search (semantic), lat section, lat locate, lat refs, lat expand (expands [[refs]] inline without loading full graph). lat check enforces referential integrity between docs and code. Test spec enforcement: require-code-mention: true flags specs without code backlinks. lat mcp starts MCP server. lat init scaffolds directory and installs hooks in Claude Code / Codex / OpenCode. Agents maintain the graph; humans review semantic diffs in lat.md/ before code diffs. 24 releases, v0.12.2 Jul 2026. Author: Yury Selivanov (Python asyncio, uvloop, EdgeDB).",
       "conflict": {
         "severity": "stackable",
         "projects": [
@@ -3093,21 +3093,22 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 1800,
+      "stars": 1911,
       "trend": 12,
       "activity": {
-        "releaseCount": 21,
-        "latestVersion": "v0.12.1",
-        "notes": "106 forks, 21 releases, v0.11.0 Mar 23 2026, 191 commits, 13 open issues, 14 open PRs, HN front page discussion Mar 29 2026",
-        "releasedOn": "2026-07-15"
+        "contributors": 5,
+        "releaseCount": 24,
+        "corroboration": "github-api",
+        "notes": "120 forks, 24 releases, v0.12.2 (29 Jul 2026), 33 open issues, 5 contributors. Resumed active development in early September 2026 (real PR-merge commits: Mermaid rendering fixes, TOC/graph UI refinement, agent-selection memory) after the roughly 3-month dormancy this record previously flagged - repo pushed as recently as 7 Sep 2026.",
+        "releasedOn": "2026-07-29"
       },
       "activityStatus": {
-        "band": "dormant",
-        "label": "Active (3 months dormant)"
+        "band": "active",
+        "label": "Active"
       },
       "verdict": {
         "decision": "add",
-        "rationale": "unique architecture documentation governance; dormant since Mar 2026",
+        "rationale": "unique architecture documentation governance; resumed active development in September 2026 after the prior dormancy",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -3120,7 +3121,7 @@
           ]
         }
       },
-      "decisionRule": "Only tool here addressing AGENTS.md scalability: replaces a single flat file with a linked graph of .md files. lat check enforces bidirectional links between docs and code, catching drift that ctxharness misses (ctxharness checks version facts; lat.md checks structural links). Author Yury Selivanov (Python asyncio/uvloop/EdgeDB) gives strong credibility. Dormant since March 25, 2026 - 3 months without commits. Semantic search requires OpenAI key; all other features work offline.",
+      "decisionRule": "Only tool here addressing AGENTS.md scalability: replaces a single flat file with a linked graph of .md files. lat check enforces bidirectional links between docs and code, catching drift that ctxharness misses (ctxharness checks version facts; lat.md checks structural links). Author Yury Selivanov (Python asyncio/uvloop/EdgeDB) gives strong credibility. Was dormant March-August 2026; resumed active daily development in September 2026. Semantic search requires OpenAI key; all other features work offline.",
       "requiresExternal": false
     },
     {
