@@ -570,7 +570,7 @@
       "tool": "token-optimizer-mcp",
       "githubUrl": "https://github.com/ooples/token-optimizer-mcp",
       "layer": "All tool output",
-      "whatItDoes": "MCP server replacing standard Claude Code file tools with cached/compressed equivalents. 61 tools: smart_read (serves diffs after first read, ~80% reduction on repeated reads), smart_grep, smart_glob, optimize_text (cache large content externally to remove from context), cache_warmup (SQLite pre-warm on session start), get_session_stats, monitoring dashboard. SQLite-based persistent cross-session cache. Brotli compression (2-4x typical, up to 82x repetitive content). Claims: 60-90% token reduction across 38,000+ operations. v5.0.1, 31 releases.",
+      "whatItDoes": "MCP server replacing standard Claude Code file tools with cached/compressed equivalents, across 16 coding clients (native Claude Code plugin plus 15 more via integrations/: Codex, GitHub Copilot CLI, Cursor, Cline, Windsurf, Gemini CLI, Qwen Code, and others). 74 tools: smart_read (denies a repeat Read of an already-seen file, serving only the diff since that read), smart_grep, smart_glob, a per-project knowledge graph that persists findings/decisions across sessions, cache_warmup, a live dashboard reporting measured net MCP-transport savings (before/actual-return figures, not a self-reported aggregate). SQLite-based persistent cross-session cache. Brotli compression. v6.0.2, 55 releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -578,7 +578,7 @@
           "Tool Search",
           "headroom"
         ],
-        "note": "61 MCP tool definitions = significant schema overhead at session start - the problem this comparison is solving. Must run with Tool Search deferral to avoid defeating own purpose. smart_read/smart_grep conceptually overlap context-mode (all tool output) and headroom (universal compression) but different mechanism (file-level SQLite cache vs stream compression)."
+        "note": "74 MCP tool definitions = significant schema overhead at session start - the problem this comparison is solving. Must run with Tool Search deferral to avoid defeating own purpose. smart_read/smart_grep conceptually overlap context-mode (all tool output) and headroom (universal compression) but different mechanism (file-level SQLite cache vs stream compression)."
       },
       "runtime": {
         "languages": [
@@ -587,38 +587,63 @@
         ],
         "detail": "Node.js (TypeScript)"
       },
-      "requirements": "Node.js 18+. npm install -g @ooples/token-optimizer-mcp (post-install hook auto-installs hooks). HIGH severity unfixed npm vulnerability (picomatch, May 2026 scan). No external API calls - local SQLite cache only.",
+      "requirements": "Node.js 22+ (bumped from 18+ in the v6 line). npm install -g @ooples/token-optimizer-mcp (post-install hook auto-installs hooks/integrations). No account, no telemetry, no hosted service, no external API calls - local SQLite cache only. The two picomatch advisories (GHSA-c2c7-rcm5-vvqj ReDoS, GHSA-3v7f-55p6-f55p method injection) flagged unfixed in the May 2026 scan are resolved: the lockfile now carries only patched picomatch releases (2.3.2 / 4.0.4).",
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 437,
-      "trend": 8,
+      "stars": 509,
+      "trend": 10,
       "activity": {
-        "releaseCount": 31,
-        "latestVersion": "v5.0.1",
-        "notes": "41 forks, 31 releases, v5.0.1 latest Nov 2 2025, 369 commits, 0 open PRs - DORMANT since Nov 2025"
+        "releaseCount": 55,
+        "latestVersion": "v6.0.2",
+        "notes": "61 forks, 55 releases, v6.0.2 (28 Aug 2026), 509 stars (was 437 on 2026-07-19; trend approximated from that 51-day interval, roughly +9.7%/30d, not a live star-history read). Resumed active development 20 Jul 2026 after 8 months dormant (previously v5.0.1, 2 Nov 2025) - v5.1.0 through v6.0.2 landed in near-daily releases since, repo pushed as recently as 8 Sep 2026.",
+        "releasedOn": "2026-08-28"
       },
       "activityStatus": {
-        "band": "dormant",
-        "label": "Dormant"
+        "band": "active",
+        "label": "Very active"
       },
       "verdict": {
-        "decision": "watch",
-        "rationale": "dormant since Nov 2025; unpatched HIGH severity npm vulnerability; README deleted",
+        "decision": "add",
+        "rationale": "resumed near-daily development after 8 months dormant; the picomatch vulnerability is patched; the persistent cross-session cache and per-project knowledge graph remain a genuinely unique capability, now backed by a measured savings ledger rather than a self-reported aggregate",
         "evidence": {
           "status": "confirmed",
           "sources": [
             {
-              "url": "https://github.com/ooples/token-optimizer-mcp/blob/99252aec279a1767878136fe59712f006018de26/src/tools/file-operations/smart-read.ts#L2",
-              "quote": "Smart Read Tool - 80% token reduction through intelligent caching and diff-based updates",
-              "checkedOn": "2026-07-19",
+              "url": "https://github.com/ooples/token-optimizer-mcp/blob/e384eb6793655911122ac9813f7556c2a52696d0/hooks-core/decide.mjs#L819-L822",
+              "quote": "`You already read ${shown} earlier in this session. Call the ` +\n          `token-optimizer MCP tool smart_read with path=\"${shown}\" instead -- ` +\n          `it returns only a diff of what changed since that read, typically a ` +\n          `few tokens rather than the whole file.`,",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/ooples/token-optimizer-mcp/blob/03828e9516a23f8052e4fc9a1cf8b4a0abbee3c1/src/tools/intelligence/knowledge-graph.ts#L2",
+              "quote": "Knowledge Graph Tool - 91% token reduction through intelligent graph caching",
+              "checkedOn": "2026-09-08",
               "evidenceType": "source-code"
             }
           ]
         }
       },
-      "decisionRule": "Project appears abandoned since Nov 2025 (7+ months). README.md replaced with CI/CD workflow docs - actual product documentation is gone from the repo. SkillsLLM automated security scan (May 2026) flagged HIGH severity picomatch vulnerability unfixed. The persistent SQLite cross-session file cache is a genuinely unique capability not replicated elsewhere in this comparison - revisit if project resumes. Must use alongside Tool Search deferral to avoid 61-tool schema overhead problem.",
-      "requiresExternal": true
+      "decisionRule": "Resumed development 20 Jul 2026 after 8 months dormant (v5.0.1 Nov 2025 -> v6.0.2 28 Aug 2026, 24 releases in that window). Both HIGH-severity picomatch advisories from the May 2026 scan are now patched in the lockfile. README rewritten around a measured before/actual-return savings ledger rather than the prior \"60-90% token reduction across 38,000+ operations\" aggregate - that aggregate is no longer asserted upstream, so it is dropped here rather than carried forward unverified. The persistent SQLite cross-session file cache and per-project knowledge graph remain genuinely unique capabilities not replicated elsewhere in this comparison. Ships 16-client integrations (integrations/), not just Claude Code. Must use alongside Tool Search deferral to avoid the 74-tool schema overhead problem. Correction found during this re-assessment: requiresExternal was previously true despite the README's explicit \"no model call, no credential, nothing sent anywhere\" - corrected to false, matching every other local-only entry in this comparison.",
+      "extraClaims": [
+        {
+          "kind": "feature",
+          "label": "16-client integration surface",
+          "statement": "Ships native/plugin integrations for 16 coding clients, not just Claude Code.",
+          "evidence": {
+            "status": "confirmed",
+            "sources": [
+              {
+                "url": "https://github.com/ooples/token-optimizer-mcp/tree/ee91e8bfbd9a05e6c88e30605cf244c6dc1bafc8/integrations",
+                "quote": "amp, cline, codex, continue, copilot, crush, cursor, droid, gemini, kilo, opencode, qwen, roo, windsurf, zed",
+                "checkedOn": "2026-09-08",
+                "evidenceType": "official-docs"
+              }
+            ]
+          }
+        }
+      ],
+      "requiresExternal": false
     },
     {
       "id": "sigmap",
