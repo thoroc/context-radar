@@ -2,7 +2,7 @@
   "meta": {
     "last_updated": "2026-09-08",
     "stars_verified": "2026-07-15",
-    "tool_count": 82
+    "tool_count": 84
   },
   "layers": [
     {
@@ -4944,6 +4944,171 @@
             }
           ]
         }
+      }
+    },
+    {
+      "id": "beads",
+      "tool": "beads",
+      "githubUrl": "https://github.com/gastownhall/beads",
+      "layer": "Cross-session governance",
+      "whatItDoes": "Dependency-aware CLI issue tracker for AI coding agents (\"bd\"). Stores a local task graph (issues, blockers, dependencies) in Dolt, a version-controlled SQL database, so an agent can query ready work (`bd ready`), atomically claim it, and hand off state to the next session without re-deriving project status from conversation history or a freshly re-read codebase.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "Bitloops",
+          "Aura",
+          "aictx",
+          "greplica",
+          "graphiti",
+          "Entire CLI"
+        ],
+        "note": "Overlaps the cross-session governance layer on the \"avoid re-deriving state each session\" goal, but by a different mechanism than any current member: a structured, queryable dependency graph of discrete work items, not a fact graph (graphiti), a reasoning-chain log (Bitloops), or continuity/failure memory (aictx). Complementary to, not competing with, Entire CLI's git-commit-linked session checkpoints - beads tracks what work remains, Entire records what happened. Caution, not a confirmed hard conflict: the optional `beads-mcp` server exposes short, unprefixed MCP tool names (`list`, `create`, `update`, `close`, `context`, `ready`, `show`, `comment`, `note`, `dep`) that are plausible collision points with other generic-verb MCP servers loaded in the same session - check before combining.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/gastownhall/beads/blob/c0d8da42de5fd15c95adac85e342ba4a121da0fb/integrations/beads-mcp/src/beads_mcp/server.py#L950",
+              "quote": "name=\"list\",",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "languages": [
+          "go"
+        ],
+        "detail": "Go binary; embeds Dolt (a version-controlled SQL database) for the local issue graph"
+      },
+      "requirements": "Zero-LLM; no model calls. Go binary; embedded mode needs no server and no external API. Optional `bd dolt push` syncs issue history to the project's own git remote for team use; no separate hosted account.",
+      "requiresExternal": false,
+      "licence": {
+        "spdx": "MIT"
+      },
+      "stars": 26969,
+      "trend": null,
+      "activity": {
+        "contributors": 353,
+        "latestVersion": "v1.2.2",
+        "releaseCount": 98,
+        "releasedOn": "2026-08-15",
+        "corroboration": "GitHub API (gh api repos/gastownhall/beads)",
+        "notes": "353 contributors, 1,833 forks, 98 releases total (including release candidates), latest stable v1.2.2 (15 Aug 2026) with a v1.3.0-rc.1 pre-release ahead of it. Verified 08-09-2026 via the GitHub API, cross-checking the Journal's 07-09-2026 assessment (26,957 stars, 353+ contributors) against current figures (26,969 stars)."
+      },
+      "activityStatus": {
+        "band": "active",
+        "label": "Hyper-active"
+      },
+      "verdict": {
+        "decision": "best",
+        "rationale": "Highest capability and by far the widest community validation of any dependency-aware task/issue tracker built specifically for AI coding agents: an order of magnitude more stars and contributors than any other tool currently in this layer, native setup integrations for Claude Code, Copilot, Codex, and Cursor, zero model calls, and a structured ready-queue that other tools in the layer do not offer. Scoped to the task/dependency-tracking niche of the layer, not a blanket claim over graphiti's distinct fact-graph niche.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/gastownhall/beads/blob/c0d8da42de5fd15c95adac85e342ba4a121da0fb/cmd/bd/ready.go#L25-L26",
+              "quote": "Excludes in_progress, blocked, deferred, and hooked issues. This uses the GetReadyWork API which applies blocker-aware semantics to find truly claimable work.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/gastownhall/beads/blob/c0d8da42de5fd15c95adac85e342ba4a121da0fb/cmd/bd/setup/claude.go#L26",
+              "quote": "setupCommand: \"bd setup claude\",",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "decisionRule": "Install with `bd init` (embedded mode, no server, no sync target). Run `bd metrics off` and `dolt config --global --add metrics.disabled true` to disable both default-on, opt-out telemetry channels before first use. Do not run `bd dolt push` unless a sync target is intentionally configured. Check the beads-mcp tool-name list above before loading it alongside another generic-verb MCP server.",
+      "adoptionSignals": {
+        "vendorEntity": null,
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "local-only",
+        "selfHostable": true,
+        "notes": "No company behind the project - originated as steveyegge/beads, now lives under the community gastownhall GitHub organisation with no legal entity to contract with. Two default-on, opt-out telemetry channels (beads' own metrics plus Dolt's), both disablable. Optional tracker-integration credentials (GitHub, Jira, Linear, GitLab, Azure DevOps, Notion) are stored in plaintext in the local Dolt database; only federation peer credentials are AES-256 encrypted. No redaction step for issue content before it reaches a shared git remote, if sync is enabled."
+      }
+    },
+    {
+      "id": "entire-cli",
+      "tool": "Entire CLI",
+      "githubUrl": "https://github.com/entireio/cli",
+      "layer": "Cross-session governance",
+      "whatItDoes": "Git-integrated CLI that captures each AI coding agent session as a \"checkpoint\" indexed alongside the commit it produced, so a later session (or a human) can list, explain, and resume from prior sessions instead of the agent re-deriving what happened from scratch. Local capture (`entire enable`) needs no account; an optional hosted half adds session search, activity history, and AI-generated summaries.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "Bitloops",
+          "Aura",
+          "aictx",
+          "greplica",
+          "graphiti",
+          "beads"
+        ],
+        "note": "Shares the cross-session governance layer's \"don't lose context between sessions\" goal, but by linking sessions to git commit history rather than a fact graph (graphiti), a reasoning-chain log (Bitloops), or a task dependency graph (beads). Complementary to beads: Entire records what happened in a session, beads tracks what work remains. No MCP tool-name collision found - Entire ships as a standalone Go CLI with no MCP server."
+      },
+      "runtime": {
+        "languages": [
+          "go"
+        ],
+        "detail": "Go binary; local checkpoint capture and git hooks are zero-LLM; an optional AI summarisation path calls a hosted backend"
+      },
+      "requirements": "Zero-LLM for the default `entire enable` flow: no account, no API key. The optional `entire checkpoint explain --generate` command (and auto-summarise) sends a pre-redacted transcript to a hosted AI summary backend (default Claude-based generator) - an egress path, opt in only. `entire login` starts a separate hosted half (device-authorization flow) with its own account and a published subprocessor list; not required for local capture.",
+      "requiresExternal": false,
+      "licence": {
+        "spdx": "MIT"
+      },
+      "stars": 5078,
+      "trend": null,
+      "activity": {
+        "contributors": 61,
+        "latestVersion": "v0.10.6",
+        "releaseCount": 185,
+        "releasedOn": "2026-09-07",
+        "corroboration": "GitHub API (gh api repos/entireio/cli)",
+        "notes": "61 contributors, 466 forks, 185 releases including frequent nightly builds; latest stable v0.10.6 (07-09-2026), pre-1.0. Verified 08-09-2026 via the GitHub API, cross-checking the Journal's 07-09-2026 assessment (~5.1k stars, v0.10.x) against current figures (5,078 stars)."
+      },
+      "activityStatus": {
+        "band": "active",
+        "label": "Hyper-active (pre-1.0)"
+      },
+      "verdict": {
+        "decision": "watch",
+        "rationale": "Genuinely novel mechanism for this layer - linking agent sessions to the commits they produced, with first-class Claude Code hook wiring (session start/end, prompt submit, stop, pre/post tool use) rather than a generic wrapper - but still pre-1.0 with near-daily nightly builds, so the interface and redaction coverage are still moving. Follow closely rather than adopt as a stable default yet.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/entireio/cli/blob/78a655db4746e8ef92b611a248faffb6ba96df15/cmd/entire/cli/checkpoint_list.go#L16-L17",
+              "quote": "`entire checkpoint list --pending --json` (and the deprecated `rewind --list` bridge). It is byte-for-byte the JSON that `rewind --list` historically",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/entireio/cli/blob/78a655db4746e8ef92b611a248faffb6ba96df15/cmd/entire/cli/agent/claudecode/types.go#L5",
+              "quote": "ClaudeSettings represents the .claude/settings.json structure",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/entireio/cli/blob/78a655db4746e8ef92b611a248faffb6ba96df15/cmd/entire/cli/summarize/summarize.go#L23-L24",
+              "quote": "GenerateFromTranscript generates a summary from pre-redacted transcript bytes. This is the shared implementation used by both explain --generate and auto-summarize.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "decisionRule": "Run `entire enable` for local-only capture; never run `entire login` unless the hosted half is specifically wanted, since it adds a much wider subprocessor list. Set `export ENTIRE_TELEMETRY_OPTOUT=1` to disable PostHog metadata telemetry, which is on by default even when logged out. Redaction ahead of `--generate` is best-effort only, with no confirmed EU/UK PII coverage and images never redacted - do not point it at a repository with sensitive content until that is independently verified.",
+      "adoptionSignals": {
+        "vendorEntity": "Entire Inc (Delaware-registered)",
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "hosted-optional",
+        "selfHostable": true,
+        "notes": "CLI is MIT-licensed and local capture needs no account; the separate hosted entire.io service (session search, activity history, `--generate` summaries) adds a 22-entry subprocessor list, mostly US-based, with a published DPA and SCCs. PostHog telemetry (metadata only) is on by default even logged out, opt-out via ENTIRE_TELEMETRY_OPTOUT=1. Redaction ahead of the hosted summary path is explicitly best-effort, with no EU/UK PII coverage and images never redacted."
       }
     }
   ]
