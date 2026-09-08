@@ -1805,7 +1805,7 @@
       "tool": "tokensave",
       "githubUrl": "https://github.com/aovestdipaperino/tokensave",
       "layer": "Code navigation",
-      "whatItDoes": "Self-disclosed Rust rewrite of codegraph (colbymchenry/codegraph) with substantially expanded scope. 80+ MCP tools (tokensave_search, tokensave_context, tokensave_callers/callees, tokensave_impact, tokensave_dead_code, tokensave_circular, tokensave_type_hierarchy, tokensave_health/gini/dsm code-health analytics, 4 atomic edit primitives with auto re-index, tokensave_diff_context/commit_context/pr_context git integration, tokensave_test_map, multi-branch tools). 50+ languages in 3 tiers (lite/medium/full) via bundled tree-sitter grammars. 16 agent integrations (Claude, Codex, Gemini, Cursor, Cline, Roo Code, Zed, Antigravity, Kiro, Kimi, Vibe, Grok, Pi, and more) with per-agent native config. Multi-branch indexing (opt-in per-branch DBs, cross-branch diff/search - unique in this comparison). Subprocess-isolated tree-sitter extraction: a crashing grammar kills only a worker, sync continues. On-demand staleness check (30s cooldown) + catch-up sync on connect, no background daemon or file watcher (removed in 6.1.0 after CPU/memory issues on monorepos). Reproducible benchmark: tokensave bench (93% mean retrieval savings, 10 published queries) + criterion micro-benchmarks against 4 pinned real-world repos (polkadot-sdk, emacs, scipy, node). Per-call token/cost tracking, live TUI monitor, cost parsed from Claude Code session transcripts (13 task categories). libSQL (SQLite fork) storage. v7.0.2, 133+ releases.",
+      "whatItDoes": "Self-disclosed Rust rewrite of codegraph (colbymchenry/codegraph) with substantially expanded scope. 80+ MCP tools (tokensave_search, tokensave_context, tokensave_callers/callees, tokensave_impact, tokensave_dead_code, tokensave_circular, tokensave_type_hierarchy, tokensave_health/gini/dsm code-health analytics, 4 atomic edit primitives with auto re-index, tokensave_diff_context/commit_context/pr_context git integration, tokensave_test_map, multi-branch tools). 50+ languages in 3 tiers (lite/medium/full) via bundled tree-sitter grammars. 16 agent integrations (Claude, Codex, Gemini, Cursor, Cline, Roo Code, Zed, Antigravity, Kiro, Kimi, Vibe, Grok, Pi, and more) with per-agent native config. Multi-branch indexing (opt-in per-branch DBs, cross-branch diff/search - unique in this comparison). Subprocess-isolated tree-sitter extraction: a crashing grammar kills only a worker, sync continues. On-demand staleness check (30s cooldown) + catch-up sync on connect, no background daemon or file watcher (removed in 6.1.0 after CPU/memory issues on monorepos). Reproducible benchmark: tokensave bench (93% mean retrieval savings, 10 published queries) + criterion micro-benchmarks against 4 pinned real-world repos (polkadot-sdk, emacs, scipy, node). Per-call token/cost tracking, live TUI monitor, cost parsed from Claude Code session transcripts (13 task categories). libSQL (SQLite fork) storage. v7.11.1, 153+ releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1841,12 +1841,13 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 433,
+      "stars": 622,
       "trend": 71,
       "activity": {
-        "latestVersion": "v7.4.2",
-        "notes": "21 forks, 133+ releases, v7.0.2 Jun 24 2026, 728+ commits, SkillsLLM security scan PASSED (30 May 2026, no high-severity issues), author actively engaging upstream (filed feature request on headroom repo proposing embedding tokensave, fully self-disclosed)",
-        "releasedOn": "2026-07-19"
+        "latestVersion": "v7.11.1",
+        "releaseCount": 153,
+        "notes": "62 forks (up from 21), 153+ releases, v7.11.1 (6 Sep 2026), 6 open issues, contributors 35, growth accelerated since last check (433 -> 622 stars, +43.6% - notable but under the 50% escalation threshold). SkillsLLM security scan PASSED (30 May 2026, no high-severity issues), author actively engaging upstream (filed feature request on headroom repo proposing embedding tokensave, fully self-disclosed)",
+        "releasedOn": "2026-09-06"
       },
       "activityStatus": {
         "band": "active",
@@ -1879,7 +1880,7 @@
           ]
         }
       },
-      "decisionRule": "Self-disclosed as a ground-up Rust port of codegraph, with a README comparison table showing it ahead on nearly every dimension: 80+ tools vs 9, 50+ languages vs 19+, 16 agent integrations vs 1, multi-branch indexing (unique), 26x faster indexing (1.2s vs 31.2s on the same 1,782-file benchmark), smaller binary (25MB vs 80MB) despite far more features. Fully open source MIT - explicitly contrasted in its own README against GrapeRoot/Dual-Graph proprietary core and OpenWolf AGPL-3.0. Reproducible benchmark methodology (fixed query set + pinned-ref criterion benches against real repos) is more rigorous than most tools in this comparison. Only 253 stars vs codegraph 57.1k - much newer and less battle-tested despite the technical case being strong. cargo install tokensave --features medium for a smaller binary if 50+ languages is not needed.",
+      "decisionRule": "Self-disclosed as a ground-up Rust port of codegraph, with a README comparison table showing it ahead on nearly every dimension: 80+ tools vs 9, 50+ languages vs 19+, 16 agent integrations vs 1, multi-branch indexing (unique), 26x faster indexing (1.2s vs 31.2s on the same 1,782-file benchmark), smaller binary (25MB vs 80MB) despite far more features. Fully open source MIT - explicitly contrasted in its own README against GrapeRoot/Dual-Graph proprietary core and OpenWolf AGPL-3.0. Reproducible benchmark methodology (fixed query set + pinned-ref criterion benches against real repos) is more rigorous than most tools in this comparison. Only 622 stars vs codegraph 70.1k - much newer and less battle-tested despite the technical case being strong. cargo install tokensave --features medium for a smaller binary if 50+ languages is not needed.",
       "extraClaims": [
         {
           "kind": "benchmark",
