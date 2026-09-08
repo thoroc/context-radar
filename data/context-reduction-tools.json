@@ -1640,14 +1640,15 @@
       },
       "requirements": "Requires Docker (Qdrant container); Node.js 18+",
       "licence": {
-        "spdx": "AGPL-3"
+        "spdx": "AGPL-3.0"
       },
-      "stars": 3100,
+      "stars": 3293,
       "trend": 384,
       "activity": {
-        "notes": "moderate issue/PR flow",
-        "latestVersion": "v1.8.18",
-        "releasedOn": "2026-06-28"
+        "notes": "419 forks, 45 releases, v1.13.1 (7 Sep 2026), 0 open issues, moderate issue/PR flow",
+        "latestVersion": "v1.13.1",
+        "releaseCount": 45,
+        "releasedOn": "2026-09-07"
       },
       "activityStatus": {
         "band": "stable",
