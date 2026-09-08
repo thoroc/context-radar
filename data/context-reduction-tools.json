@@ -706,7 +706,7 @@
       "tool": "virtual-context",
       "githubUrl": "https://github.com/virtual-context/virtual-context",
       "layer": "Conversation history management",
-      "whatItDoes": "OS virtual-memory model for message history: tag-based paging, IDF retrieval",
+      "whatItDoes": "HTTP proxy sitting between any LLM client and an upstream provider (Anthropic, OpenAI, Gemini) - point the client at localhost:5757 instead of the provider URL, no SDK integration required. Compresses/indexes/pages conversation history into a 3-layer memory model (raw recent turns -> per-topic segment summaries+facts -> tag summaries), addressing a 20M-token virtual window while the model sees roughly 60K curated tokens. A local embedding tagger assigns tags with no LLM call on the retrieval path; an LLM tagger via the same upstream provider generates semantic tags during compaction. Claims 95/100 on LongMemEval vs 33/100 for the same model on raw history, 55% fewer tokens/question. One memory shared across Claude Code, Telegram, Discord, Cursor via VCATTACH; per-person memory in group chats. Python SDK + MCP server for direct integration. Live dashboard. Optional hosted version at virtual-context.com. v0.5.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -719,26 +719,41 @@
         "languages": [
           "python"
         ],
-        "detail": "Python + Ollama"
+        "detail": "Python (HTTP proxy, SDK, MCP server)"
       },
-      "requirements": "Requires Ollama running locally; Python 3.10+",
+      "requirements": "pip install virtual-context; Python 3.11+. The prior record's \"requires Ollama\" claim was not found in the current docs and appears stale - the LLM tagging step now runs through whichever upstream provider (Anthropic/OpenAI/Gemini) the proxy is already forwarding to, using the client's own credentials, rather than a separate local Ollama instance.",
       "licence": {
-        "spdx": "Apache-2"
+        "spdx": "AGPL-3.0-or-later",
+        "warning": "Corrected from the record's prior \"Apache-2\" - the actual LICENSE file (unchanged since the repo's initial commit) is GNU AGPL-3.0-or-later, a strong copyleft licence with a network-use clause: a modified version offered as a network service must also make its source available. This was a pre-existing data error in this catalogue, not an upstream relicense. Material for adoption decisions - confirm licence terms before embedding this in a hosted product.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/virtual-context/virtual-context/blob/c1749092681daacc8af4d9c006d1ba3143f7a35e/LICENSE",
+              "quote": "This program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published\nby the Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 58,
-      "trend": 1833,
+      "stars": 63,
+      "trend": 5,
       "activity": {
-        "notes": "no recent issues, no PRs, no commits",
-        "latestVersion": "v0.4.5",
-        "releasedOn": "2026-05-12"
+        "contributors": 2,
+        "releaseCount": 4,
+        "corroboration": "github-api",
+        "notes": "63 stars / 4 forks / 2 contributors per GitHub API, 4 releases, v0.5 (31 Jul 2026), 0 open issues. Resumed active daily development as of 5 Sep 2026 (many same-day commits) after appearing quiet at the last check (2026-07-19) - band moved from dormant to active. PyPI-published, Discord community, and a hosted SaaS option now exist that weren't previously recorded.",
+        "latestVersion": "v0.5",
+        "releasedOn": "2026-07-31"
       },
       "activityStatus": {
-        "band": "dormant",
-        "label": "Dormant"
+        "band": "active",
+        "label": "Active (solo)"
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "very early",
+        "rationale": "resumed active development and grew a real proxy/SDK/MCP surface since dormancy, but still small (63 stars, 2 contributors); the corrected AGPL-3.0 licence is a genuine consideration for anyone embedding it in a hosted product",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -747,11 +762,17 @@
               "quote": "Manages the working set: expand, collapse, evict, depth tokens.",
               "checkedOn": "2026-07-19",
               "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/virtual-context/virtual-context/blob/f3732bfa77de04442b55729bb60bf91c0f665d56/virtual_context/proxy/server.py#L1-L4",
+              "quote": "HTTP proxy server for virtual-context LLM enrichment.\n\nSits between any LLM client and an upstream provider (OpenAI or Anthropic),\ntransparently injecting <virtual-context> blocks into requests and capturing",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "source-code"
             }
           ]
         }
       },
-      "decisionRule": "lean-ctx CCP covers cross-session memory. context-mode covers automatic session continuity.",
+      "decisionRule": "lean-ctx CCP covers cross-session memory. context-mode covers automatic session continuity. AGPL-3.0-or-later (corrected from a prior misrecorded Apache-2/Apache-2.0): fine for local, personal use; confirm licence terms first if considering it as a hosted backend given the network-use clause.",
       "requiresExternal": true
     },
     {

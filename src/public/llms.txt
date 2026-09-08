@@ -47,7 +47,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 
 ### Conversation history management
 
-- [virtual-context](https://github.com/virtual-context/virtual-context) (Watch; 58 stars): OS virtual-memory model for message history: tag-based paging, IDF retrieval
+- [virtual-context](https://github.com/virtual-context/virtual-context) (Watch; 63 stars): HTTP proxy sitting between any LLM client and an upstream provider (Anthropic, OpenAI, Gemini) - point the client at localhost:5757, no SDK integration required. Compresses/indexes/pages conversation history into a 3-layer memory model, addressing a 20M-token virtual window while the model sees roughly 60K curated tokens. Claims 95/100 on LongMemEval vs 33/100 for raw history. One memory shared across Claude Code, Telegram, Discord, Cursor via VCATTACH. Python SDK + MCP server. AGPL-3.0-or-later. v0.5.
 - [magic-context](https://github.com/cortexkit/magic-context) (Add; 1,300 stars): OpenCode plugin. Background historian compresses older conversation into compartments + facts while main agent keeps working. Cache-aware queued reductions (never busts prompt cache). Cross-session project memory (architecture decisions, preferences). Dreamer: overnight agent consolidates/verifies memories, maintains ARCHITECTURE.md. User memory: developer behavioural observations promoted across sessions. Key file pinning. 5 agent tools (ctx_reduce, ctx_expand, ctx_note, ctx_memory, ctx_search). TUI sidebar. Desktop app. v0.32.1. 72 releases. OpenCode-only - does not work with Claude Code.
 
 ### Personal knowledge retrieval
