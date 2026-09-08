@@ -203,7 +203,7 @@
       "tool": "sqz",
       "githubUrl": "https://github.com/ojuschugh1/sqz",
       "layer": "Shell output",
-      "whatItDoes": "RTK superset: SHA-256 dedup cache (repeat reads = 13 tokens), TOON JSON, null stripping, MCP server (sqz-mcp), predictive pre-cache. v1.0.9. npm install or brew install or curl installer.",
+      "whatItDoes": "RTK superset: SHA-256 dedup cache (repeat reads = 13 tokens), TOON JSON, null stripping, MCP server (sqz-mcp), predictive pre-cache. v1.6.1 (crates.io-confirmed; upstream GitHub repo currently unreachable, see decisionRule). npm install or brew install or curl installer.",
       "conflict": {
         "severity": "either-or",
         "projects": [
@@ -221,23 +221,24 @@
       "requirements": "Rust binary; no model calls; Homebrew or npm install",
       "requiresExternal": false,
       "licence": {
-        "spdx": "ELv2"
+        "spdx": "ELv2",
+        "warning": "Unchanged from last verified state (Elastic License 2.0, confirmed via a 2026-06-30 Wayback Machine snapshot of the LICENSE file) - the live GitHub repo is currently unreachable to re-verify directly, see activity.notes."
       },
       "stars": 529,
       "trend": 206,
       "activity": {
-        "latestVersion": "v1.3.0",
+        "latestVersion": "v1.6.1",
         "releaseCount": 19,
-        "releasedOn": "2026-06-21",
-        "notes": "7 forks, 19 releases, v1.0.9, MCP server, brew/npm"
+        "releasedOn": "2026-08-16",
+        "notes": "Upstream GitHub repo github.com/ojuschugh1/sqz and the ojuschugh1 account no longer resolve on GitHub (404 via REST API, GraphQL, and the web UI - independently confirmed 2026-09-08 by three separate methods). Last confirmed live 2026-06-30 per Wayback Machine. v1.6.1 is independently confirmed via the sqz-cli crates.io listing (published 2026-08-16, still citing this GitHub URL as its repository field), not via a fresh GitHub check. Stars (529), forks (7), and releaseCount (19) below are therefore last-known figures, not freshly re-verified - cannot currently confirm continued maintenance or audit source."
       },
       "activityStatus": {
-        "band": "stable",
-        "label": "Active"
+        "band": "dormant",
+        "label": "Dormant (source unreachable)"
       },
       "verdict": {
-        "decision": "either-or",
-        "rationale": "pick if dedup cache is priority",
+        "decision": "watch",
+        "rationale": "Downgraded from either-or: the upstream GitHub account/repo no longer resolves as of 2026-09-08, so continued maintenance, licence, and source integrity cannot currently be verified live. Revisit if upstream reappears or a maintained fork emerges. The dedup-cache evidence below remains a true historical record of that commit, not a claim about the current repo.",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -256,7 +257,7 @@
           ]
         }
       },
-      "decisionRule": "v1.0.9, 173 stars. Now has MCP server (sqz-mcp), Homebrew, and npm install. Dedup cache is unique: repeat file reads cost 13 tokens vs 2000. PostToolUse hook limitation: cannot compress built-in Read tool output (same as RTK). sqz-mcp provides an alternative compressed Read tool."
+      "decisionRule": "v1.6.1 (crates.io-confirmed), 529 stars last recorded. CRITICAL: the upstream GitHub repo/account (ojuschugh1/sqz) returns 404 across the REST API, GraphQL, and the public web as of 2026-09-08, despite being live as recently as 2026-06-30 (Wayback) and crates.io still showing a 2026-08-16 publish under this account. Treat prebuilt binaries/crates/npm packages as coming from a currently unauditable source until this is resolved. Dedup cache remains the unique differentiator if upstream returns: repeat file reads cost 13 tokens vs 2000. PostToolUse hook limitation unchanged: cannot compress built-in Read tool output (same as RTK); sqz-mcp provided an alternative compressed Read tool while the project was reachable."
     },
     {
       "id": "lean-ctx",
