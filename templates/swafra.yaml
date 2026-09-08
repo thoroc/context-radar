@@ -1,0 +1,65 @@
+tool: swafra
+githubUrl: https://github.com/kunal12203/swafra
+layer: Agent memory persistence
+whatItDoes: >-
+  Semantic memory MCP server with a knowledge-graph store, installable from PyPI or npm. Ingested text is chunked, embedded and graph-linked; retrieval fuses BM25 with n-gram matching and a source-diverse graph walk, exposed as add_knowledge, search_knowledge, get_context and graph_walk. Entity extraction is regex by default and upgrades to LLM extraction (with semantic dedup at ingest) if a provider key is configured; search never calls the LLM. Python and JS/TS SDKs and a CLI dashboard over the graph. swafra setup installs Claude Code enforcement so memory is actually consulted: tool descriptions marked mandatory, rules written into the user's global CLAUDE.md, and a Stop hook that wakes Claude back up if it skipped memory. v0.2.7, 2 releases, MIT.
+conflict:
+  severity: soft
+  projects:
+    - mem0
+    - cognee
+    - claude-mem
+    - TrueMemory
+    - supermemory
+  note: >-
+    Fact-memory tool, so it overlaps the rest of this layer - pick one. Its enforcement layer is the sharper conflict: swafra setup writes rules into the global ~/.claude/CLAUDE.md and registers a Stop hook, so running it beside another memory tool that does the same means two sets of always-on retrieval instructions competing in every session.
+runtime:
+  languages: [python, typescript]
+  detail: Python engine with a TypeScript SDK and CLI wrapper over a Python subprocess
+requirements: >-
+  pip install swafra or npm install -g swafra. Works with no API key on regex extraction. An Anthropic, OpenAI or OpenAI-compatible key is optional and only improves ingest-time extraction. The repo ships prebuilt dist/ JavaScript alongside source.
+licence:
+  spdx: MIT
+stars: 38
+trend: null
+activity:
+  contributors: 2
+  latestVersion: v0.2.7
+  releaseCount: 2
+  releasedOn: 2026-07-28
+  notes: >-
+    5 forks, 2 releases, v0.2.7 (28 Jul 2026), 2 open issues, 2 contributors. No commits since 28 Jul 2026 and no repository description; roughly six weeks quiet at the time of check. BENCHMARK.md links a Colab notebook at packages/mcp/bench/ which is not present in the tree.
+activityStatus:
+  band: dormant
+  label: Dormant since Jul 2026
+verdict:
+  decision: watch
+  rationale: >-
+    strong retrieval numbers on a public benchmark, but two releases, no commits since July 2026, and an enforcement layer that edits the global CLAUDE.md
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/kunal12203/swafra/blob/669e7bdbcbcd421deb172a05f8fe52b741c0e915/bench/run_eval.py#L3-L5
+        quote: |-
+          Official retrieval evaluation: session-level recall@k.
+          Ground truth: each question has `answer_session_ids` identifying which sessions
+          contain the evidence.
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+decisionRule: >-
+  claude mcp add swafra -- swafra serve gets you the server; swafra setup is the part to think about, because it writes rules into your global ~/.claude/CLAUDE.md and installs a Stop hook that re-invokes Claude when it skips memory. That guarantees retrieval but adds tokens and turns to every session, which cuts against the rest of this comparison - install the server first and decide on the enforcement separately. swafra remove disables the hooks and keeps the data; swafra remove global deletes the data too. Revisit if development resumes.
+extraClaims:
+  - kind: benchmark
+    label: LongMemEval-S retrieval recall
+    statement: >-
+      Reports 94.7% recall_all@10 on LongMemEval-S, a public fixed dataset, with the eval script committed in bench/ and reproducible offline. Self-run and not independently replicated. The project's own benchmark page is explicit that this is retrieval recall, a different and easier metric than the end-to-end QA accuracy that supermemory and mem0 report, so the side-by-side table of those numbers is not a like-for-like comparison.
+    proofLedger: SUPPORTED
+    evidence:
+      status: confirmed
+      sources:
+        - url: https://github.com/kunal12203/swafra/blob/669e7bdbcbcd421deb172a05f8fe52b741c0e915/bench/run_eval.py#L1-L8
+          quote: |-
+            LongMemEval benchmark runner for scimap MCP engine.
+            Official retrieval evaluation: session-level recall@k.
+          checkedOn: 2026-09-08
+          evidenceType: source-code

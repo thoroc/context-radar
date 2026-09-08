@@ -1,0 +1,60 @@
+tool: EvoX Genesis
+githubUrl: https://github.com/EMI-Group/genesis
+layer: Agent runtime & context orchestration
+whatItDoes: >-
+  Standalone desktop agent runtime for long-horizon software development, built in Elixir on Phoenix. Instead of keeping one long session alive, it keeps a persistent software world (an accepted Git version plus a path) and spawns short-lived agents into it: each takes one task, works with only the context that task needs, and disappears, with only validated results advancing the version lineage. Recursive manager and executor hierarchies decompose and judge work. Context handling is explicit in the agent loop - a compression module summarises interaction history once a token threshold is crossed, appending the compression instruction as a new message so the provider's cached prefix stays reusable. State lives entirely in the Git repository, with no side database. v0.12.5, 54 releases, AGPL-3.0, paper at arXiv:2608.10450.
+conflict:
+  severity: none
+  projects: []
+  note: >-
+    Nothing to collide with in a Claude Code stack, because it does not join one. It is a separate desktop application that replaces the coding agent rather than plugging into it, the same shape as ark in this layer. No MCP server and no Claude Code hooks.
+runtime:
+  languages: [elixir]
+  detail: Elixir ~> 1.18 on Erlang/OTP 29, Phoenix LiveView, Tauri desktop shell
+requirements: >-
+  Desktop install (.dmg / .msi / .rpm / .AppImage) or a from-source build needing Elixir and Erlang/OTP. Drives foundation models through your own provider keys, so it is an LLM-dependent runtime, not a local utility. Contributors must sign a CLA. AGPL-3.0 needs a licence review before commercial internal use.
+licence:
+  spdx: AGPL-3.0
+stars: 58
+trend: null
+activity:
+  contributors: 3
+  latestVersion: v0.12.5
+  releaseCount: 54
+  releasedOn: 2026-09-08
+  notes: >-
+    2 forks, 54 releases, v0.12.5 (8 Sep 2026), 0 open issues, 3 contributors, commits on the day of check. Research-lineage project out of EvoGit and the broader EvoX group.
+activityStatus:
+  band: active
+  label: Very active
+verdict:
+  decision: watch
+  rationale: >-
+    a genuinely different answer to long-horizon context (transient agents over a persistent Git world) but it replaces the coding agent rather than reducing an existing one's context
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/EMI-Group/genesis/blob/3b84f87a5455340dd7f09d405a42f19dc992600c/apps/evo_git/lib/evo_git/agent/context_compression.ex#L5-L8
+        quote: |-
+          When the conversation context exceeds the token threshold, this module
+            compresses the interaction history into a dense summary using an LLM call.
+            This prevents context window overflow while preserving essential progress
+            information.
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+decisionRule: >-
+  Not something you add to a Claude Code stack today - it is a separate application, with its own UI, that runs the whole development loop. Watch it for the architectural idea rather than the install: bounding context per agent episode and carrying forward only accepted Git state is the opposite trade to the compression and retrieval tools elsewhere in this comparison. Check the AGPL-3.0 licence and the CLA before any commercial evaluation. Reported run results are observed system-level outcomes on the project's own demo repositories, not a normalised benchmark.
+extraClaims:
+  - kind: benchmark
+    label: C compiler from an implementation-empty repository
+    statement: >-
+      Reports building a 248,989-line Rust-based C compiler from a repository with no compiler implementation, in a 123.4-hour run costing US$44.38, validated at 220/220 c-testsuite and 32/36 LLVM. Self-run on the project's own demo repository with no independent replication, and the project itself states these are observed system-level results rather than normalised benchmarks.
+    proofLedger: SUPPORTED
+    evidence:
+      status: caveated
+      sources:
+        - url: https://github.com/EMI-Group/genesis/blob/3b84f87a5455340dd7f09d405a42f19dc992600c/README.md#L24
+          quote: >-
+            From an implementation-empty repository, Genesis built a **248,989-line C compiler** in a **123.4-hour** run.
+          checkedOn: 2026-09-08
+          evidenceType: readme
