@@ -4773,7 +4773,7 @@
       "tool": "ponytail",
       "githubUrl": "https://github.com/DietrichGebert/ponytail",
       "layer": "Code generation minimalism (YAGNI enforcement)",
-      "whatItDoes": "Skill/plugin enforcing a YAGNI decision ladder before the agent writes any code: (1) does this need to exist - skip if not, (2) does stdlib do it, (3) native platform feature, (4) installed dependency, (5) one line, (6) only then the minimum that works. Never cuts validation, error handling, security, or accessibility. Commands: /ponytail [lite|full|ultra|off], /ponytail-review (diff over-engineering check), /ponytail-audit (whole-repo audit), /ponytail-debt (harvest deferred shortcuts into a ledger), /ponytail-gain (benchmark scoreboard). 14 platforms: Claude Code, Codex, Copilot CLI, Pi, OpenCode, Gemini CLI, Antigravity, CodeWhale, OpenClaw, plus instruction-only Cursor/Windsurf/Cline/Kiro. Agentic benchmark (real Claude Code session, real FastAPI+React repo, 12 tasks, n=4): -54% LOC, -22% tokens, -20% cost, -27% time vs no-skill baseline, 100% safe. v4.7.0, 9 releases, created 12 Jun 2026.",
+      "whatItDoes": "Skill/plugin enforcing a YAGNI decision ladder before the agent writes any code: (1) does this need to exist - skip if not, (2) does stdlib do it, (3) native platform feature, (4) installed dependency, (5) one line, (6) only then the minimum that works. Never cuts validation, error handling, security, or accessibility. Commands: /ponytail [lite|full|ultra|off], /ponytail-review (diff over-engineering check), /ponytail-audit (whole-repo audit), /ponytail-debt (harvest deferred shortcuts into a ledger), /ponytail-gain (benchmark scoreboard). 14 platforms: Claude Code, Codex, Copilot CLI, Pi, OpenCode, Gemini CLI, Antigravity, CodeWhale, OpenClaw, plus instruction-only Cursor/Windsurf/Cline/Kiro. Agentic benchmark (real Claude Code session, real FastAPI+React repo, 12 tasks, n=4): -54% LOC, -22% tokens, -20% cost, -27% time vs no-skill baseline, 100% safe. v4.9.0, 15 releases, created 12 Jun 2026.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -4793,13 +4793,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 83000,
+      "stars": 132099,
       "trend": 1,
       "activity": {
-        "latestVersion": "v4.8.4",
-        "releasedOn": "2026-06-29",
-        "corroboration": "GitHubVC live trending tracker",
-        "notes": "4.4k forks, 81.8k confirmed via GitHubVC live trending tracker, corroborated by findarepo (~79-80k) and OpenGithubs weekly (80.7k) - massive continued growth since Jun 18 benchmark update"
+        "latestVersion": "v4.9.0",
+        "releasedOn": "2026-08-07",
+        "releaseCount": 15,
+        "contributors": 63,
+        "corroboration": "GitHub REST API (repos + releases endpoints), checked directly 2026-09-08",
+        "notes": "7.1k forks (up from 4.4k), 63 contributors, 15 releases total. Stars 83,000 -> 132,099 (+59%) since the prior check - continued hyper-growth, verified directly via the GitHub API rather than third-party trackers this time. Repo pushed to as recently as 2026-09-07 (README/badge polish commits), consistent with sustained active maintenance."
       },
       "activityStatus": {
         "band": "active",
