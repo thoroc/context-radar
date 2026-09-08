@@ -653,7 +653,7 @@
       "tool": "sigmap",
       "githubUrl": "https://github.com/manojmallick/sigmap",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "Extracts fn/class signatures into CLAUDE.md passively. Zero deps. 33 languages. Graph-boosted retrieval (86.4% hit@5 / MRR .780, measured against a grep-agent baseline at 42.7% since v8.19 'Honest Numbers'). 96.9% token reduction across 21 repos. 20 MCP tools. Doc-comment hints now span Python, JS/TS, Go, Rust and Java (v8.20-8.21). Now also a deterministic grounding layer: sigmap verify flags fabricated files/imports/symbols/tests against the real repo. v8.21.0.",
+      "whatItDoes": "Extracts fn/class signatures into CLAUDE.md passively. Zero deps. 33 languages. Graph-boosted retrieval (86.4% hit@5 / MRR .780, measured against a grep-agent baseline at 42.7% since v8.19 'Honest Numbers'). 96.9% token reduction across 21 repos. 20 MCP tools. Doc-comment hints now span Python, JS/TS, Go, Rust and Java (v8.20-8.21). Now also a deterministic grounding layer: sigmap verify flags fabricated files/imports/symbols/tests against the real repo. v8.30.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -671,13 +671,13 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 598,
+      "stars": 631,
       "trend": 40,
       "activity": {
-        "latestVersion": "v8.21.0",
-        "releaseCount": 150,
-        "releasedOn": "2026-07-19",
-        "notes": "598 stars, 39 forks, 150 releases, v8.21.0 (19 Jul 2026), 33 languages, 20 MCP tools, zero deps. Scope broadened to deterministic grounding/verification (Hallucination Guard). v8.19 'Honest Numbers' re-benched retrieval against a grep-agent baseline; v8.20-8.21 extended doc-comment hints to JS/TS/Go/Rust/Java. Effectively solo dev."
+        "latestVersion": "v8.30.0",
+        "releaseCount": 162,
+        "releasedOn": "2026-09-07",
+        "notes": "631 stars, 45 forks, 162 releases, v8.30.0 (7 Sep 2026), 18 open issues, 33 languages, 20 MCP tools, zero deps. Scope broadened to deterministic grounding/verification (Hallucination Guard). v8.19 'Honest Numbers' re-benched retrieval against a grep-agent baseline; v8.20-8.21 extended doc-comment hints to JS/TS/Go/Rust/Java. Effectively solo dev."
       },
       "activityStatus": {
         "band": "active",
