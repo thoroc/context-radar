@@ -27,8 +27,9 @@ Records use **stable identifier keys** and are strongly typed, not flat strings:
 | `activity` | `{ contributors?, latestVersion?, releaseCount?, releasedOn?, corroboration?, notes? }` |
 | `activityStatus` | `{ band: active\|stable\|slowing\|early\|dormant\|none, label: string }` |
 | `verdict` | `{ decision: best\|add\|add-if\|either-or\|watch\|reference\|drop, rationale: string }` |
-| `<subobject>.evidence` | optional `{ status, sources: [{ url, quote, checkedOn, evidenceType }] }` on `conflict`/`activity`/`licence`/`runtime` |
+| `<subobject>.evidence` | optional `{ status, sources: [{ url, quote, checkedOn, evidenceType }] }` on `conflict`/`activity`/`licence`/`runtime`/`adoptionSignals` |
 | `extraClaims` | optional `[{ kind: benchmark\|feature, label, statement, evidence, proofLedger? }]` |
+| `adoptionSignals` | optional `{ vendorEntity: string\|null, accountRequired: boolean, telemetryDefault: none\|opt-out\|opt-in\|unknown, dataResidency: local-only\|hosted-optional\|hosted-required\|unknown, selfHostable?, notes? }` - factual, org-agnostic adoption signals; carries no compliance verdict of its own, so any organisation's own vetting process can layer a policy on top. Schema-only as of this addition: not yet populated for any of the 81 existing records, and no backfill pass has been scheduled. |
 
 Free-text detail is preserved verbatim in the `notes`/`note`/`detail`/`rationale` fields, so the table and CSV export reproduce the original display losslessly. The snapshot date lives in `meta.stars_verified` (the dated `Stars (<date>)` header is reconstructed only in the CSV export).
 
