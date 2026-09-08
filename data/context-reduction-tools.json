@@ -3855,7 +3855,7 @@
       "tool": "cognee",
       "githubUrl": "https://github.com/topoteretes/cognee",
       "layer": "Agent memory persistence",
-      "whatItDoes": "Knowledge graph memory engine. Four operations: remember, recall, forget, improve. Dual layer: fast session cache + persistent graph with background sync. Claude Code plugin: captures tool calls into session memory via hooks, syncs to graph at session end. cognee-mcp developer rules bootstrap: indexes .cursorrules, .cursor/rules, AGENT.md into developer_rules nodeset - queryable rather than loaded wholesale. MCP server with HTTP/SSE/stdio transports. ~12k stars, v1.1.0-dev.",
+      "whatItDoes": "Knowledge graph memory engine. Four operations: remember, recall, forget, improve. Dual layer: fast session cache + persistent graph with background sync. Claude Code plugin: captures tool calls into session memory via hooks, syncs to graph at session end. cognee-mcp developer rules bootstrap: indexes .cursorrules, .cursor/rules, AGENT.md into developer_rules nodeset - queryable rather than loaded wholesale. MCP server with HTTP/SSE/stdio transports. ~30.6k stars, v1.5.4.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3874,12 +3874,14 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 28000,
+      "stars": 30597,
       "trend": 60,
       "activity": {
-        "notes": "17.5k stars (was 12k), graduated GitHub Secure Open Source Program, FalkorDB/KuzuDB/Neo4j backends",
-        "latestVersion": "v1.4.0",
-        "releasedOn": "2026-07-17"
+        "notes": "30.6k stars (was 28k), graduated GitHub Secure Open Source Program, FalkorDB/KuzuDB/Neo4j backends",
+        "latestVersion": "v1.5.4",
+        "releaseCount": 147,
+        "releasedOn": "2026-09-04",
+        "contributors": 275
       },
       "activityStatus": {
         "band": "active",
