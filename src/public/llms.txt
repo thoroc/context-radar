@@ -67,7 +67,7 @@ Layers and their order match the display layers in the comparison table (docs/in
 ### Codebase understanding & onboarding
 
 - [Understand Anything](https://github.com/Lum1104/Understand-Anything) (Add; 74,000 stars): 6-agent LLM pipeline → knowledge graph + interactive dashboard. Guided tours, domain/business logic view, diff impact, committable graph. v2.9.0. Claude Code (native plugin), Cursor, Copilot, Codex, OpenCode, Gemini CLI, Cline, Hermes, KIMI, and 5 more platforms (14 total). Uses Claude Code plugin system as primary install on Claude Code but works on 14 platforms via install.sh.
-- [CodeBoarding](https://github.com/CodeBoarding/CodeBoarding) (Add; 2,300 stars): Static analysis + LLM pipeline generating interactive architecture diagrams and component docs committed to .codeboarding/. CLI, VS Code extension, Open VSX extension, GitHub Action. Incremental updates (--incremental, --partial-component-id). Mermaid output for docs and PRs. 800+ public repos visualised (codeboarding.org/diagrams). Supports Python, TS, JS, Java, Go, PHP. All major LLM providers. v0.13.0.
+- [CodeBoarding](https://github.com/CodeBoarding/CodeBoarding) (Add; 2,414 stars): Static analysis + LLM pipeline generating interactive architecture diagrams and component docs committed to .codeboarding/. CLI, VS Code extension, Open VSX extension, GitHub Action. Incremental updates (--incremental, --partial-component-id). Mermaid output for docs and PRs. 800+ public repos visualised (codeboarding.org/diagrams). Supports Python, TS, JS, Java, Go, PHP. All major LLM providers. v0.14.0.
 
 ### Code navigation - pick primary; others stackable
 
