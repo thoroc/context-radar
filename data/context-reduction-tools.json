@@ -1166,7 +1166,7 @@
       "tool": "githits-cli",
       "githubUrl": "https://github.com/githits-com/githits-cli",
       "layer": "Library documentation retrieval",
-      "whatItDoes": "Version-aware index of the entire public open-source ecosystem, hosted on GitHits infrastructure (Rust indexer, Elixir coordination, Python agentic layer). Local MCP server + CLI let agents search/read/grep the exact source of any npm/PyPI/Crates/NuGet/Maven/Go/RubyGems/Hex/Packagist package at the installed version, without cloning. get_example: cross-repository prior-art search (\"HTTP retries with exponential backoff in Python\") sourced from repos, issues, discussions, PRs. pkg_vulns, pkg_deps, pkg_changelog, pkg_upgrade_review for dependency evidence. docs_list/docs_read for hosted+repo-backed documentation. License filtering: strict (default, excludes copyleft/undeclared) / custom (account blocklist) / yolo (disabled). 19 supported coding tools including Claude Code, Cursor, Codex CLI, Gemini CLI. v0.6.1, 48 releases, 516 commits.",
+      "whatItDoes": "Version-aware index of the entire public open-source ecosystem, hosted on GitHits infrastructure (Rust indexer, Elixir coordination, Python agentic layer). Local MCP server + CLI let agents search/read/grep the exact source of any npm/PyPI/Crates/NuGet/Maven/Go/RubyGems/Hex/Packagist package at the installed version, without cloning. get_example: cross-repository prior-art search (\"HTTP retries with exponential backoff in Python\") sourced from repos, issues, discussions, PRs. pkg_vulns, pkg_deps, pkg_changelog, pkg_upgrade_review for dependency evidence. docs_list/docs_read for hosted+repo-backed documentation. License filtering: strict (default, excludes copyleft/undeclared) / custom (account blocklist) / yolo (disabled). 19 supported coding tools including Claude Code, Cursor, Codex CLI, Gemini CLI. v0.15.1, 96 releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -1186,12 +1186,14 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 71,
+      "stars": 100,
       "trend": 9,
       "activity": {
-        "releaseCount": 48,
-        "latestVersion": "v0.6.4",
-        "notes": "4 forks, 48 releases, v0.6.1 Jul 3 2026, 516 commits, 2 open issues, 2 open PRs - founded by opencv-python creator (100M+ downloads), covered on Product Hunt and HN"
+        "contributors": 6,
+        "releaseCount": 96,
+        "latestVersion": "v0.15.1",
+        "releasedOn": "2026-09-08",
+        "notes": "10 forks, 96 releases, v0.15.1 (8 Sep 2026), 11 open issues, 6 contributors - founded by opencv-python creator (100M+ downloads), covered on Product Hunt and HN"
       },
       "activityStatus": {
         "band": "active",
