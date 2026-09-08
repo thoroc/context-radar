@@ -12,8 +12,8 @@ describe("totalStars", () => {
   });
 
   test("compacts the running total of numeric star counts", () => {
-    // rtk is 71,000 stars; the total must read 71k, not 71.
+    // rtk is 79,399 stars; the total must read 79.4k, not 79.
     state.sel = new Set(["rtk"]);
-    expect(totalStars()).toBe("71k");
+    expect(totalStars()).toBe("79.4k");
   });
 });

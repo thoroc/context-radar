@@ -160,14 +160,15 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 71000,
+      "stars": 79399,
       "trend": 1,
       "activity": {
-        "contributors": 122,
-        "releasedOn": "2026-06-28",
-        "corroboration": "star-history",
-        "notes": "122 contributors, dev-0.44.0-rc.312 (7 Jul 2026), 70.4k stars confirmed via star-history.com live tracker, near-plateau growth (+11/week)",
-        "latestVersion": "v0.43.0"
+        "contributors": 141,
+        "releasedOn": "2026-09-04",
+        "corroboration": "github-api",
+        "notes": "141 contributors, v0.48.0 (4 Sep 2026), 324 releases, 79.4k stars / 5,025 forks per GitHub API, still hyper-active (pushed 8 Sep 2026).",
+        "latestVersion": "v0.48.0",
+        "releaseCount": 324
       },
       "activityStatus": {
         "band": "active",
@@ -194,7 +195,7 @@
           ]
         }
       },
-      "decisionRule": "~53.6k stars, Apache-2.0, v0.42.0. Daily PRs. Do NOT run alongside sqz or lean-ctx.",
+      "decisionRule": "~79.4k stars, Apache-2.0, v0.48.0. Daily PRs. Do NOT run alongside sqz or lean-ctx.",
       "requiresExternal": false
     },
     {
