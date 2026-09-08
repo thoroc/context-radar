@@ -243,6 +243,42 @@ export const licenceSchema = z
   })
   .strict();
 
+/** Whether the tool phones home by default, and how a user backs out of it. */
+export const telemetryDefaultSchema = z.enum(["none", "opt-out", "opt-in", "unknown"]);
+
+/** Where a tool's data lives by default: local-only, or some hosted component. */
+export const dataResidencySchema = z.enum([
+  "local-only",
+  "hosted-optional",
+  "hosted-required",
+  "unknown",
+]);
+
+/**
+ * Factual adoption signals an organisation's own vendor-vetting or compliance
+ * process can layer a policy on top of. Deliberately org-agnostic: no RFC/policy
+ * name, no compliance verdict, no risk rating - those belong to whoever is doing
+ * the vetting, not to this catalogue. Optional on `toolSchema` so the 81 existing
+ * records stay valid; population is a separate, per-tool research pass (see
+ * `plugin/skills/project-comparison-fetch/references/source-verification.md` for
+ * the same evidence bar this sub-object's `evidence` field expects).
+ */
+export const adoptionSignalsSchema = z
+  .object({
+    /** Legal entity behind the tool, or null when none exists (solo/community OSS). */
+    vendorEntity: z.string().min(1).nullable(),
+    /** True when core functionality needs a login/account, not just an optional hosted extra. */
+    accountRequired: z.boolean(),
+    telemetryDefault: telemetryDefaultSchema,
+    dataResidency: dataResidencySchema,
+    /** Can this be run entirely on infrastructure the adopter controls? */
+    selfHostable: z.boolean().optional(),
+    /** Full free-text detail, preserved verbatim. */
+    notes: z.string().optional(),
+    evidence: evidenceSchema.optional(),
+  })
+  .strict();
+
 export const activitySchema = z
   .object({
     contributors: z.number().int().nonnegative().optional(),
@@ -342,6 +378,13 @@ export const toolSchema = z
     decisionRule: z.string(),
     /** Standalone benchmark / feature claims that map to no field above. */
     extraClaims: z.array(extraClaimSchema).optional(),
+    /**
+     * Factual, org-agnostic adoption signals (vendor entity, telemetry default,
+     * data residency, account requirement). Optional: population is a separate
+     * research pass, not required for a record to be valid. See
+     * `adoptionSignalsSchema` for why this carries no compliance verdict.
+     */
+    adoptionSignals: adoptionSignalsSchema.optional(),
   })
   .strict()
   .superRefine((t, ctx) => {
@@ -359,6 +402,7 @@ export const toolSchema = z
       [["activity", "notes"], t.activity.notes],
       [["licence", "warning"], t.licence.warning],
       [["runtime", "detail"], t.runtime.detail],
+      [["adoptionSignals", "notes"], t.adoptionSignals?.notes],
     ];
     for (const [path, val] of fields) {
       if (val && EMOJI.test(val)) {
@@ -491,6 +535,9 @@ export type ConflictSeverity = z.infer<typeof conflictSeveritySchema>;
 export type VerdictDecision = z.infer<typeof verdictDecisionSchema>;
 export type Runtime = z.infer<typeof runtimeSchema>;
 export type Licence = z.infer<typeof licenceSchema>;
+export type TelemetryDefault = z.infer<typeof telemetryDefaultSchema>;
+export type DataResidency = z.infer<typeof dataResidencySchema>;
+export type AdoptionSignals = z.infer<typeof adoptionSignalsSchema>;
 export type Activity = z.infer<typeof activitySchema>;
 export type ActivityStatus = z.infer<typeof activityStatusSchema>;
 export type Conflict = z.infer<typeof conflictSchema>;

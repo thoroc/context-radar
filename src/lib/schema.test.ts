@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { makeTool } from "../test-support/make-tool";
 import {
+  adoptionSignalsSchema,
   datasetSchema,
   evidenceSourceSchema,
   recommendationSchema,
@@ -25,6 +26,76 @@ describe("toolSchema", () => {
     expect(toolSchema.safeParse(makeTool({ activity: { releasedOn: "15-07-2026" } })).success).toBe(
       false,
     );
+  });
+
+  test("accepts a record with no adoptionSignals (optional)", () => {
+    expect(toolSchema.safeParse(makeTool()).success).toBe(true);
+  });
+
+  test("rejects adoptionSignals.notes containing emoji, like every other free-text field", () => {
+    expect(
+      toolSchema.safeParse(
+        makeTool({
+          adoptionSignals: {
+            vendorEntity: null,
+            accountRequired: false,
+            telemetryDefault: "none",
+            dataResidency: "local-only",
+            notes: "safe to self-host ✅",
+          },
+        }),
+      ).success,
+    ).toBe(false);
+  });
+});
+
+describe("adoptionSignalsSchema", () => {
+  const base = {
+    vendorEntity: null as string | null,
+    accountRequired: false,
+    telemetryDefault: "none" as const,
+    dataResidency: "local-only" as const,
+  };
+
+  test("accepts the minimal shape with no vendor and no telemetry", () => {
+    expect(adoptionSignalsSchema.safeParse(base).success).toBe(true);
+  });
+
+  test("accepts a named vendor entity with hosted-optional residency and opt-out telemetry", () => {
+    expect(
+      adoptionSignalsSchema.safeParse({
+        vendorEntity: "Entire Inc",
+        accountRequired: false,
+        telemetryDefault: "opt-out",
+        dataResidency: "hosted-optional",
+        selfHostable: false,
+        notes: "local capture needs no account; hosted half adds a subprocessor list",
+      }).success,
+    ).toBe(true);
+  });
+
+  test("rejects an unknown key (strict object)", () => {
+    expect(adoptionSignalsSchema.safeParse({ ...base, gdprCompliant: true }).success).toBe(false);
+  });
+
+  test("rejects an invalid telemetryDefault or dataResidency value", () => {
+    expect(adoptionSignalsSchema.safeParse({ ...base, telemetryDefault: "always" }).success).toBe(
+      false,
+    );
+    expect(adoptionSignalsSchema.safeParse({ ...base, dataResidency: "everywhere" }).success).toBe(
+      false,
+    );
+  });
+
+  test("requires vendorEntity, accountRequired, telemetryDefault, and dataResidency", () => {
+    expect(adoptionSignalsSchema.safeParse({}).success).toBe(false);
+    expect(
+      adoptionSignalsSchema.safeParse({
+        accountRequired: false,
+        telemetryDefault: "none",
+        dataResidency: "local-only",
+      }).success,
+    ).toBe(false);
   });
 });
 

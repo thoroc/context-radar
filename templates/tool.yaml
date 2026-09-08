@@ -103,6 +103,25 @@ verdict:
 decisionRule: >-
   Install if you need structural code navigation. Do not run alongside <other tool>.
 
+# Optional. Factual, org-agnostic adoption signals - not a compliance verdict,
+# just the facts an adopter's own vetting process would want. Leave the whole
+# block out until you've actually researched it for this tool.
+# adoptionSignals:
+#   # Legal entity behind the tool, or null when none exists (solo/community OSS).
+#   vendorEntity: null
+#   # True when core functionality needs a login/account, not just an optional extra.
+#   accountRequired: false
+#   # none | opt-out | opt-in | unknown
+#   telemetryDefault: none
+#   # local-only | hosted-optional | hosted-required | unknown
+#   dataResidency: local-only
+#   # Can this run entirely on infrastructure the adopter controls?
+#   selfHostable: true
+#   notes: >-
+#     Optional free-text detail, preserved verbatim, e.g. "local capture needs
+#     no account; an optional hosted half adds a subprocessor list".
+#   # evidence: same shape as conflict.evidence above.
+
 # Optional. Standalone benchmark / feature claims that map to no field above.
 # A benchmark claim must carry a proofLedger (PROVEN | SUPPORTED | OPEN | REJECTED).
 # extraClaims:
