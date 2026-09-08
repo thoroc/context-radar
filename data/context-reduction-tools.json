@@ -1762,14 +1762,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 60000,
+      "stars": 70066,
       "trend": 3,
       "activity": {
-        "contributors": 39,
-        "corroboration": "GitHub issue live counter + star-history",
-        "notes": "39 contributors, 58.5k confirmed via GitHub issue live counter + star-history.com independently, re-benchmarked on Opus 4.8, current build uses codegraph_explore as primary tool",
-        "latestVersion": "v1.4.1",
-        "releasedOn": "2026-07-10"
+        "contributors": 43,
+        "releaseCount": 31,
+        "corroboration": "github-api",
+        "notes": "43 contributors, 70.1k stars / 4,474 forks per GitHub API, 31 releases, v1.6.0 (26 Aug 2026), 515 open issues, re-benchmarked on Opus 4.8, current build uses codegraph_explore as primary tool",
+        "latestVersion": "v1.6.0",
+        "releasedOn": "2026-08-26"
       },
       "activityStatus": {
         "band": "active",
