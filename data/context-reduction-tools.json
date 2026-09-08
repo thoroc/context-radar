@@ -4278,7 +4278,7 @@
       "tool": "claude-mem",
       "githubUrl": "https://github.com/thedotmack/claude-mem",
       "layer": "Agent memory persistence",
-      "whatItDoes": "Claude Code-native persistent memory. 5 lifecycle hooks (SessionStart, UserPromptSubmit, PostToolUse, Stop, SessionEnd) capture tool-use observations during sessions, compress via Claude agent SDK, store in SQLite + Chroma vector DB. Worker service: HTTP API port 37777, web viewer UI, 10 search endpoints, managed by Bun. mem-search skill for natural language queries with progressive disclosure. 4 MCP tools in 3-layer workflow: search (compact index, ~50-100 tokens/result) → timeline (chronological context) → get_observations (full details, ~500-1000 tokens/result, only for filtered IDs) - ~10x token savings vs fetching everything upfront. Privacy: <private> tags exclude content from storage. Beta channel: Endless Mode (biomimetic memory for extended sessions). Multi-language modes (zh, ja). Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode. v13.2.0, 270 releases.",
+      "whatItDoes": "Claude Code-native persistent memory. 5 lifecycle hooks (SessionStart, UserPromptSubmit, PostToolUse, Stop, SessionEnd) capture tool-use observations during sessions, compress via Claude agent SDK, store in SQLite + Chroma vector DB. Worker service: HTTP API port 37777, web viewer UI, 10 search endpoints, managed by Bun. mem-search skill for natural language queries with progressive disclosure. 4 MCP tools in 3-layer workflow: search (compact index, ~50-100 tokens/result) → timeline (chronological context) → get_observations (full details, ~500-1000 tokens/result, only for filtered IDs) - ~10x token savings vs fetching everything upfront. Privacy: <private> tags exclude content from storage. Beta channel: Endless Mode (biomimetic memory for extended sessions). Multi-language modes (zh, ja). Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode. v13.24.1, 324 releases.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -4301,14 +4301,15 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 87000,
+      "stars": 93462,
       "trend": 0,
       "activity": {
-        "releaseCount": 296,
-        "latestVersion": "v13.11.0",
-        "releasedOn": "2026-07-13",
-        "corroboration": "direct live fetch - overrides conflicting third-party aggregator snapshots (star-history showed stale 70",
-        "notes": "7.5k forks, 296 releases, v13.10.2 (5 Jul 2026), 2,136 commits, 86.9k confirmed via direct live fetch - overrides conflicting third-party aggregator snapshots (star-history showed stale 70.9k)"
+        "contributors": 123,
+        "releaseCount": 324,
+        "corroboration": "github-api",
+        "notes": "8,210 forks, 324 releases, v13.24.1 (5 Sep 2026), 346 open issues, 123 contributors, 93.5k stars per direct GitHub API fetch.",
+        "latestVersion": "v13.24.1",
+        "releasedOn": "2026-09-05"
       },
       "activityStatus": {
         "band": "active",
@@ -4329,7 +4330,7 @@
           ]
         }
       },
-      "decisionRule": "77k stars - largest memory tool in this comparison, 2nd largest tool overall after caveman. Trendshift-validated, Awesome Claude Code listed. 3-layer search→timeline→get_observations workflow is the most deliberate token-efficiency design among memory tools here. Web viewer at localhost:37777. Note: README discloses a third-party $CMEM Solana token embraced by the author - unrelated to tool function but worth knowing. Install via npx claude-mem install, not npm install -g.",
+      "decisionRule": "93.5k stars - largest memory tool in this comparison, 2nd largest tool overall after caveman. Trendshift-validated, Awesome Claude Code listed. 3-layer search→timeline→get_observations workflow is the most deliberate token-efficiency design among memory tools here. Web viewer at localhost:37777. Note: README discloses a third-party $CMEM Solana token embraced by the author - unrelated to tool function but worth knowing. Install via npx claude-mem install, not npm install -g.",
       "requiresExternal": true,
       "adoptionSignals": {
         "vendorEntity": null,
