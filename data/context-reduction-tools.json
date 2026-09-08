@@ -4033,10 +4033,21 @@
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "opt-in",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "Git-native; remote/hybrid mode syncs via the user's own GitHub remote through the gh CLI, not a vendor-hosted service of its own."
+        "notes": "Local mode needs zero infrastructure (plain Markdown + git, no model API keys required). Remote/hybrid mode syncs via the user's own GitHub owner, not a gitmem-hosted service. Telemetry is opt-in and off by default per the README, and explicitly excludes prompts, facts, transcripts, repo paths, and remote URLs even when enabled.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/dev-boz/gitmem/blob/53ed30f9145af9c0fa409277b149b291b29f8b6e/README.md#L373",
+              "quote": "Anonymous telemetry is available as an opt-in config path. It is off by default and does not send prompts, facts, transcripts, repo paths, or raw remote URLs.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       }
     },
     {
@@ -4098,10 +4109,21 @@
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "none",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "Solo-maintainer plugin; memory lives in the user's own git-backed working tree."
+        "notes": "No mention of telemetry/analytics anywhere in the README, and a repository-wide code search for telemetry/analytics/posthog returned zero results - a search-verified absence, not a documented guarantee.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/search?q=repo%3Azhangfengcdt%2Fmemoir+telemetry+OR+analytics+OR+posthog&type=code",
+              "quote": "0 results",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -4285,10 +4307,21 @@
       "adoptionSignals": {
         "vendorEntity": "Reflexio AI",
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "none",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "No external API for core embeddings; ONNX model downloaded once, runs in-process."
+        "notes": "No mention of telemetry, analytics, accounts, or hosting anywhere in the README (consistent with the existing record's 'runs in-process, no external API' claim), and a repository-wide code search for telemetry/analytics/posthog returned zero results.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/search?q=repo%3AReflexioAI%2Fclaude-smart+telemetry+OR+analytics+OR+posthog&type=code",
+              "quote": "0 results",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -4346,12 +4379,23 @@
       "decisionRule": "CRITICAL: Licence changed from Apache-2.0 to AGPL-3.0. Commercial use now requires a separate paid licence (was \"free for personal and commercial use\"). New paper: arXiv:2605.04897 \"Storage Is Not Memory\". | Only memory tool in this comparison with a genuinely zero-cost, zero-cloud, zero-API-key tier (Edge/Base) at this benchmark quality. Novel BEAM-1M/10M benchmark tests memory beyond any model's context window - no other memory tool here is tested at that scale. Directives feature is a per-memory alternative to global CLAUDE.md instructions. curl -LsSf https://raw.githubusercontent.com/buildingjoshbetter/TrueMemory/main/install.sh | sh. Stale-fetch warning: GitHub page render showed 29 stars/v0.3.0 - live search confirmed 311 stars/v0.7.1.2+, a substantially evolved feature set.",
       "requiresExternal": false,
       "adoptionSignals": {
-        "vendorEntity": null,
+        "vendorEntity": "Sauron Labs",
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "opt-out",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "Edge/Base (default, free) tier makes zero external calls per the existing curated record. Pro tier adds an optional third-party LLM API key for HyDE query expansion, not a TrueMemory-hosted service. See licence.warning for the AGPL-3.0 commercial-use change."
+        "notes": "Corrects two fields left unresolved in #166. Vendor: the README credits 'TrueMemory, a sauron company' and links @Sauron_Labs - not a solo/community project as first assumed. Telemetry: the README's own FAQ states anonymous usage telemetry (tool calls, session counts, platform info, never memory content) is ON by default, opt-out via TRUEMEMORY_TELEMETRY=off - the '100% local' / 'zero cloud' marketing language describes where memory content lives, not the separate telemetry channel. See licence.warning for the unrelated AGPL-3.0 commercial-use change.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/buildingjoshbetter/TrueMemory/blob/063e5b8844af735a52fde886217a5d26a0f13064/README.md#L230-L232",
+              "quote": "Anonymous usage telemetry (tool calls, session counts, platform info) is on by default. We never track memory content, queries, file paths, or API keys. Opt out: export TRUEMEMORY_TELEMETRY=off",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       }
     },
     {
@@ -4414,10 +4458,21 @@
       "adoptionSignals": {
         "vendorEntity": "Kayba",
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "none",
         "dataResidency": "hosted-optional",
         "selfHostable": true,
-        "notes": "Core framework is a library run against your own LLM API key; kayba.ai is an optional freemium hosted dashboard, not required for core use."
+        "notes": "Core framework has no telemetry/analytics code found in a repository-wide search. The optional 'kayba' Cloud CLI (trace upload, prompt install, hosted insights) is a distinct, separately-invoked feature, not instrumentation baked into the core framework itself.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/search?q=repo%3Akayba-ai%2Fagentic-context-engine+telemetry+OR+analytics+OR+posthog&type=code",
+              "quote": "0 results",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -4481,10 +4536,21 @@
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "none",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "Solo/community project; plain structured markdown read/write, no server component."
+        "notes": "README states plainly: 'One file per day. Plain Markdown. No database. No cloud. Python stdlib + git.' A repository-wide code search for telemetry/analytics/posthog returned zero results, consistent with that claim.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/karmugilen/mem/blob/f588d1a3464d48315fba6b80a0e57cd023b5dfae/README.md#L22",
+              "quote": "One file per day. Plain Markdown. No database. No cloud. Python stdlib + git.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       }
     },
     {
@@ -4549,10 +4615,21 @@
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
-        "telemetryDefault": "unknown",
+        "telemetryDefault": "none",
         "dataResidency": "local-only",
         "selfHostable": true,
-        "notes": "Project-local memory layer; the only external call is to the configured third-party LLM API (CURION_PRIMARY_API_KEY) for the normalisation step, not a curion-hosted service."
+        "notes": "README states 'Migration to a hosted DB is not in scope', confirming local-only storage is a deliberate design choice, not just the current default. A repository-wide code search for telemetry/analytics/posthog returned zero results.",
+        "evidence": {
+          "status": "caveated",
+          "sources": [
+            {
+              "url": "https://github.com/geanatz/curion/blob/a96ed7487545f151034111219d76818423fbe584/README.md#L138",
+              "quote": "Migration to a hosted DB is not in scope.",
+              "checkedOn": "2026-09-08",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       }
     },
     {
