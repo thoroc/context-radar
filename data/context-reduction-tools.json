@@ -2440,7 +2440,7 @@
       "tool": "repo-graph",
       "githubUrl": "https://github.com/andreirx/repo-graph",
       "layer": "Architecture violation detection",
-      "whatItDoes": "Deterministic graph with trust model: classifies unresolved edges, reliability surface, obligation/CI gate, trend analysis. CLI only. No releases.",
+      "whatItDoes": "Deterministic graph with trust model: classifies unresolved edges, reliability surface, obligation/CI gate, trend analysis. CLI only, no MCP; 18 releases shipped through v0.17.0.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -2462,17 +2462,19 @@
       "stars": 11,
       "trend": 267,
       "activity": {
-        "latestVersion": "v0.7.1",
-        "releasedOn": "2026-07-19",
-        "notes": "no issues, no PRs, no releases yet"
+        "latestVersion": "v0.17.0",
+        "releasedOn": "2026-09-07",
+        "releaseCount": 18,
+        "contributors": 1,
+        "notes": "18 releases now shipped (from 0 at last check), solo-maintained with a daily commit cadence; still CLI-only, no MCP; no LICENSE file in the repo despite the README stating MIT"
       },
       "activityStatus": {
-        "band": "early",
-        "label": "Pre-release"
+        "band": "active",
+        "label": "Active (solo)"
       },
       "verdict": {
         "decision": "watch",
-        "rationale": "most sophisticated trust model here",
+        "rationale": "most sophisticated trust model here; now shipping frequently but still solo-maintained and CLI-only with no MCP",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -2485,7 +2487,7 @@
           ]
         }
       },
-      "decisionRule": "No MCP and no releases. Follow closely; adopt if MCP ships."
+      "decisionRule": "Still no MCP, but no longer pre-release: 18 releases through v0.17.0 on a daily commit cadence. Follow closely; adopt if MCP ships."
     },
     {
       "id": "truecourse",
