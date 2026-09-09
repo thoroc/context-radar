@@ -3225,7 +3225,7 @@
       "tool": "token-optimizer",
       "githubUrl": "https://github.com/alexgreensh/token-optimizer",
       "layer": "Config stack audit",
-      "whatItDoes": "Claude Code skill that dispatches 6 parallel audit agents across your full config stack: CLAUDE.md, MEMORY.md, skills, MCP servers, commands, rules, .claudeignore. Measures per-message overhead, identifies what is eating context, implements fixes with backup + diff approval. Skill usage analytics (tracks which of your 59 installed skills you actually use). Session health monitoring. Interactive HTML dashboard. Python measurement script with before/after comparison. Local SQLite trend tracking. v5.13.9, 249 releases.",
+      "whatItDoes": "Claude Code skill that dispatches 6 parallel audit agents across your full config stack: CLAUDE.md, MEMORY.md, skills, MCP servers, commands, rules, .claudeignore. Measures per-message overhead, identifies what is eating context, implements fixes with backup + diff approval. Skill usage analytics (tracks which of your 59 installed skills you actually use). Session health monitoring. Interactive HTML dashboard. Python measurement script with before/after comparison. Local SQLite trend tracking. v5.13.10, 250 releases.",
       "conflict": {
         "severity": "none",
         "projects": [],
@@ -3242,13 +3242,13 @@
       "licence": {
         "spdx": "PolyForm Noncommercial"
       },
-      "stars": 2199,
+      "stars": 2212,
       "trend": 13,
       "activity": {
-        "latestVersion": "v5.13.9",
-        "releaseCount": 249,
+        "latestVersion": "v5.13.10",
+        "releaseCount": 250,
         "releasedOn": "2026-09-08",
-        "notes": "2.2k stars, 169 forks, 5 open issues, 249 releases, v5.13.9 (8 Sep 2026), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED"
+        "notes": "2.2k stars, 170 forks, 1 open issue, 250 releases, v5.13.10 (8 Sep 2026), 16 waste patterns, 3 tiers, OpenClaw + Hermes + Codex support added, security: PASSED. Licence independently re-verified against LICENSE file text: still PolyForm Noncommercial 1.0.0 (GitHub's license-detector API reports NOASSERTION/\"Other\" for this file, a known detector limitation with the custom copyright header, not a relicense)."
       },
       "activityStatus": {
         "band": "active",
