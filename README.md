@@ -13,10 +13,12 @@ The catalogue currently tracks **81 tools**, last updated **17-07-2026** (star s
 ## Audience and outputs
 
 - **Humans** browse the interactive comparison table (each tool opens its detail as a modal overlay, with a standalone
-  page as the direct-link fallback) and assemble a conflict-free stack on GitHub Pages, reached from a landing page. The
-  chrome carries a light/dark theme toggle, and the comparison table reflows into per-tool cards on narrow screens.
-- **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, a generated CSV
-  export, and a flat [`src/public/llms.txt`](src/public/llms.txt) index (served at `/llms.txt`).
+  page as the direct-link fallback), read a page per layer explaining how many of its tools belong in one stack and
+  where to start, and assemble a conflict-free stack on GitHub Pages, reached from a landing page. The chrome carries a
+  light/dark theme toggle, longer pages carry an on-this-page table of contents, and the comparison table reflows into
+  per-tool cards on narrow screens.
+- **Agents and tooling** read the same catalogue in an LLM-friendly shape: one canonical JSON store, plus a CSV export
+  and a flat `llms.txt` index (served at `/llms.txt`), both generated from the store at build time.
 
 ## Repository layout
 
@@ -50,12 +52,15 @@ context-radar/
     lib/present/                         Presentation helpers, one function per module (+ labels.ts, per-module *.test.ts)
     lib/csv/                             CSV column order + serialisation (+ csv.test.ts)
     lib/data/                            Typed loader for the canonical JSON
-    lib/dom/                             Shared modal overlay + theme toggle (state + one function per module)
+    lib/chrome/                          Shared top bar + nav list, rendered into every page
+    lib/dom/                             Shared modal overlay, theme toggle, table of contents (one function per module)
+    chrome/main.ts                       Shared script chunk the generated pages reference
     detail/                              Shared tool-detail renderer (standalone pages + comparison overlay)
-    styles/                              Shared CSS: design tokens, top nav, modal, detail (scoped .tool-detail)
+    layer/                               Shared layer-page renderer (per-layer pages + the layer index)
+    styles/                              Shared CSS: tokens, top nav, page chrome, document shell, modal, detail (scoped .detail), layer
     pages/                               methodology.md, glossary.md (modal overlays + HTML fallback)
-    public/llms.txt                      Flat, LLM-friendly index (served at /llms.txt)
-  plugins/                               Vite build plugins (markdown pages, per-tool pages, CSV export)
+  plugins/                               Vite build plugins (markdown pages, per-tool pages, per-layer pages, CSV and llms.txt exports)
+    lib/                                 Shared plugin helpers: store loading, slug maps, routing, page envelope, document shell
   docs/                                  Vite build OUTPUT (git-ignored; uploaded to Pages)
   plugin/                                Local tessl plugin (tracked)
     .tessl-plugin/plugin.json            tessl plugin manifest
@@ -151,8 +156,12 @@ definition come the TypeScript types the site compiles against (`z.infer`), the 
 bundled into the browser.
 
 To add or change a tool, fill [`templates/tool.yaml`](templates/tool.yaml) and run `mise run data:add -- <file>.yaml`;
-it validates the record and upserts it into the store. The comparison table, the per-tool detail pages, and the CSV
-download are all generated from the JSON at build time.
+it validates the record and upserts it into the store. The comparison table, the per-tool detail pages, the per-layer
+pages and their index, the CSV download and `llms.txt` are all generated from the JSON at build time.
+
+A layer also carries its own curation in the store: display order, how many of its tools belong in one stack, an
+optional guidance note, an optional starting pick, and a required one-or-two-sentence summary. Adding a layer without a
+summary fails validation, so a layer page cannot ship with nothing to read.
 
 ### Evidence and source verification
 
