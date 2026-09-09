@@ -5068,15 +5068,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 478,
+      "stars": 506,
       "trend": null,
       "activity": {
         "contributors": 1,
-        "latestVersion": "v0.1.4",
-        "releaseCount": 5,
-        "releasedOn": "2026-09-08",
+        "latestVersion": "v0.1.5",
+        "releaseCount": 6,
+        "releasedOn": "2026-09-09",
         "corroboration": "github-api",
-        "notes": "Repository created 05-09-2026, 19 commits, single contributor, GitHub organisation created 28-08-2026. Five releases (v0.1.0-v0.1.4) in the three days since, an unusually fast tag cadence for a single-maintainer project."
+        "notes": "Repository created 05-09-2026, GitHub organisation created 28-08-2026. Six releases (v0.1.0-v0.1.5) in the four days since, still an unusually fast tag cadence for what remains effectively a single-maintainer project (the contributors API now lists a second account, google-labs-jules[bot], with 3 automated commits from Jules AI-agent security-remediation branches, alongside the human maintainer's 32). Stars 478->506 (+5.9%), forks 25->31, 0 open issues."
       },
       "activityStatus": {
         "band": "early",
@@ -5097,7 +5097,7 @@
           ]
         }
       },
-      "decisionRule": "Do not adopt yet. 478 stars, 25 forks, MIT, v0.1.4 (5 releases in 3 days), single-maintainer repository. Revisit for a longer maintenance history before any real trial.",
+      "decisionRule": "Do not adopt yet. 506 stars, 31 forks, MIT, v0.1.5 (6 releases in 4 days), single-maintainer repository. Revisit for a longer maintenance history before any real trial.",
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
