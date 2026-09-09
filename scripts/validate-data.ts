@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import { datasetSchema, recommendationsFileSchema } from "../src/lib/schema";
-import { checkConflicts, checkLayers, checkRecommendations } from "./validate";
+import {
+  checkConflicts,
+  checkDuplicateKeys,
+  checkLayerPicks,
+  checkLayers,
+  checkRecommendations,
+} from "./validate";
 
 // Validates the canonical store and the recommendations file against the Zod
 // schema (the single source of truth), then cross-checks recommendations against
@@ -24,6 +30,17 @@ const parseJson = (label: string): unknown => {
   }
 };
 
+// Before parsing: JSON.parse silently keeps the last of a duplicated key, so a
+// self-contradicting record would validate cleanly and publish the wrong value.
+const duplicateKeyErrors = [storePath, recsPath].flatMap((path) =>
+  checkDuplicateKeys(readFileSync(path, "utf8"), path),
+);
+if (duplicateKeyErrors.length > 0) {
+  console.error("Duplicate JSON keys found:");
+  for (const error of duplicateKeyErrors) console.error(`  ${error}`);
+  process.exit(1);
+}
+
 const store = datasetSchema.safeParse(parseJson(storePath));
 if (!store.success) {
   printIssues(storePath, store.error.issues);
@@ -46,7 +63,10 @@ if (storeErrors.length > 0) {
   process.exit(1);
 }
 
-const crossErrors = checkRecommendations(store.data.tools, recs.data.recommendations);
+const crossErrors = [
+  ...checkRecommendations(store.data.tools, recs.data.recommendations),
+  ...checkLayerPicks(store.data.layers, recs.data.recommendations),
+];
 if (crossErrors.length > 0) {
   console.error(`Cross-store validation failed for ${recsPath}:`);
   for (const error of crossErrors) console.error(`  ${error}`);

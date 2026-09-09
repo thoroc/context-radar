@@ -3,4 +3,5 @@
 
 export * from "./render";
 export * from "./render-summary";
+export * from "./setup-layer-filter";
 export * from "./setup-multiselect";

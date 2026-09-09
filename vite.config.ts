@@ -1,7 +1,10 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { generateCsv } from "./plugins/generate-csv";
+import { generateLlmsTxt } from "./plugins/generate-llms-txt";
+import { layerPages } from "./plugins/layer-pages";
 import { markdownPages } from "./plugins/markdown-pages";
+import { siteChrome } from "./plugins/site-chrome";
 import { toolPages } from "./plugins/tool-pages";
 
 const projectRoot = import.meta.dirname;
@@ -20,10 +23,19 @@ export default defineConfig({
         index: resolve(srcRoot, "index.html"),
         comparison: resolve(srcRoot, "comparison.html"),
         "stack-builder": resolve(srcRoot, "stack-builder.html"),
+        // Not a page: the shared chunk the generated tool and markdown pages
+        // reference. They are emitted as raw asset strings, so Rollup never
+        // sees them and cannot inject a script; listing the entry here gets it
+        // bundled, hashed and typechecked, and the generators look its final
+        // filename up in the bundle.
+        chrome: resolve(srcRoot, "chrome/main.ts"),
       },
     },
   },
   plugins: [
+    // Renders the shared top bar into the three static entries, which carry a
+    // placeholder instead of copy-pasted markup.
+    siteChrome(),
     markdownPages({
       pages: [
         {
@@ -38,6 +50,13 @@ export default defineConfig({
         },
       ],
     }),
+    // One page per layer plus the /layers.html index. The layer curation in
+    // data.layers[] had no page anywhere before this: a layer existed only as a
+    // section heading in the comparison table and a value in its filter.
+    layerPages({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
+      recsPath: resolve(projectRoot, "data/tool-recommendations.json"),
+    }),
     // One detail page per tool, generated from the canonical JSON store so the
     // comparison table can summarise while the full record stays one click away.
     toolPages({
@@ -48,6 +67,12 @@ export default defineConfig({
     generateCsv({
       dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
       outFile: "context-reduction-tools.csv",
+    }),
+    // llms.txt is derived from the same store, so its counts and layer
+    // sections cannot disagree with the site.
+    generateLlmsTxt({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
+      outFile: "llms.txt",
     }),
   ],
 });

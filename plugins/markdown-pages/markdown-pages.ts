@@ -1,4 +1,5 @@
 import type { Plugin } from "vite";
+import { chromeSrc, DEV_CHROME_SRC } from "../lib/chrome-src";
 import { requestPath } from "../lib/request-path";
 import { pageFragments } from "./page-fragments";
 import { renderPage } from "./render-page";
@@ -31,12 +32,14 @@ export const markdownPages = (options: MarkdownPagesOptions): Plugin => ({
         return;
       }
       res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.end(renderPage(page));
+      res.end(renderPage(page, DEV_CHROME_SRC));
     });
   },
-  generateBundle() {
+  generateBundle(_outputOptions, bundle) {
+    // These pages sit at the site root, so the shared chunk is a sibling path.
+    const src = chromeSrc(bundle, "./");
     for (const page of options.pages) {
-      this.emitFile({ type: "asset", fileName: page.route, source: renderPage(page) });
+      this.emitFile({ type: "asset", fileName: page.route, source: renderPage(page, src) });
     }
   },
 });

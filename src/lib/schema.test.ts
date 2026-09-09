@@ -221,7 +221,7 @@ describe("recommendationSchema — intra-record shape", () => {
 
 describe("datasetSchema", () => {
   const meta = { last_updated: "2026-07-15", stars_verified: "2026-07-15", tool_count: 1 };
-  const layers = [{ name: "Shell output", order: 1, cardinality: "pick-one" }];
+  const layers = [{ name: "Shell output", order: 1, cardinality: "pick-one", summary: "s" }];
 
   test("accepts a consistent dataset", () => {
     expect(datasetSchema.safeParse({ meta, layers, tools: [makeTool()] }).success).toBe(true);
@@ -259,16 +259,16 @@ describe("datasetSchema", () => {
     const dupName = {
       meta,
       layers: [
-        { name: "Shell output", order: 1, cardinality: "pick-one" },
-        { name: "Shell output", order: 2, cardinality: "stackable" },
+        { name: "Shell output", order: 1, cardinality: "pick-one", summary: "s" },
+        { name: "Shell output", order: 2, cardinality: "stackable", summary: "s" },
       ],
       tools: [makeTool()],
     };
     const dupOrder = {
       meta,
       layers: [
-        { name: "Shell output", order: 1, cardinality: "pick-one" },
-        { name: "Code navigation", order: 1, cardinality: "pick-one" },
+        { name: "Shell output", order: 1, cardinality: "pick-one", summary: "s" },
+        { name: "Code navigation", order: 1, cardinality: "pick-one", summary: "s" },
       ],
       tools: [makeTool()],
     };

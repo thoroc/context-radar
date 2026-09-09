@@ -2,4 +2,5 @@
 
 export * from "./activity-cell";
 export * from "./conflict-cell";
+export * from "./layer-header";
 export * from "./tool-cell";

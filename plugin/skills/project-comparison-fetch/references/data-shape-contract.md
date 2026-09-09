@@ -47,7 +47,7 @@ Rules when the data changes:
 - To add/remove/rename a field, edit `src/lib/schema.ts` (the Zod schema), `src/lib/columns.ts` (`COLUMNS`, the CSV order/headers), and `src/lib/present.ts` (reconstruction) as needed, then run `mise run gen:schema`. `mise run validate` and `mise run typecheck` fail until everything agrees.
 - Tool names must be unique and `meta.tool_count` must equal `tools.length`; the validator enforces both.
 
-The stack builder does **not** consume this JSON. Its dataset (`src/stack-builder/stack-data.ts`) is a separate, richer, hand-curated structure (per-tool `rec`/`free`/`warn` flags, short ids, layer notes, and a conflict ruleset). Keep the two reconciled by hand when tools change.
+The stack builder consumes this JSON like everything else on the site. Its layers, their selection cardinality, their notes and their curated picks all come from `layers[]`, so there is no second dataset to keep reconciled.
 
 ## File locations
 
@@ -61,7 +61,8 @@ All data and artefacts live in the repository:
 - `scripts/gen-schema.ts`: regenerates the JSON Schema from Zod, run via `mise run gen:schema`
 - `scripts/data-add.ts`: ingests a filled template into the store, run via `mise run data:add`
 - `src/index.html` + `src/comparison/`: filterable/sortable comparison table (Vite + TypeScript; renders from the JSON)
-- `src/stack-builder.html` + `src/stack-builder/`: interactive stack builder; its dataset is `src/stack-builder/stack-data.ts` (maintained separately)
-- `src/public/llms.txt`: flat, LLM-friendly index of the catalogue (served at `/llms.txt`)
+- `src/stack-builder.html` + `src/stack-builder/`: interactive stack builder, derived from the same canonical JSON
+- `src/layer/` + `plugins/layer-pages/`: a page per layer plus the `/layers.html` index, generated from `layers[]`
+- `llms.txt`: flat, LLM-friendly index of the catalogue, generated at build time and served at `/llms.txt`
 - `docs/`: the Vite build output (git-ignored; produced by `mise run build`, uploaded to GitHub Pages by CI)
 - `schema/tool-record.schema.json` (beside this skill): the record JSON Schema, generated from `src/lib/schema.ts`

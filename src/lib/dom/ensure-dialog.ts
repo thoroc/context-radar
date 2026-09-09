@@ -10,8 +10,17 @@ export const ensureDialog = (): HTMLDialogElement => {
   d.innerHTML =
     '<div class="modal-head"><h2></h2>' +
     '<button type="button" class="modal-close" aria-label="Close">&times;</button></div>' +
-    '<div class="modal-body"></div>';
+    // The same document shell as the standalone pages, so one mountToc call
+    // serves both. Most readers reach Methodology and Glossary through this
+    // overlay rather than the page, so a TOC only on the page would have been
+    // invisible to them.
+    '<div class="modal-body"><div class="doc-shell" data-doc-shell>' +
+    '<aside class="toc-shell"><p class="toc-label">On this page</p>' +
+    '<nav data-toc aria-label="On this page"></nav></aside>' +
+    '<article data-article class="prose-measure"></article></div></div>';
   const bodyEl = d.querySelector(".modal-body") as HTMLDivElement;
+  modalState.articleEl = d.querySelector("[data-article]") as HTMLElement;
+  modalState.tocEl = d.querySelector("[data-toc]") as HTMLElement;
   modalState.titleEl = d.querySelector("h2") as HTMLHeadingElement;
   modalState.bodyEl = bodyEl;
   d.querySelector(".modal-close")?.addEventListener("click", () => d.close());
@@ -25,7 +34,7 @@ export const ensureDialog = (): HTMLDialogElement => {
   });
   // A link in the body that points at another modal-backed page swaps content
   // rather than navigating away.
-  delegateModals(bodyEl);
+  delegateModals(modalState.articleEl ?? bodyEl);
   document.body.appendChild(d);
   modalState.dialog = d;
   return d;

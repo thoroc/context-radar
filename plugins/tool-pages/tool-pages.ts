@@ -1,7 +1,7 @@
 import type { Plugin } from "vite";
-import { loadStore } from "./load-store";
+import { chromeSrc, DEV_CHROME_SRC, requestSlug } from "../lib";
+import { loadToolStore } from "./load-store";
 import { renderPage } from "./render-page";
-import { requestSlug } from "./request-slug";
 import type { ToolPagesOptions } from "./types";
 
 /**
@@ -21,23 +21,25 @@ export const toolPages = (options: ToolPagesOptions): Plugin => {
           next();
           return;
         }
-        const { store, slugByName } = loadStore(options.dataPath);
+        const { store, slugByName } = loadToolStore(options.dataPath);
         const tool = store.tools.find((t) => slugByName.get(t.tool) === slug);
         if (!tool) {
           next();
           return;
         }
         res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.end(renderPage(tool, store, slugByName));
+        res.end(renderPage(tool, store, slugByName, DEV_CHROME_SRC));
       });
     },
-    generateBundle() {
-      const { store, slugByName } = loadStore(options.dataPath);
+    generateBundle(_outputOptions, bundle) {
+      const { store, slugByName } = loadToolStore(options.dataPath);
+      // Pages live one directory down, so the shared chunk is reached via `../`.
+      const src = chromeSrc(bundle, "../");
       for (const tool of store.tools) {
         this.emitFile({
           type: "asset",
           fileName: `${outDir}/${slugByName.get(tool.tool)}.html`,
-          source: renderPage(tool, store, slugByName),
+          source: renderPage(tool, store, slugByName, src),
         });
       }
     },

@@ -18,7 +18,7 @@ export const toolFragments = (): Record<string, PageFragment> => {
     });
     out[`tools/${toolSlug(tool.tool)}.html`] = {
       title: tool.tool,
-      html: `<div class="tool-detail tool-detail--modal">${body}</div>`,
+      html: `<div class="detail tool-detail tool-detail--modal">${body}</div>`,
     };
   }
   return out;

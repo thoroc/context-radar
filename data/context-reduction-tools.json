@@ -8,131 +8,153 @@
     {
       "name": "Shell output",
       "order": 1,
+      "group": "Shell & tool output compression",
       "cardinality": "pick-one",
       "note": "Pick exactly one. Running two shell hooks simultaneously causes duplicate compression.",
-      "curatedPick": "rtk"
+      "curatedPick": "rtk",
+      "summary": "Every git diff, test run and lint pass an agent triggers returns its full output into the context window, and most of it is detail the model never reads. Tools here sit on the shell hook and rewrite that output before it reaches the agent."
     },
     {
       "name": "All tool output",
       "order": 2,
+      "group": "Shell & tool output compression",
       "cardinality": "stackable",
       "note": "Covers what shell hooks miss: web fetches, API responses, Playwright output.",
-      "curatedPick": "context-mode"
+      "curatedPick": "context-mode",
+      "summary": "A shell hook only sees commands. Web fetches, API responses and browser-automation dumps arrive by other paths and are often the largest single payloads in a session, so this layer covers what a shell hook structurally cannot."
     },
     {
       "name": "Static context injection (push model)",
       "order": 3,
       "cardinality": "stackable",
       "note": "Pre-write context before sessions start. Run order: codesight then sigmap then caveman-compress.",
-      "curatedPick": "sigmap"
+      "curatedPick": "sigmap",
+      "summary": "Instead of compressing what the agent pulls in, these write a compact map of the codebase before the session starts. The waste they target is the exploratory reading an agent otherwise repeats from scratch every time."
     },
     {
       "name": "Conversation history management",
       "order": 4,
       "cardinality": "stackable",
-      "note": "magic-context is OpenCode-only, not compatible with Claude Code."
+      "note": "magic-context is OpenCode-only, not compatible with Claude Code.",
+      "summary": "In a long session the transcript becomes the largest item in context, and every turn re-sends all of it. This layer compresses or proxies the history itself rather than the tool output inside it."
     },
     {
       "name": "Personal knowledge retrieval",
       "order": 5,
       "cardinality": "stackable",
       "note": "Add CLAUDE.md routing rules when using multiple knowledge tools to avoid agent confusion.",
-      "curatedPick": "qmd"
+      "curatedPick": "qmd",
+      "summary": "Notes and internal docs are no use to an agent that cannot find the relevant paragraph, and pasting the whole vault costs more than it returns. These index your own material so a query yields passages rather than files."
     },
     {
       "name": "Library documentation retrieval",
       "order": 6,
       "cardinality": "stackable",
       "note": "Solves Claude using stale API knowledge for your dependencies.",
-      "curatedPick": "context-neuledge"
+      "curatedPick": "context-neuledge",
+      "summary": "An agent working from training-cutoff knowledge of your dependencies writes confidently wrong API calls, and the usual workaround is pasting entire documentation pages. These retrieve the versioned section that answers the question."
     },
     {
       "name": "Tabular data retrieval",
       "order": 7,
       "cardinality": "stackable",
-      "note": "Install if you work with CSV or Excel data."
+      "note": "Install if you work with CSV or Excel data.",
+      "summary": "A CSV or spreadsheet pasted into context spends thousands of tokens on rows the agent will never use. Indexing it once lets the agent ask for column profiles and filtered slices instead of the whole file."
     },
     {
       "name": "Codebase understanding & onboarding",
       "order": 8,
       "cardinality": "stackable",
-      "note": "Costs API tokens per run, not every session. Best for onboarding and architecture reviews."
+      "note": "Costs API tokens per run, not every session. Best for onboarding and architecture reviews.",
+      "summary": "These spend model tokens once to produce an architecture description that a person or an agent can read later, so the cost is per run rather than per session. Aimed at onboarding and review rather than day-to-day editing."
     },
     {
       "name": "Code navigation",
       "order": 9,
       "cardinality": "pick-one",
       "note": "Install one code nav tool. Multiple code nav MCPs expose overlapping tool names, so the agent cannot route between them reliably.",
-      "curatedPick": "codegraph"
+      "curatedPick": "codegraph",
+      "summary": "Answering \"what calls this\" by reading files is the largest avoidable cost in an agent coding session. These build a queryable graph so a call path costs a lookup instead of a file sweep."
     },
     {
       "name": "Architecture violation detection",
       "order": 10,
-      "cardinality": "stackable"
+      "cardinality": "stackable",
+      "summary": "Narrower than code navigation: these look for specific structural faults such as circular dependencies and layer violations, rather than answering arbitrary questions about the codebase."
     },
     {
       "name": "MCP definition tokens",
       "order": 11,
       "cardinality": "install-both",
       "note": "Tool Search is built into Claude Code, just enable it. Zero setup.",
-      "curatedPick": "tool-search"
+      "curatedPick": "tool-search",
+      "summary": "Every connected MCP server's tool schemas load into context before the session does any work, and on a large stack that can cost more than the task itself. This layer defers or narrows what gets loaded."
     },
     {
       "name": "Cross-session governance",
       "order": 12,
-      "cardinality": "stackable"
+      "cardinality": "stackable",
+      "summary": "Whatever an agent worked out last session is gone by the next one, so it derives it again. These persist operational state, decisions and handover notes against the repository rather than inside a model's memory."
     },
     {
       "name": "Response verbosity + memory compression",
       "order": 13,
       "cardinality": "stackable",
       "note": "Run caveman-compress on CLAUDE.md after sigmap or codesight write to it.",
-      "curatedPick": "caveman"
+      "curatedPick": "caveman",
+      "summary": "Aimed at what the agent writes rather than what it reads: instruction files and generated prose that grow until they crowd out the work. Compression here is usually applied to files the other layers produce."
     },
     {
       "name": "Code generation minimalism (YAGNI enforcement)",
       "order": 14,
       "cardinality": "stackable",
       "note": "Prevents over-engineered code from being written, rather than compressing afterwards. Stackable with caveman.",
-      "curatedPick": "ponytail"
+      "curatedPick": "ponytail",
+      "summary": "Prevention rather than compression. The cheapest context is code that was never written, so this layer gates the decision to write it at all."
     },
     {
       "name": "Config stack audit",
       "order": 15,
       "cardinality": "stackable",
       "note": "Run after assembling your stack. token-optimizer uses your Claude session; ctxharness is pure CLI.",
-      "curatedPick": "token-optimizer"
+      "curatedPick": "token-optimizer",
+      "summary": "Once several of these tools are installed, the instruction files and hooks they add become a context cost of their own that nobody is measuring. These audit the assembled stack rather than adding to it."
     },
     {
       "name": "Agent memory persistence",
       "order": 16,
       "cardinality": "pick-one",
       "note": "These persist what Claude learns across sessions. Pick one, they overlap significantly. ACE (strategy memory) is stackable with any of the others.",
-      "curatedPick": "claude-mem"
+      "curatedPick": "claude-mem",
+      "summary": "What the agent learns about you and your project, carried across sessions. Overlap between the entries here is heavy, and running two means the agent has two places to look with no rule for choosing between them."
     },
     {
       "name": "Universal context compression middleware",
       "order": 17,
       "cardinality": "stackable",
-      "note": "If you use headroom wrap claude, remove RTK, caveman and context-mode from your stack; headroom handles all three."
+      "note": "If you use headroom wrap claude, remove RTK, caveman and context-mode from your stack; headroom handles all three.",
+      "summary": "A single proxy compressing everything on its way to the model, in place of separate tools per source. It replaces rather than complements several other layers, which is why adopting one usually means removing others."
     },
     {
       "name": "Agent safety enforcement",
       "order": 18,
       "cardinality": "stackable",
-      "note": "These address runtime safety, a different problem from context reduction. Useful complementary layer."
+      "note": "These address runtime safety, a different problem from context reduction. Useful complementary layer.",
+      "summary": "Not a context-reduction layer. It is catalogued here because it occupies the same hook and proxy positions as the tools that are, so it competes for the same integration points in a stack."
     },
     {
       "name": "Agent runtime & context orchestration",
       "order": 19,
       "cardinality": "stackable",
-      "note": "ARK is not yet a Claude Code plugin; the MCP connector ships in v0.8."
+      "note": "ARK is not yet a Claude Code plugin; the MCP connector ships in v0.8.",
+      "summary": "Loads only the few tools a task actually needs rather than everything the agent might use, and does it at the runtime level rather than per integration."
     },
     {
       "name": "Reference resource (curated list)",
       "order": 20,
       "cardinality": "reference",
-      "note": "Curated further-reading lists, not installable stack components."
+      "note": "Curated further-reading lists, not installable stack components.",
+      "summary": "Not installable. Curated further-reading lists are kept here so the catalogue can point at them without implying they are something you add to a stack."
     }
   ],
   "tools": [
@@ -1310,7 +1332,7 @@
         "contributors": 25,
         "latestVersion": "v0.14.0",
         "releaseCount": 29,
-        "releasedOn": "2026-07-13",
+        "releasedOn": "2026-09-06",
         "notes": "202 forks, 29 releases, v0.14.0 (6 Sep 2026), 38 open issues, 25 contributors, active"
       },
       "activityStatus": {

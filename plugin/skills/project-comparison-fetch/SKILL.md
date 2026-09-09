@@ -98,7 +98,7 @@ Each `evidence` block is `{ status, sources: [{ url, quote, checkedOn, evidenceT
 
 Cross-field rules above are enforced at `mise run validate`, not in the published JSON Schema (`z.toJSONSchema` drops them). A separate network gate, `mise run evidence:verify` (CI: `evidence.yml`), re-fetches every `source-code` citation at its SHA and fails if the quote is not there.
 
-Evidence is **not** required across every tool. It is required for verdict-bearing claims on new and re-assessed tools, and backfilled opportunistically. Never present an unsourced verdict claim as sourced. The MCP Stack Builder dataset (`src/stack-builder/stack-data.ts`) is separate and carries no evidence.
+Evidence is **not** required across every tool. It is required for verdict-bearing claims on new and re-assessed tools, and backfilled opportunistically. Never present an unsourced verdict claim as sourced.
 
 ---
 
@@ -165,8 +165,8 @@ After writing the assessment, always:
 1. **Fill the template**: copy `templates/tool.yaml`, complete every field (correct layer, overlap tags, verdict), using the stable identifier keys.
 2. **Ingest it**: `mise run data:add -- <your-file>.yaml`. This Zod-validates the record and upserts it into `data/context-reduction-tools.json` by tool name, refreshing `meta.tool_count` and `meta.last_updated`.
 3. **Validate**: `mise run validate` (also runs on commit and in CI). Editing the JSON by hand instead of via the template is fine, but it must still pass validation.
-4. **Update `src/public/llms.txt`** to reflect the new or changed entry. The comparison table and CSV download need no manual edit — both are generated from the JSON on the next `mise run build`.
-5. **Update the MCP Stack Builder dataset** if the tool belongs there: add it to the correct layer in `src/stack-builder/stack-data.ts` (separate from the canonical JSON).
+4. **Nothing derived needs a manual edit.** The comparison table, the per-tool detail pages, the per-layer pages and their index, the stack builder, the CSV download and `llms.txt` are all generated from the JSON on the next `mise run build`.
+5. **If the entry introduces a new layer**, give that layer a `summary` in `layers[]` alongside its `order` and `cardinality`. It is required, so a layer cannot ship a page with nothing to read.
 6. **Type-check and build**: `mise run typecheck` then `mise run build`.
 7. **Update overlap/conflict columns** for existing tools affected by the new entry.
 
