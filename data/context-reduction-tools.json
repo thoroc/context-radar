@@ -803,13 +803,13 @@
       "tool": "magic-context",
       "githubUrl": "https://github.com/cortexkit/magic-context",
       "layer": "Conversation history management",
-      "whatItDoes": "OpenCode plugin. Background historian compresses older conversation into compartments + facts while main agent keeps working. Cache-aware queued reductions (never busts prompt cache). Cross-session project memory (architecture decisions, preferences). Dreamer: overnight agent consolidates/verifies memories, maintains ARCHITECTURE.md. User memory: developer behavioural observations promoted across sessions. Key file pinning. 5 agent tools (ctx_reduce, ctx_expand, ctx_note, ctx_memory, ctx_search). TUI sidebar. Desktop app. v0.15.7. 72 releases. OpenCode-only - does not work with Claude Code.",
+      "whatItDoes": "Plugin for OpenCode, Pi, and Oh My Pi (OMP) via a unified `@cortexkit/magic-context` CLI. Background historian compresses older conversation into compartments + facts while main agent keeps working. Cache-aware queued reductions (never busts prompt cache). Cross-session project memory (architecture decisions, preferences). Dreamer: overnight agent consolidates/verifies memories, maintains ARCHITECTURE.md. User memory: developer behavioural observations promoted across sessions. Key file pinning. 5 agent tools (ctx_reduce, ctx_expand, ctx_note, ctx_memory, ctx_search). TUI sidebar. Desktop app. v0.41.4. 181 releases. Does not work with Claude Code.",
       "conflict": {
         "severity": "hard",
         "projects": [
           "lean-ctx"
         ],
-        "note": "HARD ctx_* namespace collision with lean-ctx (ctx_memory, ctx_search, ctx_note). OpenCode-only anyway - not applicable in Claude Code."
+        "note": "HARD ctx_* namespace collision with lean-ctx (ctx_memory, ctx_search, ctx_note). OpenCode/Pi/OMP only anyway - not applicable in Claude Code."
       },
       "runtime": {
         "languages": [
@@ -818,18 +818,20 @@
         ],
         "detail": "TypeScript + Rust (Bun)"
       },
-      "requirements": "OpenCode only (not Claude Code); Bun runtime",
+      "requirements": "OpenCode, Pi, or OMP only (not Claude Code); Bun runtime",
       "requiresExternal": true,
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 1300,
+      "stars": 2060,
       "trend": 84,
       "activity": {
-        "latestVersion": "v0.32.3",
-        "releaseCount": 72,
-        "releasedOn": "2026-07-18",
-        "notes": "84+ open issues, 34 forks, 72 releases, v0.15.7 Apr 2026, 483 commits, very active"
+        "contributors": 22,
+        "latestVersion": "v0.41.4",
+        "releaseCount": 181,
+        "releasedOn": "2026-09-06",
+        "corroboration": "github-api",
+        "notes": "2,060 stars / 108 forks / 22 contributors per GitHub API, 181 releases, v0.41.4 (6 Sep 2026), 16 open issues, still hyper-active (pushed 8 Sep 2026, same-day commits). Stars moved 1,300 -> 2,060 (+58%) since 2026-07-19 - crosses this catalogue's 50% escalation threshold. Also corrected the harness-scope claim: it now ships OpenCode, Pi, and Oh My Pi (OMP) adapters via a unified `@cortexkit/magic-context` CLI (was recorded as OpenCode-only, which was already stale - Pi support shipped back in v0.16.x); still no Claude Code integration."
       },
       "activityStatus": {
         "band": "active",
@@ -837,7 +839,7 @@
       },
       "verdict": {
         "decision": "best",
-        "rationale": "best-in-class conversation history management (OpenCode only)",
+        "rationale": "best-in-class conversation history management (OpenCode/Pi/OMP; no Claude Code support)",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -850,7 +852,7 @@
           ]
         }
       },
-      "decisionRule": "OpenCode-only - does not work with Claude Code. If you use OpenCode: best-in-class for this layer by a wide margin. 72 releases in ~2 months. Disable OpenCode built-in compaction before installing. bunx --bun @cortexkit/opencode-magic-context@latest setup."
+      "decisionRule": "Does not work with Claude Code - supports OpenCode, Pi, and Oh My Pi (OMP) via the unified `@cortexkit/magic-context` CLI. If you use one of those: best-in-class for this layer by a wide margin. 181 releases and counting, still shipping same-day commits. Disable the host's built-in compaction/automatic memory before installing. npx @cortexkit/magic-context@latest setup."
     },
     {
       "id": "qmd",
