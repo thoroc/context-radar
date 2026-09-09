@@ -4224,7 +4224,7 @@
       "tool": "memoir",
       "githubUrl": "https://github.com/zhangfengcdt/memoir",
       "layer": "Agent memory persistence",
-      "whatItDoes": "Git-like version control for AI agent memory. Semantic hierarchical paths (profile.professional.skills.python) instead of UUID keys. O(log n) lookups. Branch-aware memory: git checkout to feature branch → agent uses branch-appropriate memories, no experimental patterns bleeding into production. Solves token rent: targeted injection preserves prefix cache vs CLAUDE.md global invalidation. memoir blame/checkout for auditing. Cryptographic integrity. Visual explorer (Tree/Graph/Timeline/Places). Native Claude Code plugin via .claude-plugin/. Hooks for session-start, user-prompt-submit, stop. v0.1.9. 145 commits.",
+      "whatItDoes": "Git-like version control for AI agent memory. Semantic hierarchical paths (profile.professional.skills.python) instead of UUID keys. O(log n) lookups. Branch-aware memory: git checkout to feature branch → agent uses branch-appropriate memories, no experimental patterns bleeding into production. Solves token rent: targeted injection preserves prefix cache vs CLAUDE.md global invalidation. memoir blame/checkout for auditing. Cryptographic integrity. Visual explorer (Tree/Graph/Timeline/Places). Native Claude Code plugin via .claude-plugin/. Hooks for session-start, user-prompt-submit, stop. v0.2.5. 181 commits.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -4247,13 +4247,14 @@
       "licence": {
         "spdx": "Apache-2.0"
       },
-      "stars": 593,
+      "stars": 611,
       "trend": 29550,
       "activity": {
-        "latestVersion": "v0.2.4",
-        "releaseCount": 4,
-        "releasedOn": "2026-06-22",
-        "notes": "0 forks, 4 releases, v0.1.9 May 3 2026, 145 commits, 3 issues, solo dev - very active development"
+        "contributors": 6,
+        "latestVersion": "v0.2.5",
+        "releaseCount": 10,
+        "releasedOn": "2026-09-08",
+        "notes": "41 forks, 10 releases, latest v0.2.5 08-09-2026, 181 commits, 6 contributors, 4 open issues - active development"
       },
       "activityStatus": {
         "band": "early",
@@ -4274,7 +4275,7 @@
           ]
         }
       },
-      "decisionRule": "Branch-aware memory is unique in this comparison: git checkout changes which memories are injected. Token rent insight: CLAUDE.md as global store invalidates prefix cache on every update - memoir injects only relevant memories. 2 stars but 145 commits and working Claude Code plugin. /plugin marketplace add zhangfengcdt/memoir for zero-config install.",
+      "decisionRule": "Branch-aware memory is unique in this comparison: git checkout changes which memories are injected. Token rent insight: CLAUDE.md as global store invalidates prefix cache on every update - memoir injects only relevant memories. 611 stars and 181 commits and working Claude Code plugin. /plugin marketplace add zhangfengcdt/memoir for zero-config install.",
       "adoptionSignals": {
         "vendorEntity": null,
         "accountRequired": false,
