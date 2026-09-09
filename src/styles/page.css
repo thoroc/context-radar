@@ -1,0 +1,53 @@
+/*
+ * Chrome for the generated standalone pages (tool pages, layer pages, the
+ * layer index): the reset, the page background and type, the centred column and
+ * the breadcrumb.
+ *
+ * A file rather than a string inlined by one generator. It was a `CHROME_STYLE`
+ * template literal inside the tool-pages plugin, so the layer pages shipped with
+ * no reset and no body rule at all: their summary text inherited black and was
+ * unreadable in dark mode, and the two-column body collapsed because nothing
+ * defined it. The bundled pages get the equivalent from their own stylesheets.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg2);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 24px 80px;
+}
+.crumb {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 18px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.crumb a {
+  color: var(--text2);
+}
+.crumb .sep {
+  color: var(--border2);
+}
