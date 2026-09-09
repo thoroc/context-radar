@@ -1489,7 +1489,7 @@
       "tool": "code-review-graph",
       "githubUrl": "https://github.com/tirth8205/code-review-graph",
       "layer": "Code navigation",
-      "whatItDoes": "Blast-radius + risk scoring for changed files. v2.3.3. 23 languages, 572 tests, 1400 forks.",
+      "whatItDoes": "Blast-radius + risk scoring for changed files. v2.3.8. Broad Tree-sitter language coverage (30+ languages/formats, extensible via a custom-language config), 2,848 forks.",
       "conflict": {
         "severity": "hard",
         "projects": [
@@ -1509,12 +1509,15 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 20000,
+      "stars": 31281,
       "trend": 28,
       "activity": {
-        "latestVersion": "v2.3.7",
-        "releasedOn": "2026-07-18",
-        "notes": "141 commits since v2.3.2, 6 community PRs merged, v2.3.3 recent"
+        "contributors": 120,
+        "releaseCount": 29,
+        "latestVersion": "v2.3.8",
+        "corroboration": "github-api",
+        "notes": "29 releases, latest v2.3.8 (21 Aug 2026), 120 contributors, 2,848 forks, 146 open issues, still MIT. Stars moved 20,000 -> 31,281 (+56%) since the last check - crosses this catalogue's 50% escalation threshold, though activityStatus is unchanged: repo pushed 27 Aug 2026 with ongoing PR merges (e.g. #918), so still very active rather than a step change in cadence.",
+        "releasedOn": "2026-08-21"
       },
       "activityStatus": {
         "band": "active",
@@ -1522,7 +1525,7 @@
       },
       "verdict": {
         "decision": "add",
-        "rationale": "MIT fallback for GitNexus detect_changes",
+        "rationale": "MIT fallback for GitNexus detect_changes; star count has grown substantially (+56%) since last check but doesn't change the fit",
         "evidence": {
           "status": "confirmed",
           "sources": [
