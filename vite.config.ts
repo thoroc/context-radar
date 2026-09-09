@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { generateCsv } from "./plugins/generate-csv";
+import { generateLlmsTxt } from "./plugins/generate-llms-txt";
 import { markdownPages } from "./plugins/markdown-pages";
 import { siteChrome } from "./plugins/site-chrome";
 import { toolPages } from "./plugins/tool-pages";
@@ -58,6 +59,12 @@ export default defineConfig({
     generateCsv({
       dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
       outFile: "context-reduction-tools.csv",
+    }),
+    // llms.txt is derived data too. It used to be a hand-checked static file in
+    // src/public and had drifted on every count it stated.
+    generateLlmsTxt({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
+      outFile: "llms.txt",
     }),
   ],
 });
