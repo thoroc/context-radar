@@ -1446,12 +1446,14 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 32000,
+      "stars": 42747,
       "trend": 152,
       "activity": {
-        "latestVersion": "v0.9.0",
-        "releasedOn": "2026-07-08",
-        "notes": "confirmed 12.7k stars (was 2.5k, 5x jump), DeusData/codebase-memory-mcp daily trending"
+        "contributors": 148,
+        "latestVersion": "v0.10.8",
+        "releaseCount": 46,
+        "releasedOn": "2026-08-19",
+        "notes": "verified via GitHub REST API 2026-09-09: 46 releases, latest v0.10.8; stars 32,000 -> 42,747 (+33.6%, under the 50% escalation threshold); MIT licence and active band both reconfirmed, repo pushed same day"
       },
       "activityStatus": {
         "band": "active",
