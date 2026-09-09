@@ -877,12 +877,14 @@
       "licence": {
         "spdx": "MIT"
       },
-      "stars": 28000,
+      "stars": 29625,
       "trend": 70,
       "activity": {
-        "latestVersion": "v2.5.3",
-        "releasedOn": "2026-05-29",
-        "notes": "low churn, mature, stable issue/PR rate"
+        "latestVersion": "v2.8.3",
+        "releaseCount": 14,
+        "releasedOn": "2026-08-16",
+        "contributors": 82,
+        "notes": "1,840 forks, 142 open issues, 14 releases, v2.8.3 (16 Aug 2026), still committing daily (security/store fixes). Licence re-verified as MIT (unchanged)."
       },
       "activityStatus": {
         "band": "stable",
