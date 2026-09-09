@@ -4114,17 +4114,30 @@
         ],
         "detail": "Claude Code skill (no runtime)"
       },
-      "requirements": "No explicit licence (copyright retained by author - all rights reserved). Obsidian vault required. Research features (/obsidian-research) need Grok and/or Perplexity API keys. Vault management commands work without API keys. git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.claude/skills/obsidian-second-brain && bash install.sh",
+      "requirements": "MIT licensed. Obsidian vault required. Research features (/obsidian-research) need Grok and/or Perplexity API keys. Vault management commands work without API keys. git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.claude/skills/obsidian-second-brain && bash install.sh",
       "requiresExternal": true,
       "licence": {
-        "spdx": "No licence (all rights reserved)"
+        "spdx": "MIT",
+        "warning": "Previously recorded here as 'no licence' - that was a pre-existing catalogue error, not a real relicense. The LICENSE file has been MIT since the repo's initial commit (24-03-2026), predating every prior check of this record.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/eugeniughelbur/obsidian-second-brain/blob/d631fd67aea0afe2b1e44fa5496bc04629348456/LICENSE",
+              "quote": "MIT License\n\nCopyright (c) 2026 Eugeniu Ghelbur",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       },
-      "stars": 3300,
+      "stars": 4377,
       "trend": 230,
       "activity": {
-        "latestVersion": "v0.14.0",
-        "releasedOn": "2026-07-18",
-        "notes": "408 forks (round-2 fork sweep, Jul 2026), 1000+ stars in 7 weeks, weekly releases, very active solo dev. v0.13 shipped a unified Agent Skills build (Codex CLI, OpenCode, Antigravity, Copilot CLI); v0.14 added /obsidian-brainstorm as the 45th command."
+        "latestVersion": "v0.15.0",
+        "releaseCount": 11,
+        "releasedOn": "2026-09-04",
+        "notes": "544 forks, 4,377 stars (Sep 2026 recheck), weekly releases, very active solo dev with community PRs. v0.13 shipped a unified Agent Skills build (Codex CLI, OpenCode, Antigravity, Copilot CLI); v0.14 added /obsidian-brainstorm as the 45th command; v0.15 continues weekly maintenance releases."
       },
       "activityStatus": {
         "band": "stable",
@@ -4132,7 +4145,7 @@
       },
       "verdict": {
         "decision": "add-if",
-        "rationale": "add if you use Obsidian; no licence is commercial blocker",
+        "rationale": "add if you use Obsidian; MIT licensed so no commercial blocker",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -4145,7 +4158,7 @@
           ]
         }
       },
-      "decisionRule": "No explicit licence = all rights reserved. Fine for personal use; do not embed in commercial products without author permission. /obsidian-architect is the key context reduction feature: scanned architecture notes replace repeated codebase reads. Pairs with graphthulhu (different integration mechanism: skill vs MCP server)."
+      "decisionRule": "MIT licensed - safe for commercial use, including embedding in commercial products. /obsidian-architect is the key context reduction feature: scanned architecture notes replace repeated codebase reads. Pairs with graphthulhu (different integration mechanism: skill vs MCP server)."
     },
     {
       "id": "gitmem",
