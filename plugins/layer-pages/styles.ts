@@ -14,4 +14,4 @@ const read = (name: string): string => readFileSync(resolve(stylesDir, name), "u
  * vocabulary, all scoped under the shared `.detail` wrapper; layer.css adds
  * only what is specific to layers.
  */
-export const LAYER_STYLES = `${read("tokens.css")}${read("nav.css")}${read("page.css")}${read("detail.css")}${read("layer.css")}`;
+export const LAYER_STYLES = `${read("tokens.css")}${read("nav.css")}${read("page.css")}${read("doc-shell.css")}${read("detail.css")}${read("layer.css")}`;

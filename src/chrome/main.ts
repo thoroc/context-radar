@@ -17,6 +17,13 @@
 // theme button would ship the entire catalogue to every generated page. The
 // same bundle-weight reasoning is why src/lib/index.ts refuses to re-export
 // Zod's runtime values.
-import { initThemeToggle } from "../lib/dom";
+import { initThemeToggle, mountToc } from "../lib/dom";
 
 initThemeToggle();
+
+// The other half of why this chunk exists. Generated pages get no script from
+// Rollup, so without it the table of contents could not be built anywhere the
+// headings actually are.
+const article = document.querySelector<HTMLElement>("[data-article]");
+const nav = document.querySelector<HTMLElement>("[data-toc]");
+if (article && nav) mountToc({ article, nav });

@@ -1,5 +1,5 @@
 import { renderIndexBody } from "../../src/layer";
-import { type PageStore, pageShell } from "../lib";
+import { docShell, type PageStore, pageShell } from "../lib";
 import { LAYER_STYLES } from "./styles";
 
 /**
@@ -16,8 +16,14 @@ export const renderIndex = (store: PageStore, base: string, chromeSrc: string): 
     base,
     active: "layers.html",
     chromeSrc,
-    body: `<div class="page">
+    body: `<div class="page page-shell">
   <div class="crumb"><a href="${base}index.html">Home</a><span class="sep">/</span><span>Layers</span></div>
-  <div class="detail layer-detail">${renderIndexBody(store.layers, store.tools, { base, starsVerified: store.meta.stars_verified })}</div>
+  ${docShell({
+    body: renderIndexBody(store.layers, store.tools, {
+      base,
+      starsVerified: store.meta.stars_verified,
+    }),
+    articleClass: "detail layer-detail",
+  })}
 </div>`,
   });

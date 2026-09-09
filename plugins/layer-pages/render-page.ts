@@ -1,6 +1,6 @@
 import { renderLayerBody } from "../../src/layer";
 import type { LayerMeta, Recommendation } from "../../src/lib";
-import { type PageStore, pageShell } from "../lib";
+import { docShell, type PageStore, pageShell } from "../lib";
 import { LAYER_STYLES } from "./styles";
 
 /** One standalone layer page. */
@@ -22,12 +22,12 @@ export const renderPage = (
     base: "../",
     active: `layers/${slug}.html`,
     chromeSrc,
-    body: `<div class="page">
+    body: `<div class="page page-shell">
   <div class="crumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../layers.html">Layers</a><span class="sep">/</span><span>${layer.name}</span>
   </div>
-  <div class="detail layer-detail">${body}</div>
+  ${docShell({ body, articleClass: "detail layer-detail" })}
 </div>`,
   });
 };

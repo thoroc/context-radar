@@ -2,6 +2,7 @@
 // markdown pages, and the CSV and llms.txt exports).
 
 export { chromeSrc, DEV_CHROME_SRC } from "./chrome-src";
+export { docShell } from "./doc-shell";
 export { loadStore } from "./load-store";
 export { pageShell } from "./page-shell";
 export { requestPath } from "./request-path";
