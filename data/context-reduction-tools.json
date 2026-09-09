@@ -1702,13 +1702,13 @@
       "licence": {
         "spdx": "AGPL-3.0"
       },
-      "stars": 3293,
+      "stars": 3292,
       "trend": 384,
       "activity": {
-        "latestVersion": "v1.13.1",
-        "releaseCount": 45,
-        "releasedOn": "2026-09-07",
-        "notes": "419 forks, 45 releases, v1.13.1 (7 Sep 2026), 0 open issues, moderate issue/PR flow"
+        "latestVersion": "v1.13.2",
+        "releaseCount": 46,
+        "releasedOn": "2026-09-09",
+        "notes": "419 forks, 46 releases, v1.13.2 (9 Sep 2026), 0 open issues, moderate issue/PR flow"
       },
       "activityStatus": {
         "band": "stable",
