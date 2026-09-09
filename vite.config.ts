@@ -60,8 +60,8 @@ export default defineConfig({
       dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
       outFile: "context-reduction-tools.csv",
     }),
-    // llms.txt is derived data too. It used to be a hand-checked static file in
-    // src/public and had drifted on every count it stated.
+    // llms.txt is derived from the same store, so its counts and layer
+    // sections cannot disagree with the site.
     generateLlmsTxt({
       dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
       outFile: "llms.txt",
