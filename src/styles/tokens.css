@@ -9,6 +9,13 @@
  * toggle wins in both directions.
  */
 :root {
+  /* One deterministic top-bar height, referenced by every page's sticky
+     offsets. Lives here rather than in nav.css because the generated tool,
+     layer and markdown pages inline tokens.css and never load nav.css, so a
+     sticky offset written against it there resolved to an invalid value and
+     was dropped -- the element silently stopped sticking. Not theme-dependent,
+     so it is declared once and not repeated in the palette overrides. */
+  --topbar-h: 53px;
   --bg: #ffffff;
   --bg2: #f6f5f3;
   --bg3: #edece8;
