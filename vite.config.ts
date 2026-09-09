@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { generateCsv } from "./plugins/generate-csv";
 import { generateLlmsTxt } from "./plugins/generate-llms-txt";
+import { layerPages } from "./plugins/layer-pages";
 import { markdownPages } from "./plugins/markdown-pages";
 import { siteChrome } from "./plugins/site-chrome";
 import { toolPages } from "./plugins/tool-pages";
@@ -48,6 +49,13 @@ export default defineConfig({
           title: "Glossary — Context Radar",
         },
       ],
+    }),
+    // One page per layer plus the /layers.html index. The layer curation in
+    // data.layers[] had no page anywhere before this: a layer existed only as a
+    // section heading in the comparison table and a value in its filter.
+    layerPages({
+      dataPath: resolve(projectRoot, "data/context-reduction-tools.json"),
+      recsPath: resolve(projectRoot, "data/tool-recommendations.json"),
     }),
     // One detail page per tool, generated from the canonical JSON store so the
     // comparison table can summarise while the full record stays one click away.

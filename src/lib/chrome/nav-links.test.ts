@@ -5,6 +5,7 @@ describe("NAV_LINKS", () => {
   test("names every top-level destination once", () => {
     expect(NAV_LINKS.map((l) => l.label)).toEqual([
       "Home",
+      "Layers",
       "Comparison",
       "Stack builder",
       "Methodology",

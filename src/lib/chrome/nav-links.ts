@@ -10,6 +10,7 @@
  */
 export const NAV_LINKS: readonly { href: string; label: string }[] = [
   { href: "index.html", label: "Home" },
+  { href: "layers.html", label: "Layers" },
   { href: "comparison.html", label: "Comparison" },
   { href: "stack-builder.html", label: "Stack builder" },
   { href: "methodology.html", label: "Methodology" },

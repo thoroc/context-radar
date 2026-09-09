@@ -1,0 +1,145 @@
+/*
+ * Layer-page styles: only what is specific to layers. The head, lede,
+ * two-column body, callouts, verdict pills, status dots and facts panel all
+ * come from detail.css, which the layer pages inline and scope under the same
+ * `.detail` wrapper, so a layer page and a tool page cannot drift apart.
+ */
+.detail .card-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--bg2);
+  white-space: nowrap;
+}
+.detail .cd-pick-one {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+.detail .cd-stackable {
+  color: var(--green);
+  background: var(--green-bg);
+}
+.detail .cd-install-both {
+  color: var(--amber);
+  background: var(--amber-bg);
+}
+.detail .cd-reference {
+  color: var(--gray);
+  background: var(--gray-bg);
+}
+.detail .card-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+/* Tool cards. `min-height` keeps the whole card a comfortable touch target on
+   small screens, where these are the primary way into a tool page. */
+.layer-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.detail .layer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 44px;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+}
+.detail .layer-card:hover {
+  border-color: var(--border2);
+  background: var(--bg2);
+  text-decoration: none;
+}
+.detail .lc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+}
+.detail .lc-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.detail .lc-what {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+.detail .lc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--text3);
+}
+
+/* In-layer conflicts: a short list of pairs, each named once. */
+.layer-conflicts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.layer-conflicts li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+}
+.detail .cf-sev {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: var(--bg3);
+  color: var(--text2);
+}
+.detail .cf-hard {
+  color: var(--red);
+  background: var(--red-bg);
+}
+.detail .cf-either-or {
+  color: var(--amber);
+  background: var(--amber-bg);
+}
+
+.detail .stats {
+  margin: -6px 0 18px;
+  font-size: 13px;
+  color: var(--text2);
+}
+.detail .layer-foot {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text3);
+}
+
+@media (max-width: 720px) {
+  .layer-cards {
+    grid-template-columns: 1fr;
+  }
+}
