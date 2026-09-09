@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { datasetSchema, recommendationsFileSchema } from "../src/lib/schema";
-import { checkConflicts, checkLayers, checkRecommendations } from "./validate";
+import { checkConflicts, checkDuplicateKeys, checkLayers, checkRecommendations } from "./validate";
 
 // Validates the canonical store and the recommendations file against the Zod
 // schema (the single source of truth), then cross-checks recommendations against
@@ -23,6 +23,17 @@ const parseJson = (label: string): unknown => {
     process.exit(1);
   }
 };
+
+// Before parsing: JSON.parse silently keeps the last of a duplicated key, so a
+// self-contradicting record would validate cleanly and publish the wrong value.
+const duplicateKeyErrors = [storePath, recsPath].flatMap((path) =>
+  checkDuplicateKeys(readFileSync(path, "utf8"), path),
+);
+if (duplicateKeyErrors.length > 0) {
+  console.error("Duplicate JSON keys found:");
+  for (const error of duplicateKeyErrors) console.error(`  ${error}`);
+  process.exit(1);
+}
 
 const store = datasetSchema.safeParse(parseJson(storePath));
 if (!store.success) {
