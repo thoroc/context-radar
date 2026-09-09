@@ -1,4 +1,5 @@
 import { ensureDialog } from "./ensure-dialog";
+import { modalTitle } from "./modal-title";
 import { modalState } from "./state";
 import { mountToc } from "./toc";
 
@@ -7,8 +8,7 @@ export const openModal = (title: string, html: string): void => {
   const d = ensureDialog();
   const { titleEl, bodyEl, articleEl, tocEl } = modalState;
   if (!titleEl || !bodyEl || !articleEl) return;
-  // Drop the " - Context Radar" page-title suffix for the modal heading.
-  titleEl.textContent = title.split(" - ")[0];
+  titleEl.textContent = modalTitle(title);
   articleEl.innerHTML = html;
   bodyEl.scrollTop = 0;
   // Re-mounted on every open because the overlay swaps content in place, and

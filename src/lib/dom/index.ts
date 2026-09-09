@@ -2,6 +2,7 @@
 // routeOf, and the mutable modalState are internal to the domain.
 
 export { delegateModals } from "./delegate-modals";
+export { modalTitle } from "./modal-title";
 export { openModal } from "./open-modal";
 export type { PageFragment } from "./state";
 export { initThemeToggle } from "./theme-toggle";
