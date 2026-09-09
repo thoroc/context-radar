@@ -1,9 +1,9 @@
 import pages from "virtual:context-radar-pages";
 import { toolFragments } from "../detail";
-import { delegateModals, initThemeToggle, wirePageModals } from "../lib";
+import { delegateModals, initThemeToggle, LAYERS_META, wirePageModals } from "../lib";
 import { clearFilters } from "./actions";
 import { el } from "./dom";
-import { render, renderSummary, setupMultiselect } from "./render";
+import { render, renderSummary, setupLayerFilter, setupMultiselect } from "./render";
 import { sortState } from "./state";
 
 // Entry point: wire the controls to the render domain and do the first paint.
@@ -15,6 +15,9 @@ el("fr").addEventListener("change", render);
 el("tb").addEventListener("click", (e) => {
   if ((e.target as HTMLElement).closest(".empty-clear")) clearFilters();
 });
+// Derived from the store rather than hand-written in comparison.html, where the
+// option list had drifted into a fourth copy of the layer taxonomy.
+setupLayerFilter(LAYERS_META);
 setupMultiselect("fv", "All verdicts");
 setupMultiselect("fa", "All activity");
 // Sortable headers are real <button>s so they are keyboard-operable; the parent

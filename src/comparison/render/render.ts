@@ -1,6 +1,12 @@
-import { DECISION_LABEL, searchText, TOOLS, verdictClass } from "../../lib";
-import { activityCell, conflictCell, toolCell } from "../cells";
-import { LAYERS } from "../constants";
+import {
+  DECISION_LABEL,
+  LAYERS_META,
+  layerSections,
+  searchText,
+  TOOLS,
+  verdictClass,
+} from "../../lib";
+import { activityCell, conflictCell, layerHeader, toolCell } from "../cells";
 import { el, escapeHtml } from "../dom";
 import { isDrop, needsExternal, selectedValues, sortValue, verdictMatches } from "../query";
 import { sortState } from "../state";
@@ -14,10 +20,13 @@ export const render = (): void => {
   const tb = el("tb");
   tb.innerHTML = "";
   let total = 0;
-  for (const layer of LAYERS) {
+  for (const section of layerSections(LAYERS_META)) {
+    // Exact names, not prefixes. The prefix match this replaces is what let a
+    // filter option matching no layer at all silently empty the table.
+    const names = new Set(section.layers.map((l) => l.name));
     const rows = TOOLS.filter((t) => {
-      if (!layer.match.some((m) => t.layer.startsWith(m))) return false;
-      if (fl && !t.layer.startsWith(fl) && !layer.match.some((m) => m.startsWith(fl))) return false;
+      if (!names.has(t.layer)) return false;
+      if (fl && t.layer !== fl) return false;
       if (q && !searchText(t).includes(q)) return false;
       if (!verdictMatches(t, fv)) return false;
       if (fa.size && !fa.has(t.activityStatus.band)) return false;
@@ -40,8 +49,7 @@ export const render = (): void => {
     total += rows.length;
     const hdr = document.createElement("tr");
     hdr.className = "lh";
-    const note = layer.note ? `<span class="lh-note">${escapeHtml(layer.note)}</span>` : "";
-    hdr.innerHTML = `<td colspan="6">${escapeHtml(layer.label)}${note}</td>`;
+    hdr.innerHTML = `<td colspan="6">${layerHeader(section)}</td>`;
     tb.appendChild(hdr);
     for (const t of rows) {
       const tr = document.createElement("tr");

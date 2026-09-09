@@ -1,4 +1,10 @@
-import type { ActivityBand, ConflictSeverity, RuntimeLanguage, VerdictDecision } from "../schema";
+import type {
+  ActivityBand,
+  ConflictSeverity,
+  LayerCardinality,
+  RuntimeLanguage,
+  VerdictDecision,
+} from "../schema";
 
 // Lookup tables shared by the presentation helpers. Kept in one const module per
 // the "dedicated const/type modules" convention, so the function modules stay
@@ -11,6 +17,20 @@ export const BAND_CLASS: Record<ActivityBand, string> = {
   early: "a-early",
   dormant: "a-dead",
   none: "a-stable",
+};
+
+/**
+ * How many tools a layer expects, in reader-facing words. Shared so the
+ * comparison table's section heading and the stack-builder's layer badge cannot
+ * describe the same layer differently -- which is what happened while the
+ * comparison table kept its own taxonomy and labelled a section containing a
+ * stackable layer "pick exactly one shell tool".
+ */
+export const CARDINALITY_LABEL: Record<LayerCardinality, string> = {
+  "pick-one": "pick one",
+  stackable: "stackable",
+  "install-both": "install both",
+  reference: "reference",
 };
 
 export const DECISION_LABEL: Record<VerdictDecision, string> = {
