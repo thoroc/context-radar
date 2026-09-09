@@ -7,6 +7,7 @@ const layer = (over: Partial<LayerMeta> = {}): LayerMeta => ({
   name: "Code navigation",
   order: 1,
   cardinality: "pick-one",
+  summary: "What this layer is and where its waste comes from.",
   ...over,
 });
 

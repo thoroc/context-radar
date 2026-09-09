@@ -70,6 +70,30 @@ export const layerMetaSchema = z
     note: z.string().optional(),
     /** Tool id of the curated starting pick for this layer, if one is designated. */
     curatedPick: z.string().min(1).optional(),
+    /**
+     * Optional display heading shared by several layers, so the comparison
+     * table can present them under one section without the store merging them.
+     * `Shell output` (pick-one) and `All tool output` (stackable) share a
+     * heading but give different selection advice, so collapsing them into one
+     * layer would have forced dropping one of the two cardinalities.
+     *
+     * Unrelated to `group` in data/tool-recommendations.json, which scopes a
+     * *pick* to a sub-slice of a single layer. This one groups layers together
+     * for display; that one narrows a recommendation within one layer.
+     */
+    group: z.string().min(1).optional(),
+    /**
+     * One or two sentences on what the layer is and where its token waste comes
+     * from. Not derivable from the tools in it, and the only editorial input a
+     * layer page needs.
+     *
+     * Required, so a layer added later cannot ship a page with nothing to read.
+     * Made required only once all 20 existed: flipping it first would have left
+     * `bun run build`, which is on the deploy path, failing for as long as the
+     * writing took, and the freshness automation opens PRs against this same
+     * file.
+     */
+    summary: z.string().min(1),
   })
   .strict();
 

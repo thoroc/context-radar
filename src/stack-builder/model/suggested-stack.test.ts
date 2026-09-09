@@ -4,9 +4,14 @@ import { makeTool } from "../../test-support/make-tool";
 import { suggestedStack } from "./suggested-stack";
 
 const layers: LayerMeta[] = [
-  { name: "Shell output", order: 1, cardinality: "pick-one", curatedPick: "rtk" },
-  { name: "Code navigation", order: 2, cardinality: "pick-one" },
-  { name: "Reference resource (curated list)", order: 3, cardinality: "reference" },
+  { name: "Shell output", order: 1, cardinality: "pick-one", curatedPick: "rtk", summary: "s" },
+  { name: "Code navigation", order: 2, cardinality: "pick-one", summary: "s" },
+  {
+    name: "Reference resource (curated list)",
+    order: 3,
+    cardinality: "reference",
+    summary: "s",
+  },
 ];
 
 const tools = [
