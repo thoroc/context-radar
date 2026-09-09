@@ -3051,7 +3051,7 @@
       "tool": "openwolf",
       "githubUrl": "https://github.com/cytostack/openwolf",
       "layer": "Static context injection (push model)",
-      "whatItDoes": "6 Claude Code lifecycle hooks creating .wolf/: anatomy.md (file map + token estimates), cerebrum.md (Do-Not-Repeat list + preferences), buglog.json (searchable fix memory), memory.md (action log), token-ledger.json (lifetime tracking). Blocks repeated file reads mid-session. designqc command captures screenshots for design review. reframe command for UI framework migrations. v1.0.4.",
+      "whatItDoes": "6 Claude Code lifecycle hooks creating .wolf/: anatomy.md (file map + token estimates), cerebrum.md (Do-Not-Repeat list + preferences), buglog.json (searchable fix memory), memory.md (action log), token-ledger.json (lifetime tracking). Blocks repeated file reads mid-session. designqc command captures screenshots for design review. reframe command for UI framework migrations. v2.5.1.",
       "conflict": {
         "severity": "soft",
         "projects": [
@@ -3074,12 +3074,14 @@
       "licence": {
         "spdx": "AGPL-3.0"
       },
-      "stars": 2100,
+      "stars": 2281,
       "trend": 24,
       "activity": {
-        "latestVersion": "v2.0.1",
-        "releasedOn": "2026-07-14",
-        "notes": "41+ open issues, 5 open PRs, 56 forks, active"
+        "contributors": 14,
+        "latestVersion": "v2.5.1",
+        "releaseCount": 11,
+        "releasedOn": "2026-08-29",
+        "notes": "28 open issues, 28 open PRs, 205 forks, active"
       },
       "activityStatus": {
         "band": "stable",
@@ -3100,7 +3102,7 @@
           ]
         }
       },
-      "decisionRule": "AGPL-3.0: free to use as dev tool; embedding in commercial product requires open-sourcing. Unique: Do-Not-Repeat list persists mistakes across sessions, buglog.json prevents re-discovering fixes. npm install -g openwolf then openwolf init in project root. Token tracking is estimate-based (~15% accuracy). v1.0.4 - things may break."
+      "decisionRule": "AGPL-3.0: free to use as dev tool; embedding in commercial product requires open-sourcing. Unique: Do-Not-Repeat list persists mistakes across sessions, buglog.json prevents re-discovering fixes. npm install -g openwolf then openwolf init in project root. Token tracking is estimate-based (~15% accuracy). v2.5.1 - now past the initial 1.x releases but still under active iteration."
     },
     {
       "id": "lat-md",
