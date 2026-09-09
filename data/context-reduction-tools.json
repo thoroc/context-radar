@@ -1774,15 +1774,15 @@
           ]
         }
       },
-      "stars": 115915,
+      "stars": 116275,
       "trend": 4,
       "activity": {
         "contributors": 241,
-        "latestVersion": "v0.9.56",
-        "releaseCount": 202,
-        "releasedOn": "2026-09-07",
+        "latestVersion": "v0.9.57",
+        "releaseCount": 203,
+        "releasedOn": "2026-09-09",
         "corroboration": "github-api",
-        "notes": "115.9k stars / 11,244 forks / 202 releases confirmed directly via the GitHub API, resolving the prior single-source (OpenGithubs) uncertainty flagged for this sweep. 241 contributors, 1,274 open issues."
+        "notes": "116.3k stars / 11,272 forks / 203 releases confirmed directly via the GitHub API. 241 contributors, 1,286 open issues. Licence independently re-verified as Apache-2.0 (unchanged)."
       },
       "activityStatus": {
         "band": "active",
