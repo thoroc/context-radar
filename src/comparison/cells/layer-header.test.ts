@@ -56,6 +56,22 @@ describe("layerHeader", () => {
     expect(html).not.toContain("lh-note");
   });
 
+  // Deliberately the index and not one of the two: a grouped heading covers
+  // both layers, and choosing one would send the reader to the wrong page half
+  // the time.
+  test("links a single-layer section to its page and a grouped one to the index", () => {
+    const single = layerHeader({
+      heading: "Code navigation",
+      layers: [layer("Code navigation", 9)],
+    });
+    expect(single).toContain('href="layers/code-navigation.html"');
+    const grouped = layerHeader({
+      heading: "Shell & tool output compression",
+      layers: [layer("Shell output", 1), layer("All tool output", 2)],
+    });
+    expect(grouped).toContain('href="layers.html"');
+  });
+
   test("escapes the heading and the note", () => {
     const html = layerHeader({
       heading: "Codebase understanding & onboarding",

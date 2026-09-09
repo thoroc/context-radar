@@ -1,4 +1,4 @@
-import { RECOMMENDATIONS, TOOLS_BY_ID, toolSlug } from "../../lib";
+import { CARDINALITY_LABEL, layerSlug, RECOMMENDATIONS, TOOLS_BY_ID, toolSlug } from "../../lib";
 import { selectInLayer } from "../actions";
 import { buildCard } from "../cards";
 import { type BuilderLayer, LAYERS } from "../constants";
@@ -9,11 +9,14 @@ import { state } from "../state";
 
 // Cardinality drives the layer badge: label + colour class (reusing the existing
 // b-pick / b-add / b-watch styles).
-const BADGE: Record<BuilderLayer["cardinality"], { label: string; cls: string }> = {
-  "pick-one": { label: "pick one", cls: "b-pick" },
-  stackable: { label: "stackable", cls: "b-add" },
-  "install-both": { label: "install both", cls: "b-add" },
-  reference: { label: "reference", cls: "b-watch" },
+// Only the colour class is local; the wording comes from the shared label table
+// so the builder, the comparison table and the layer pages cannot describe the
+// same layer differently.
+const BADGE_CLASS: Record<BuilderLayer["cardinality"], string> = {
+  "pick-one": "b-pick",
+  stackable: "b-add",
+  "install-both": "b-add",
+  reference: "b-watch",
 };
 
 // A provenance-aware line under the layer head: a curated or suggested pick (with
@@ -39,10 +42,12 @@ export const renderGrid = (conflictedIds: Set<string>): void => {
   for (const layer of LAYERS) {
     const visible = layer.tools.filter(toolVisible);
     if (!visible.length) continue;
-    const badge = BADGE[layer.cardinality];
+    const badgeClass = BADGE_CLASS[layer.cardinality];
     const sec = document.createElement("div");
     sec.className = "layer";
-    let h = `<div class="layer-head"><span class="layer-name">${layer.name}</span><span class="badge ${badge.cls}">${badge.label}</span></div>`;
+    // The layer name links to its page: this is the view most explicitly about
+    // choosing one tool per layer, so the layer's rationale is one click away.
+    let h = `<div class="layer-head"><a class="layer-name" href="layers/${layerSlug(layer.name)}.html">${layer.name}</a><span class="badge ${badgeClass}">${CARDINALITY_LABEL[layer.cardinality]}</span></div>`;
     if (layer.note) h += `<div class="layer-note">${layer.note}</div>`;
     h += pickLine(layer);
     h += `<div class="tools-grid" id="tg-${layer.order}"></div>`;

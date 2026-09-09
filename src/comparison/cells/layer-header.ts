@@ -1,4 +1,4 @@
-import { CARDINALITY_LABEL, type LayerSection } from "../../lib";
+import { CARDINALITY_LABEL, type LayerSection, layerSlug } from "../../lib";
 import { escapeHtml } from "../dom";
 
 /**
@@ -16,5 +16,12 @@ export const layerHeader = (section: LayerSection): string => {
       ? (section.layers[0].note ?? "")
       : section.layers.map((l) => `${l.name}: ${CARDINALITY_LABEL[l.cardinality]}`).join(" · ");
   const noteHtml = note ? `<span class="lh-note">${escapeHtml(note)}</span>` : "";
-  return `${escapeHtml(section.heading)}${noteHtml}`;
+  // A heading covering one layer links to that layer's page. A grouped heading
+  // covers two, so it links to the index rather than silently picking one of
+  // them.
+  const href =
+    section.layers.length === 1
+      ? `layers/${layerSlug(section.layers[0].name)}.html`
+      : "layers.html";
+  return `<a class="lh-link" href="${href}">${escapeHtml(section.heading)}</a>${noteHtml}`;
 };

@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import { datasetSchema, recommendationsFileSchema } from "../src/lib/schema";
-import { checkConflicts, checkDuplicateKeys, checkLayers, checkRecommendations } from "./validate";
+import {
+  checkConflicts,
+  checkDuplicateKeys,
+  checkLayerPicks,
+  checkLayers,
+  checkRecommendations,
+} from "./validate";
 
 // Validates the canonical store and the recommendations file against the Zod
 // schema (the single source of truth), then cross-checks recommendations against
@@ -57,7 +63,10 @@ if (storeErrors.length > 0) {
   process.exit(1);
 }
 
-const crossErrors = checkRecommendations(store.data.tools, recs.data.recommendations);
+const crossErrors = [
+  ...checkRecommendations(store.data.tools, recs.data.recommendations),
+  ...checkLayerPicks(store.data.layers, recs.data.recommendations),
+];
 if (crossErrors.length > 0) {
   console.error(`Cross-store validation failed for ${recsPath}:`);
   for (const error of crossErrors) console.error(`  ${error}`);
