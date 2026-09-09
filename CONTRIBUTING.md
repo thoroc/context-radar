@@ -133,10 +133,11 @@ patch/minor bumps auto-merge once CI is green. Renovate runs once the repository
    schema and upserts it into [`data/context-reduction-tools.json`](data/context-reduction-tools.json) (the single
    canonical store), refreshing `meta.tool_count` and `meta.last_updated`. Editing the JSON by hand is fine too, as long
    as `mise run validate` still passes.
-5. **Update the derived artefacts.** Update the `src/public/llms.txt` index. The comparison table, the per-tool detail
-   pages, and the CSV download are all generated from the JSON at build time, so they need no manual edit. If the tool
-   belongs in the stack builder, add it to `src/stack-builder/stack-data.ts` and update the conflict entries for any
-   existing tools it affects. Run `mise run build` to confirm the site still builds.
+5. **Build and check.** There are no derived artefacts to update by hand. The comparison table, the per-tool detail
+   pages, the per-layer pages and their index, the stack builder, the CSV download and `llms.txt` are all generated from
+   the JSON. Run `mise run build` to confirm the site still builds. If the tool introduces a new layer, give that layer
+   a `summary` in `layers[]`, or validation will fail; still update the conflict entries for any existing tools the new
+   entry affects.
 6. **Record stars in history.** Append a row to [`data/star-history.csv`](data/star-history.csv) in
    `date,tool,repo,stars` format. Do not overwrite existing rows.
 

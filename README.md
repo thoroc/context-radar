@@ -203,7 +203,6 @@ and opens one GitHub issue per drifting tool.
 1. **Now.** The comparison table renders from the JSON at build time, so a CSV/JSON update reshapes the site
    automatically on the next deploy. The freshness check flags drift weekly for human re-assessment.
 2. **Next.** Append fresh star fetches to `star-history.csv` on a schedule so the trend line becomes meaningful.
-   Reconcile the stack builder's curated dataset (`src/stack-builder/stack-data.ts`) with the main catalogue.
 3. **Later.** Let an agent following the methodology draft new tool assessments for human review; because the JSON shape
    is a typed contract, generated and hand-written rows share one format.
 

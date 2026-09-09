@@ -110,8 +110,10 @@ live in `.ctxharness.yml`.
 - Site source (Vite + TS): `src/` — `index.html` + `landing/` (landing page), `comparison.html` + `comparison/` (summary
   table whose tool links open the detail as a modal overlay), `stack-builder.html` + `stack-builder/` (builder driven
   from the canonical store: a pure `model/` domain over `lib`, with `constants.ts` deriving the layers), `lib/`
-  (schema + conflicts/present/csv/data/dom domains), `detail/` (shared tool-detail renderer), `styles/` (shared
-  tokens/nav/modal/detail CSS), `pages/` (markdown, shown as modal overlays with an HTML fallback), `public/llms.txt`
+  (schema + chrome/conflicts/present/csv/data/dom domains), `detail/` (shared tool-detail renderer), `layer/` (shared
+  layer-page renderer), `chrome/main.ts` (the script chunk generated pages reference), `styles/` (shared
+  tokens/nav/page/doc-shell/modal CSS plus detail, scoped `.detail`), `pages/` (markdown, shown as modal overlays with
+  an HTML fallback). `llms.txt` is generated, not a source file
 - Tool detail is rendered once, in `src/detail/` (`renderDetailBody`): the `plugins/tool-pages/` build plugin wraps it
   in page chrome to emit the standalone `/tools/<slug>.html` pages, and the comparison page renders it into the shared
   modal overlay (`toolFragments`) so a tool opens in place like Methodology/Glossary; the standalone pages remain as the
