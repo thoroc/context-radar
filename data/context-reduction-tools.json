@@ -1388,14 +1388,15 @@
       "licence": {
         "spdx": "PolyForm Noncommercial"
       },
-      "stars": 44000,
+      "stars": 47175,
       "trend": 0,
       "activity": {
-        "contributors": 155,
-        "latestVersion": "v1.6.9",
-        "releasedOn": "2026-07-04",
-        "corroboration": "star-history",
-        "notes": "155 contributors, 43.8k confirmed via star-history.com live tracker (+11/week), independent research (Ry Walker) corroborates April-June growth to ~42k range"
+        "contributors": 183,
+        "latestVersion": "v1.6.11",
+        "releaseCount": 838,
+        "releasedOn": "2026-09-04",
+        "corroboration": "github-api",
+        "notes": "verified via GitHub REST API 2026-09-09: 838 releases, latest v1.6.11 (4 Sep 2026); stars 44,000 -> 47,175 (+7.2%, under the 50% escalation threshold); PolyForm Noncommercial licence reconfirmed from LICENSE file text (GitHub's detector reports it as NOASSERTION/Other, which is expected for PolyForm and not a real change); active band reconfirmed, repo pushed same day, 183 contributors"
       },
       "activityStatus": {
         "band": "active",
