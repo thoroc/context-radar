@@ -1,8 +1,7 @@
 import type { Plugin } from "vite";
-import { chromeSrc, DEV_CHROME_SRC } from "../lib/chrome-src";
-import { loadStore } from "./load-store";
+import { chromeSrc, DEV_CHROME_SRC, requestSlug } from "../lib";
+import { loadToolStore } from "./load-store";
 import { renderPage } from "./render-page";
-import { requestSlug } from "./request-slug";
 import type { ToolPagesOptions } from "./types";
 
 /**
@@ -22,7 +21,7 @@ export const toolPages = (options: ToolPagesOptions): Plugin => {
           next();
           return;
         }
-        const { store, slugByName } = loadStore(options.dataPath);
+        const { store, slugByName } = loadToolStore(options.dataPath);
         const tool = store.tools.find((t) => slugByName.get(t.tool) === slug);
         if (!tool) {
           next();
@@ -33,7 +32,7 @@ export const toolPages = (options: ToolPagesOptions): Plugin => {
       });
     },
     generateBundle(_outputOptions, bundle) {
-      const { store, slugByName } = loadStore(options.dataPath);
+      const { store, slugByName } = loadToolStore(options.dataPath);
       // Pages live one directory down, so the shared chunk is reached via `../`.
       const src = chromeSrc(bundle, "../");
       for (const tool of store.tools) {
