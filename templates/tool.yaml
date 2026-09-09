@@ -51,7 +51,7 @@ conflict:
 
 # Implementation runtime.
 runtime:
-  # One or more of: rust python typescript javascript node go powershell shell lua gleam none
+  # One or more of: rust python typescript javascript node go powershell shell lua gleam elixir none
   # Use [none] for built-ins, skill files, and curated lists.
   languages: [rust]
   # Optional free-text detail shown verbatim (e.g. "Rust binary; no model calls").

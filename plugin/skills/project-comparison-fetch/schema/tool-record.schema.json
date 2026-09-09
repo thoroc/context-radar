@@ -150,6 +150,7 @@
               "shell",
               "lua",
               "gleam",
+              "elixir",
               "none"
             ]
           }

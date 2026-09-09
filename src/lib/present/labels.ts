@@ -81,5 +81,6 @@ export const LANG_BADGE: Record<RuntimeLanguage, [string, string]> = {
   shell: ["rt-shell", "Shell"],
   lua: ["rt-lua", "Lua"],
   gleam: ["rt-gleam", "Gleam/BEAM"],
+  elixir: ["rt-elixir", "Elixir/BEAM"],
   none: ["rt-none", "-"],
 };

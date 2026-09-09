@@ -1,0 +1,65 @@
+tool: MemoryOps AI
+githubUrl: https://github.com/patibandlavenkatamanideep/memoryops-ai
+layer: Agent memory persistence
+whatItDoes: >-
+  Governed memory service for AI assistants, run as a FastAPI application with a Python SDK. Where most memory tools go message to vector store to retrieval, this puts a policy stage in front of every write and an admission stage in front of every read: an extractor proposes memories, a policy broker filters unsafe or secret-like content before storage, a context composer decides what actually enters the prompt, and a memory usage trace records which memories influenced an answer. Deletion produces tombstone lineage so a deleted memory is provably not retrievable again, and every lifecycle mutation commits with its audit event in one transaction as an append-only chain. Typed memory (episodic, semantic, procedural, project, knowledge, system), tenant isolation, JWT/JWKS auth adapters, and pluggable vector backends (Postgres/pgvector, in-memory, Qdrant, LanceDB, Weaviate). Platform release v2.5, 30 releases, MIT.
+conflict:
+  severity: none
+  projects: []
+  note: >-
+    No MCP server and no Claude Code integration, so nothing in a Claude Code stack to collide with. Its SDK integrations target agent frameworks (LangGraph, CrewAI, AutoGen, OpenAI Agents, LlamaIndex, Semantic Kernel) rather than coding agents. Conceptually adjacent to mem0 and cognee, but aimed at governance and auditability for a production assistant rather than at cutting a coding session's context.
+runtime:
+  languages: [python, typescript]
+  detail: Python FastAPI service and SDK, with a Next.js web frontend
+requirements: >-
+  Runs as a service, not a local utility: a uvicorn API process, plus Postgres and pgvector for anything beyond the in-memory store, with Docker Compose for the full stack. LLM adapters need your own provider keys. Two version tracks - the platform release (v2.5) is separate from the API and SDK contract (1.x).
+licence:
+  spdx: MIT
+stars: 20
+trend: null
+activity:
+  contributors: 2
+  latestVersion: v2.5
+  releaseCount: 30
+  releasedOn: 2026-08-17
+  notes: >-
+    3 forks, 30 releases, v2.5 (17 Aug 2026), 6 open issues, 2 contributors, commits through 4 Sep 2026. The committed benchmark scorecard is still headed v2.2 while the README states v2.5, so the published scorecard trails the platform release.
+activityStatus:
+  band: early
+  label: Active (early)
+verdict:
+  decision: watch
+  rationale: >-
+    the governance framing (policy before storage, deletion proof, usage trace) is the most auditable memory model here, but it is an assistant-platform service with no coding-agent integration and 20 stars
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/patibandlavenkatamanideep/memoryops-ai/blob/b357e90be763824494ca4eaa279803d26561b6af/benchmark/SCORECARD.md#L13-L15
+        quote: |-
+          Reproduce: `python benchmark/run_benchmark.py`. Cases live in `evals/` and run
+          against an isolated, offline stub stack (no API keys).
+        checkedOn: 2026-09-08
+        evidenceType: official-docs
+decisionRule: >-
+  Not installable into a Claude Code stack today - there is no MCP server, so reaching it from a coding agent means writing your own client against the SDK. Where it earns attention is the audit story: deletion proof, a per-answer memory usage trace, tenant isolation and an append-only audit chain are the properties a regulated deployment has to evidence, and they are enforced in tests rather than described in a README. Worth watching if you need a memory layer you can show a reviewer; not the tool for trimming a coding session's context. The published scorecard measures the project against its own suites, so treat the 100% as a regression gate rather than a comparative result.
+extraClaims:
+  - kind: benchmark
+    label: memory-governance scorecard
+    statement: >-
+      Reports 50/50 (100%) across five governance suites with the two critical suites (deletion and leakage, tenant isolation) required to be perfect. The runner and cases are committed and run offline with no keys, and the same suites run against real Postgres and pgvector in CI, but the suites are authored by the project and score its own invariants, so this is a self-defined gate rather than a comparative benchmark.
+    proofLedger: SUPPORTED
+    evidence:
+      status: confirmed
+      sources:
+        - url: https://github.com/patibandlavenkatamanideep/memoryops-ai/blob/b357e90be763824494ca4eaa279803d26561b6af/benchmark/SCORECARD.md#L3
+          quote: '**Overall:** 50/50 (100%) · critical suites perfect: ✅'
+          checkedOn: 2026-09-08
+          evidenceType: official-docs
+adoptionSignals:
+  vendorEntity: null
+  accountRequired: false
+  telemetryDefault: none
+  dataResidency: hosted-optional
+  selfHostable: true
+  notes: >-
+    Self-hostable in full (Docker Compose, Postgres/pgvector, in-memory mode with no keys). A hosted Playground demo runs on Railway, but it is a demo surface rather than a required service. Solo-maintainer open source with no legal entity identified.

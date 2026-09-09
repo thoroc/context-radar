@@ -109,6 +109,7 @@ export const runtimeLanguageSchema = z.enum([
   "shell",
   "lua",
   "gleam",
+  "elixir",
   "none",
 ]);
 

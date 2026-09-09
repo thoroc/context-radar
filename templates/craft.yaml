@@ -1,0 +1,50 @@
+tool: craft
+githubUrl: https://github.com/drobins25/craft
+layer: Agent safety enforcement
+whatItDoes: >-
+  Claude Code plugin that makes the codebase read-only by default and routes every write through a Write Gate. A PreToolUse hook (check-write-permission.py) blocks edits unless the file is inside .craft/ or .claude/, the project is in dev_mode, CRAFT_WRITE_ENABLED is set, or an active workflow session exists, so changes only land as planned and approved work. Around that gate it keeps a local project record: cycles, stories, fixes, design tokens and decisions in .craft/, replayed into later sessions by a SessionStart context-injection hook instead of a growing CLAUDE.md. 26 agents and 30+ slash commands cover planning, mockups, review and a project dashboard. v2.6.0, 3 releases, MIT.
+conflict:
+  severity: soft
+  projects:
+    - faramesh-core
+    - Sponsio
+  note: >-
+    Overlaps the agent safety enforcement layer (faramesh-core, Sponsio) - all three gate what the agent may do at hook time; running two write-blocking PreToolUse hooks means two independent refusals to reason about. Also overlaps the static context injection layer, since craft injects its own project record at session start.
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/drobins25/craft/blob/7006381d0b01990e5d3fc3d3b9d97cf9a5e545a0/hooks/scripts/check-write-permission.py#L11
+        quote: Otherwise blocks with guidance to use craft workflow.
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+runtime:
+  languages: [shell, python]
+  detail: Bash and Python 3 hook scripts, plus markdown agents and commands
+requirements: >-
+  Claude Code 2.1+ and a plugin install (claude plugin marketplace add drobins25/craft). Hooks shell out to Python 3 and bash. No separate API key or external service beyond the Claude Code session itself.
+licence:
+  spdx: MIT
+stars: 60
+trend: null
+activity:
+  latestVersion: v2.6.0
+  releaseCount: 3
+  releasedOn: 2026-08-30
+  notes: >-
+    5 forks, 3 releases, v2.6.0 (30 Aug 2026), 1 open issue, commits through 7 Sep 2026. Repo .claude-plugin/plugin.json already declares 2.6.1, so the release tag trails the working version. Solo author (Darin Drobinski).
+activityStatus:
+  band: early
+  label: Active (solo)
+verdict:
+  decision: watch
+  rationale: >-
+    the Write Gate is a real hook-enforced control rather than a CLAUDE.md request, but 60 stars and a solo author make it early for a default stack
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/drobins25/craft/blob/7006381d0b01990e5d3fc3d3b9d97cf9a5e545a0/hooks/scripts/check-write-permission.py#L11
+        quote: Otherwise blocks with guidance to use craft workflow.
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+decisionRule: >-
+  Install with claude plugin marketplace add drobins25/craft then claude plugin install craft@craft. Its context contribution is indirect: the gate keeps exploratory edits out of the repo, and the .craft/ record replaces an ever-growing CLAUDE.md with a queried project history. The surface is large for a 60-star plugin (26 agents, 30+ commands), so adopt it for the Write Gate and the workflow, not as a lightweight context tool. Do not run it alongside another write-blocking PreToolUse hook.

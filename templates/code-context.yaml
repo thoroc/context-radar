@@ -1,0 +1,73 @@
+tool: code-context
+githubUrl: https://github.com/infino-ai/code-context
+layer: Code navigation
+whatItDoes: >-
+  Local retrieval layer for a coding agent, shipped as a CLI, an MCP server and a Claude Code plugin. One index over the repo answers three tools: search (a single ranked pass fusing BM25 keyword matching with semantic similarity by reciprocal-rank fusion, returning chunk content with path:line citations), sql (read-only SQL over the index, with the ranked search functions usable as table-valued relations, so "which files have the most code about X" is one GROUP BY), and reindex. The index lives in plain files inside the repo; the keyword half commits before the embedding model finishes downloading and vectors backfill in the background, so a failed model download degrades to keyword-only rather than blocking. Built on infino, which stores text and numeric data as Parquet. v0.5.0, 8 releases, Apache-2.0.
+conflict:
+  severity: soft
+  projects:
+    - codegraph
+    - codebase-memory-mcp
+    - Serena
+    - tokensave
+  note: >-
+    Overlaps the code navigation cluster - all of these answer "where is the code about X" and the agent has to choose between them every turn. Its MCP tool names are unusually generic (search, sql, reindex) rather than namespaced, so loading it beside any other search-exposing server invites the agent to pick the wrong one. It retrieves by text relevance rather than by call graph, so it complements a graph tool more than it replaces one.
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/infino-ai/code-context/blob/5df296eda41a1d0d4971db60d1db46983cc2f234/src/mcp/server.ts#L209-L210
+        quote: |-
+          server.registerTool(
+              "search",
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+runtime:
+  languages: [typescript, node]
+  detail: TypeScript on Node.js 20+, published to npm as @infino-ai/code-context
+requirements: >-
+  Node.js 20+. No account, no API key, no database server and no telemetry: embedding runs locally through a transformers.js model downloaded once on first use, and code never leaves the machine. CI-tested on Linux x64 (glibc) and macOS arm64; linux-arm64, musl and Windows-via-WSL are expected to work but are not CI-covered.
+licence:
+  spdx: Apache-2.0
+stars: 28
+trend: null
+activity:
+  contributors: 5
+  latestVersion: v0.5.0
+  releaseCount: 8
+  releasedOn: 2026-09-08
+  notes: >-
+    1 fork, 8 releases, v0.5.0 (8 Sep 2026), 5 open issues, 5 contributors, commits on the day of check. Repository created 10 Jul 2026, so the whole history is about two months long.
+activityStatus:
+  band: early
+  label: Active (early)
+verdict:
+  decision: watch
+  rationale: >-
+    strong engineering and a re-runnable benchmark harness, but 28 stars and two months of history make it too early to sit under a working stack
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/infino-ai/code-context/blob/5df296eda41a1d0d4971db60d1db46983cc2f234/src/core/embedder.ts#L4-L6
+        quote: |-
+          Embedding is local, always: a transformers.js model downloaded once on
+          first use - no API key, no per-query network, code never leaves the
+          machine.
+        checkedOn: 2026-09-08
+        evidenceType: source-code
+decisionRule: >-
+  Install with /plugin marketplace add infino-ai/code-context then /plugin install code-context@infino-ai, or add it as an MCP server with npx -y @infino-ai/code-context mcp - use one or the other, not both. The distinctive capability here is the sql tool: ranked search composed with GROUP BY answers repo-wide counting and ranking questions that grep cannot express at any budget, which is where its measured savings concentrate. On pinpoint symbol lookup it matches plain file tools rather than beating them. The tool names are bare, so do not load it beside another server that exposes a search tool.
+extraClaims:
+  - kind: benchmark
+    label: token and tool-call reduction vs stock file tools
+    statement: >-
+      Reports -32% tokens, -53% tool calls and -32% wall time blended (-43% tokens on aggregation questions, -29% on comprehension) against stock file tools on a codebase-QA suite. Harness and question sets are committed in bench/ and re-runnable, but the test repository is the project's own engine and the questions are self-authored, so it is self-run and self-selected rather than independently replicated.
+    proofLedger: SUPPORTED
+    evidence:
+      status: confirmed
+      sources:
+        - url: https://github.com/infino-ai/code-context/blob/5df296eda41a1d0d4971db60d1db46983cc2f234/bench/lanes.mjs#L14-L16
+          quote: |-
+            Lane options: identical hermetic base, only the toolset differs.
+            *   cx    - the MCP tools plus Read (retrieval via the index)
+          checkedOn: 2026-09-08
+          evidenceType: source-code

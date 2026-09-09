@@ -1,0 +1,42 @@
+tool: agent-memory-atlas
+githubUrl: https://github.com/neoneye/agent-memory-atlas
+layer: Reference resource (curated list)
+whatItDoes: >-
+  Code-grounded field guide to agent memory systems, published as a static site. 391 per-system reports, each written from a source checkout read at a pinned Git commit, plus 21 design patterns extracted across them and a cross-system comparison covering memory units, storage models, write paths, retrieval mechanics, correction semantics, trust models and operational risks. Ships its own agent skills - use-the-atlas (design memory for another product from the reports), add-memory-system (research and integrate another system), and screen-repository (a security screen to run on a checkout before reading or running it), with the screening ledger recording what has actually been screened and against which pin. Not installable software: it is research material for choosing a memory design. 0 releases, MIT.
+conflict:
+  severity: none
+  projects: []
+  note: >-
+    Reference material, not installable, so nothing to collide with. Covers the same ground as Awesome-AI-Memory and awesome-second-brain but at a different depth: those are link lists, this reads each system's source at a pinned commit and writes a report. Useful when choosing between the tools in the Agent memory persistence layer.
+runtime:
+  languages: [none]
+  detail: None (curated research site; Pandoc build with Python helper scripts)
+requirements: >-
+  Nothing to install to read it - published at neoneye.github.io/agent-memory-atlas. Building the site locally needs Pandoc and npm.
+licence:
+  spdx: MIT
+stars: 64
+trend: null
+activity:
+  contributors: 2
+  releaseCount: 0
+  notes: >-
+    7 forks, 0 releases, 0 open issues, 2 contributors, commits through 8 Sep 2026. 391 system reports and 21 patterns in the tree; the project states that a large share of the older corpus predates its own screening ledger and is unscreened.
+activityStatus:
+  band: active
+  label: Active
+verdict:
+  decision: reference
+  rationale: >-
+    research material for picking a memory design, not an installable tool
+  evidence:
+    status: confirmed
+    sources:
+      - url: https://github.com/neoneye/agent-memory-atlas/blob/308cc964eb52ddab97b09f759d1e57bea70dce1a/AGENTS.md#L3-L4
+        quote: |-
+          A code-grounded field guide to agent memory systems: 391 reports, each read at a
+          pinned commit, plus 21 design patterns extracted from them.
+        checkedOn: 2026-09-08
+        evidenceType: official-docs
+decisionRule: >-
+  Read it before committing to a memory tool, not instead of one. Its value over the other curated lists here is that each report is written against source at a pinned commit, so a claim can be checked rather than taken from a README. The repo's own guidance is to read five entry documents rather than browsing the reports, since reading widely leads to picking the most interesting mechanism over the smallest sufficient one. Treat report freshness by the pinned commit date, not the site's publication date.
