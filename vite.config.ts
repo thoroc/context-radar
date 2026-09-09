@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { generateCsv } from "./plugins/generate-csv";
 import { markdownPages } from "./plugins/markdown-pages";
+import { siteChrome } from "./plugins/site-chrome";
 import { toolPages } from "./plugins/tool-pages";
 
 const projectRoot = import.meta.dirname;
@@ -20,10 +21,19 @@ export default defineConfig({
         index: resolve(srcRoot, "index.html"),
         comparison: resolve(srcRoot, "comparison.html"),
         "stack-builder": resolve(srcRoot, "stack-builder.html"),
+        // Not a page: the shared chunk the generated tool and markdown pages
+        // reference. They are emitted as raw asset strings, so Rollup never
+        // sees them and cannot inject a script; listing the entry here gets it
+        // bundled, hashed and typechecked, and the generators look its final
+        // filename up in the bundle.
+        chrome: resolve(srcRoot, "chrome/main.ts"),
       },
     },
   },
   plugins: [
+    // Renders the shared top bar into the three static entries, which carry a
+    // placeholder instead of copy-pasted markup.
+    siteChrome(),
     markdownPages({
       pages: [
         {
