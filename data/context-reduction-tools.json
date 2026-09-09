@@ -2696,14 +2696,14 @@
       "requirements": "Rust binary; no model calls; cargo install",
       "requiresExternal": false,
       "licence": {
-        "spdx": "Apache-2"
+        "spdx": "Apache-2.0"
       },
-      "stars": 36,
+      "stars": 46,
       "trend": 80,
       "activity": {
-        "latestVersion": "v0.18.0",
-        "releasedOn": "2026-06-15",
-        "notes": "minimal issues, no PRs, early stage"
+        "latestVersion": "v0.19.39",
+        "releasedOn": "2026-08-20",
+        "notes": "46 stars, 2 forks, 0 open issues, 47 releases, v0.19.39 (20 Aug 2026), 2 contributors. Monorepo opened up (CLI + engine crates, desktop app, editor extension); added Cursor/OpenCode integration guides."
       },
       "activityStatus": {
         "band": "early",
