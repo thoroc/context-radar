@@ -1,26 +1,26 @@
 {
   "meta": {
-    "last_updated": "2026-09-08",
+    "last_updated": "2026-09-09",
     "stars_verified": "2026-07-15",
-    "tool_count": 90
+    "tool_count": 91
   },
   "layers": [
     {
       "name": "Shell output",
       "order": 1,
-      "group": "Shell & tool output compression",
       "cardinality": "pick-one",
       "note": "Pick exactly one. Running two shell hooks simultaneously causes duplicate compression.",
       "curatedPick": "rtk",
+      "group": "Shell & tool output compression",
       "summary": "Every git diff, test run and lint pass an agent triggers returns its full output into the context window, and most of it is detail the model never reads. Tools here sit on the shell hook and rewrite that output before it reaches the agent."
     },
     {
       "name": "All tool output",
       "order": 2,
-      "group": "Shell & tool output compression",
       "cardinality": "stackable",
       "note": "Covers what shell hooks miss: web fetches, API responses, Playwright output.",
       "curatedPick": "context-mode",
+      "group": "Shell & tool output compression",
       "summary": "A shell hook only sees commands. Web fetches, API responses and browser-automation dumps arrive by other paths and are often the largest single payloads in a session, so this layer covers what a shell hook structurally cannot."
     },
     {
@@ -170,7 +170,7 @@
           "lean-ctx",
           "sqz"
         ],
-        "note": "Either/or with sqz and lean-ctx - pick exactly one"
+        "note": "Either/or with sqz and lean-ctx - pick exactly one Separately, if a PreToolUse safety tool such as Sage is also loaded, note the ordering hazard: the safety tool scores the original command while this one rewrites it, and Claude Code defines no ordering contract between a decision hook and a mutation hook."
       },
       "runtime": {
         "languages": [
@@ -490,7 +490,7 @@
           "RTK",
           "sqz"
         ],
-        "note": "HARD (shell layer): same hook position as RTK/sqz/lean-ctx/omni - pick exactly one shell/output tool. get_stats/trim_context/smart_read soft-overlap tokentelemetry (observability) and code-nav BM25 retrieval tools conceptually, but no hard MCP tool name collision found."
+        "note": "HARD (shell layer): same hook position as RTK/sqz/lean-ctx/omni - pick exactly one shell/output tool. get_stats/trim_context/smart_read soft-overlap tokentelemetry (observability) and code-nav BM25 retrieval tools conceptually, but no hard MCP tool name collision found. Separately, if a PreToolUse safety tool such as Sage is also loaded, note the ordering hazard: the safety tool scores the original command while this one rewrites it, and Claude Code defines no ordering contract between a decision hook and a mutation hook."
       },
       "runtime": {
         "languages": [
@@ -882,10 +882,10 @@
       "stars": 29625,
       "trend": 70,
       "activity": {
+        "contributors": 82,
         "latestVersion": "v2.8.3",
         "releaseCount": 14,
         "releasedOn": "2026-08-16",
-        "contributors": 82,
         "notes": "1,840 forks, 142 open issues, 14 releases, v2.8.3 (16 Aug 2026), still committing daily (security/store fixes). Licence re-verified as MIT (unchanged)."
       },
       "activityStatus": {
@@ -1516,11 +1516,11 @@
       "trend": 28,
       "activity": {
         "contributors": 120,
-        "releaseCount": 29,
         "latestVersion": "v2.3.8",
+        "releaseCount": 29,
+        "releasedOn": "2026-08-21",
         "corroboration": "github-api",
-        "notes": "29 releases, latest v2.3.8 (21 Aug 2026), 120 contributors, 2,848 forks, 146 open issues, still MIT. Stars moved 20,000 -> 31,281 (+56%) since the last check - crosses this catalogue's 50% escalation threshold, though activityStatus is unchanged: repo pushed 27 Aug 2026 with ongoing PR merges (e.g. #918), so still very active rather than a step change in cadence.",
-        "releasedOn": "2026-08-21"
+        "notes": "29 releases, latest v2.3.8 (21 Aug 2026), 120 contributors, 2,848 forks, 146 open issues, still MIT. Stars moved 20,000 -> 31,281 (+56%) since the last check - crosses this catalogue's 50% escalation threshold, though activityStatus is unchanged: repo pushed 27 Aug 2026 with ongoing PR merges (e.g. #918), so still very active rather than a step change in cadence."
       },
       "activityStatus": {
         "band": "active",
@@ -3572,10 +3572,10 @@
       "stars": 70761,
       "trend": 6,
       "activity": {
-        "releaseCount": 169,
-        "latestVersion": "v0.37.0",
-        "releasedOn": "2026-08-27",
         "contributors": 252,
+        "latestVersion": "v0.37.0",
+        "releaseCount": 169,
+        "releasedOn": "2026-08-27",
         "notes": "5.4k forks, 679 open issues, 169 releases, v0.37.0 (27 Aug 2026), still pushing commits daily - repo transferred from chopratejas/headroom to headroomlabs-ai org (same repository_id, confirmed same project). \"Headroom for teams\" managed offering remains available (hello@headroomlabs.ai), core stays Apache-2.0 (re-verified)."
       },
       "activityStatus": {
@@ -3918,9 +3918,9 @@
       "stars": 30597,
       "trend": 60,
       "activity": {
-        "notes": "30.6k stars (was 28k), 3,015 forks, v1.5.4 (4 Sep 2026), 501 open issues, commits on the day of check. Graduated GitHub Secure Open Source Program. FalkorDB/KuzuDB/Neo4j backends.",
         "latestVersion": "v1.5.4",
-        "releasedOn": "2026-09-04"
+        "releasedOn": "2026-09-04",
+        "notes": "30.6k stars (was 28k), 3,015 forks, v1.5.4 (4 Sep 2026), 501 open issues, commits on the day of check. Graduated GitHub Secure Open Source Program. FalkorDB/KuzuDB/Neo4j backends."
       },
       "activityStatus": {
         "band": "active",
@@ -4847,10 +4847,10 @@
       "stars": 132099,
       "trend": 1,
       "activity": {
-        "latestVersion": "v4.9.0",
-        "releasedOn": "2026-08-07",
-        "releaseCount": 15,
         "contributors": 63,
+        "latestVersion": "v4.9.0",
+        "releaseCount": 15,
+        "releasedOn": "2026-08-07",
         "corroboration": "GitHub REST API (repos + releases endpoints), checked directly 2026-09-08",
         "notes": "7.1k forks (up from 4.4k), 63 contributors, 15 releases total. Stars 83,000 -> 132,099 (+59%) since the prior check - continued hyper-growth, verified directly via the GitHub API rather than third-party trackers this time. Repo pushed to as recently as 2026-09-07 (README/badge polish commits), consistent with sustained active maintenance."
       },
@@ -5731,6 +5731,110 @@
         "dataResidency": "hosted-optional",
         "selfHostable": true,
         "notes": "Self-hostable in full (Docker Compose, Postgres/pgvector, in-memory mode with no keys). A hosted Playground demo runs on Railway, but it is a demo surface rather than a required service. Solo-maintainer open source with no legal entity identified."
+      }
+    },
+    {
+      "id": "sage",
+      "tool": "Sage",
+      "githubUrl": "https://github.com/gendigitalinc/sage",
+      "layer": "Agent safety enforcement",
+      "whatItDoes": "Agent Detection and Response layer from Gen Digital (Norton, Avast). A PreToolUse hook plus a long-lived MCP server that scores Bash, WebFetch, Write, Edit and Read calls against cloud URL reputation, 300+ YAML threat patterns, npm/PyPI supply-chain checks and an optional local prompt-injection model, returning allow, ask or deny. Reduces no context: it adds tokens rather than saving them, and is catalogued because it occupies the same PreToolUse position as the shell-output and navigation tools that do. Ships for Claude Code, Cursor, VS Code, OpenCode and OpenClaw. v0.12.0, pre-1.0.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "RTK",
+          "ctxlite"
+        ],
+        "note": "Ordering hazard, not a namespace collision. Sage computes a verdict on the original tool_input, while RTK and ctxlite rewrite the Bash command on the same PreToolUse matcher, so the string Sage judged is not necessarily the string that runs. Claude Code defines no ordering contract between a decision hook and a mutation hook. Stacks cleanly with Sponsio, faramesh-core and craft.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/main/docs/user-guide.md",
+              "quote": "PreToolUse and PostToolUse are mcp_tool hooks served by the long-lived Sage MCP server",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "languages": [
+          "typescript"
+        ],
+        "detail": "TypeScript, Node >= 18; deps @modelcontextprotocol/sdk and zod, optional koffi"
+      },
+      "requirements": "Node >= 18 plus an outbound call to Gen Digital's hosted reputation service (sage-proxy.svc.avast.com) for URL, file and package checks; the optional prompt-injection tier downloads a ~30MB local model. A documented near-offline mode disables every check except a session-start version ping, which cannot be turned off.",
+      "requiresExternal": true,
+      "licence": {
+        "spdx": "Apache-2.0",
+        "warning": "Source is Apache-2.0; the threats/ rule set is under a bespoke Detection Rule License 1.1 (permissive, attribution on rule-match messages)"
+      },
+      "stars": 291,
+      "trend": null,
+      "activity": {
+        "contributors": 7,
+        "latestVersion": "v0.12.0",
+        "releaseCount": 11,
+        "releasedOn": "2026-08-13",
+        "notes": "7 contributors, all Gen Digital employees, against 2 watchers and 291 stars. v0.12.0 (13-08-2026), 11 releases all pre-1.0, only the latest supported. A squashed release drop rather than live development: 74 of 89 commits landed in February 2026, 3 in the 90 days to 09-09-2026, nothing pushed since 13-08-2026. 7 open issues, 10 closed, 2 open PRs. npm downloads roughly 200 to 325 per month per package. No published advisories."
+      },
+      "activityStatus": {
+        "band": "slowing",
+        "label": "Slowing (single-vendor)"
+      },
+      "verdict": {
+        "decision": "watch",
+        "rationale": "unique cloud reputation layer, but it does not intercept MCP calls, fails open on every error, and upstream has been quiet since August",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/7fe650a0c0df336f21c5d09d815915a990787358/packages/core/src/clients/url-check.ts#L44-L46",
+              "quote": "return `https://${SERVICE_NAME}-proxy.${buildDomain()}${normalizedPath}`;",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/main/docs/user-guide.md",
+              "quote": "MCP tool call interception (mcp__*) is planned but not yet implemented",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            },
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/main/docs/decision-pipeline.md",
+              "quote": "If Sage errors, your agent keeps working. Every error path returns an allow verdict.",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      },
+      "decisionRule": "Not a context-reduction tool; adds latency and tokens. Install if you want a vendor-maintained URL reputation and supply-chain gate on agent tool calls and can accept that it blocks nothing an attacker cannot route around: no MCP interception, fail-open on every error and timeout, and anti-tamper rules that only ask at confidence 0.60 under the default preset. Worst case 8s added to an intercepted call (5s cloud timeout inside an 8s hook budget). Turn off skill_check.upload_enabled and community_iq before first use; both default to on and send skill contents and denied command strings off-machine. No self-hosted endpoint. Do not rely on it for an audit trail: ~/.sage/audit.jsonl is local-only with no export path. Watch for MCP interception landing and for upstream activity resuming before revisiting.",
+      "adoptionSignals": {
+        "vendorEntity": "Gen Digital Inc.",
+        "accountRequired": false,
+        "telemetryDefault": "opt-out",
+        "dataResidency": "hosted-optional",
+        "selfHostable": false,
+        "notes": "No account or licence key needed. Five categories go to sage-proxy.svc.avast.com: full URLs from tool calls, SHA-256 package hashes, unknown skill package contents (on by default; the docs note these \"may include personal skills you authored, which can contain arbitrary personal information\"), a session-start version check, and deny telemetry carrying command strings up to 512 chars. A near-offline mode disables all five checks, but the version check, which sends a persistent installation UUID from ~/.sage/installation-id, has no off switch. An undocumented per-check endpoint override exists in the config type; detection telemetry has none. The linked Avast products policy is a consumer B2C notice that does not name Sage and offers no DPA. The prompt-injection model runs locally and content is never uploaded for classification.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/main/docs/user-guide.md",
+              "quote": "The only outbound traffic that remains is the lightweight session-start version check",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            },
+            {
+              "url": "https://github.com/gendigitalinc/sage/blob/main/docs/audit-log.md",
+              "quote": "Sage itself only writes; nothing in the runtime path reads it.",
+              "checkedOn": "2026-09-09",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
       }
     }
   ]
