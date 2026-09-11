@@ -1,8 +1,8 @@
 {
   "meta": {
-    "last_updated": "2026-09-09",
+    "last_updated": "2026-09-11",
     "stars_verified": "2026-07-15",
-    "tool_count": 91
+    "tool_count": 92
   },
   "layers": [
     {
@@ -2462,10 +2462,10 @@
       "stars": 11,
       "trend": 267,
       "activity": {
-        "latestVersion": "v0.17.0",
-        "releasedOn": "2026-09-07",
-        "releaseCount": 18,
         "contributors": 1,
+        "latestVersion": "v0.17.0",
+        "releaseCount": 18,
+        "releasedOn": "2026-09-07",
         "notes": "18 releases now shipped (from 0 at last check), solo-maintained with a daily commit cadence; still CLI-only, no MCP; no LICENSE file in the repo despite the README stating MIT"
       },
       "activityStatus": {
@@ -5742,10 +5742,11 @@
       "conflict": {
         "severity": "soft",
         "projects": [
+          "HOL Guard",
           "RTK",
           "ctxlite"
         ],
-        "note": "Ordering hazard, not a namespace collision. Sage computes a verdict on the original tool_input, while RTK and ctxlite rewrite the Bash command on the same PreToolUse matcher, so the string Sage judged is not necessarily the string that runs. Claude Code defines no ordering contract between a decision hook and a mutation hook. Stacks cleanly with Sponsio, faramesh-core and craft.",
+        "note": "Ordering hazard, not a namespace collision. Sage computes a verdict on the original tool_input, while RTK and ctxlite rewrite the Bash command on the same PreToolUse matcher, so the string Sage judged is not necessarily the string that runs. Claude Code defines no ordering contract between a decision hook and a mutation hook. Stacks cleanly with Sponsio, faramesh-core and craft. HOL Guard occupies the same PreToolUse gate with a wider event surface, so running both means two verdicts on one call with no rule for reconciling them.",
         "evidence": {
           "status": "confirmed",
           "sources": [
@@ -5835,6 +5836,89 @@
             }
           ]
         }
+      }
+    },
+    {
+      "id": "hol-guard",
+      "tool": "HOL Guard",
+      "githubUrl": "https://github.com/hashgraph-online/hol-guard",
+      "layer": "Agent safety enforcement",
+      "whatItDoes": "A local-first policy layer that installs hook entries into the agent's own config and reviews shell commands, file reads, MCP tool calls, prompts and package installs before they run, allowing, blocking or routing them to an approval centre. It does not reduce context: approval prompts, denied-tool responses and receipts all add tokens, and it is catalogued here because it occupies the same PreToolUse and PostToolUse positions the shell-output tools need.",
+      "conflict": {
+        "severity": "soft",
+        "projects": [
+          "Sage",
+          "RTK",
+          "ctxlite"
+        ],
+        "note": "Hook-slot competition rather than a namespace collision. Guard writes its own entries into SessionStart, PreToolUse, PermissionRequest, PostToolUse, UserPromptSubmit, Notification and Stop in ~/.claude/settings.json, so it shares every slot the shell-output rewriters use and duplicates Sage's role outright. Ordering matters: Guard reviews PostToolUse output, while RTK and ctxlite rewrite that same output, so whichever runs second sees text the other has already changed. Two agent-safety layers on the same PreToolUse slot means two verdicts on one call with no rule for reconciling them.",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/hashgraph-online/hol-guard/blob/b95d2a2a9eabd9e126c3ac6dca8020a5d033b4a6/src/codex_plugin_scanner/guard/adapters/claude_code.py#L504-L511",
+              "quote": "\"SessionStart\", \"PreToolUse\", \"PermissionRequest\", \"PostToolUse\", \"UserPromptSubmit\", \"Notification\", \"Stop\",",
+              "checkedOn": "2026-09-11",
+              "evidenceType": "source-code"
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "languages": [
+          "python",
+          "rust",
+          "typescript"
+        ],
+        "detail": "Python 3.10+ CLI over a bundled version-matched Rust decision runtime, plus a local TypeScript dashboard"
+      },
+      "requirements": "Python 3.10+ and pipx. No model calls and no account for local protection. Installs hook entries into ~/.claude/settings.json and can wrap MCP servers behind a managed stdio proxy. Guard Cloud (shared history, team policy, fleet management) is a paid optional add-on.",
+      "requiresExternal": false,
+      "licence": {
+        "spdx": "Apache-2.0"
+      },
+      "stars": 591,
+      "trend": null,
+      "activity": {
+        "contributors": 15,
+        "latestVersion": "v3.0.154",
+        "releaseCount": 1895,
+        "releasedOn": "2026-09-11",
+        "notes": "15 contributors, 591 stars, 42 forks, 3,755 commits since the repo opened on 28-03-2026, of which 2,473 landed in the 90 days to 11-09-2026. 1,895 releases in under six months, four of them on 11-09-2026 alone, so the version number moves several times a day and any pin is stale within hours. 7 open issues against 34 closed, and 44 open pull requests. Apache-2.0 with an OpenSSF Scorecard badge, CI and publish workflows, and a fuzzing setup in the repo."
+      },
+      "activityStatus": {
+        "band": "active",
+        "label": "Hyper-active (vendor-driven)"
+      },
+      "verdict": {
+        "decision": "add",
+        "rationale": "the most capable entry in this layer, and the only one that covers MCP tool calls and fails closed, but it is a security layer bolted onto a context budget rather than a way of reducing one",
+        "evidence": {
+          "status": "confirmed",
+          "sources": [
+            {
+              "url": "https://github.com/hashgraph-online/hol-guard/blob/b95d2a2a9eabd9e126c3ac6dca8020a5d033b4a6/src/codex_plugin_scanner/guard/adapters/contracts.py#L164-L167",
+              "quote": "harness=\"claude-code\", install_aliases=(\"claude-code\", \"claude\"), config_paths=(\"~/.claude/settings.json\", \"~/.claude/settings.local.json\"), event_surfaces=(\"shell\", \"prompt\", \"mcp_tool\", \"file_read\", \"tool_result\"),",
+              "checkedOn": "2026-09-11",
+              "evidenceType": "source-code"
+            },
+            {
+              "url": "https://github.com/hashgraph-online/hol-guard/blob/b95d2a2a9eabd9e126c3ac6dca8020a5d033b4a6/docs/guard/harness-support.md",
+              "quote": "Native identity, protocol, rule-digest, policy-snapshot, overload, timeout, transport, and response failures fail closed.",
+              "checkedOn": "2026-09-11",
+              "evidenceType": "official-docs"
+            }
+          ]
+        }
+      },
+      "decisionRule": "Not a context-reduction tool: it spends tokens rather than saving them. Install it if you want a policy gate on what an agent runs and can accept the cost. It is the stronger of the two general-purpose safety layers here, covering MCP tool calls and failing closed where Sage does neither, and local protection needs no account. Two caveats. First, hook ordering: decide deliberately whether Guard or your shell-output rewriter sees PostToolUse output first, because each changes what the other reads. Second, the release cadence. Around 1,895 releases in under six months means pinning a version and reviewing the diff yourself, not tracking latest. Do not run it alongside Sage; pick one PreToolUse gatekeeper.",
+      "adoptionSignals": {
+        "vendorEntity": "Hashgraph Online",
+        "accountRequired": false,
+        "telemetryDefault": "opt-in",
+        "dataResidency": "hosted-optional",
+        "selfHostable": true,
+        "notes": "Local interception, extensions, blocking, receipts and approvals all work without signing in, and continue working when Cloud is unreachable or a subscription lapses. Guard Cloud is a paid tier for shared history, team policy and fleet management. The Managed Controls telemetry path is field-allowlisted to enum buckets (event, result, latency bucket and similar) and rejects anything matching command, path, secret, token, proof or nonce, so command text is not carried on that path. Note the vendor also operates the HOL plugin registry that the bundled plugin-scanner grades packages for, so the scoring and the marketplace share an owner."
       }
     }
   ]

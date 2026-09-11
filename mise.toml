@@ -1,3 +1,4 @@
+#:tombi schema.strict = false
 # mise-en-place configuration for context-radar.
 # https://mise.jdx.dev  Install mise, then run `mise install` to get the pinned
 # toolchain, and `mise run lint` / `mise run fmt` to check or format the docs.
