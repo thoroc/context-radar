@@ -8,7 +8,7 @@ window, and how does it interact with everything else in the stack?** Tools are 
 output, code navigation, agent memory, MCP definition tokens, and so on), rated with a verdict, and checked for
 conflicts, above all the MCP tool-name collisions that break an agent's ability to route between two servers.
 
-The catalogue currently tracks **81 tools**, last updated **17-07-2026** (star snapshot **15-07-2026**).
+The catalogue currently tracks **92 tools**, last updated **11-09-2026** (star snapshot **15-07-2026**).
 
 ## Audience and outputs
 
